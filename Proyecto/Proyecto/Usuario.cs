@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto
 {
-    internal class Usuario
+    public class Usuario
     {
 
         public int id { get; set; }
@@ -14,7 +14,7 @@ namespace Proyecto
         public string nombre { get; set; }
         public string apellido { get; set; }
         public string mail { get; set; }
-        public string password { get; set; }
+        public string clave { get; set; }
         public int intentosFallidos { get; set; }
         public bool bloqueado { get; set; }
         public List<ReservaHotel> misReservasHoteles { get; set; }
@@ -24,17 +24,26 @@ namespace Proyecto
         public List<Hotel> hotelesVisitados { get; set; }
         public List<Vuelo> vuelosTomados { get; set; }
 
-        public Usuario (int id, int dni, string nombre, string apellido, string mail, string  password)
+        public Usuario(int id, int dni, string nombre, string apellido, string mail, string clave)
         {
             this.id = id;
             this.dni = dni;
             this.nombre = nombre;
             this.apellido = apellido;
             this.mail = mail;
-            this.password = password;
+            this.clave = clave;
         }
 
+        public Usuario(string mail, string clave)
+        {
+            this.mail = mail;
+            this.clave = clave;
+        }
 
+        public string[] ToString()
+        {
+            return new string[] { id.ToString(), dni.ToString(), nombre, apellido, mail};
+        }
 
     }
 }

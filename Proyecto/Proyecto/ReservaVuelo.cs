@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto
 {
-    internal class ReservaVuelo
+    public class ReservaVuelo
     {
 
         public Vuelo miVuelo { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto
 {
-    internal class Ciudad
+    public class Ciudad
     {
 
         public int id { get; set; }
