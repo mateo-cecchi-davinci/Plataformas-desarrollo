@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto
 {
-    internal class Hotel
+    public class Hotel
     {
 
         private List<Usuario> huesped;
