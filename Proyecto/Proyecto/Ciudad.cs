@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto
 {
-    public class Ciudad
+    internal class Ciudad
     {
 
         public int id { get; set; }
@@ -20,6 +20,11 @@ namespace Proyecto
             this.nombre = nombre;
             this.vuelos = vuelos;
             this.hoteles = hoteles;
+        }
+
+        public Ciudad (string nombre)
+        {
+            this.nombre = nombre;
         }
     }
 }

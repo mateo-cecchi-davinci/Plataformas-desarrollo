@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto
 {
-    public class ReservaHotel
+    internal class ReservaHotel
     {
 
         public Hotel miHotel { get; set; }
@@ -22,6 +22,14 @@ namespace Proyecto
             this.fechaDesde = fechaDesde;
             this.fechaHasta = fechaHasta;
             this.pagado = pagado;
+        }
+
+          public ReservaHotel (Hotel miHotel, DateTime fechaDesde, DateTime fechaHasta)
+        {
+            this.miHotel = miHotel;
+            this.fechaDesde = fechaDesde;
+            this.fechaHasta = fechaHasta;
+            
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto
 {
-    public class Hotel
+    internal class Hotel
     {
 
         private List<Usuario> huesped;
@@ -18,14 +18,18 @@ namespace Proyecto
         public List<Usuario> huespedes { get => huesped.ToList(); }
         public string nombre { get; set; }
 
-        public Hotel (int id, Ciudad ubicacion, int capacidad, double costo, List<Usuario> huespedes, string nombre)
+        public Hotel (int id, Ciudad ubicacion, int capacidad, double costo, string nombre)
         {
             this.id = id;
             this.ubicacion = ubicacion;
             this.capacidad = capacidad;
             this.costo = costo;
-            this.huesped = new List<Usuario>();
             this.nombre = nombre;
+        }
+
+        public string[] ToString()
+        {
+            return new string[] { id.ToString(), nombre, capacidad.ToString(), costo.ToString(), ubicacion.nombre };
         }
 
     }
