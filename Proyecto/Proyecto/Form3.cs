@@ -99,5 +99,41 @@ namespace Proyecto
             salir();
         }
 
+        private void Mostrar_Click(object sender, EventArgs e)
+        {
+            mostrarHoteles();
+
+        }
+
+        private void mostrarHoteles()
+        {
+            dataGridView1.Rows.Clear();
+
+            foreach (Hotel h in miAgencia.obtenerHoteles())
+            {
+                dataGridView2Hoteles.Rows.Add(h.ToString());
+            }
+        }
+
+        private void Cargar_Click(object sender, EventArgs e)
+        {
+            cargarHotel();
+        }
+
+        private void cargarHotel()
+        {
+            string nombre = textBoxNombre.Text;
+            string capacidadText = textBoxCapacidad.Text;
+            string costoText = textBoxCosto.Text;
+            Ciudad ciudad = new Ciudad(textBoxCiudad.Text);
+            int capacidad;
+            double costo;
+
+            if (int.TryParse(capacidadText, out capacidad) && double.TryParse(costoText, out costo)) {
+                miAgencia.agregarHotel(ciudad,capacidad,costo,nombre);
+                MessageBox.Show("Se a cargado un nuevo hotel");
+            }
+
+        }
     }
 }

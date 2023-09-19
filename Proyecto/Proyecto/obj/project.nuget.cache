@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "2Vd4Jv1z48LTagSbWX8hbp2iuGDrZGb2V8u8KIxzLpePJdYEDK2gOjY/OXCh9mRtbKtQs6e5VjqY9TttSE+R2A==",
+  "dgSpecHash": "JiRjTQpaSdhOTNFMylykwS79fH9/utPfmen1HlP5eYll379/l5ZvFMpFHI3AP4SbaVthx036hPrzdZZ+Wf/INw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mateo\\source\\repos\\Proyecto\\Proyecto\\Proyecto.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrolloTp\\Proyecto\\Proyecto\\Proyecto.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Emma\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.22\\microsoft.windowsdesktop.app.ref.6.0.22.nupkg.sha512",
+    "C:\\Users\\Emma\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.22\\microsoft.netcore.app.ref.6.0.22.nupkg.sha512",
+    "C:\\Users\\Emma\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.22\\microsoft.aspnetcore.app.ref.6.0.22.nupkg.sha512",
+    "C:\\Users\\Emma\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.22\\microsoft.netcore.app.host.win-x64.6.0.22.nupkg.sha512"
+  ],
   "logs": []
 }

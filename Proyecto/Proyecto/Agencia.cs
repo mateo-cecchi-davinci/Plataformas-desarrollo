@@ -17,11 +17,14 @@ namespace Proyecto
         private List<ReservaVuelo> reservasVuelo = new List<ReservaVuelo>();
         private Usuario usuarioActual;
         private int cantUsuarios;
+        private int cantHoteles;
 
         public Agencia()
         {
             usuarios = new List<Usuario>();
+            hoteles = new List<Hotel>();
             cantUsuarios =  0;
+            cantHoteles = 0;
 
         }
 
@@ -81,6 +84,18 @@ namespace Proyecto
         public List<Usuario> obtenerUsuarios()
         {
             return usuarios.ToList();
+        }
+
+        public bool agregarHotel( Ciudad ubicacion, int capacidad, double costo, string nombre)
+        {
+            hoteles.Add(new Hotel(cantHoteles, ubicacion, capacidad, costo, nombre));
+            cantHoteles++;
+            return true;
+        }
+
+        public List<Hotel> obtenerHoteles()
+        {
+            return hoteles.ToList();
         }
 
     }
