@@ -38,16 +38,14 @@
             label6 = new Label();
             label7 = new Label();
             label8 = new Label();
-            label9 = new Label();
             textBoxNombre = new TextBox();
             textBoxCapacidad = new TextBox();
             textBoxCiudad = new TextBox();
-            textBox4Id = new TextBox();
             Eliminar = new Button();
             Modificar = new Button();
             Cargar = new Button();
             Mostrar = new Button();
-            label10 = new Label();
+            nombreUsuarioH = new Label();
             label11 = new Label();
             dataGridView2Hoteles = new DataGridView();
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
@@ -121,16 +119,14 @@
             hoteles.Controls.Add(label6);
             hoteles.Controls.Add(label7);
             hoteles.Controls.Add(label8);
-            hoteles.Controls.Add(label9);
             hoteles.Controls.Add(textBoxNombre);
             hoteles.Controls.Add(textBoxCapacidad);
             hoteles.Controls.Add(textBoxCiudad);
-            hoteles.Controls.Add(textBox4Id);
             hoteles.Controls.Add(Eliminar);
             hoteles.Controls.Add(Modificar);
             hoteles.Controls.Add(Cargar);
             hoteles.Controls.Add(Mostrar);
-            hoteles.Controls.Add(label10);
+            hoteles.Controls.Add(nombreUsuarioH);
             hoteles.Controls.Add(label11);
             hoteles.Controls.Add(dataGridView2Hoteles);
             hoteles.Location = new Point(4, 24);
@@ -144,7 +140,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(532, 269);
+            label12.Location = new Point(527, 216);
             label12.Name = "label12";
             label12.Size = new Size(59, 15);
             label12.TabIndex = 33;
@@ -152,7 +148,7 @@
             // 
             // textBoxCosto
             // 
-            textBoxCosto.Location = new Point(532, 287);
+            textBoxCosto.Location = new Point(527, 234);
             textBoxCosto.Name = "textBoxCosto";
             textBoxCosto.Size = new Size(100, 23);
             textBoxCosto.TabIndex = 32;
@@ -169,7 +165,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(532, 159);
+            label6.Location = new Point(527, 106);
             label6.Name = "label6";
             label6.Size = new Size(63, 15);
             label6.TabIndex = 30;
@@ -178,7 +174,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(532, 106);
+            label7.Location = new Point(527, 53);
             label7.Name = "label7";
             label7.Size = new Size(51, 15);
             label7.TabIndex = 29;
@@ -187,52 +183,36 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(532, 212);
+            label8.Location = new Point(527, 159);
             label8.Name = "label8";
             label8.Size = new Size(45, 15);
             label8.TabIndex = 28;
             label8.Text = "Ciudad";
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(532, 53);
-            label9.Name = "label9";
-            label9.Size = new Size(17, 15);
-            label9.TabIndex = 27;
-            label9.Text = "Id";
-            // 
             // textBoxNombre
             // 
-            textBoxNombre.Location = new Point(532, 124);
+            textBoxNombre.Location = new Point(527, 71);
             textBoxNombre.Name = "textBoxNombre";
             textBoxNombre.Size = new Size(100, 23);
             textBoxNombre.TabIndex = 26;
             // 
             // textBoxCapacidad
             // 
-            textBoxCapacidad.Location = new Point(532, 177);
+            textBoxCapacidad.Location = new Point(527, 124);
             textBoxCapacidad.Name = "textBoxCapacidad";
             textBoxCapacidad.Size = new Size(100, 23);
             textBoxCapacidad.TabIndex = 25;
             // 
             // textBoxCiudad
             // 
-            textBoxCiudad.Location = new Point(532, 230);
+            textBoxCiudad.Location = new Point(527, 177);
             textBoxCiudad.Name = "textBoxCiudad";
             textBoxCiudad.Size = new Size(100, 23);
             textBoxCiudad.TabIndex = 24;
             // 
-            // textBox4Id
-            // 
-            textBox4Id.Location = new Point(532, 71);
-            textBox4Id.Name = "textBox4Id";
-            textBox4Id.Size = new Size(100, 23);
-            textBox4Id.TabIndex = 23;
-            // 
             // Eliminar
             // 
-            Eliminar.Location = new Point(655, 230);
+            Eliminar.Location = new Point(655, 234);
             Eliminar.Name = "Eliminar";
             Eliminar.Size = new Size(75, 23);
             Eliminar.TabIndex = 22;
@@ -268,15 +248,15 @@
             Mostrar.UseVisualStyleBackColor = true;
             Mostrar.Click += Mostrar_Click;
             // 
-            // label10
+            // nombreUsuarioH
             // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label10.Location = new Point(167, 18);
-            label10.Name = "label10";
-            label10.Size = new Size(52, 21);
-            label10.TabIndex = 18;
-            label10.Text = "label2";
+            nombreUsuarioH.AutoSize = true;
+            nombreUsuarioH.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            nombreUsuarioH.Location = new Point(167, 18);
+            nombreUsuarioH.Name = "nombreUsuarioH";
+            nombreUsuarioH.Size = new Size(52, 21);
+            nombreUsuarioH.TabIndex = 18;
+            nombreUsuarioH.Text = "label2";
             // 
             // label11
             // 
@@ -294,35 +274,42 @@
             dataGridView2Hoteles.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5 });
             dataGridView2Hoteles.Location = new Point(22, 53);
             dataGridView2Hoteles.Name = "dataGridView2Hoteles";
+            dataGridView2Hoteles.ReadOnly = true;
             dataGridView2Hoteles.RowTemplate.Height = 25;
             dataGridView2Hoteles.Size = new Size(443, 257);
             dataGridView2Hoteles.TabIndex = 16;
+            dataGridView2Hoteles.CellContentDoubleClick += dataGridView2Hoteles_CellDoubleClick;
             // 
             // dataGridViewTextBoxColumn1
             // 
             dataGridViewTextBoxColumn1.HeaderText = "Id";
             dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
             dataGridViewTextBoxColumn1.Visible = false;
             // 
             // dataGridViewTextBoxColumn2
             // 
             dataGridViewTextBoxColumn2.HeaderText = "Nombre";
             dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn3
             // 
             dataGridViewTextBoxColumn3.HeaderText = "Capacidad";
             dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn4
             // 
             dataGridViewTextBoxColumn4.HeaderText = "Costo u$s";
             dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn5
             // 
             dataGridViewTextBoxColumn5.HeaderText = "Ciudad";
             dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            dataGridViewTextBoxColumn5.ReadOnly = true;
             // 
             // usuarios
             // 
@@ -479,6 +466,7 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Id, Dni, Nombre, Apellido, Mail, Clave });
             dataGridView1.Location = new Point(22, 53);
             dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(443, 257);
             dataGridView1.TabIndex = 0;
@@ -488,32 +476,38 @@
             // 
             Id.HeaderText = "Id";
             Id.Name = "Id";
+            Id.ReadOnly = true;
             Id.Visible = false;
             // 
             // Dni
             // 
             Dni.HeaderText = "Dni";
             Dni.Name = "Dni";
+            Dni.ReadOnly = true;
             // 
             // Nombre
             // 
             Nombre.HeaderText = "Nombre";
             Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
             // 
             // Apellido
             // 
             Apellido.HeaderText = "Apellido";
             Apellido.Name = "Apellido";
+            Apellido.ReadOnly = true;
             // 
             // Mail
             // 
             Mail.HeaderText = "Mail";
             Mail.Name = "Mail";
+            Mail.ReadOnly = true;
             // 
             // Clave
             // 
             Clave.HeaderText = "Clave";
             Clave.Name = "Clave";
+            Clave.ReadOnly = true;
             Clave.Visible = false;
             // 
             // tabControl1
@@ -581,16 +575,14 @@
         private Label label6;
         private Label label7;
         private Label label8;
-        private Label label9;
         private TextBox textBoxNombre;
         private TextBox textBoxCapacidad;
         private TextBox textBoxCiudad;
-        private TextBox textBox4Id;
         private Button Eliminar;
         private Button Modificar;
         private Button Cargar;
         private Button Mostrar;
-        private Label label10;
+        private Label nombreUsuarioH;
         private Label label11;
         private DataGridView dataGridView2Hoteles;
         private Button Salir;

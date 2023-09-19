@@ -16,6 +16,7 @@ namespace Proyecto
 
         private Agencia miAgencia;
         private int usuarioSeleccionado;
+        private int hotelSeleccionado;
         public cerrarSesion salir;
 
         public Form3(Agencia miAgencia)
@@ -23,7 +24,9 @@ namespace Proyecto
             InitializeComponent();
             this.miAgencia = miAgencia;
             nombreUsuario.Text = miAgencia.nombreLogueado();
+            nombreUsuarioH.Text = miAgencia.nombreLogueado();
             usuarioSeleccionado = -1;
+            hotelSeleccionado = -1;
         }
 
         private void Form3_Load(object sender, EventArgs e)
@@ -99,6 +102,9 @@ namespace Proyecto
             salir();
         }
 
+
+        //Seccion CRUD Hoteles
+
         private void Mostrar_Click(object sender, EventArgs e)
         {
             mostrarHoteles();
@@ -107,12 +113,17 @@ namespace Proyecto
 
         private void mostrarHoteles()
         {
-            dataGridView1.Rows.Clear();
+            dataGridView2Hoteles.Rows.Clear();
 
             foreach (Hotel h in miAgencia.obtenerHoteles())
             {
                 dataGridView2Hoteles.Rows.Add(h.ToString());
             }
+
+            textBoxNombre.Text = "";
+            textBoxCapacidad.Text = "";
+            textBoxCosto.Text = "";
+            textBoxCiudad.Text = "";
         }
 
         private void Cargar_Click(object sender, EventArgs e)
@@ -129,11 +140,30 @@ namespace Proyecto
             int capacidad;
             double costo;
 
-            if (int.TryParse(capacidadText, out capacidad) && double.TryParse(costoText, out costo)) {
-                miAgencia.agregarHotel(ciudad,capacidad,costo,nombre);
+            if (int.TryParse(capacidadText, out capacidad) && double.TryParse(costoText, out costo))
+            {
+                miAgencia.agregarHotel(ciudad, capacidad, costo, nombre);
+                textBoxNombre.Text = "";
+                textBoxCapacidad.Text = "";
+                textBoxCosto.Text = "";
+                textBoxCiudad.Text = "";
                 MessageBox.Show("Se ha cargado un nuevo hotel con exito");
             }
 
+        }
+
+        private void dataGridView2Hoteles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string id = dataGridView2Hoteles[0, e.RowIndex].Value.ToString();
+            string ubicacion = dataGridView2Hoteles[4, e.RowIndex].Value.ToString();
+            string capacidad = dataGridView2Hoteles[2, e.RowIndex].Value.ToString();
+            string costo = dataGridView2Hoteles[3, e.RowIndex].Value.ToString();
+            string nombre = dataGridView2Hoteles[1, e.RowIndex].Value.ToString();
+            textBoxCiudad.Text = ubicacion;
+            textBoxNombre.Text = nombre;
+            textBoxCapacidad.Text = capacidad;
+            textBoxCosto.Text = costo;
+            hotelSeleccionado = int.Parse(id);
         }
     }
 }
