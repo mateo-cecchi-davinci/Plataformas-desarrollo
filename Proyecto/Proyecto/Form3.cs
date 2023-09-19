@@ -131,7 +131,7 @@ namespace Proyecto
 
             if (int.TryParse(capacidadText, out capacidad) && double.TryParse(costoText, out costo)) {
                 miAgencia.agregarHotel(ciudad,capacidad,costo,nombre);
-                MessageBox.Show("Se ha cargado un nuevo hotel");
+                MessageBox.Show("Se ha cargado un nuevo hotel con exito");
             }
 
         }
