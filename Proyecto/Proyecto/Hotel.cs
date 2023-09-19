@@ -28,5 +28,19 @@ namespace Proyecto
             this.nombre = nombre;
         }
 
+        public Hotel(int id, Ciudad ubicacion, int capacidad, double costo, string nombre)
+        {
+            this.id = id;
+            this.ubicacion = ubicacion;
+            this.capacidad = capacidad;
+            this.costo = costo;
+            this.nombre = nombre;
+        }
+
+        public string[] ToString()
+        {
+            return new string[] { id.ToString(), nombre, capacidad.ToString(), costo.ToString(), ubicacion.nombre };
+        }
+
     }
 }

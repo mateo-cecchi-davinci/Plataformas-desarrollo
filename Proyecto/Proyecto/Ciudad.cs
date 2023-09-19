@@ -21,5 +21,10 @@ namespace Proyecto
             this.vuelos = vuelos;
             this.hoteles = hoteles;
         }
+
+        public Ciudad(string nombre)
+        {
+            this.nombre = nombre;
+        }
     }
 }
