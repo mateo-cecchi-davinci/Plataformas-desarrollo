@@ -192,5 +192,10 @@ namespace Proyecto
             else
                 MessageBox.Show("Debe seleccionar un Hotel");
         }
+
+        private void Salir_Click(object sender, EventArgs e)
+        {
+            salir();
+        }
     }
 }

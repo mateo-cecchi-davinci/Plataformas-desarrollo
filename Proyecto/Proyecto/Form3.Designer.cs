@@ -161,6 +161,7 @@
             Salir.TabIndex = 31;
             Salir.Text = "Salir";
             Salir.UseVisualStyleBackColor = true;
+            Salir.Click += Salir_Click;
             // 
             // label6
             // 
