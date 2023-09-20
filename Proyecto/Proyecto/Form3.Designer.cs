@@ -310,7 +310,9 @@
             Controls.Add(tabControl1);
             Controls.Add(titulo);
             Name = "Form3";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form3";
+            WindowState = FormWindowState.Maximized;
             Load += Form3_Load;
             usuarios.ResumeLayout(false);
             usuarios.PerformLayout();
