@@ -86,11 +86,27 @@ namespace Proyecto
             return usuarios.ToList();
         }
 
-        public bool agregarHotel( Ciudad ubicacion, int capacidad, double costo, string nombre)
+        //Seccion Hoteles
+
+        public bool agregarHotel(Ciudad ubicacion, int capacidad, double costo, string nombre)
         {
             hoteles.Add(new Hotel(cantHoteles, ubicacion, capacidad, costo, nombre));
             cantHoteles++;
             return true;
+        }
+
+        public bool modificarHoteles (int id, Ciudad ubicacion, string capacidad, string costo, string nombre)
+        {
+            foreach (Hotel h in hoteles) {
+                if (h.id == id) { 
+                    h.ubicacion = ubicacion;
+                    h.capacidad = int.Parse(capacidad);
+                    h.costo = double.Parse(costo);
+                    h.nombre = nombre;
+                    return true;
+                }
+            }
+            return false;
         }
 
         public List<Hotel> obtenerHoteles()

@@ -165,5 +165,18 @@ namespace Proyecto
             textBoxCosto.Text = costo;
             hotelSeleccionado = int.Parse(id);
         }
+
+        private void Modificar_Click(object sender, EventArgs e)
+        {
+            if (hotelSeleccionado != -1)
+            {
+                if (miAgencia.modificarHoteles(hotelSeleccionado, new Ciudad(textBoxCiudad.Text), textBoxCapacidad.Text, textBoxCosto.Text, textBoxNombre.Text))
+                    MessageBox.Show("Modificado con exito");
+                else
+                    MessageBox.Show("Problemas al modificar");
+            }
+            else
+                MessageBox.Show("Debe seleccionar un Hotel");
+        }
     }
 }

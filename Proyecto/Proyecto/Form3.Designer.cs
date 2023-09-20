@@ -227,6 +227,7 @@
             Modificar.TabIndex = 21;
             Modificar.Text = "Modificar";
             Modificar.UseVisualStyleBackColor = true;
+            Modificar.Click += Modificar_Click;
             // 
             // Cargar
             // 
