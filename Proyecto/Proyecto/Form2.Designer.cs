@@ -50,22 +50,18 @@
             tbMail.ForeColor = Color.DimGray;
             tbMail.Location = new Point(321, 166);
             tbMail.Name = "tbMail";
+            tbMail.PlaceholderText = "Ingrese su mail";
             tbMail.Size = new Size(161, 23);
             tbMail.TabIndex = 1;
-            tbMail.Text = "Ingrese su mail";
-            tbMail.Enter += tbMail_Enter;
-            tbMail.Leave += tbMail_Leave;
             // 
             // tbClave
             // 
             tbClave.ForeColor = Color.DimGray;
             tbClave.Location = new Point(321, 229);
             tbClave.Name = "tbClave";
+            tbClave.PlaceholderText = "Ingrese su contraseña";
             tbClave.Size = new Size(161, 23);
             tbClave.TabIndex = 2;
-            tbClave.Text = "Ingrese su contraseña";
-            tbClave.Enter += tbClave_Enter;
-            tbClave.Leave += tbClave_Leave;
             // 
             // button1
             // 
