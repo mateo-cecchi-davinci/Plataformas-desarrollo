@@ -70,6 +70,7 @@ namespace Proyecto
             login = new Form2(agencia);
             login.MdiParent = this;
             login.TransfEvento += TransfDelegado;
+            login.TransfEvento2 += TransfDelegado2;
             login.Show();
         }
 

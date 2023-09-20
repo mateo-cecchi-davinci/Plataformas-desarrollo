@@ -88,6 +88,7 @@ namespace Proyecto
                 miAgencia.agregarUsuario(numDni, nombre, apellido, mail, clave);
                 submit();
             }
+            else MessageBox.Show("El campo Dni solo admite números");
 
         }
 
