@@ -95,6 +95,18 @@ namespace Proyecto
             return true;
         }
 
+        public bool elminarHotel(int id) 
+        {
+            foreach (Hotel h in hoteles) { 
+                if (h.id == id)
+                {
+                    hoteles.Remove(h);
+                    return true;
+                }
+            }
+                return false;
+        }
+
         public bool modificarHoteles (int id, Ciudad ubicacion, string capacidad, string costo, string nombre)
         {
             foreach (Hotel h in hoteles) {

@@ -218,6 +218,7 @@
             Eliminar.TabIndex = 22;
             Eliminar.Text = "Eliminar";
             Eliminar.UseVisualStyleBackColor = true;
+            Eliminar.Click += Eliminar_Click;
             // 
             // Modificar
             // 

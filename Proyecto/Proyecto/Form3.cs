@@ -178,5 +178,19 @@ namespace Proyecto
             else
                 MessageBox.Show("Debe seleccionar un Hotel");
         }
+
+        private void Eliminar_Click(object sender, EventArgs e)
+        {
+            if (hotelSeleccionado != -1)
+            {
+                if (miAgencia.elminarHotel(hotelSeleccionado))
+                    MessageBox.Show("Eliminado con exito");
+                else
+                    MessageBox.Show("Problemas al eliminar");
+            }
+
+            else
+                MessageBox.Show("Debe seleccionar un Hotel");
+        }
     }
 }
