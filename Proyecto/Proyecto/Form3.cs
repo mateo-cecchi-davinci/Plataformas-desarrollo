@@ -140,15 +140,21 @@ namespace Proyecto
             int capacidad;
             double costo;
 
-            if (int.TryParse(capacidadText, out capacidad) && double.TryParse(costoText, out costo))
-            {
-                miAgencia.agregarHotel(ciudad, capacidad, costo, nombre);
-                textBoxNombre.Text = "";
-                textBoxCapacidad.Text = "";
-                textBoxCosto.Text = "";
-                textBoxCiudad.Text = "";
-                MessageBox.Show("Se ha cargado un nuevo hotel con exito");
+            if (int.TryParse(capacidadText, out capacidad))
+            { if (double.TryParse(costoText, out costo))
+                {
+                    miAgencia.agregarHotel(ciudad, capacidad, costo, nombre);
+                    textBoxNombre.Text = "";
+                    textBoxCapacidad.Text = "";
+                    textBoxCosto.Text = "";
+                    textBoxCiudad.Text = "";
+                    MessageBox.Show("Se ha cargado un nuevo hotel con exito");
+                }
+                else MessageBox.Show("ingrese solo numero en Costo");
+
+
             }
+            else MessageBox.Show("ingrese solo numero en Capacidad");
 
         }
 
