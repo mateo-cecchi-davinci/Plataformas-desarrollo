@@ -18,13 +18,16 @@ namespace Proyecto
         private Usuario usuarioActual;
         private int cantUsuarios;
         private int cantHoteles;
+        private int cantVuelos;
 
         public Agencia()
         {
             usuarios = new List<Usuario>();
             hoteles = new List<Hotel>();
+            vuelos = new List<Vuelo> ();
             cantUsuarios =  0;
             cantHoteles = 0;
+            cantVuelos = 0;
 
         }
 
@@ -125,6 +128,21 @@ namespace Proyecto
         {
             return hoteles.ToList();
         }
+
+        //CRUD Vuelos
+        public bool agregarVuelos(Ciudad origen, Ciudad destino, double costo, DateTime fecha, string aerolinea, string avion)
+        {
+            vuelos.Add(new Vuelo(cantVuelos, origen,destino, costo,  fecha,  aerolinea, avion));
+            cantVuelos++;
+            return true;
+        }
+
+        public List<Vuelo> obtenerVuelos()
+        {
+            return vuelos.ToList();
+        }
+
+
 
     }
 }

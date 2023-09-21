@@ -141,8 +141,9 @@ namespace Proyecto
             double costo;
 
             if (int.TryParse(capacidadText, out capacidad))
-            { if (double.TryParse(costoText, out costo))
-                {
+            {    
+                    if (double.TryParse(costoText, out costo)) { 
+                
                     miAgencia.agregarHotel(ciudad, capacidad, costo, nombre);
                     textBoxNombre.Text = "";
                     textBoxCapacidad.Text = "";
@@ -202,6 +203,39 @@ namespace Proyecto
         private void Salir_Click(object sender, EventArgs e)
         {
             salir();
+        }
+
+
+        //Seccion CRUD Vuelos
+
+        private void cargarVuelo()
+        {
+            string origen = textBox_origen_vuelos.Text;
+            string destino = textBox_destino_vuelos.Text;
+            Ciudad ciudad = new Ciudad(textBox_ciudad_vuelos.Text);
+            string costo = textBox_costo_vuelos.Text;
+            DateTime fecha = dateTimePicker_vuelos.Value;
+            string aerolinea = textBox_aerolineas_vuelos.Text;
+            string avion = textBox_avion_vuelos.Text;
+           
+            double costoParse;
+
+           
+                if (double.TryParse(costo, out costoParse))
+                {
+                    miAgencia.agregarHotel(ciudad, capacidad, costo, nombre);
+                    textBoxNombre.Text = "";
+                    textBoxCapacidad.Text = "";
+                    textBoxCosto.Text = "";
+                    textBoxCiudad.Text = "";
+                    MessageBox.Show("Se ha cargado un nuevo hotel con exito");
+                }
+                else MessageBox.Show("ingrese solo numero en Costo");
+
+
+            }
+            else MessageBox.Show("ingrese solo numero en Capacidad");
+
         }
     }
 }

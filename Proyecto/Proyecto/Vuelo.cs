@@ -33,5 +33,22 @@ namespace Proyecto
             this.aerolinea = aerolinea;
             this.avion = avion;
         }
+
+        public Vuelo(int id, Ciudad origen, Ciudad destino,  double costo, DateTime fecha, string aerolinea, string avion)
+        {
+            this.id = id;
+            this.origen = origen;
+            this.destino = destino;                                
+            this.costo = costo;
+            this.fecha = fecha;
+            this.aerolinea = aerolinea;
+            this.avion = avion;
+        }
+
+        public string[] ToString()
+        {
+            return new string[] { id.ToString(),origen.nombre, destino.nombre, costo.ToString(), fecha.ToString(), aerolinea, avion };
+        }
     }
+
 }

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrolloTp\\Proyecto\\Proyecto\\Proyecto.csproj": {}
+    "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\Proyecto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrolloTp\\Proyecto\\Proyecto\\Proyecto.csproj": {
+    "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\Proyecto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrolloTp\\Proyecto\\Proyecto\\Proyecto.csproj",
+        "projectUniqueName": "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\Proyecto.csproj",
         "projectName": "Proyecto",
-        "projectPath": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrolloTp\\Proyecto\\Proyecto\\Proyecto.csproj",
-        "packagesPath": "C:\\Users\\Emma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrolloTp\\Proyecto\\Proyecto\\obj\\",
+        "projectPath": "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\Proyecto.csproj",
+        "packagesPath": "C:\\Users\\Pablo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Emma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Pablo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -50,24 +50,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.22, 6.0.22]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.22, 6.0.22]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.22, 6.0.22]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.22, 6.0.22]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -76,7 +58,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

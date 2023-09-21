@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JiRjTQpaSdhOTNFMylykwS79fH9/utPfmen1HlP5eYll379/l5ZvFMpFHI3AP4SbaVthx036hPrzdZZ+Wf/INw==",
+  "dgSpecHash": "u1y5JmlXUVgfPxFmYwpqKjUiKV+7ArTTgc3+UGygcFR32RfPEYqJ/6xLhcaFvT46NgfgZBFuEM8aazXpGimJFA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrolloTp\\Proyecto\\Proyecto\\Proyecto.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Emma\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.22\\microsoft.windowsdesktop.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\Emma\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.22\\microsoft.netcore.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\Emma\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.22\\microsoft.aspnetcore.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\Emma\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.22\\microsoft.netcore.app.host.win-x64.6.0.22.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\Proyecto.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
