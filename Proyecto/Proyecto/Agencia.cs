@@ -142,7 +142,37 @@ namespace Proyecto
             return vuelos.ToList();
         }
 
+        public bool modificarVuelos(int id, Ciudad origen, Ciudad destino, string costo, string fecha, string aerolinea, string avion)
+        {
+            foreach (Vuelo v in vuelos)
+            {
+                if (v.id == id)
+                {
+                    v.origen = origen;
+                    v.destino = destino;
+                    v.costo = double.Parse(costo);
+                    v.fecha = DateTime.Parse(fecha);
+                    v.aerolinea = aerolinea;
+                    v.avion = avion;
+                  
+                    return true;
+                }
+            }
+            return false;
+        }
 
+        public bool elminarVuelo(int id)
+        {
+            foreach (Vuelo v in vuelos)
+            {
+                if (v.id == id)
+                {
+                    vuelos.Remove(v);
+                    return true;
+                }
+            }
+            return false;
+        }
 
     }
 }

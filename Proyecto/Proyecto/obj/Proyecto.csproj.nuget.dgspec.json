@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\Proyecto.csproj": {}
+    "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrollo\\Proyecto\\Proyecto\\Proyecto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\Proyecto.csproj": {
+    "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrollo\\Proyecto\\Proyecto\\Proyecto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\Proyecto.csproj",
+        "projectUniqueName": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrollo\\Proyecto\\Proyecto\\Proyecto.csproj",
         "projectName": "Proyecto",
-        "projectPath": "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\Proyecto.csproj",
-        "packagesPath": "C:\\Users\\Pablo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Pablo\\Source\\Repos\\Plataformas-desarrollo4\\Proyecto\\Proyecto\\obj\\",
+        "projectPath": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrollo\\Proyecto\\Proyecto\\Proyecto.csproj",
+        "packagesPath": "C:\\Users\\Emma\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrollo\\Proyecto\\Proyecto\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Pablo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Emma\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,7 +58,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

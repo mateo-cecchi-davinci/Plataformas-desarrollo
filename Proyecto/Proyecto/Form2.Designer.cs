@@ -61,6 +61,7 @@
             tbClave.ForeColor = Color.DimGray;
             tbClave.Location = new Point(321, 229);
             tbClave.Name = "tbClave";
+            tbClave.PlaceholderText = "Ingrese su contraseña";
             tbClave.Size = new Size(161, 23);
             tbClave.TabIndex = 2;
             tbClave.Text = "Ingrese su contraseña";
