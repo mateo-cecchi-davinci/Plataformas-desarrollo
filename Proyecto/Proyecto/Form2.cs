@@ -17,6 +17,10 @@ namespace Proyecto
         private Agencia miAgencia;
 
         public TransfDelegado TransfEvento;
+        public TransfDelegado TransfEvento2;
+       
+
+
 
         public Form2(Agencia agencia)
         {
@@ -42,6 +46,11 @@ namespace Proyecto
         private void Form2_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            TransfEvento2();
         }
 
         public delegate void TransfDelegado();
