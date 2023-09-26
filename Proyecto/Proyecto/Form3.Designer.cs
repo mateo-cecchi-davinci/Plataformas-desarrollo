@@ -31,6 +31,33 @@
             titulo = new Label();
             ciudades = new TabPage();
             vuelos = new TabPage();
+            label19 = new Label();
+            textBox_costo_vuelos = new TextBox();
+            dateTimePicker_vuelos = new DateTimePicker();
+            label18 = new Label();
+            textBox_avion_vuelos = new TextBox();
+            label17 = new Label();
+            textBox_aerolineas_vuelos = new TextBox();
+            label9 = new Label();
+            Cargar_vuelos = new Button();
+            label10 = new Label();
+            label13 = new Label();
+            textBox_origen_vuelos = new TextBox();
+            textBox_destino_vuelos = new TextBox();
+            Mostrar_vuelos = new Button();
+            Eliminar_vuelos = new Button();
+            Modificar_vuelos = new Button();
+            Salir_vuelos = new Button();
+            nombreUsuarioVuelos = new Label();
+            label16 = new Label();
+            dataGridViewVuelos = new DataGridView();
+            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn10 = new DataGridViewTextBoxColumn();
+            Fecha = new DataGridViewTextBoxColumn();
+            Aerolinea = new DataGridViewTextBoxColumn();
+            Avion = new DataGridViewTextBoxColumn();
             hoteles = new TabPage();
             label12 = new Label();
             textBoxCosto = new TextBox();
@@ -76,6 +103,8 @@
             Mail = new DataGridViewTextBoxColumn();
             Clave = new DataGridViewTextBoxColumn();
             tabControl1 = new TabControl();
+            vuelos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewVuelos).BeginInit();
             hoteles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2Hoteles).BeginInit();
             usuarios.SuspendLayout();
@@ -104,12 +133,256 @@
             // 
             // vuelos
             // 
+            vuelos.Controls.Add(label19);
+            vuelos.Controls.Add(textBox_costo_vuelos);
+            vuelos.Controls.Add(dateTimePicker_vuelos);
+            vuelos.Controls.Add(label18);
+            vuelos.Controls.Add(textBox_avion_vuelos);
+            vuelos.Controls.Add(label17);
+            vuelos.Controls.Add(textBox_aerolineas_vuelos);
+            vuelos.Controls.Add(label9);
+            vuelos.Controls.Add(Cargar_vuelos);
+            vuelos.Controls.Add(label10);
+            vuelos.Controls.Add(label13);
+            vuelos.Controls.Add(textBox_origen_vuelos);
+            vuelos.Controls.Add(textBox_destino_vuelos);
+            vuelos.Controls.Add(Mostrar_vuelos);
+            vuelos.Controls.Add(Eliminar_vuelos);
+            vuelos.Controls.Add(Modificar_vuelos);
+            vuelos.Controls.Add(Salir_vuelos);
+            vuelos.Controls.Add(nombreUsuarioVuelos);
+            vuelos.Controls.Add(label16);
+            vuelos.Controls.Add(dataGridViewVuelos);
             vuelos.Location = new Point(4, 24);
             vuelos.Name = "vuelos";
             vuelos.Size = new Size(793, 334);
             vuelos.TabIndex = 2;
             vuelos.Text = "Vuelos";
             vuelos.UseVisualStyleBackColor = true;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(222, 65);
+            label19.Name = "label19";
+            label19.Size = new Size(59, 15);
+            label19.TabIndex = 56;
+            label19.Text = "Costo u$s";
+            // 
+            // textBox_costo_vuelos
+            // 
+            textBox_costo_vuelos.Location = new Point(222, 83);
+            textBox_costo_vuelos.Name = "textBox_costo_vuelos";
+            textBox_costo_vuelos.Size = new Size(100, 23);
+            textBox_costo_vuelos.TabIndex = 55;
+            // 
+            // dateTimePicker_vuelos
+            // 
+            dateTimePicker_vuelos.Format = DateTimePickerFormat.Custom;
+            dateTimePicker_vuelos.Location = new Point(333, 83);
+            dateTimePicker_vuelos.Name = "dateTimePicker_vuelos";
+            dateTimePicker_vuelos.Size = new Size(100, 23);
+            dateTimePicker_vuelos.TabIndex = 54;
+            dateTimePicker_vuelos.Value = new DateTime(2023, 9, 23, 0, 0, 0, 0);
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(545, 65);
+            label18.Name = "label18";
+            label18.Size = new Size(38, 15);
+            label18.TabIndex = 53;
+            label18.Text = "Avion";
+            // 
+            // textBox_avion_vuelos
+            // 
+            textBox_avion_vuelos.Location = new Point(545, 83);
+            textBox_avion_vuelos.Name = "textBox_avion_vuelos";
+            textBox_avion_vuelos.Size = new Size(100, 23);
+            textBox_avion_vuelos.TabIndex = 52;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(439, 65);
+            label17.Name = "label17";
+            label17.Size = new Size(57, 15);
+            label17.TabIndex = 51;
+            label17.Text = "Aerolinea";
+            // 
+            // textBox_aerolineas_vuelos
+            // 
+            textBox_aerolineas_vuelos.Location = new Point(439, 83);
+            textBox_aerolineas_vuelos.Name = "textBox_aerolineas_vuelos";
+            textBox_aerolineas_vuelos.Size = new Size(100, 23);
+            textBox_aerolineas_vuelos.TabIndex = 50;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(333, 65);
+            label9.Name = "label9";
+            label9.Size = new Size(38, 15);
+            label9.TabIndex = 49;
+            label9.Text = "Fecha";
+            // 
+            // Cargar_vuelos
+            // 
+            Cargar_vuelos.Location = new Point(672, 130);
+            Cargar_vuelos.Name = "Cargar_vuelos";
+            Cargar_vuelos.Size = new Size(75, 23);
+            Cargar_vuelos.TabIndex = 47;
+            Cargar_vuelos.Text = "Cargar";
+            Cargar_vuelos.UseVisualStyleBackColor = true;
+            Cargar_vuelos.Click += Cargar_vuelos_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(116, 65);
+            label10.Name = "label10";
+            label10.Size = new Size(47, 15);
+            label10.TabIndex = 46;
+            label10.Text = "Destino";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(10, 65);
+            label13.Name = "label13";
+            label13.Size = new Size(43, 15);
+            label13.TabIndex = 45;
+            label13.Text = "Origen";
+            // 
+            // textBox_origen_vuelos
+            // 
+            textBox_origen_vuelos.Location = new Point(10, 83);
+            textBox_origen_vuelos.Name = "textBox_origen_vuelos";
+            textBox_origen_vuelos.Size = new Size(100, 23);
+            textBox_origen_vuelos.TabIndex = 43;
+            // 
+            // textBox_destino_vuelos
+            // 
+            textBox_destino_vuelos.Location = new Point(116, 83);
+            textBox_destino_vuelos.Name = "textBox_destino_vuelos";
+            textBox_destino_vuelos.Size = new Size(100, 23);
+            textBox_destino_vuelos.TabIndex = 42;
+            // 
+            // Mostrar_vuelos
+            // 
+            Mostrar_vuelos.Location = new Point(672, 83);
+            Mostrar_vuelos.Name = "Mostrar_vuelos";
+            Mostrar_vuelos.Size = new Size(75, 23);
+            Mostrar_vuelos.TabIndex = 40;
+            Mostrar_vuelos.Text = "Mostrar";
+            Mostrar_vuelos.UseVisualStyleBackColor = true;
+            Mostrar_vuelos.Click += Mostrar_vuelos_Click;
+            // 
+            // Eliminar_vuelos
+            // 
+            Eliminar_vuelos.Location = new Point(672, 228);
+            Eliminar_vuelos.Name = "Eliminar_vuelos";
+            Eliminar_vuelos.Size = new Size(75, 23);
+            Eliminar_vuelos.TabIndex = 39;
+            Eliminar_vuelos.Text = "Eliminar";
+            Eliminar_vuelos.UseVisualStyleBackColor = true;
+            Eliminar_vuelos.Click += Eliminar_vuelos_Click;
+            // 
+            // Modificar_vuelos
+            // 
+            Modificar_vuelos.Location = new Point(672, 178);
+            Modificar_vuelos.Name = "Modificar_vuelos";
+            Modificar_vuelos.Size = new Size(75, 23);
+            Modificar_vuelos.TabIndex = 38;
+            Modificar_vuelos.Text = "Modificar";
+            Modificar_vuelos.UseVisualStyleBackColor = true;
+            Modificar_vuelos.Click += Modificar_vuelos_Click;
+            // 
+            // Salir_vuelos
+            // 
+            Salir_vuelos.Location = new Point(672, 285);
+            Salir_vuelos.Name = "Salir_vuelos";
+            Salir_vuelos.Size = new Size(75, 23);
+            Salir_vuelos.TabIndex = 37;
+            Salir_vuelos.Text = "Salir";
+            Salir_vuelos.UseVisualStyleBackColor = true;
+            // 
+            // nombreUsuarioVuelos
+            // 
+            nombreUsuarioVuelos.AutoSize = true;
+            nombreUsuarioVuelos.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            nombreUsuarioVuelos.Location = new Point(110, 6);
+            nombreUsuarioVuelos.Name = "nombreUsuarioVuelos";
+            nombreUsuarioVuelos.Size = new Size(52, 21);
+            nombreUsuarioVuelos.TabIndex = 36;
+            nombreUsuarioVuelos.Text = "label2";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label16.Location = new Point(10, 6);
+            label16.Name = "label16";
+            label16.Size = new Size(94, 21);
+            label16.TabIndex = 35;
+            label16.Text = "BIenvenido: ";
+            // 
+            // dataGridViewVuelos
+            // 
+            dataGridViewVuelos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewVuelos.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn10, Fecha, Aerolinea, Avion });
+            dataGridViewVuelos.Location = new Point(10, 130);
+            dataGridViewVuelos.Name = "dataGridViewVuelos";
+            dataGridViewVuelos.ReadOnly = true;
+            dataGridViewVuelos.RowTemplate.Height = 25;
+            dataGridViewVuelos.Size = new Size(643, 178);
+            dataGridViewVuelos.TabIndex = 34;
+            dataGridViewVuelos.CellDoubleClick += dataGridViewVuelos_CellDoubleClick;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            dataGridViewTextBoxColumn6.HeaderText = "Id";
+            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            dataGridViewTextBoxColumn6.ReadOnly = true;
+            dataGridViewTextBoxColumn6.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            dataGridViewTextBoxColumn7.HeaderText = "Origen";
+            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            dataGridViewTextBoxColumn7.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            dataGridViewTextBoxColumn8.HeaderText = "Destino";
+            dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            dataGridViewTextBoxColumn8.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn10
+            // 
+            dataGridViewTextBoxColumn10.HeaderText = "Costo u$s";
+            dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            dataGridViewTextBoxColumn10.ReadOnly = true;
+            dataGridViewTextBoxColumn10.Width = 85;
+            // 
+            // Fecha
+            // 
+            Fecha.HeaderText = "Fecha";
+            Fecha.Name = "Fecha";
+            Fecha.ReadOnly = true;
+            Fecha.Width = 115;
+            // 
+            // Aerolinea
+            // 
+            Aerolinea.HeaderText = "Aerolinea";
+            Aerolinea.Name = "Aerolinea";
+            Aerolinea.ReadOnly = true;
+            // 
+            // Avion
+            // 
+            Avion.HeaderText = "Avion";
+            Avion.Name = "Avion";
+            Avion.ReadOnly = true;
             // 
             // hoteles
             // 
@@ -161,6 +434,7 @@
             Salir.TabIndex = 31;
             Salir.Text = "Salir";
             Salir.UseVisualStyleBackColor = true;
+            Salir.Click += Salir_Click;
             // 
             // label6
             // 
@@ -218,6 +492,7 @@
             Eliminar.TabIndex = 22;
             Eliminar.Text = "Eliminar";
             Eliminar.UseVisualStyleBackColor = true;
+            Eliminar.Click += Eliminar_Click;
             // 
             // Modificar
             // 
@@ -227,6 +502,7 @@
             Modificar.TabIndex = 21;
             Modificar.Text = "Modificar";
             Modificar.UseVisualStyleBackColor = true;
+            Modificar.Click += Modificar_Click;
             // 
             // Cargar
             // 
@@ -532,6 +808,9 @@
             Name = "Form3";
             Text = "Form3";
             Load += Form3_Load;
+            vuelos.ResumeLayout(false);
+            vuelos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewVuelos).EndInit();
             hoteles.ResumeLayout(false);
             hoteles.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2Hoteles).EndInit();
@@ -593,5 +872,32 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private Label label12;
         private TextBox textBoxCosto;
+        private Label label9;
+        private Button Cargar_vuelos;
+        private Label label10;
+        private Label label13;
+        private TextBox textBox_origen_vuelos;
+        private TextBox textBox_destino_vuelos;
+        private Button Mostrar_vuelos;
+        private Button Eliminar_vuelos;
+        private Button Modificar_vuelos;
+        private Button Salir_vuelos;
+        private Label nombreUsuarioVuelos;
+        private Label label16;
+        private DataGridView dataGridViewVuelos;
+        private Label label18;
+        private TextBox textBox_avion_vuelos;
+        private Label label17;
+        private TextBox textBox_aerolineas_vuelos;
+        private DateTimePicker dateTimePicker_vuelos;
+        private Label label19;
+        private TextBox textBox_costo_vuelos;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private DataGridViewTextBoxColumn Fecha;
+        private DataGridViewTextBoxColumn Aerolinea;
+        private DataGridViewTextBoxColumn Avion;
     }
 }

@@ -18,13 +18,16 @@ namespace Proyecto
         private Usuario usuarioActual;
         private int cantUsuarios;
         private int cantHoteles;
+        private int cantVuelos;
 
         public Agencia()
         {
             usuarios = new List<Usuario>();
             hoteles = new List<Hotel>();
+            vuelos = new List<Vuelo> ();
             cantUsuarios =  0;
             cantHoteles = 0;
+            cantVuelos = 0;
 
         }
 
@@ -86,16 +89,89 @@ namespace Proyecto
             return usuarios.ToList();
         }
 
-        public bool agregarHotel( Ciudad ubicacion, int capacidad, double costo, string nombre)
+        //Seccion Hoteles
+
+        public bool agregarHotel(Ciudad ubicacion, int capacidad, double costo, string nombre)
         {
             hoteles.Add(new Hotel(cantHoteles, ubicacion, capacidad, costo, nombre));
             cantHoteles++;
             return true;
         }
 
+        public bool elminarHotel(int id) 
+        {
+            foreach (Hotel h in hoteles) { 
+                if (h.id == id)
+                {
+                    hoteles.Remove(h);
+                    return true;
+                }
+            }
+                return false;
+        }
+
+        public bool modificarHoteles (int id, Ciudad ubicacion, string capacidad, string costo, string nombre)
+        {
+            foreach (Hotel h in hoteles) {
+                if (h.id == id) { 
+                    h.ubicacion = ubicacion;
+                    h.capacidad = int.Parse(capacidad);
+                    h.costo = double.Parse(costo);
+                    h.nombre = nombre;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public List<Hotel> obtenerHoteles()
         {
             return hoteles.ToList();
+        }
+
+        //CRUD Vuelos
+        public bool agregarVuelos(Ciudad origen, Ciudad destino, double costo, DateTime fecha, string aerolinea, string avion)
+        {
+            vuelos.Add(new Vuelo(cantVuelos, origen,destino, costo,  fecha,  aerolinea, avion));
+            cantVuelos++;
+            return true;
+        }
+
+        public List<Vuelo> obtenerVuelos()
+        {
+            return vuelos.ToList();
+        }
+
+        public bool modificarVuelos(int id, Ciudad origen, Ciudad destino, string costo, string fecha, string aerolinea, string avion)
+        {
+            foreach (Vuelo v in vuelos)
+            {
+                if (v.id == id)
+                {
+                    v.origen = origen;
+                    v.destino = destino;
+                    v.costo = double.Parse(costo);
+                    v.fecha = DateTime.Parse(fecha);
+                    v.aerolinea = aerolinea;
+                    v.avion = avion;
+                  
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool elminarVuelo(int id)
+        {
+            foreach (Vuelo v in vuelos)
+            {
+                if (v.id == id)
+                {
+                    vuelos.Remove(v);
+                    return true;
+                }
+            }
+            return false;
         }
 
     }
