@@ -24,46 +24,6 @@ namespace Proyecto
             InitializeComponent();
         }
 
-        private void tbMail_Enter(object sender, EventArgs e)
-        {
-            if (tbMail.Text == "Ingrese su mail")
-            {
-                tbMail.Text = "";
-
-                tbMail.ForeColor = Color.Black;
-            }
-        }
-
-        private void tbMail_Leave(object sender, EventArgs e)
-        {
-            if (tbMail.Text == "")
-            {
-                tbMail.Text = "Ingrese su mail";
-
-                tbMail.ForeColor = Color.DimGray;
-            }
-        }
-
-        private void tbClave_Enter(object sender, EventArgs e)
-        {
-            if (tbClave.Text == "Ingrese su contraseña")
-            {
-                tbClave.Text = "";
-
-                tbClave.ForeColor = Color.Black;
-            }
-        }
-
-        private void tbClave_Leave(object sender, EventArgs e)
-        {
-            if (tbClave.Text == "")
-            {
-                tbClave.Text = "Ingrese su contraseña";
-
-                tbClave.ForeColor = Color.DimGray;
-            }
-        }
-
         private void btnIngresar(object sender, EventArgs e)
         {
             string mail = tbMail.Text;
