@@ -26,10 +26,10 @@ namespace Proyecto
         private void TransfDelegado()
         {
             MessageBox.Show("Log-in correcto, Usuario: " + agencia.nombreLogueado());
-            login.Close();
             main = new Form3(agencia);
             main.salir += cerrarSesion;
             main.MdiParent = this;
+            login.Close();
             main.Show();
         }
         private void TransfDelegado2()

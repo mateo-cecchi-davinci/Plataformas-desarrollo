@@ -110,3 +110,5 @@ C:\Users\Emma\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\ne
 C:\Users\Emma\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\net6.0-windows\Proyecto.pdb
 C:\Users\Emma\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\net6.0-windows\Proyecto.genruntimeconfig.cache
 C:\Users\Emma\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\net6.0-windows\ref\Proyecto.dll
+C:\Users\mateo\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\net6.0-windows\Proyecto.Form4.resources
+C:\Users\mateo\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\net6.0-windows\Proyecto.Properties.Resources.resources
