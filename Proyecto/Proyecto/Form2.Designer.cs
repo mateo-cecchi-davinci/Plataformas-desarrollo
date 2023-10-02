@@ -97,7 +97,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form2";
             WindowState = FormWindowState.Maximized;
-            Load += Form2_Load;
             ResumeLayout(false);
             PerformLayout();
         }

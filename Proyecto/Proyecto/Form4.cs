@@ -32,11 +32,7 @@ namespace Proyecto
         private void button2_Click(object sender, EventArgs e)
         {
             validarUsuario();
-
-
-
         }
-
 
         private void validarUsuario()
         {
@@ -50,42 +46,42 @@ namespace Proyecto
 
             if (string.IsNullOrWhiteSpace(nombre))
             {
-                MessageBox.Show("El campo nombre no puede estar vacío");
+                MessageBox.Show("Ingrese nombre");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(apellido))
             {
-                MessageBox.Show("El campo apellido no puede estar vacío");
+                MessageBox.Show("Ingrese apellido");
                 return;
             }
             if (string.IsNullOrWhiteSpace(dni))
             {
-                MessageBox.Show("El campo Dni no puede estar vacío");
+                MessageBox.Show("Ingrese dni");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(mail))
             {
-                MessageBox.Show("El campo mail no puede estar vacío");
+                MessageBox.Show("Ingrese mail");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(clave))
             {
-                MessageBox.Show("El campo contraseña no puede estar vacío");
+                MessageBox.Show("Ingrese clave");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(repClave))
             {
-                MessageBox.Show("El campo repetir contraseña no puede estar vacío");
+                MessageBox.Show("Repita la clave");
                 return;
             }
 
             if (int.TryParse(dni, out numDni))
             {
-                miAgencia.agregarUsuario(numDni, nombre, apellido, mail, clave);
+                miAgencia.agregarUsuario(numDni, nombre, apellido, mail, clave, checkBox_IsAdmin.Checked, 0);
                 submit();
             }
             else MessageBox.Show("El campo Dni solo admite números");

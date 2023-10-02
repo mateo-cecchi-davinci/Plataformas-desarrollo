@@ -9,15 +9,33 @@ namespace Proyecto
     public class ReservaVuelo
     {
 
+        public int id {  get; set; }
         public Vuelo miVuelo { get; set; }
         public Usuario miUsuario { get; set;}
         public double pagado { get; set;}
+        public int cantPersonas { get; set;}
 
-        public ReservaVuelo (Vuelo miVuelo, Usuario miUsuario, double pagado)
+        public ReservaVuelo (int id, Vuelo miVuelo, Usuario miUsuario, double pagado, int cantPersonas)
+        {
+            this.id = id;
+            this.miVuelo = miVuelo;
+            this.miUsuario = miUsuario;
+            this.pagado = pagado;
+            this.cantPersonas = cantPersonas;
+        }
+
+        public ReservaVuelo(Vuelo miVuelo, Usuario miUsuario, double pagado, int cantPersonas)
         {
             this.miVuelo = miVuelo;
             this.miUsuario = miUsuario;
             this.pagado = pagado;
+            this.cantPersonas = cantPersonas;
         }
+
+        public string[] ToString()
+        {
+            return new string[] { id.ToString(), miVuelo.origen.nombre, miVuelo.destino.nombre, miUsuario.nombre, miVuelo.fecha.ToString(), cantPersonas.ToString(), pagado.ToString() };
+        }
+
     }
 }
