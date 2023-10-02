@@ -18,9 +18,7 @@ namespace Proyecto
 
         public TransfDelegado TransfEvento;
         public TransfDelegado TransfEvento2;
-       
-
-
+        public TransfDelegado TransfEvento3;
 
         public Form2(Agencia agencia)
         {
@@ -32,20 +30,49 @@ namespace Proyecto
         {
             string mail = tbMail.Text;
             string clave = tbClave.Text;
-            if (mail != null && mail != "" && clave != null && clave != "")
+            if (!string.IsNullOrEmpty(mail) && !string.IsNullOrEmpty(clave))
             {
-                if (miAgencia.iniciarSesion(mail, clave))
-                    TransfEvento();
+                List<Usuario> usuarios = miAgencia.obtenerUsuarios();
+
+                Usuario usuario = usuarios.FirstOrDefault(u => u.mail == mail);
+
+                if (usuario != null)
+                {
+                    if (usuario.bloqueado)
+                    {
+                        MessageBox.Show("El usuario está bloqueado. Contáctese con el administrador.");
+                    }
+                    else
+                    {
+                        if (miAgencia.iniciarSesion(mail, clave))
+                        {
+                            usuario.intentosFallidos = 0;
+                            if (usuario.isAdmin)
+                            {
+                                TransfEvento();
+                            }
+                            else
+                            TransfEvento3();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error, usuario o contraseña incorrectos");
+                            usuario.intentosFallidos++; 
+                            if (usuario.intentosFallidos >= 3)
+                            {
+                                usuario.bloqueado = true; 
+                                MessageBox.Show("El usuario ha sido bloqueado debido a múltiples intentos fallidos.");
+                            }
+                        }
+                    }
+                }
                 else
-                    MessageBox.Show("Error, usuario o contraseña incorrectos");
+                {
+                    MessageBox.Show("Usuario no encontrado.");
+                }
             }
             else
                 MessageBox.Show("Debe ingresar un usuario y contraseña");
-        }
-
-        private void Form2_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void button2_Click(object sender, EventArgs e)

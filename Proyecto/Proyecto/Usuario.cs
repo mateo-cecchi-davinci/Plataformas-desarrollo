@@ -24,7 +24,7 @@ namespace Proyecto
         public List<Hotel> hotelesVisitados { get; set; }
         public List<Vuelo> vuelosTomados { get; set; }
 
-        public Usuario(int id, int dni, string nombre, string apellido, string mail, string clave)
+        public Usuario(int id, int dni, string nombre, string apellido, string mail, string clave, bool isAdmin, double credito)
         {
             this.id = id;
             this.dni = dni;
@@ -32,17 +32,18 @@ namespace Proyecto
             this.apellido = apellido;
             this.mail = mail;
             this.clave = clave;
+            this.isAdmin = isAdmin;
+            this.credito = credito;
         }
 
-        public Usuario(string mail, string clave)
+        public Usuario(string nombre)
         {
-            this.mail = mail;
-            this.clave = clave;
+            this.nombre = nombre;
         }
 
         public string[] ToString()
         {
-            return new string[] { id.ToString(), dni.ToString(), nombre, apellido, mail};
+            return new string[] { id.ToString(), dni.ToString(), nombre, apellido, credito.ToString(), mail };
         }
 
     }
