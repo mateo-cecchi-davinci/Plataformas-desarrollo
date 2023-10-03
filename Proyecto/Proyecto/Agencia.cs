@@ -48,12 +48,34 @@ namespace Proyecto
         {
             foreach (Usuario u in usuarios)
             {
-                if (u.mail.Equals(mail) && u.clave.Equals(clave))
+                if (u.mail.Equals(mail))
                 {
-                    usuarioActual = u;
-                    return true;
+                    if (u.bloqueado)
+                    {
+                        MessageBox.Show("El usuario está bloqueado. Contáctese con el administrador.");
+                        return false;
+                    }
+
+                    if (u.clave.Equals(clave))
+                    {
+                        usuarioActual = u;
+                        u.intentosFallidos = 0;
+                        return true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error, mail o contraseña incorrectos");
+                        u.intentosFallidos++;
+                        if (u.intentosFallidos >= 3)
+                        {
+                            u.bloqueado = true;
+                            MessageBox.Show("El usuario ha sido bloqueado debido a múltiples intentos fallidos.");
+                        }
+                        return false;
+                    }
                 }
             }
+            MessageBox.Show("Mail no registrado");
             return false;
         }
 

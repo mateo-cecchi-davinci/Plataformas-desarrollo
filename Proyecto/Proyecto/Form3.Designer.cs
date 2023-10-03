@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            titulo = new Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
             vuelos = new TabPage();
             button13 = new Button();
             cb_destinoV = new ComboBox();
@@ -79,6 +79,11 @@
             nombreUsuarioH = new Label();
             label11 = new Label();
             dataGridView2Hoteles = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
             usuarios = new TabPage();
             button15 = new Button();
             label25 = new Label();
@@ -164,11 +169,9 @@
             Column16 = new DataGridViewTextBoxColumn();
             Column14 = new DataGridViewTextBoxColumn();
             Column10 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            panel1 = new Panel();
+            pictureBox1 = new PictureBox();
+            panelContainer = new Panel();
             vuelos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewVuelos).BeginInit();
             hoteles.SuspendLayout();
@@ -180,17 +183,10 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewReservasH).BeginInit();
             reservasVuelos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewReservasV).BeginInit();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panelContainer.SuspendLayout();
             SuspendLayout();
-            // 
-            // titulo
-            // 
-            titulo.AutoSize = true;
-            titulo.Font = new Font("Segoe UI", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            titulo.Location = new Point(304, 33);
-            titulo.Name = "titulo";
-            titulo.Size = new Size(180, 30);
-            titulo.TabIndex = 0;
-            titulo.Text = "EXPLORA MUNDI";
             // 
             // vuelos
             // 
@@ -219,7 +215,7 @@
             vuelos.Controls.Add(dataGridViewVuelos);
             vuelos.Location = new Point(4, 24);
             vuelos.Name = "vuelos";
-            vuelos.Size = new Size(793, 334);
+            vuelos.Size = new Size(842, 412);
             vuelos.TabIndex = 2;
             vuelos.Text = "Vuelos";
             vuelos.UseVisualStyleBackColor = true;
@@ -507,7 +503,7 @@
             hoteles.Location = new Point(4, 24);
             hoteles.Name = "hoteles";
             hoteles.Padding = new Padding(3);
-            hoteles.Size = new Size(793, 334);
+            hoteles.Size = new Size(842, 412);
             hoteles.TabIndex = 1;
             hoteles.Text = "Hoteles";
             hoteles.UseVisualStyleBackColor = true;
@@ -670,6 +666,37 @@
             dataGridView2Hoteles.TabIndex = 16;
             dataGridView2Hoteles.CellContentDoubleClick += dataGridView2Hoteles_CellDoubleClick;
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Id";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Hotel";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            dataGridViewTextBoxColumn5.HeaderText = "Ciudad";
+            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.HeaderText = "Costo";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Capacidad";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
             // usuarios
             // 
             usuarios.Controls.Add(button15);
@@ -693,9 +720,9 @@
             usuarios.Location = new Point(4, 24);
             usuarios.Name = "usuarios";
             usuarios.Padding = new Padding(3);
-            usuarios.Size = new Size(793, 334);
+            usuarios.Size = new Size(842, 412);
             usuarios.TabIndex = 0;
-            usuarios.Text = "Usuarios";
+            usuarios.Text = "   Usuarios";
             usuarios.UseVisualStyleBackColor = true;
             // 
             // button15
@@ -911,10 +938,10 @@
             tabControl1.Controls.Add(vuelos);
             tabControl1.Controls.Add(reservasHoteles);
             tabControl1.Controls.Add(reservasVuelos);
-            tabControl1.Location = new Point(0, 88);
+            tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(801, 362);
+            tabControl1.Size = new Size(850, 440);
             tabControl1.TabIndex = 1;
             tabControl1.Click += limpiar;
             // 
@@ -944,7 +971,7 @@
             reservasHoteles.Location = new Point(4, 24);
             reservasHoteles.Name = "reservasHoteles";
             reservasHoteles.Padding = new Padding(3);
-            reservasHoteles.Size = new Size(793, 334);
+            reservasHoteles.Size = new Size(842, 412);
             reservasHoteles.TabIndex = 5;
             reservasHoteles.Text = "Reservas Hoteles";
             reservasHoteles.UseVisualStyleBackColor = true;
@@ -1213,7 +1240,7 @@
             reservasVuelos.Location = new Point(4, 24);
             reservasVuelos.Name = "reservasVuelos";
             reservasVuelos.Padding = new Padding(3);
-            reservasVuelos.Size = new Size(793, 334);
+            reservasVuelos.Size = new Size(842, 412);
             reservasVuelos.TabIndex = 6;
             reservasVuelos.Text = "Reservas Vuelos";
             reservasVuelos.UseVisualStyleBackColor = true;
@@ -1456,44 +1483,42 @@
             Column10.Name = "Column10";
             Column10.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn1
+            // panel1
             // 
-            dataGridViewTextBoxColumn1.HeaderText = "Id";
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
-            dataGridViewTextBoxColumn1.Visible = false;
+            panel1.BackColor = Color.FromArgb(0, 122, 204);
+            panel1.Controls.Add(pictureBox1);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(850, 112);
+            panel1.TabIndex = 2;
             // 
-            // dataGridViewTextBoxColumn2
+            // pictureBox1
             // 
-            dataGridViewTextBoxColumn2.HeaderText = "Hotel";
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(-17, 15);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(180, 125);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
             // 
-            // dataGridViewTextBoxColumn5
+            // panelContainer
             // 
-            dataGridViewTextBoxColumn5.HeaderText = "Ciudad";
-            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            dataGridViewTextBoxColumn4.HeaderText = "Costo";
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            dataGridViewTextBoxColumn4.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            dataGridViewTextBoxColumn3.HeaderText = "Capacidad";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
+            panelContainer.Controls.Add(tabControl1);
+            panelContainer.Location = new Point(0, 111);
+            panelContainer.Name = "panelContainer";
+            panelContainer.Size = new Size(850, 440);
+            panelContainer.TabIndex = 4;
             // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(tabControl1);
-            Controls.Add(titulo);
+            ClientSize = new Size(850, 553);
+            Controls.Add(panelContainer);
+            Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "Form3";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form3";
@@ -1515,8 +1540,10 @@
             reservasVuelos.ResumeLayout(false);
             reservasVuelos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewReservasV).EndInit();
+            panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panelContainer.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -1662,5 +1689,8 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private Panel panel1;
+        private PictureBox pictureBox1;
+        private Panel panelContainer;
     }
 }
