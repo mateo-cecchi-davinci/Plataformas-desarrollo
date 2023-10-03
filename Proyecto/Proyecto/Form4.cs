@@ -92,8 +92,6 @@ namespace Proyecto
         {
             if (tbNombre.PlaceholderText == "Ingrese su nombre")
             {
-                tbNombre.PlaceholderText = "";
-
                 tbNombre.ForeColor = Color.Black;
             }
         }

@@ -113,3 +113,4 @@ C:\Users\Emma\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\ne
 C:\Users\mateo\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\net6.0-windows\Proyecto.Form4.resources
 C:\Users\mateo\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\net6.0-windows\Proyecto.Properties.Resources.resources
 C:\Users\mateo\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\net6.0-windows\Proyecto.Form5.resources
+C:\Users\mateo\Source\Repos\Plataformas-desarrollo\Proyecto\Proyecto\obj\Debug\net6.0-windows\Proyecto.Login.resources
