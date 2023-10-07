@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
-            vuelos = new TabPage();
+            vuelosTab = new TabPage();
             button13 = new Button();
             cb_destinoV = new ComboBox();
             cb_origenV = new ComboBox();
@@ -61,7 +61,7 @@
             Fecha = new DataGridViewTextBoxColumn();
             Aerolinea = new DataGridViewTextBoxColumn();
             Avion = new DataGridViewTextBoxColumn();
-            hoteles = new TabPage();
+            hotelesTab = new TabPage();
             button14 = new Button();
             cb_ciudadH = new ComboBox();
             label12 = new Label();
@@ -77,14 +77,14 @@
             Cargar = new Button();
             Mostrar = new Button();
             nombreUsuarioH = new Label();
-            label11 = new Label();
             dataGridView2Hoteles = new DataGridView();
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            usuarios = new TabPage();
+            label11 = new Label();
+            usuariosTab = new TabPage();
             button15 = new Button();
             label25 = new Label();
             tbCargarCredito = new TextBox();
@@ -128,22 +128,15 @@
             nombreUsuarioRH = new Label();
             label14 = new Label();
             dataGridViewReservasH = new DataGridView();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            Column5 = new DataGridViewTextBoxColumn();
-            Column6 = new DataGridViewTextBoxColumn();
-            Column7 = new DataGridViewTextBoxColumn();
-            Column11 = new DataGridViewTextBoxColumn();
             button5 = new Button();
             button4 = new Button();
             button3 = new Button();
             button2 = new Button();
             button1 = new Button();
             reservasVuelos = new TabPage();
+            cb_destinoRV = new ComboBox();
+            cb_origenRV = new ComboBox();
             button11 = new Button();
-            tb_destinoRV = new TextBox();
-            tb_origenRV = new TextBox();
             label34 = new Label();
             label33 = new Label();
             label31 = new Label();
@@ -165,6 +158,7 @@
             Column8 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             Column15 = new DataGridViewTextBoxColumn();
+            Column18 = new DataGridViewTextBoxColumn();
             Column9 = new DataGridViewTextBoxColumn();
             Column16 = new DataGridViewTextBoxColumn();
             Column14 = new DataGridViewTextBoxColumn();
@@ -172,11 +166,19 @@
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
             panelContainer = new Panel();
-            vuelos.SuspendLayout();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column3 = new DataGridViewTextBoxColumn();
+            Column17 = new DataGridViewTextBoxColumn();
+            Column4 = new DataGridViewTextBoxColumn();
+            Column5 = new DataGridViewTextBoxColumn();
+            Column6 = new DataGridViewTextBoxColumn();
+            Column7 = new DataGridViewTextBoxColumn();
+            Column11 = new DataGridViewTextBoxColumn();
+            vuelosTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewVuelos).BeginInit();
-            hoteles.SuspendLayout();
+            hotelesTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2Hoteles).BeginInit();
-            usuarios.SuspendLayout();
+            usuariosTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl1.SuspendLayout();
             reservasHoteles.SuspendLayout();
@@ -188,37 +190,37 @@
             panelContainer.SuspendLayout();
             SuspendLayout();
             // 
-            // vuelos
+            // vuelosTab
             // 
-            vuelos.Controls.Add(button13);
-            vuelos.Controls.Add(cb_destinoV);
-            vuelos.Controls.Add(cb_origenV);
-            vuelos.Controls.Add(label32);
-            vuelos.Controls.Add(tbCapacidad);
-            vuelos.Controls.Add(label19);
-            vuelos.Controls.Add(textBox_costo_vuelos);
-            vuelos.Controls.Add(dateTimePicker_vuelos);
-            vuelos.Controls.Add(label18);
-            vuelos.Controls.Add(textBox_avion_vuelos);
-            vuelos.Controls.Add(label17);
-            vuelos.Controls.Add(textBox_aerolineas_vuelos);
-            vuelos.Controls.Add(label9);
-            vuelos.Controls.Add(Cargar_vuelos);
-            vuelos.Controls.Add(label10);
-            vuelos.Controls.Add(label13);
-            vuelos.Controls.Add(Mostrar_vuelos);
-            vuelos.Controls.Add(Eliminar_vuelos);
-            vuelos.Controls.Add(Modificar_vuelos);
-            vuelos.Controls.Add(Salir_vuelos);
-            vuelos.Controls.Add(nombreUsuarioVuelos);
-            vuelos.Controls.Add(label16);
-            vuelos.Controls.Add(dataGridViewVuelos);
-            vuelos.Location = new Point(4, 24);
-            vuelos.Name = "vuelos";
-            vuelos.Size = new Size(842, 412);
-            vuelos.TabIndex = 2;
-            vuelos.Text = "Vuelos";
-            vuelos.UseVisualStyleBackColor = true;
+            vuelosTab.Controls.Add(button13);
+            vuelosTab.Controls.Add(cb_destinoV);
+            vuelosTab.Controls.Add(cb_origenV);
+            vuelosTab.Controls.Add(label32);
+            vuelosTab.Controls.Add(tbCapacidad);
+            vuelosTab.Controls.Add(label19);
+            vuelosTab.Controls.Add(textBox_costo_vuelos);
+            vuelosTab.Controls.Add(dateTimePicker_vuelos);
+            vuelosTab.Controls.Add(label18);
+            vuelosTab.Controls.Add(textBox_avion_vuelos);
+            vuelosTab.Controls.Add(label17);
+            vuelosTab.Controls.Add(textBox_aerolineas_vuelos);
+            vuelosTab.Controls.Add(label9);
+            vuelosTab.Controls.Add(Cargar_vuelos);
+            vuelosTab.Controls.Add(label10);
+            vuelosTab.Controls.Add(label13);
+            vuelosTab.Controls.Add(Mostrar_vuelos);
+            vuelosTab.Controls.Add(Eliminar_vuelos);
+            vuelosTab.Controls.Add(Modificar_vuelos);
+            vuelosTab.Controls.Add(Salir_vuelos);
+            vuelosTab.Controls.Add(nombreUsuarioVuelos);
+            vuelosTab.Controls.Add(label16);
+            vuelosTab.Controls.Add(dataGridViewVuelos);
+            vuelosTab.Location = new Point(4, 24);
+            vuelosTab.Name = "vuelosTab";
+            vuelosTab.Size = new Size(842, 412);
+            vuelosTab.TabIndex = 2;
+            vuelosTab.Text = "Vuelos";
+            vuelosTab.UseVisualStyleBackColor = true;
             // 
             // button13
             // 
@@ -338,7 +340,7 @@
             Cargar_vuelos.TabIndex = 47;
             Cargar_vuelos.Text = "Cargar";
             Cargar_vuelos.UseVisualStyleBackColor = true;
-            Cargar_vuelos.Click += Cargar_vuelos_Click;
+            Cargar_vuelos.Click += btnCargarVuelo_Click;
             // 
             // label10
             // 
@@ -366,7 +368,7 @@
             Mostrar_vuelos.TabIndex = 40;
             Mostrar_vuelos.Text = "Buscar";
             Mostrar_vuelos.UseVisualStyleBackColor = true;
-            Mostrar_vuelos.Click += Mostrar_vuelos_Click;
+            Mostrar_vuelos.Click += btnBuscarVuelos_Click;
             // 
             // Eliminar_vuelos
             // 
@@ -376,7 +378,7 @@
             Eliminar_vuelos.TabIndex = 39;
             Eliminar_vuelos.Text = "Eliminar";
             Eliminar_vuelos.UseVisualStyleBackColor = true;
-            Eliminar_vuelos.Click += Eliminar_vuelos_Click;
+            Eliminar_vuelos.Click += btnEliminarVuelo_Click;
             // 
             // Modificar_vuelos
             // 
@@ -386,7 +388,7 @@
             Modificar_vuelos.TabIndex = 38;
             Modificar_vuelos.Text = "Modificar";
             Modificar_vuelos.UseVisualStyleBackColor = true;
-            Modificar_vuelos.Click += Modificar_vuelos_Click;
+            Modificar_vuelos.Click += btnModificarVuelo_Click;
             // 
             // Salir_vuelos
             // 
@@ -481,32 +483,31 @@
             Avion.Name = "Avion";
             Avion.ReadOnly = true;
             // 
-            // hoteles
+            // hotelesTab
             // 
-            hoteles.Controls.Add(button14);
-            hoteles.Controls.Add(cb_ciudadH);
-            hoteles.Controls.Add(label12);
-            hoteles.Controls.Add(textBoxCosto);
-            hoteles.Controls.Add(Salir);
-            hoteles.Controls.Add(label6);
-            hoteles.Controls.Add(label7);
-            hoteles.Controls.Add(label8);
-            hoteles.Controls.Add(textBoxNombre);
-            hoteles.Controls.Add(textBoxCapacidad);
-            hoteles.Controls.Add(Eliminar);
-            hoteles.Controls.Add(Modificar);
-            hoteles.Controls.Add(Cargar);
-            hoteles.Controls.Add(Mostrar);
-            hoteles.Controls.Add(nombreUsuarioH);
-            hoteles.Controls.Add(label11);
-            hoteles.Controls.Add(dataGridView2Hoteles);
-            hoteles.Location = new Point(4, 24);
-            hoteles.Name = "hoteles";
-            hoteles.Padding = new Padding(3);
-            hoteles.Size = new Size(842, 412);
-            hoteles.TabIndex = 1;
-            hoteles.Text = "Hoteles";
-            hoteles.UseVisualStyleBackColor = true;
+            hotelesTab.Controls.Add(button14);
+            hotelesTab.Controls.Add(cb_ciudadH);
+            hotelesTab.Controls.Add(label12);
+            hotelesTab.Controls.Add(textBoxCosto);
+            hotelesTab.Controls.Add(Salir);
+            hotelesTab.Controls.Add(label6);
+            hotelesTab.Controls.Add(label7);
+            hotelesTab.Controls.Add(label8);
+            hotelesTab.Controls.Add(textBoxNombre);
+            hotelesTab.Controls.Add(textBoxCapacidad);
+            hotelesTab.Controls.Add(Eliminar);
+            hotelesTab.Controls.Add(Modificar);
+            hotelesTab.Controls.Add(Cargar);
+            hotelesTab.Controls.Add(Mostrar);
+            hotelesTab.Controls.Add(nombreUsuarioH);
+            hotelesTab.Controls.Add(dataGridView2Hoteles);
+            hotelesTab.Location = new Point(4, 24);
+            hotelesTab.Name = "hotelesTab";
+            hotelesTab.Padding = new Padding(3);
+            hotelesTab.Size = new Size(842, 412);
+            hotelesTab.TabIndex = 1;
+            hotelesTab.Text = "Hoteles";
+            hotelesTab.UseVisualStyleBackColor = true;
             // 
             // button14
             // 
@@ -602,7 +603,7 @@
             Eliminar.TabIndex = 22;
             Eliminar.Text = "Eliminar";
             Eliminar.UseVisualStyleBackColor = true;
-            Eliminar.Click += Eliminar_Click;
+            Eliminar.Click += btnEliminarHotel_Click;
             // 
             // Modificar
             // 
@@ -612,7 +613,7 @@
             Modificar.TabIndex = 21;
             Modificar.Text = "Modificar";
             Modificar.UseVisualStyleBackColor = true;
-            Modificar.Click += Modificar_Click;
+            Modificar.Click += btnModificarHotel_Click;
             // 
             // Cargar
             // 
@@ -622,7 +623,7 @@
             Cargar.TabIndex = 20;
             Cargar.Text = "Cargar";
             Cargar.UseVisualStyleBackColor = true;
-            Cargar.Click += Cargar_Click;
+            Cargar.Click += btnCargarHotel_Click;
             // 
             // Mostrar
             // 
@@ -632,7 +633,7 @@
             Mostrar.TabIndex = 19;
             Mostrar.Text = "Buscar";
             Mostrar.UseVisualStyleBackColor = true;
-            Mostrar.Click += Mostrar_Click;
+            Mostrar.Click += btnBuscarHotel_Click;
             // 
             // nombreUsuarioH
             // 
@@ -644,16 +645,6 @@
             nombreUsuarioH.TabIndex = 18;
             nombreUsuarioH.Text = "label2";
             // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label11.Location = new Point(35, 18);
-            label11.Name = "label11";
-            label11.Size = new Size(94, 21);
-            label11.TabIndex = 17;
-            label11.Text = "BIenvenido: ";
-            // 
             // dataGridView2Hoteles
             // 
             dataGridView2Hoteles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -664,7 +655,7 @@
             dataGridView2Hoteles.RowTemplate.Height = 25;
             dataGridView2Hoteles.Size = new Size(543, 186);
             dataGridView2Hoteles.TabIndex = 16;
-            dataGridView2Hoteles.CellContentDoubleClick += dataGridView2Hoteles_CellDoubleClick;
+            dataGridView2Hoteles.CellContentDoubleClick += dataGridViewHoteles_CellDoubleClick;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -697,33 +688,43 @@
             dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
-            // usuarios
+            // label11
             // 
-            usuarios.Controls.Add(button15);
-            usuarios.Controls.Add(label25);
-            usuarios.Controls.Add(tbCargarCredito);
-            usuarios.Controls.Add(label5);
-            usuarios.Controls.Add(label4);
-            usuarios.Controls.Add(label3);
-            usuarios.Controls.Add(label2);
-            usuarios.Controls.Add(tbNombre);
-            usuarios.Controls.Add(tbApellido);
-            usuarios.Controls.Add(tbMail);
-            usuarios.Controls.Add(tbDni);
-            usuarios.Controls.Add(btnSalir);
-            usuarios.Controls.Add(btnEliminar);
-            usuarios.Controls.Add(btnModificar);
-            usuarios.Controls.Add(btnBuscar);
-            usuarios.Controls.Add(nombreUsuario);
-            usuarios.Controls.Add(label1);
-            usuarios.Controls.Add(dataGridView1);
-            usuarios.Location = new Point(4, 24);
-            usuarios.Name = "usuarios";
-            usuarios.Padding = new Padding(3);
-            usuarios.Size = new Size(842, 412);
-            usuarios.TabIndex = 0;
-            usuarios.Text = "   Usuarios";
-            usuarios.UseVisualStyleBackColor = true;
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label11.Location = new Point(35, 18);
+            label11.Name = "label11";
+            label11.Size = new Size(94, 21);
+            label11.TabIndex = 17;
+            label11.Text = "BIenvenido: ";
+            // 
+            // usuariosTab
+            // 
+            usuariosTab.Controls.Add(button15);
+            usuariosTab.Controls.Add(label25);
+            usuariosTab.Controls.Add(tbCargarCredito);
+            usuariosTab.Controls.Add(label5);
+            usuariosTab.Controls.Add(label4);
+            usuariosTab.Controls.Add(label3);
+            usuariosTab.Controls.Add(label2);
+            usuariosTab.Controls.Add(tbNombre);
+            usuariosTab.Controls.Add(tbApellido);
+            usuariosTab.Controls.Add(tbMail);
+            usuariosTab.Controls.Add(tbDni);
+            usuariosTab.Controls.Add(btnSalir);
+            usuariosTab.Controls.Add(btnEliminar);
+            usuariosTab.Controls.Add(btnModificar);
+            usuariosTab.Controls.Add(btnBuscar);
+            usuariosTab.Controls.Add(nombreUsuario);
+            usuariosTab.Controls.Add(label1);
+            usuariosTab.Controls.Add(dataGridView1);
+            usuariosTab.Location = new Point(4, 24);
+            usuariosTab.Name = "usuariosTab";
+            usuariosTab.Padding = new Padding(3);
+            usuariosTab.Size = new Size(842, 412);
+            usuariosTab.TabIndex = 0;
+            usuariosTab.Text = "   Usuarios";
+            usuariosTab.UseVisualStyleBackColor = true;
             // 
             // button15
             // 
@@ -833,7 +834,7 @@
             btnEliminar.TabIndex = 6;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
-            btnEliminar.Click += btnEliminar_Click;
+            btnEliminar.Click += btnEliminarUsuario_Click;
             // 
             // btnModificar
             // 
@@ -843,7 +844,7 @@
             btnModificar.TabIndex = 5;
             btnModificar.Text = "Modificar";
             btnModificar.UseVisualStyleBackColor = true;
-            btnModificar.Click += btnModificar_Click;
+            btnModificar.Click += btnModificarUsuario_Click;
             // 
             // btnBuscar
             // 
@@ -853,7 +854,7 @@
             btnBuscar.TabIndex = 3;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
-            btnBuscar.Click += btnBuscar_Click;
+            btnBuscar.Click += btnBuscarUsuario_Click;
             // 
             // nombreUsuario
             // 
@@ -885,7 +886,7 @@
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(543, 186);
             dataGridView1.TabIndex = 0;
-            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            dataGridView1.CellDoubleClick += dataGridViewUsuarios_CellDoubleClick;
             // 
             // Id
             // 
@@ -933,9 +934,9 @@
             // 
             // tabControl1
             // 
-            tabControl1.Controls.Add(usuarios);
-            tabControl1.Controls.Add(hoteles);
-            tabControl1.Controls.Add(vuelos);
+            tabControl1.Controls.Add(usuariosTab);
+            tabControl1.Controls.Add(hotelesTab);
+            tabControl1.Controls.Add(vuelosTab);
             tabControl1.Controls.Add(reservasHoteles);
             tabControl1.Controls.Add(reservasVuelos);
             tabControl1.Location = new Point(0, 0);
@@ -1027,9 +1028,9 @@
             label23.AutoSize = true;
             label23.Location = new Point(409, 68);
             label23.Name = "label23";
-            label23.Size = new Size(47, 15);
+            label23.Size = new Size(34, 15);
             label23.TabIndex = 19;
-            label23.Text = "Pagado";
+            label23.Text = "Pago";
             // 
             // label22
             // 
@@ -1113,56 +1114,13 @@
             // dataGridViewReservasH
             // 
             dataGridViewReservasH.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewReservasH.Columns.AddRange(new DataGridViewColumn[] { Column1, Column3, Column4, Column5, Column6, Column7, Column11 });
+            dataGridViewReservasH.Columns.AddRange(new DataGridViewColumn[] { Column1, Column3, Column17, Column4, Column5, Column6, Column7, Column11 });
             dataGridViewReservasH.Location = new Point(35, 135);
             dataGridViewReservasH.Name = "dataGridViewReservasH";
             dataGridViewReservasH.RowTemplate.Height = 25;
             dataGridViewReservasH.Size = new Size(442, 178);
             dataGridViewReservasH.TabIndex = 5;
             dataGridViewReservasH.CellDoubleClick += dobleClickReservasH;
-            // 
-            // Column1
-            // 
-            Column1.HeaderText = "id";
-            Column1.Name = "Column1";
-            Column1.ReadOnly = true;
-            Column1.Visible = false;
-            // 
-            // Column3
-            // 
-            Column3.HeaderText = "Hotel";
-            Column3.Name = "Column3";
-            Column3.ReadOnly = true;
-            // 
-            // Column4
-            // 
-            Column4.HeaderText = "Usuario";
-            Column4.Name = "Column4";
-            Column4.ReadOnly = true;
-            // 
-            // Column5
-            // 
-            Column5.HeaderText = "Fecha Desde";
-            Column5.Name = "Column5";
-            Column5.ReadOnly = true;
-            // 
-            // Column6
-            // 
-            Column6.HeaderText = "Fecha Hasta";
-            Column6.Name = "Column6";
-            Column6.ReadOnly = true;
-            // 
-            // Column7
-            // 
-            Column7.HeaderText = "Pagado";
-            Column7.Name = "Column7";
-            Column7.ReadOnly = true;
-            // 
-            // Column11
-            // 
-            Column11.HeaderText = "Cantidad de Personas";
-            Column11.Name = "Column11";
-            Column11.ReadOnly = true;
             // 
             // button5
             // 
@@ -1182,7 +1140,7 @@
             button4.TabIndex = 3;
             button4.Text = "Eliminar";
             button4.UseVisualStyleBackColor = true;
-            button4.Click += eliminar_reservasH;
+            button4.Click += btnEliminarReservaH_Click;
             // 
             // button3
             // 
@@ -1192,7 +1150,7 @@
             button3.TabIndex = 2;
             button3.Text = "Modificar";
             button3.UseVisualStyleBackColor = true;
-            button3.Click += modificar_reservasH;
+            button3.Click += btnModificarReservaH_Click;
             // 
             // button2
             // 
@@ -1202,7 +1160,7 @@
             button2.TabIndex = 1;
             button2.Text = "Cargar";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += cargar_reservasH;
+            button2.Click += btnCargarReservaH_Click;
             // 
             // button1
             // 
@@ -1212,13 +1170,13 @@
             button1.TabIndex = 0;
             button1.Text = "Buscar";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += mostrar_reservasH;
+            button1.Click += btnBuscarReservaH_Click;
             // 
             // reservasVuelos
             // 
+            reservasVuelos.Controls.Add(cb_destinoRV);
+            reservasVuelos.Controls.Add(cb_origenRV);
             reservasVuelos.Controls.Add(button11);
-            reservasVuelos.Controls.Add(tb_destinoRV);
-            reservasVuelos.Controls.Add(tb_origenRV);
             reservasVuelos.Controls.Add(label34);
             reservasVuelos.Controls.Add(label33);
             reservasVuelos.Controls.Add(label31);
@@ -1245,6 +1203,24 @@
             reservasVuelos.Text = "Reservas Vuelos";
             reservasVuelos.UseVisualStyleBackColor = true;
             // 
+            // cb_destinoRV
+            // 
+            cb_destinoRV.DropDownStyle = ComboBoxStyle.DropDownList;
+            cb_destinoRV.FormattingEnabled = true;
+            cb_destinoRV.Location = new Point(158, 87);
+            cb_destinoRV.Name = "cb_destinoRV";
+            cb_destinoRV.Size = new Size(100, 23);
+            cb_destinoRV.TabIndex = 28;
+            // 
+            // cb_origenRV
+            // 
+            cb_origenRV.DropDownStyle = ComboBoxStyle.DropDownList;
+            cb_origenRV.FormattingEnabled = true;
+            cb_origenRV.Location = new Point(35, 87);
+            cb_origenRV.Name = "cb_origenRV";
+            cb_origenRV.Size = new Size(100, 23);
+            cb_origenRV.TabIndex = 27;
+            // 
             // button11
             // 
             button11.Location = new Point(674, 38);
@@ -1254,22 +1230,6 @@
             button11.Text = "Limpiar";
             button11.UseVisualStyleBackColor = true;
             button11.Click += limpiar;
-            // 
-            // tb_destinoRV
-            // 
-            tb_destinoRV.Location = new Point(158, 87);
-            tb_destinoRV.Name = "tb_destinoRV";
-            tb_destinoRV.ReadOnly = true;
-            tb_destinoRV.Size = new Size(100, 23);
-            tb_destinoRV.TabIndex = 25;
-            // 
-            // tb_origenRV
-            // 
-            tb_origenRV.Location = new Point(35, 87);
-            tb_origenRV.Name = "tb_origenRV";
-            tb_origenRV.ReadOnly = true;
-            tb_origenRV.Size = new Size(100, 23);
-            tb_origenRV.TabIndex = 24;
             // 
             // label34
             // 
@@ -1358,7 +1318,7 @@
             button9.TabIndex = 9;
             button9.Text = "Eliminar";
             button9.UseVisualStyleBackColor = true;
-            button9.Click += eliminar_reservasV;
+            button9.Click += btnEliminarReservaV_Click;
             // 
             // button8
             // 
@@ -1368,7 +1328,7 @@
             button8.TabIndex = 8;
             button8.Text = "Modificar";
             button8.UseVisualStyleBackColor = true;
-            button8.Click += modificar_reservasV;
+            button8.Click += btnModificarReservaV_Click;
             // 
             // button7
             // 
@@ -1378,7 +1338,7 @@
             button7.TabIndex = 7;
             button7.Text = "Cargar";
             button7.UseVisualStyleBackColor = true;
-            button7.Click += cargar_reservasV;
+            button7.Click += btnCargarReservaV_Click;
             // 
             // button6
             // 
@@ -1388,7 +1348,7 @@
             button6.TabIndex = 6;
             button6.Text = "Buscar";
             button6.UseVisualStyleBackColor = true;
-            button6.Click += mostrar_reservasV;
+            button6.Click += btnBuscarReservaV_Click;
             // 
             // label28
             // 
@@ -1431,7 +1391,7 @@
             // dataGridViewReservasV
             // 
             dataGridViewReservasV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewReservasV.Columns.AddRange(new DataGridViewColumn[] { Column8, Column2, Column15, Column9, Column16, Column14, Column10 });
+            dataGridViewReservasV.Columns.AddRange(new DataGridViewColumn[] { Column8, Column2, Column15, Column18, Column9, Column16, Column14, Column10 });
             dataGridViewReservasV.Location = new Point(35, 127);
             dataGridViewReservasV.Name = "dataGridViewReservasV";
             dataGridViewReservasV.RowTemplate.Height = 25;
@@ -1457,6 +1417,13 @@
             Column15.HeaderText = "Destino";
             Column15.Name = "Column15";
             Column15.ReadOnly = true;
+            // 
+            // Column18
+            // 
+            Column18.HeaderText = "usuario_id";
+            Column18.Name = "Column18";
+            Column18.ReadOnly = true;
+            Column18.Visible = false;
             // 
             // Column9
             // 
@@ -1511,6 +1478,56 @@
             panelContainer.Size = new Size(850, 440);
             panelContainer.TabIndex = 4;
             // 
+            // Column1
+            // 
+            Column1.HeaderText = "id";
+            Column1.Name = "Column1";
+            Column1.ReadOnly = true;
+            Column1.Visible = false;
+            // 
+            // Column3
+            // 
+            Column3.HeaderText = "Hotel";
+            Column3.Name = "Column3";
+            Column3.ReadOnly = true;
+            // 
+            // Column17
+            // 
+            Column17.HeaderText = "usuario_id";
+            Column17.Name = "Column17";
+            Column17.ReadOnly = true;
+            Column17.Visible = false;
+            // 
+            // Column4
+            // 
+            Column4.HeaderText = "Usuario";
+            Column4.Name = "Column4";
+            Column4.ReadOnly = true;
+            // 
+            // Column5
+            // 
+            Column5.HeaderText = "Fecha Desde";
+            Column5.Name = "Column5";
+            Column5.ReadOnly = true;
+            // 
+            // Column6
+            // 
+            Column6.HeaderText = "Fecha Hasta";
+            Column6.Name = "Column6";
+            Column6.ReadOnly = true;
+            // 
+            // Column7
+            // 
+            Column7.HeaderText = "Pago";
+            Column7.Name = "Column7";
+            Column7.ReadOnly = true;
+            // 
+            // Column11
+            // 
+            Column11.HeaderText = "Cantidad de Personas";
+            Column11.Name = "Column11";
+            Column11.ReadOnly = true;
+            // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1524,14 +1541,14 @@
             Text = "Form3";
             WindowState = FormWindowState.Maximized;
             Load += Form3_Load;
-            vuelos.ResumeLayout(false);
-            vuelos.PerformLayout();
+            vuelosTab.ResumeLayout(false);
+            vuelosTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewVuelos).EndInit();
-            hoteles.ResumeLayout(false);
-            hoteles.PerformLayout();
+            hotelesTab.ResumeLayout(false);
+            hotelesTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2Hoteles).EndInit();
-            usuarios.ResumeLayout(false);
-            usuarios.PerformLayout();
+            usuariosTab.ResumeLayout(false);
+            usuariosTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tabControl1.ResumeLayout(false);
             reservasHoteles.ResumeLayout(false);
@@ -1549,9 +1566,9 @@
         #endregion
 
         private Label titulo;
-        private TabPage vuelos;
-        private TabPage hoteles;
-        private TabPage usuarios;
+        private TabPage vuelosTab;
+        private TabPage hotelesTab;
+        private TabPage usuariosTab;
         private Label label5;
         private Label label4;
         private Label label3;
@@ -1663,22 +1680,6 @@
         private ComboBox cb_ciudadH;
         private ComboBox cb_destinoV;
         private ComboBox cb_origenV;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column3;
-        private DataGridViewTextBoxColumn Column4;
-        private DataGridViewTextBoxColumn Column5;
-        private DataGridViewTextBoxColumn Column6;
-        private DataGridViewTextBoxColumn Column7;
-        private DataGridViewTextBoxColumn Column11;
-        private DataGridViewTextBoxColumn Column8;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column15;
-        private DataGridViewTextBoxColumn Column9;
-        private DataGridViewTextBoxColumn Column16;
-        private DataGridViewTextBoxColumn Column14;
-        private DataGridViewTextBoxColumn Column10;
-        private TextBox tb_destinoRV;
-        private TextBox tb_origenRV;
         private Button button13;
         private Button button14;
         private Button button15;
@@ -1692,5 +1693,23 @@
         private Panel panel1;
         private PictureBox pictureBox1;
         private Panel panelContainer;
+        private ComboBox cb_destinoRV;
+        private ComboBox cb_origenRV;
+        private DataGridViewTextBoxColumn Column8;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn Column15;
+        private DataGridViewTextBoxColumn Column18;
+        private DataGridViewTextBoxColumn Column9;
+        private DataGridViewTextBoxColumn Column16;
+        private DataGridViewTextBoxColumn Column14;
+        private DataGridViewTextBoxColumn Column10;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column3;
+        private DataGridViewTextBoxColumn Column17;
+        private DataGridViewTextBoxColumn Column4;
+        private DataGridViewTextBoxColumn Column5;
+        private DataGridViewTextBoxColumn Column6;
+        private DataGridViewTextBoxColumn Column7;
+        private DataGridViewTextBoxColumn Column11;
     }
 }
