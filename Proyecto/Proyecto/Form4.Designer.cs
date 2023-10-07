@@ -167,7 +167,9 @@
             Controls.Add(tbMail);
             Controls.Add(label1);
             Name = "Form4";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form4";
+            WindowState = FormWindowState.Maximized;
             ResumeLayout(false);
             PerformLayout();
         }

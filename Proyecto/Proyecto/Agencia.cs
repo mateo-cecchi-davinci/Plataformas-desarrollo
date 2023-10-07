@@ -21,6 +21,8 @@ namespace Proyecto
         private int cantVuelos;
         private int cantReservasHoteles;
         private int cantReservasVuelos;
+        private int cantidadPersonasRH;
+        private int cantidadPersonasRV;
 
         public Agencia()
         {
@@ -35,6 +37,8 @@ namespace Proyecto
             cantVuelos = 0;
             cantReservasHoteles = 0;
             cantReservasVuelos = 0;
+            cantidadPersonasRH = 0;
+            cantidadPersonasRV = 0;
         }
 
         public bool agregarUsuario(int dni, string nombre, string apellido, string mail, string clave, bool isAdmin, double credito)
@@ -48,12 +52,34 @@ namespace Proyecto
         {
             foreach (Usuario u in usuarios)
             {
-                if (u.mail.Equals(mail) && u.clave.Equals(clave))
+                if (u.mail.Equals(mail))
                 {
-                    usuarioActual = u;
-                    return true;
+                    if (u.bloqueado)
+                    {
+                        MessageBox.Show("El usuario está bloqueado. Contáctese con el administrador.");
+                        return false;
+                    }
+
+                    if (u.clave.Equals(clave))
+                    {
+                        usuarioActual = u;
+                        u.intentosFallidos = 0;
+                        return true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error, mail o contraseña incorrectos");
+                        u.intentosFallidos++;
+                        if (u.intentosFallidos >= 3)
+                        {
+                            u.bloqueado = true;
+                            MessageBox.Show("El usuario ha sido bloqueado debido a múltiples intentos fallidos.");
+                        }
+                        return false;
+                    }
                 }
             }
+            MessageBox.Show("Mail no registrado");
             return false;
         }
 
@@ -85,6 +111,10 @@ namespace Proyecto
             {
                 if (u.id == id)
                 {
+
+                    //Aca tendria que eliminar las reservas???
+                    //Cuando usemos bdd aca habria que hacer un borrado en cascada???
+
                     usuarios.Remove(u);
                     return true;
                 }
@@ -94,7 +124,7 @@ namespace Proyecto
 
         public string nombreLogueado()
         {
-            return usuarioActual.nombre;
+            return usuarioActual.id.ToString() + ". " + usuarioActual.nombre;
         }
 
         public List<Usuario> obtenerUsuarios()
@@ -112,19 +142,73 @@ namespace Proyecto
             return usuarioActual;
         }
 
-        //Seccion Hoteles
+        //Hoteles
 
-        public bool agregarHotel(Ciudad ubicacion, int capacidad, double costo, string nombre)
+        public List<Hotel> obtenerHoteles()
         {
-            hoteles.Add(new Hotel(cantHoteles, ubicacion, capacidad, costo, nombre));
-            
-            if(ubicacion.hoteles == null)
-            {
-                ubicacion.hoteles = new List<Hotel>();
-            }
-            ubicacion.hoteles.Add(hoteles.Last());
+            return hoteles.ToList();
+        }
+
+        public bool agregarHotel(string ciudad, int capacidad, double costo, string nombre)
+        {
+
+            Ciudad ubicacion = ciudades.FirstOrDefault(c => c.nombre == ciudad);
+
+            Hotel hotelH = new Hotel(cantHoteles, ubicacion, capacidad, costo, nombre);
+            hoteles.Add(hotelH);
+            ubicacion.hoteles.Add(hotelH);
             cantHoteles++;
+
             return true;
+        }
+
+        public bool modificarHotel(int id, string ciudad, int capacidad, double costo, string nombre)
+        {
+
+            foreach (Hotel h in hoteles)
+            {
+                if (h.id == id)
+                {
+                    if (capacidad < h.capacidad)
+                    {
+                        try
+                        {
+                            ReservaHotel reserva = h.misReservas.First(r => DateTime.Now < r.fechaDesde);
+
+                            if (reserva != null)
+                            {
+                                MessageBox.Show("No se puede realizar la modificación porque\" & vbCrLf & \"" +
+                                    "la capacidad ingresada es menor a la anterior\" & vbCrLf & \"" +
+                                    "y el hotel tiene reservas a futuro que pueden\" & vbCrLf & \"" +
+                                    "causar problemas con la disponibilidad.");
+                                return false;
+                            }
+                        }
+                        catch (InvalidOperationException) { }
+                    }
+
+                    Ciudad nuevaUbicacion = ciudades.FirstOrDefault(c => c.nombre == ciudad);
+
+                    if (h.ubicacion != nuevaUbicacion)
+                    {
+                        h.ubicacion.hoteles.Remove(h);
+                    }
+
+                    h.ubicacion = nuevaUbicacion;
+                    h.capacidad = capacidad;
+                    h.costo = costo;
+                    h.nombre = nombre;
+
+                    if (!h.ubicacion.hoteles.Contains(h))
+                    {
+                        h.ubicacion.hoteles.Add(h);
+                    }
+                    MessageBox.Show("Modificado con exito");
+                    return true;
+                }
+            }
+            MessageBox.Show("Hotel no encontrado");
+            return false;
         }
 
         public bool elminarHotel(int id)
@@ -133,68 +217,41 @@ namespace Proyecto
             {
                 if (h.id == id)
                 {
-                    h.ubicacion.hoteles.Remove(h);
-                    hoteles.Remove(h);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool modificarHoteles(int id, Ciudad ubicacion, int capacidad, double costo, string nombre)
-        {
-            foreach (Hotel h in hoteles)
-            {
-                if (h.id == id)
-                {
-                    if (ubicacion.hoteles == null)
+                    h.misReservas.ForEach(rh =>
                     {
-                        ubicacion.hoteles = new List<Hotel>();
-                    }
 
-                    if (h.ubicacion != ubicacion)
-                    {
+                        if (DateTime.Now < rh.fechaDesde)
+                        {
+                            rh.miUsuario.credito += rh.pagado;
+                            rh.miUsuario.misReservasHoteles.Remove(rh);
+                        }
+                        //rh.miUsuario.hotelesVisitados.Remove(h);  --> ESTO VA???
                         h.ubicacion.hoteles.Remove(h);
-                    }
 
-                    h.ubicacion = ubicacion;
-                    h.capacidad = capacidad;
-                    h.costo = costo;
-                    h.nombre = nombre;
+                    });
 
-                    if (!ubicacion.hoteles.Contains(h))
-                    {
-                        ubicacion.hoteles.Add(h);
-                    }
+                    hoteles.Remove(h);
+
                     return true;
                 }
             }
             return false;
-        }
-
-        public List<Hotel> obtenerHoteles()
-        {
-            return hoteles.ToList();
         }
 
         //CRUD Vuelos
-        public bool agregarVuelos(Ciudad origen, Ciudad destino, int capacidad, double costo, DateTime fecha, string aerolinea, string avion)
+        public bool agregarVuelo(string origen, string destino, int capacidad, double costo, DateTime fecha, string aerolinea, string avion)
         {
 
-            if (origen.vuelosOrigen == null)
-            {
-                origen.vuelosOrigen = new List<Vuelo>();
-            }
+            Ciudad ciudadO = ciudades.FirstOrDefault(c => c.nombre == origen);
+            Ciudad ciudadD = ciudades.FirstOrDefault(c => c.nombre == destino);
+            Vuelo vuelo = new Vuelo(cantVuelos, ciudadO, ciudadD, capacidad, costo, fecha, aerolinea, avion);
 
-            if (destino.vuelosDestino == null)
-            {
-                destino.vuelosDestino = new List<Vuelo>();
-            }
+            vuelos.Add(vuelo);
+            ciudadO.vuelos.Add(vuelo);
+            ciudadD.vuelos.Add(vuelo);
 
-            vuelos.Add(new Vuelo(cantVuelos, origen, destino, capacidad, costo, fecha, aerolinea, avion));
-            origen.vuelosOrigen.Add(vuelos.Last());
-            destino.vuelosDestino.Add(vuelos.Last());
             cantVuelos++;
+
             return true;
         }
 
@@ -203,65 +260,65 @@ namespace Proyecto
             return vuelos.ToList();
         }
 
-        public bool modificarVuelos(int id, Ciudad origen, Ciudad destino, int capacidad, double costo, string fecha, string aerolinea, string avion)
+        public bool modificarVuelo(int id, string origen, string destino, int capacidad, double costo, DateTime fecha, string aerolinea, string avion)
         {
             foreach (Vuelo v in vuelos)
             {
                 if (v.id == id)
                 {
 
-                    if (origen.vuelosOrigen == null)
+                    v.misReservas.ForEach(r =>
                     {
-                        origen.vuelosOrigen = new List<Vuelo>();
-                    }
 
-                    if (destino.vuelosDestino == null)
-                    {
-                        destino.vuelosDestino = new List<Vuelo>();
-                    }
+                        cantidadPersonasRV += r.cantPersonas;
 
-                    if (v.origen != origen)
-                    {
-                        v.origen.vuelosOrigen.Remove(v);
-                    }
-                    if (v.destino != destino)
-                    {
-                        v.destino.vuelosDestino.Remove(v);
-                    }
+                    });
 
-                    v.origen = origen;
-                    v.destino = destino;
-                    v.capacidad = capacidad;
-                    v.costo = costo;
-                    v.fecha = DateTime.Parse(fecha);
-                    v.aerolinea = aerolinea;
-                    v.avion = avion;
-
-                    if (!origen.vuelosOrigen.Contains(v))
+                    if (capacidad < cantidadPersonasRV)
                     {
-                        origen.vuelosOrigen.Add(v);
+                        MessageBox.Show("No se puede realizar la modificacion\" & vbCrLf & \"" +
+                            "debido a que la capacidad ingresada\" & vbCrLf & \"" +
+                            "no es suficiente para satisfacer la\" & vbCrLf & \"" +
+                            "cantidad de pasajeros que reservaron");
+                        return false;
                     }
-                    if (!destino.vuelosDestino.Contains(v))
+                    else
                     {
-                        destino.vuelosDestino.Add(v);
-                    }
+                        Ciudad ciudadO = ciudades.FirstOrDefault(c => c.nombre == origen);
+                        Ciudad ciudadD = ciudades.FirstOrDefault(c => c.nombre == destino);
 
-                    return true;
+                        if (v.origen != ciudadO)
+                        {
+                            v.origen.vuelos.Remove(v);
+                        }
+                        if (v.destino != ciudadD)
+                        {
+                            v.destino.vuelos.Remove(v);
+                        }
+
+                        v.origen = ciudadO;
+                        v.destino = ciudadD;
+                        v.capacidad = capacidad;
+                        v.costo = costo;
+                        v.fecha = fecha;
+                        v.aerolinea = aerolinea;
+                        v.avion = avion;
+
+                        if (!ciudadO.vuelos.Contains(v))
+                        {
+                            ciudadO.vuelos.Add(v);
+                        }
+                        if (!ciudadD.vuelos.Contains(v))
+                        {
+                            ciudadD.vuelos.Add(v);
+                        }
+                        MessageBox.Show("Modificado con exito");
+
+                        return true;
+                    }
                 }
             }
-            return false;
-        }
-
-        public bool modificarFechaVuelo(int id, DateTime fecha)
-        {
-            foreach (Vuelo v in vuelos)
-            {
-                if(v.id == id)
-                {
-                    v.fecha = fecha;
-                    return true;
-                }
-            }
+            MessageBox.Show("Vuelo no registrado");
             return false;
         }
 
@@ -271,8 +328,21 @@ namespace Proyecto
             {
                 if (v.id == id)
                 {
-                    v.origen.vuelosOrigen.Remove(v);
-                    v.origen.vuelosDestino.Remove(v);
+
+                    v.misReservas.ForEach(rv =>
+                    {
+
+                        if (DateTime.Now < v.fecha)
+                        {
+                            rv.miUsuario.credito += rv.pagado;
+                            rv.miUsuario.misReservasVuelos.Remove(rv);
+                        }
+
+                        //rv.miUsuario.vuelosTomados.Remove(v); --> ESTO VA???
+                        v.origen.vuelos.Remove(v);
+
+                    });
+
                     vuelos.Remove(v);
                     return true;
                 }
@@ -282,19 +352,72 @@ namespace Proyecto
 
         //Crud ReservaHotel
 
-        public bool agregarReservaHotel(Hotel hotel, Usuario usuario, DateTime fechaDesde, DateTime fechaHasta, double pagado, int cantPersonas)
+        public bool agregarReservaHotel(string hotel, string usuario, DateTime fechaDesde, DateTime fechaHasta, double pagado, int cantPersonas)
         {
-            reservasHotel.Add(new ReservaHotel(cantReservasHoteles, hotel, usuario, fechaDesde, fechaHasta, pagado, cantPersonas));
 
-            if (usuario.misReservasHoteles == null)
+            string u = usuario.Substring(0, 1);
+            int usuario_id = int.Parse(u);
+
+            Usuario usuarioSeleccionado = usuarios.FirstOrDefault(u => u.id == usuario_id);
+            Hotel hotelSeleccionado = hoteles.FirstOrDefault(h => h.nombre == hotel);
+
+            if (hotelSeleccionado == null)
             {
-                usuario.misReservasHoteles = new List<ReservaHotel>();
+                MessageBox.Show("El hotel no se encuentra disponible");
+                return false;
             }
 
-            usuario.misReservasHoteles.Add(new ReservaHotel(hotel, usuario, fechaDesde, fechaHasta, hotel.costo, cantPersonas));
+            if (usuarioSeleccionado == null)
+            {
+                MessageBox.Show("El usuario no se encuentra disponible");
+                return false;
+            }
 
-            cantReservasHoteles++;
-            return true;
+            hotelSeleccionado.misReservas.ForEach(r =>
+            {
+                if (r.fechaDesde < fechaHasta && r.fechaHasta > fechaDesde)
+                {
+                    cantidadPersonasRH += r.cantPersonas;
+                }
+            });
+
+            cantidadPersonasRH += cantPersonas;
+
+            if (hotelSeleccionado.capacidad < cantidadPersonasRH)
+            {
+                MessageBox.Show("El hotel no tiene disponibilidad para esa cantidad de personas");
+                return false;
+            }
+            else if (cantPersonas <= 0 || cantPersonas > 10)
+            {
+                MessageBox.Show("Cantidad de personas inválida");
+                return false;
+            }
+            else if (pagado > usuarioSeleccionado.credito)
+            {
+                MessageBox.Show("Crédito insuficiente");
+                return false;
+            }
+            else if (pagado >= hotelSeleccionado.costo * cantPersonas)
+            {
+                usuarioSeleccionado.credito -= hotelSeleccionado.costo * cantPersonas;
+                pagado = hotelSeleccionado.costo * cantPersonas;
+
+                ReservaHotel nuevaReserva = new ReservaHotel(cantReservasHoteles, hotelSeleccionado, usuarioSeleccionado, fechaDesde, fechaHasta, pagado, cantPersonas);
+
+                reservasHotel.Add(nuevaReserva);
+                usuarioSeleccionado.misReservasHoteles.Add(nuevaReserva);
+                hotelSeleccionado.misReservas.Add(nuevaReserva);
+
+                cantReservasHoteles++;
+
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Pago insuficiente");
+                return false;
+            }
         }
 
         public List<ReservaHotel> obtenerReservaHotel()
@@ -302,33 +425,111 @@ namespace Proyecto
             return reservasHotel.ToList();
         }
 
-        public bool modificarReservaHotel(int id, Hotel hotel, Usuario usuario, string fechaDesde, string fechaHasta, double pagado, int cantParseadas)
+        public bool modificarReservaHotel(int id, string hotel, string usuario, DateTime fechaDesde, DateTime fechaHasta, double pagado, int cantidad)
         {
+
+            string u = usuario.Substring(0, 1);
+            int usuario_id = int.Parse(u);
+
+            Usuario usuarioSeleccionado = usuarios.FirstOrDefault(u => u.id == usuario_id);
+            Hotel hotelSeleccionado = hoteles.FirstOrDefault(h => h.nombre == hotel);
+
+            if (hotelSeleccionado == null)
+            {
+                MessageBox.Show("El hotel no se encuentra disponible");
+                return false;
+            }
+            else if (usuarioSeleccionado == null)
+            {
+                MessageBox.Show("El usuario no se encuentra disponible");
+                return false;
+            }
+            else if (cantidad <= 0 || cantidad > 10)
+            {
+                MessageBox.Show("Cantidad de personas inválida");
+                return false;
+            }
+
+            hotelSeleccionado.misReservas.ForEach(r =>
+            {
+                if (r.fechaDesde < fechaHasta && r.fechaHasta > fechaDesde)
+                {
+                    cantidadPersonasRH += r.cantPersonas;
+                }
+            });
+
             foreach (ReservaHotel rh in reservasHotel)
             {
                 if (rh.id == id)
                 {
 
-                    if (usuario.misReservasHoteles == null)
+                    cantidadPersonasRH -= rh.cantPersonas;
+                    cantidadPersonasRH += cantidad;
+
+                    if (hotelSeleccionado.capacidad > cantidadPersonasRH)
                     {
-                        usuario.misReservasHoteles = new List<ReservaHotel>();
+
+                        if (usuarioSeleccionado.credito >= pagado)
+                        {
+
+                            if (usuarioSeleccionado.credito + rh.pagado - pagado >= hotelSeleccionado.costo * cantidad)
+                            {
+
+                                if (hotelSeleccionado != rh.miHotel)
+                                {
+                                    rh.miHotel.misReservas.Remove(rh);
+                                }
+
+                                if (usuarioSeleccionado != rh.miUsuario)
+                                {
+                                    rh.miUsuario.credito += rh.pagado;
+                                    rh.miUsuario.misReservasHoteles.Remove(rh);
+                                }
+
+                                pagado = hotelSeleccionado.costo * cantidad;
+
+                                usuarioSeleccionado.credito += rh.pagado;
+                                usuarioSeleccionado.credito -= pagado;
+
+                                hotelSeleccionado.misReservas.Remove(rh);
+                                usuarioSeleccionado.misReservasHoteles.Remove(rh);
+
+                                rh.miHotel = hotelSeleccionado;
+                                rh.miUsuario = usuarioSeleccionado;
+                                rh.fechaDesde = fechaDesde;
+                                rh.fechaHasta = fechaHasta;
+                                rh.pagado = pagado;
+                                rh.cantPersonas = cantidad;
+
+                                hotelSeleccionado.misReservas.Add(rh);
+                                usuarioSeleccionado.misReservasHoteles.Add(rh);
+                                MessageBox.Show("Modificada con exito");
+
+                                return true;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Pago insuficiente");
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Crédito insuficiente");
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("El hotel no tiene disponibilidad para esa cantidad de personas");
+                        return false;
                     }
 
-                    usuario.misReservasHoteles.Remove(rh);
-
-                    rh.miHotel = hotel;
-                    rh.miUsuario = usuario;
-                    rh.fechaDesde = DateTime.Parse(fechaDesde);
-                    rh.fechaHasta = DateTime.Parse(fechaHasta);
-                    rh.pagado = pagado;
-                    rh.cantPersonas = cantParseadas;
-
-                    usuario.misReservasHoteles.Add(rh);
-
-                    return true;
                 }
+
             }
             return false;
+
         }
 
         public bool elminarReservaHotel(int id)
@@ -337,7 +538,15 @@ namespace Proyecto
             {
                 if (rh.id == id)
                 {
+
+                    if (DateTime.Now < rh.fechaDesde)
+                    {
+                        rh.miUsuario.credito += rh.miHotel.costo;
+                    }
+
+                    //rh.miUsuario.hotelesVisitados.Remove(rh.miHotel); <--- ESTO VA???
                     rh.miUsuario.misReservasHoteles.Remove(rh);
+                    rh.miHotel.misReservas.Remove(rh);
                     reservasHotel.Remove(rh);
                     return true;
                 }
@@ -345,37 +554,67 @@ namespace Proyecto
             return false;
         }
 
-        //public void validarCapacidad(DateTime fechaDesde, DateTime fechaHasta)
-        //{
-        //    foreach (Hotel hotel in hoteles)
-        //    {
-        //        foreach (ReservaHotel rh in reservasHotel)
-        //        {
-        //            bool haySuperposicion = hoteles.Any(hotel => hotel.id == rh.miHotel.id && (fechaDesde >= rh.fechaDesde && fechaDesde <= rh.fechaHasta) || (fechaHasta >= rh.fechaDesde && fechaHasta <= rh.fechaHasta));
-
-        //            if (haySuperposicion)
-        //            {
-                        
-        //            }
-        //        }
-        //    }
-        //}
-
         //Crud ReservaVuelo
 
-        public bool agregarReservaVuelo(Vuelo vuelo, Usuario usuario, double pagado, int cantPersonas)
+        public bool agregarReservaVuelo(string origen, string destino, string usuario, double pagado, int cantPersonas, DateTime fecha)
         {
-            reservasVuelo.Add(new ReservaVuelo(cantReservasVuelos, vuelo, usuario, pagado, cantPersonas));
 
-            if (usuario.misReservasVuelos == null)
+
+            string u = usuario.Substring(0, 1);
+            int usuario_id = int.Parse(u);
+
+            Usuario usuarioSeleccionado = usuarios.FirstOrDefault(u => u.id == usuario_id);
+            Vuelo vueloSeleccionado = vuelos.FirstOrDefault(v => v.origen.nombre == origen && v.destino.nombre == destino && v.fecha == fecha);
+
+            if (vueloSeleccionado == null)
             {
-                usuario.misReservasVuelos = new List<ReservaVuelo>();
+                MessageBox.Show("El vuelo no se encuentra disponible");
+                return false;
             }
 
-            usuario.misReservasVuelos.Add(new ReservaVuelo(vuelo, usuario, vuelo.costo, cantPersonas));
+            if (usuarioSeleccionado == null)
+            {
+                MessageBox.Show("El usuario no se encuentra disponible");
+                return false;
+            }
 
-            cantReservasVuelos++;
-            return true;
+            if ((vueloSeleccionado.capacidad - cantPersonas) < 0)
+            {
+                MessageBox.Show("La cantidad de personas ingresada excede la capacidad del vuelo");
+                return false;
+            }
+            else if (cantPersonas <= 0 || cantPersonas > 10)
+            {
+                MessageBox.Show("Cantidad de personas inválida");
+                return false;
+            }
+            else if (pagado > usuarioSeleccionado.credito)
+            {
+                MessageBox.Show("Crédito insuficiente");
+                return false;
+            }
+            else if (pagado >= vueloSeleccionado.costo * cantPersonas)
+            {
+                vueloSeleccionado.capacidad -= cantPersonas;
+                usuarioSeleccionado.credito -= vueloSeleccionado.costo * cantPersonas;
+                pagado = vueloSeleccionado.costo * cantPersonas;
+
+                ReservaVuelo rv = new ReservaVuelo(cantReservasVuelos, vueloSeleccionado, usuarioSeleccionado, pagado, cantPersonas);
+
+                reservasVuelo.Add(rv);
+                usuarioSeleccionado.misReservasVuelos.Add(rv);
+                vueloSeleccionado.misReservas.Add(rv);
+
+                cantReservasVuelos++;
+
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Pago insuficiente");
+                return false;
+            }
+
         }
 
         public List<ReservaVuelo> obtenerReservaVuelo()
@@ -383,28 +622,94 @@ namespace Proyecto
             return reservasVuelo.ToList();
         }
 
-        public bool modificarReservaVuelo(int id, Vuelo vuelo, Usuario usuario, double pagado, int cantPersonas)
+        public bool modificarReservaVuelo(int id, string origen, string destino, string usuario, double pagado, int cantPersonas, DateTime fecha)
         {
             foreach (ReservaVuelo rv in reservasVuelo)
             {
                 if (rv.id == id)
                 {
 
-                    if (usuario.misReservasVuelos == null)
+                    string u = usuario.Substring(0, 1);
+                    int usuario_id = int.Parse(u);
+
+                    try
                     {
-                        usuario.misReservasVuelos = new List<ReservaVuelo>();
+                        Usuario usuarioSeleccionado = usuarios.FirstOrDefault(u => u.id == usuario_id);
+                        Vuelo vueloSeleccionado = vuelos.FirstOrDefault(v => v.origen.nombre == origen && v.destino.nombre == destino && v.fecha == fecha);
+
+                        if (vueloSeleccionado == null)
+                        {
+                            MessageBox.Show("El vuelo no se encuentra disponible");
+                            return false;
+                        }
+                        else if (usuarioSeleccionado == null)
+                        {
+                            MessageBox.Show("El usuario no se encuentra disponible");
+                            return false;
+                        }
+                        else if (cantPersonas <= 0 || cantPersonas > 10)
+                        {
+                            MessageBox.Show("Cantidad de personas inválida");
+                            return false;
+                        }
+
+                        if (usuarioSeleccionado.credito >= pagado)
+                        {
+
+                            if (usuarioSeleccionado.credito + rv.pagado - pagado >= vueloSeleccionado.costo * cantPersonas)
+                            {
+
+                                if (vueloSeleccionado != rv.miVuelo)
+                                {
+                                    rv.miVuelo.capacidad += rv.cantPersonas;
+                                    rv.miVuelo.misReservas.Remove(rv);
+                                }
+
+                                if (usuarioSeleccionado != rv.miUsuario)
+                                {
+                                    rv.miUsuario.credito += rv.pagado;
+                                    rv.miUsuario.misReservasVuelos.Remove(rv);
+                                }
+
+                                vueloSeleccionado.capacidad += rv.cantPersonas;
+                                vueloSeleccionado.capacidad -= cantPersonas;
+
+                                usuarioSeleccionado.credito += rv.pagado;
+                                usuarioSeleccionado.credito -= vueloSeleccionado.costo * cantPersonas;
+
+                                pagado = vueloSeleccionado.costo * cantPersonas;
+
+                                usuarioSeleccionado.misReservasVuelos.Remove(rv);
+                                vueloSeleccionado.misReservas.Remove(rv);
+
+                                rv.miVuelo = vueloSeleccionado;
+                                rv.miUsuario = usuarioSeleccionado;
+                                rv.pagado = pagado;
+                                rv.cantPersonas = cantPersonas;
+
+                                usuarioSeleccionado.misReservasVuelos.Add(rv);
+                                vueloSeleccionado.misReservas.Add(rv);
+
+                                MessageBox.Show("Modificada con exito");
+
+                                return true;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Pago insuficiente");
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Crédito insuficiente");
+                        }
                     }
-
-                    usuario.misReservasVuelos.Remove(rv);
-
-                    rv.miVuelo = vuelo;
-                    rv.miUsuario = usuario;
-                    rv.pagado = pagado;
-                    rv.cantPersonas = cantPersonas;
-
-                    usuario.misReservasVuelos.Add(rv);
-
-                    return true;
+                    catch (InvalidOperationException)
+                    {
+                        MessageBox.Show("El vuelo ingresado no existe");
+                        return false;
+                    }
                 }
             }
             return false;
@@ -416,7 +721,15 @@ namespace Proyecto
             {
                 if (rv.id == id)
                 {
+
+                    if (DateTime.Now < rv.miVuelo.fecha)
+                    {
+                        rv.miUsuario.credito += rv.miVuelo.costo;
+                    }
+
+                    //rv.miUsuario.vuelosTomados.Remove(rv.miVuelo); <--- ESTO VA???
                     rv.miUsuario.misReservasVuelos.Remove(rv);
+                    rv.miVuelo.misReservas.Remove(rv);
                     reservasVuelo.Remove(rv);
                     return true;
                 }
@@ -426,16 +739,90 @@ namespace Proyecto
 
         //Ciudades
 
-        public List<Ciudad> obtenerCiudad()
+        public List<Ciudad> obtenerCiudades()
         {
-            return ciudades.ToList();
+            return ciudades;
         }
+
+        //  ***Esto creo que va a servir despues :)***
+        //public int obtenerCiudadId(string ciudad)
+        //{
+        //    Ciudad ciudadEncontrada = ciudades.FirstOrDefault(c => c.nombre == ciudad);
+
+        //    if (ciudadEncontrada != null)
+        //    {
+        //        return ciudadEncontrada.id;
+        //    }
+
+        //    return -1;
+        //}
 
         public bool agregarCiudad(string nombre)
         {
             ciudades.Add(new Ciudad(nombre));
             return true;
         }
+
+
+        //ESTO ERA PARA QUE CUANDO SE ELIGE UN ORIGEN EN RESERVA VUELO,
+        //LOS DESTINOS QUE SE MUESTREN EN EL COMBO BOX DE AL LADO SEAN EN FUNCION
+        //DE VUELOS QUE ESTAN ASOCIADOS AL ORIGEN INGRESADO Y VICEVERSA
+
+        //public List<string> obtenerDestinosAsociadosAlOrigen(string origen)
+        //{
+
+        //    if (origen == "")
+        //    {
+        //        List<string> listaCiudades = new List<string>();
+        //        listaCiudades.Add("");
+
+        //        foreach (Ciudad c in ciudades)
+        //        {
+        //            listaCiudades.Add(c.nombre);
+        //        }
+        //        return listaCiudades;
+        //    }
+
+        //    List<string> destinos = new List<string>();
+
+        //    foreach (Vuelo vuelo in vuelos)
+        //    {
+        //        if (vuelo.origen.nombre == origen)
+        //        {
+        //            destinos.Add(vuelo.destino.nombre);
+        //        }
+        //    }
+
+        //    return destinos;
+        //}
+
+        //public List<string> obtenerOrigenesAsociadosAlDestino(string destino)
+        //{
+
+        //    if (destino == "")
+        //    {
+        //        List<string> listaCiudades = new List<string>();
+        //        listaCiudades.Add("");
+
+        //        foreach (Ciudad c in ciudades)
+        //        {
+        //            listaCiudades.Add(c.nombre);
+        //        }
+        //        return listaCiudades;
+        //    }
+
+        //    List<string> origenes = new List<string>();
+
+        //    foreach (Vuelo vuelo in vuelos)
+        //    {
+        //        if (vuelo.destino.nombre == destino)
+        //        {
+        //            origenes.Add(vuelo.origen.nombre);
+        //        }
+        //    }
+
+        //    return origenes;
+        //}
 
     }
 }
