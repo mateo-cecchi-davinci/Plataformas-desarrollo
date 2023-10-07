@@ -128,6 +128,14 @@
             nombreUsuarioRH = new Label();
             label14 = new Label();
             dataGridViewReservasH = new DataGridView();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column3 = new DataGridViewTextBoxColumn();
+            Column17 = new DataGridViewTextBoxColumn();
+            Column4 = new DataGridViewTextBoxColumn();
+            Column5 = new DataGridViewTextBoxColumn();
+            Column6 = new DataGridViewTextBoxColumn();
+            Column7 = new DataGridViewTextBoxColumn();
+            Column11 = new DataGridViewTextBoxColumn();
             button5 = new Button();
             button4 = new Button();
             button3 = new Button();
@@ -166,14 +174,7 @@
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
             panelContainer = new Panel();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column3 = new DataGridViewTextBoxColumn();
-            Column17 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            Column5 = new DataGridViewTextBoxColumn();
-            Column6 = new DataGridViewTextBoxColumn();
-            Column7 = new DataGridViewTextBoxColumn();
-            Column11 = new DataGridViewTextBoxColumn();
+            label26 = new Label();
             vuelosTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewVuelos).BeginInit();
             hotelesTab.SuspendLayout();
@@ -224,9 +225,9 @@
             // 
             // button13
             // 
-            button13.Location = new Point(689, 36);
+            button13.Location = new Point(706, 80);
             button13.Name = "button13";
-            button13.Size = new Size(75, 23);
+            button13.Size = new Size(107, 23);
             button13.TabIndex = 61;
             button13.Text = "Limpiar";
             button13.UseVisualStyleBackColor = true;
@@ -236,7 +237,7 @@
             // 
             cb_destinoV.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_destinoV.FormattingEnabled = true;
-            cb_destinoV.Location = new Point(116, 83);
+            cb_destinoV.Location = new Point(146, 80);
             cb_destinoV.Name = "cb_destinoV";
             cb_destinoV.Size = new Size(100, 23);
             cb_destinoV.TabIndex = 60;
@@ -245,7 +246,7 @@
             // 
             cb_origenV.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_origenV.FormattingEnabled = true;
-            cb_origenV.Location = new Point(10, 83);
+            cb_origenV.Location = new Point(35, 80);
             cb_origenV.Name = "cb_origenV";
             cb_origenV.Size = new Size(100, 23);
             cb_origenV.TabIndex = 59;
@@ -253,7 +254,7 @@
             // label32
             // 
             label32.AutoSize = true;
-            label32.Location = new Point(566, 124);
+            label32.Location = new Point(591, 122);
             label32.Name = "label32";
             label32.Size = new Size(63, 15);
             label32.TabIndex = 58;
@@ -261,7 +262,7 @@
             // 
             // tbCapacidad
             // 
-            tbCapacidad.Location = new Point(566, 142);
+            tbCapacidad.Location = new Point(591, 140);
             tbCapacidad.Name = "tbCapacidad";
             tbCapacidad.Size = new Size(100, 23);
             tbCapacidad.TabIndex = 57;
@@ -269,7 +270,7 @@
             // label19
             // 
             label19.AutoSize = true;
-            label19.Location = new Point(224, 65);
+            label19.Location = new Point(257, 62);
             label19.Name = "label19";
             label19.Size = new Size(38, 15);
             label19.TabIndex = 56;
@@ -277,7 +278,7 @@
             // 
             // textBox_costo_vuelos
             // 
-            textBox_costo_vuelos.Location = new Point(224, 83);
+            textBox_costo_vuelos.Location = new Point(257, 80);
             textBox_costo_vuelos.Name = "textBox_costo_vuelos";
             textBox_costo_vuelos.Size = new Size(100, 23);
             textBox_costo_vuelos.TabIndex = 55;
@@ -285,7 +286,7 @@
             // dateTimePicker_vuelos
             // 
             dateTimePicker_vuelos.Format = DateTimePickerFormat.Custom;
-            dateTimePicker_vuelos.Location = new Point(333, 83);
+            dateTimePicker_vuelos.Location = new Point(367, 80);
             dateTimePicker_vuelos.Name = "dateTimePicker_vuelos";
             dateTimePicker_vuelos.Size = new Size(100, 23);
             dateTimePicker_vuelos.TabIndex = 54;
@@ -294,7 +295,7 @@
             // label18
             // 
             label18.AutoSize = true;
-            label18.Location = new Point(446, 65);
+            label18.Location = new Point(478, 62);
             label18.Name = "label18";
             label18.Size = new Size(38, 15);
             label18.TabIndex = 53;
@@ -302,7 +303,7 @@
             // 
             // textBox_avion_vuelos
             // 
-            textBox_avion_vuelos.Location = new Point(446, 83);
+            textBox_avion_vuelos.Location = new Point(478, 80);
             textBox_avion_vuelos.Name = "textBox_avion_vuelos";
             textBox_avion_vuelos.Size = new Size(100, 23);
             textBox_avion_vuelos.TabIndex = 52;
@@ -310,7 +311,7 @@
             // label17
             // 
             label17.AutoSize = true;
-            label17.Location = new Point(566, 64);
+            label17.Location = new Point(591, 62);
             label17.Name = "label17";
             label17.Size = new Size(57, 15);
             label17.TabIndex = 51;
@@ -318,7 +319,7 @@
             // 
             // textBox_aerolineas_vuelos
             // 
-            textBox_aerolineas_vuelos.Location = new Point(566, 82);
+            textBox_aerolineas_vuelos.Location = new Point(591, 80);
             textBox_aerolineas_vuelos.Name = "textBox_aerolineas_vuelos";
             textBox_aerolineas_vuelos.Size = new Size(100, 23);
             textBox_aerolineas_vuelos.TabIndex = 50;
@@ -326,7 +327,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(333, 65);
+            label9.Location = new Point(367, 62);
             label9.Name = "label9";
             label9.Size = new Size(38, 15);
             label9.TabIndex = 49;
@@ -334,9 +335,9 @@
             // 
             // Cargar_vuelos
             // 
-            Cargar_vuelos.Location = new Point(689, 129);
+            Cargar_vuelos.Location = new Point(706, 173);
             Cargar_vuelos.Name = "Cargar_vuelos";
-            Cargar_vuelos.Size = new Size(75, 23);
+            Cargar_vuelos.Size = new Size(107, 23);
             Cargar_vuelos.TabIndex = 47;
             Cargar_vuelos.Text = "Cargar";
             Cargar_vuelos.UseVisualStyleBackColor = true;
@@ -345,7 +346,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(116, 65);
+            label10.Location = new Point(146, 62);
             label10.Name = "label10";
             label10.Size = new Size(47, 15);
             label10.TabIndex = 46;
@@ -354,7 +355,7 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(10, 65);
+            label13.Location = new Point(35, 62);
             label13.Name = "label13";
             label13.Size = new Size(43, 15);
             label13.TabIndex = 45;
@@ -362,9 +363,9 @@
             // 
             // Mostrar_vuelos
             // 
-            Mostrar_vuelos.Location = new Point(689, 81);
+            Mostrar_vuelos.Location = new Point(706, 125);
             Mostrar_vuelos.Name = "Mostrar_vuelos";
-            Mostrar_vuelos.Size = new Size(75, 23);
+            Mostrar_vuelos.Size = new Size(107, 23);
             Mostrar_vuelos.TabIndex = 40;
             Mostrar_vuelos.Text = "Buscar";
             Mostrar_vuelos.UseVisualStyleBackColor = true;
@@ -372,9 +373,9 @@
             // 
             // Eliminar_vuelos
             // 
-            Eliminar_vuelos.Location = new Point(689, 225);
+            Eliminar_vuelos.Location = new Point(706, 269);
             Eliminar_vuelos.Name = "Eliminar_vuelos";
-            Eliminar_vuelos.Size = new Size(75, 23);
+            Eliminar_vuelos.Size = new Size(107, 23);
             Eliminar_vuelos.TabIndex = 39;
             Eliminar_vuelos.Text = "Eliminar";
             Eliminar_vuelos.UseVisualStyleBackColor = true;
@@ -382,9 +383,9 @@
             // 
             // Modificar_vuelos
             // 
-            Modificar_vuelos.Location = new Point(689, 177);
+            Modificar_vuelos.Location = new Point(706, 221);
             Modificar_vuelos.Name = "Modificar_vuelos";
-            Modificar_vuelos.Size = new Size(75, 23);
+            Modificar_vuelos.Size = new Size(107, 23);
             Modificar_vuelos.TabIndex = 38;
             Modificar_vuelos.Text = "Modificar";
             Modificar_vuelos.UseVisualStyleBackColor = true;
@@ -392,9 +393,9 @@
             // 
             // Salir_vuelos
             // 
-            Salir_vuelos.Location = new Point(689, 270);
+            Salir_vuelos.Location = new Point(706, 314);
             Salir_vuelos.Name = "Salir_vuelos";
-            Salir_vuelos.Size = new Size(75, 23);
+            Salir_vuelos.Size = new Size(107, 23);
             Salir_vuelos.TabIndex = 37;
             Salir_vuelos.Text = "Salir";
             Salir_vuelos.UseVisualStyleBackColor = true;
@@ -404,7 +405,7 @@
             // 
             nombreUsuarioVuelos.AutoSize = true;
             nombreUsuarioVuelos.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            nombreUsuarioVuelos.Location = new Point(167, 18);
+            nombreUsuarioVuelos.Location = new Point(167, 22);
             nombreUsuarioVuelos.Name = "nombreUsuarioVuelos";
             nombreUsuarioVuelos.Size = new Size(52, 21);
             nombreUsuarioVuelos.TabIndex = 36;
@@ -414,7 +415,7 @@
             // 
             label16.AutoSize = true;
             label16.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label16.Location = new Point(35, 18);
+            label16.Location = new Point(35, 22);
             label16.Name = "label16";
             label16.Size = new Size(94, 21);
             label16.TabIndex = 35;
@@ -424,11 +425,11 @@
             // 
             dataGridViewVuelos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewVuelos.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn10, Column13, Fecha, Aerolinea, Avion });
-            dataGridViewVuelos.Location = new Point(10, 130);
+            dataGridViewVuelos.Location = new Point(35, 124);
             dataGridViewVuelos.Name = "dataGridViewVuelos";
             dataGridViewVuelos.ReadOnly = true;
             dataGridViewVuelos.RowTemplate.Height = 25;
-            dataGridViewVuelos.Size = new Size(536, 178);
+            dataGridViewVuelos.Size = new Size(543, 240);
             dataGridViewVuelos.TabIndex = 34;
             dataGridViewVuelos.CellDoubleClick += dataGridViewVuelos_CellDoubleClick;
             // 
@@ -485,6 +486,7 @@
             // 
             // hotelesTab
             // 
+            hotelesTab.Controls.Add(label26);
             hotelesTab.Controls.Add(button14);
             hotelesTab.Controls.Add(cb_ciudadH);
             hotelesTab.Controls.Add(label12);
@@ -511,9 +513,9 @@
             // 
             // button14
             // 
-            button14.Location = new Point(640, 46);
+            button14.Location = new Point(606, 88);
             button14.Name = "button14";
-            button14.Size = new Size(100, 23);
+            button14.Size = new Size(144, 23);
             button14.TabIndex = 35;
             button14.Text = "Limpiar";
             button14.UseVisualStyleBackColor = true;
@@ -523,7 +525,7 @@
             // 
             cb_ciudadH.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_ciudadH.FormattingEnabled = true;
-            cb_ciudadH.Location = new Point(156, 85);
+            cb_ciudadH.Location = new Point(211, 89);
             cb_ciudadH.Name = "cb_ciudadH";
             cb_ciudadH.Size = new Size(100, 23);
             cb_ciudadH.TabIndex = 34;
@@ -531,7 +533,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(277, 67);
+            label12.Location = new Point(332, 71);
             label12.Name = "label12";
             label12.Size = new Size(38, 15);
             label12.TabIndex = 33;
@@ -539,16 +541,16 @@
             // 
             // textBoxCosto
             // 
-            textBoxCosto.Location = new Point(277, 85);
+            textBoxCosto.Location = new Point(332, 89);
             textBoxCosto.Name = "textBoxCosto";
             textBoxCosto.Size = new Size(100, 23);
             textBoxCosto.TabIndex = 32;
             // 
             // Salir
             // 
-            Salir.Location = new Point(640, 270);
+            Salir.Location = new Point(606, 312);
             Salir.Name = "Salir";
-            Salir.Size = new Size(100, 23);
+            Salir.Size = new Size(144, 23);
             Salir.TabIndex = 31;
             Salir.Text = "Salir";
             Salir.UseVisualStyleBackColor = true;
@@ -557,7 +559,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(397, 67);
+            label6.Location = new Point(452, 71);
             label6.Name = "label6";
             label6.Size = new Size(63, 15);
             label6.TabIndex = 30;
@@ -566,7 +568,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(35, 67);
+            label7.Location = new Point(90, 71);
             label7.Name = "label7";
             label7.Size = new Size(36, 15);
             label7.TabIndex = 29;
@@ -575,7 +577,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(156, 67);
+            label8.Location = new Point(211, 71);
             label8.Name = "label8";
             label8.Size = new Size(45, 15);
             label8.TabIndex = 28;
@@ -583,23 +585,23 @@
             // 
             // textBoxNombre
             // 
-            textBoxNombre.Location = new Point(35, 85);
+            textBoxNombre.Location = new Point(90, 89);
             textBoxNombre.Name = "textBoxNombre";
             textBoxNombre.Size = new Size(100, 23);
             textBoxNombre.TabIndex = 26;
             // 
             // textBoxCapacidad
             // 
-            textBoxCapacidad.Location = new Point(397, 85);
+            textBoxCapacidad.Location = new Point(452, 89);
             textBoxCapacidad.Name = "textBoxCapacidad";
-            textBoxCapacidad.Size = new Size(100, 23);
+            textBoxCapacidad.Size = new Size(81, 23);
             textBoxCapacidad.TabIndex = 25;
             // 
             // Eliminar
             // 
-            Eliminar.Location = new Point(640, 223);
+            Eliminar.Location = new Point(606, 265);
             Eliminar.Name = "Eliminar";
-            Eliminar.Size = new Size(100, 23);
+            Eliminar.Size = new Size(144, 23);
             Eliminar.TabIndex = 22;
             Eliminar.Text = "Eliminar";
             Eliminar.UseVisualStyleBackColor = true;
@@ -607,9 +609,9 @@
             // 
             // Modificar
             // 
-            Modificar.Location = new Point(640, 178);
+            Modificar.Location = new Point(606, 220);
             Modificar.Name = "Modificar";
-            Modificar.Size = new Size(100, 23);
+            Modificar.Size = new Size(144, 23);
             Modificar.TabIndex = 21;
             Modificar.Text = "Modificar";
             Modificar.UseVisualStyleBackColor = true;
@@ -617,9 +619,9 @@
             // 
             // Cargar
             // 
-            Cargar.Location = new Point(640, 133);
+            Cargar.Location = new Point(606, 175);
             Cargar.Name = "Cargar";
-            Cargar.Size = new Size(100, 23);
+            Cargar.Size = new Size(144, 23);
             Cargar.TabIndex = 20;
             Cargar.Text = "Cargar";
             Cargar.UseVisualStyleBackColor = true;
@@ -627,9 +629,9 @@
             // 
             // Mostrar
             // 
-            Mostrar.Location = new Point(640, 89);
+            Mostrar.Location = new Point(606, 131);
             Mostrar.Name = "Mostrar";
-            Mostrar.Size = new Size(100, 23);
+            Mostrar.Size = new Size(144, 23);
             Mostrar.TabIndex = 19;
             Mostrar.Text = "Buscar";
             Mostrar.UseVisualStyleBackColor = true;
@@ -639,7 +641,7 @@
             // 
             nombreUsuarioH.AutoSize = true;
             nombreUsuarioH.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            nombreUsuarioH.Location = new Point(167, 18);
+            nombreUsuarioH.Location = new Point(211, 28);
             nombreUsuarioH.Name = "nombreUsuarioH";
             nombreUsuarioH.Size = new Size(52, 21);
             nombreUsuarioH.TabIndex = 18;
@@ -649,11 +651,11 @@
             // 
             dataGridView2Hoteles.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2Hoteles.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn3 });
-            dataGridView2Hoteles.Location = new Point(35, 124);
+            dataGridView2Hoteles.Location = new Point(90, 128);
             dataGridView2Hoteles.Name = "dataGridView2Hoteles";
             dataGridView2Hoteles.ReadOnly = true;
             dataGridView2Hoteles.RowTemplate.Height = 25;
-            dataGridView2Hoteles.Size = new Size(543, 186);
+            dataGridView2Hoteles.Size = new Size(443, 240);
             dataGridView2Hoteles.TabIndex = 16;
             dataGridView2Hoteles.CellContentDoubleClick += dataGridViewHoteles_CellDoubleClick;
             // 
@@ -728,9 +730,9 @@
             // 
             // button15
             // 
-            button15.Location = new Point(636, 68);
+            button15.Location = new Point(651, 86);
             button15.Name = "button15";
-            button15.Size = new Size(100, 23);
+            button15.Size = new Size(139, 23);
             button15.TabIndex = 27;
             button15.Text = "Limpiar";
             button15.UseVisualStyleBackColor = true;
@@ -818,9 +820,9 @@
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(636, 258);
+            btnSalir.Location = new Point(651, 276);
             btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(100, 23);
+            btnSalir.Size = new Size(139, 23);
             btnSalir.TabIndex = 7;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = true;
@@ -828,9 +830,9 @@
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(636, 213);
+            btnEliminar.Location = new Point(651, 231);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.Size = new Size(100, 23);
+            btnEliminar.Size = new Size(139, 23);
             btnEliminar.TabIndex = 6;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
@@ -838,9 +840,9 @@
             // 
             // btnModificar
             // 
-            btnModificar.Location = new Point(636, 165);
+            btnModificar.Location = new Point(651, 183);
             btnModificar.Name = "btnModificar";
-            btnModificar.Size = new Size(100, 23);
+            btnModificar.Size = new Size(139, 23);
             btnModificar.TabIndex = 5;
             btnModificar.Text = "Modificar";
             btnModificar.UseVisualStyleBackColor = true;
@@ -848,9 +850,9 @@
             // 
             // btnBuscar
             // 
-            btnBuscar.Location = new Point(636, 116);
+            btnBuscar.Location = new Point(651, 134);
             btnBuscar.Name = "btnBuscar";
-            btnBuscar.Size = new Size(100, 23);
+            btnBuscar.Size = new Size(139, 23);
             btnBuscar.TabIndex = 3;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
@@ -884,7 +886,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(543, 186);
+            dataGridView1.Size = new Size(543, 240);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellDoubleClick += dataGridViewUsuarios_CellDoubleClick;
             // 
@@ -979,9 +981,9 @@
             // 
             // button12
             // 
-            button12.Location = new Point(653, 44);
+            button12.Location = new Point(664, 88);
             button12.Name = "button12";
-            button12.Size = new Size(100, 23);
+            button12.Size = new Size(129, 23);
             button12.TabIndex = 27;
             button12.Text = "Limpiar";
             button12.UseVisualStyleBackColor = true;
@@ -1115,18 +1117,68 @@
             // 
             dataGridViewReservasH.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewReservasH.Columns.AddRange(new DataGridViewColumn[] { Column1, Column3, Column17, Column4, Column5, Column6, Column7, Column11 });
-            dataGridViewReservasH.Location = new Point(35, 135);
+            dataGridViewReservasH.Location = new Point(35, 124);
             dataGridViewReservasH.Name = "dataGridViewReservasH";
             dataGridViewReservasH.RowTemplate.Height = 25;
-            dataGridViewReservasH.Size = new Size(442, 178);
+            dataGridViewReservasH.Size = new Size(442, 240);
             dataGridViewReservasH.TabIndex = 5;
             dataGridViewReservasH.CellDoubleClick += dobleClickReservasH;
             // 
+            // Column1
+            // 
+            Column1.HeaderText = "id";
+            Column1.Name = "Column1";
+            Column1.ReadOnly = true;
+            Column1.Visible = false;
+            // 
+            // Column3
+            // 
+            Column3.HeaderText = "Hotel";
+            Column3.Name = "Column3";
+            Column3.ReadOnly = true;
+            // 
+            // Column17
+            // 
+            Column17.HeaderText = "usuario_id";
+            Column17.Name = "Column17";
+            Column17.ReadOnly = true;
+            Column17.Visible = false;
+            // 
+            // Column4
+            // 
+            Column4.HeaderText = "Usuario";
+            Column4.Name = "Column4";
+            Column4.ReadOnly = true;
+            // 
+            // Column5
+            // 
+            Column5.HeaderText = "Fecha Desde";
+            Column5.Name = "Column5";
+            Column5.ReadOnly = true;
+            // 
+            // Column6
+            // 
+            Column6.HeaderText = "Fecha Hasta";
+            Column6.Name = "Column6";
+            Column6.ReadOnly = true;
+            // 
+            // Column7
+            // 
+            Column7.HeaderText = "Pago";
+            Column7.Name = "Column7";
+            Column7.ReadOnly = true;
+            // 
+            // Column11
+            // 
+            Column11.HeaderText = "Cantidad de Personas";
+            Column11.Name = "Column11";
+            Column11.ReadOnly = true;
+            // 
             // button5
             // 
-            button5.Location = new Point(653, 270);
+            button5.Location = new Point(664, 314);
             button5.Name = "button5";
-            button5.Size = new Size(100, 23);
+            button5.Size = new Size(129, 23);
             button5.TabIndex = 4;
             button5.Text = "Salir";
             button5.UseVisualStyleBackColor = true;
@@ -1134,9 +1186,9 @@
             // 
             // button4
             // 
-            button4.Location = new Point(653, 224);
+            button4.Location = new Point(664, 268);
             button4.Name = "button4";
-            button4.Size = new Size(100, 23);
+            button4.Size = new Size(129, 23);
             button4.TabIndex = 3;
             button4.Text = "Eliminar";
             button4.UseVisualStyleBackColor = true;
@@ -1144,9 +1196,9 @@
             // 
             // button3
             // 
-            button3.Location = new Point(653, 179);
+            button3.Location = new Point(664, 223);
             button3.Name = "button3";
-            button3.Size = new Size(100, 23);
+            button3.Size = new Size(129, 23);
             button3.TabIndex = 2;
             button3.Text = "Modificar";
             button3.UseVisualStyleBackColor = true;
@@ -1154,9 +1206,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(653, 134);
+            button2.Location = new Point(664, 178);
             button2.Name = "button2";
-            button2.Size = new Size(100, 23);
+            button2.Size = new Size(129, 23);
             button2.TabIndex = 1;
             button2.Text = "Cargar";
             button2.UseVisualStyleBackColor = true;
@@ -1164,9 +1216,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(653, 91);
+            button1.Location = new Point(664, 135);
             button1.Name = "button1";
-            button1.Size = new Size(100, 23);
+            button1.Size = new Size(129, 23);
             button1.TabIndex = 0;
             button1.Text = "Buscar";
             button1.UseVisualStyleBackColor = true;
@@ -1223,9 +1275,9 @@
             // 
             // button11
             // 
-            button11.Location = new Point(674, 38);
+            button11.Location = new Point(689, 87);
             button11.Name = "button11";
-            button11.Size = new Size(100, 23);
+            button11.Size = new Size(120, 23);
             button11.TabIndex = 26;
             button11.Text = "Limpiar";
             button11.UseVisualStyleBackColor = true;
@@ -1302,9 +1354,9 @@
             // 
             // button10
             // 
-            button10.Location = new Point(674, 263);
+            button10.Location = new Point(689, 312);
             button10.Name = "button10";
-            button10.Size = new Size(100, 23);
+            button10.Size = new Size(120, 23);
             button10.TabIndex = 10;
             button10.Text = "Salir";
             button10.UseVisualStyleBackColor = true;
@@ -1312,9 +1364,9 @@
             // 
             // button9
             // 
-            button9.Location = new Point(674, 218);
+            button9.Location = new Point(689, 267);
             button9.Name = "button9";
-            button9.Size = new Size(100, 23);
+            button9.Size = new Size(120, 23);
             button9.TabIndex = 9;
             button9.Text = "Eliminar";
             button9.UseVisualStyleBackColor = true;
@@ -1322,9 +1374,9 @@
             // 
             // button8
             // 
-            button8.Location = new Point(674, 171);
+            button8.Location = new Point(689, 220);
             button8.Name = "button8";
-            button8.Size = new Size(100, 23);
+            button8.Size = new Size(120, 23);
             button8.TabIndex = 8;
             button8.Text = "Modificar";
             button8.UseVisualStyleBackColor = true;
@@ -1332,9 +1384,9 @@
             // 
             // button7
             // 
-            button7.Location = new Point(674, 126);
+            button7.Location = new Point(689, 175);
             button7.Name = "button7";
-            button7.Size = new Size(100, 23);
+            button7.Size = new Size(120, 23);
             button7.TabIndex = 7;
             button7.Text = "Cargar";
             button7.UseVisualStyleBackColor = true;
@@ -1342,9 +1394,9 @@
             // 
             // button6
             // 
-            button6.Location = new Point(674, 84);
+            button6.Location = new Point(689, 133);
             button6.Name = "button6";
-            button6.Size = new Size(100, 23);
+            button6.Size = new Size(120, 23);
             button6.TabIndex = 6;
             button6.Text = "Buscar";
             button6.UseVisualStyleBackColor = true;
@@ -1395,7 +1447,7 @@
             dataGridViewReservasV.Location = new Point(35, 127);
             dataGridViewReservasV.Name = "dataGridViewReservasV";
             dataGridViewReservasV.RowTemplate.Height = 25;
-            dataGridViewReservasV.Size = new Size(503, 186);
+            dataGridViewReservasV.Size = new Size(503, 240);
             dataGridViewReservasV.TabIndex = 0;
             dataGridViewReservasV.CellDoubleClick += dobleClickReservasV;
             // 
@@ -1478,55 +1530,15 @@
             panelContainer.Size = new Size(850, 440);
             panelContainer.TabIndex = 4;
             // 
-            // Column1
+            // label26
             // 
-            Column1.HeaderText = "id";
-            Column1.Name = "Column1";
-            Column1.ReadOnly = true;
-            Column1.Visible = false;
-            // 
-            // Column3
-            // 
-            Column3.HeaderText = "Hotel";
-            Column3.Name = "Column3";
-            Column3.ReadOnly = true;
-            // 
-            // Column17
-            // 
-            Column17.HeaderText = "usuario_id";
-            Column17.Name = "Column17";
-            Column17.ReadOnly = true;
-            Column17.Visible = false;
-            // 
-            // Column4
-            // 
-            Column4.HeaderText = "Usuario";
-            Column4.Name = "Column4";
-            Column4.ReadOnly = true;
-            // 
-            // Column5
-            // 
-            Column5.HeaderText = "Fecha Desde";
-            Column5.Name = "Column5";
-            Column5.ReadOnly = true;
-            // 
-            // Column6
-            // 
-            Column6.HeaderText = "Fecha Hasta";
-            Column6.Name = "Column6";
-            Column6.ReadOnly = true;
-            // 
-            // Column7
-            // 
-            Column7.HeaderText = "Pago";
-            Column7.Name = "Column7";
-            Column7.ReadOnly = true;
-            // 
-            // Column11
-            // 
-            Column11.HeaderText = "Cantidad de Personas";
-            Column11.Name = "Column11";
-            Column11.ReadOnly = true;
+            label26.AutoSize = true;
+            label26.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label26.Location = new Point(90, 28);
+            label26.Name = "label26";
+            label26.Size = new Size(94, 21);
+            label26.TabIndex = 36;
+            label26.Text = "BIenvenido: ";
             // 
             // Form3
             // 
@@ -1711,5 +1723,6 @@
         private DataGridViewTextBoxColumn Column6;
         private DataGridViewTextBoxColumn Column7;
         private DataGridViewTextBoxColumn Column11;
+        private Label label26;
     }
 }
