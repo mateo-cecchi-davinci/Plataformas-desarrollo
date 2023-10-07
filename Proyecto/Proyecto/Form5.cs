@@ -31,6 +31,11 @@ namespace Proyecto
         private void Form5_Load(object sender, EventArgs e)
         {
 
+            string nombre = miAgencia.nombreLogueado();
+            int indice = nombre.IndexOf(" ") + 1;
+            string nombreU = nombre.Substring(indice);
+            lbl_nombre.Text = nombreU;
+
             label_credito.Text = miAgencia.mostrarCredito().ToString();
             string[] opciones = { "", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
             cb_cantPersonasH.Items.AddRange(opciones);

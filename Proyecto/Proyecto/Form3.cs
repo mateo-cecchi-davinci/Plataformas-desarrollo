@@ -32,11 +32,14 @@ namespace Proyecto
         {
             InitializeComponent();
             this.miAgencia = miAgencia;
-            nombreUsuario.Text = miAgencia.nombreLogueado();
-            nombreUsuarioH.Text = miAgencia.nombreLogueado();
-            nombreUsuarioVuelos.Text = miAgencia.nombreLogueado();
-            nombreUsuarioRH.Text = miAgencia.nombreLogueado();
-            nombreUsuarioRV.Text = miAgencia.nombreLogueado();
+            string nombre = miAgencia.nombreLogueado();
+            int indice = nombre.IndexOf(" ") + 1;
+            string nombreU = nombre.Substring(indice);
+            nombreUsuario.Text = nombreU;
+            nombreUsuarioH.Text = nombreU;
+            nombreUsuarioVuelos.Text = nombreU;
+            nombreUsuarioRH.Text = nombreU;
+            nombreUsuarioRV.Text = nombreU;
             usuarioSeleccionado = -1;
             hotelSeleccionado = -1;
             vueloSeleccionado = -1;
