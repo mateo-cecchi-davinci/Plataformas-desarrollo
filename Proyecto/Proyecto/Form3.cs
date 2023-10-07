@@ -16,12 +16,17 @@ namespace Proyecto
     {
 
         private Agencia miAgencia;
+        private List<string> ciudades = new List<string>();
+        private List<string> hoteles = new List<string>();
+        private List<string> usuarios = new List<string>();
         private int usuarioSeleccionado;
         private int hotelSeleccionado;
         private int vueloSeleccionado;
         private int reservaHotelSeleccionada;
         private int reservaVueloSeleccionada;
+
         public cerrarSesion salir;
+
 
         public Form3(Agencia miAgencia)
         {
@@ -47,17 +52,17 @@ namespace Proyecto
             cb_cantPersonasRV.Items.AddRange(opciones);
             cb_cantPersonasRV.SelectedIndex = 0;
 
-            List<string> ciudades = new List<string>();
             ciudades.Add("");
-            foreach (Ciudad c in miAgencia.obtenerCiudad())
+            foreach (Ciudad c in miAgencia.obtenerCiudades())
             {
                 ciudades.Add(c.nombre);
             }
-            cb_ciudadH.DataSource = ciudades.ToList();
-            cb_origenV.DataSource = ciudades.ToList();
+            cb_ciudadH.DataSource = ciudades;
+            cb_origenV.DataSource = ciudades;
             cb_destinoV.DataSource = ciudades.ToList();
+            cb_origenRV.DataSource = ciudades;
+            cb_destinoRV.DataSource = ciudades.ToList();
 
-            List<string> hoteles = new List<string>();
             hoteles.Add("");
             foreach (Hotel h in miAgencia.obtenerHoteles())
             {
@@ -65,17 +70,17 @@ namespace Proyecto
             }
             cbHotelReservaH.DataSource = hoteles.ToList();
 
-            List<string> usuarios = new List<string>();
+
             usuarios.Add("");
             foreach (Usuario u in miAgencia.obtenerUsuarios())
             {
-                usuarios.Add(u.nombre);
+                usuarios.Add(u.id.ToString() + ". " + u.nombre);
             }
-            cbUsuarioReservaH.DataSource = usuarios.ToList();
-            cbUsuarioReservaV.DataSource = usuarios.ToList();
+            cbUsuarioReservaH.DataSource = usuarios;
+            cbUsuarioReservaV.DataSource = usuarios;
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+        private void btnBuscarUsuario_Click(object sender, EventArgs e)
         {
             limpiarCampos();
             usuarioSeleccionado = -1;
@@ -112,7 +117,7 @@ namespace Proyecto
 
         }
 
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridViewUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string id = dataGridView1[0, e.RowIndex].Value.ToString();
             string dni = dataGridView1[1, e.RowIndex].Value.ToString();
@@ -129,7 +134,7 @@ namespace Proyecto
             usuarioSeleccionado = int.Parse(id);
         }
 
-        private void btnModificar_Click(object sender, EventArgs e)
+        private void btnModificarUsuario_Click(object sender, EventArgs e)
         {
             string nombre = tbNombre.Text;
             string apellido = tbApellido.Text;
@@ -184,7 +189,7 @@ namespace Proyecto
 
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
+        private void btnEliminarUsuario_Click(object sender, EventArgs e)
         {
             if (usuarioSeleccionado != -1)
             {
@@ -208,7 +213,7 @@ namespace Proyecto
 
         //Seccion CRUD Hoteles
 
-        private void Mostrar_Click(object sender, EventArgs e)
+        private void btnBuscarHotel_Click(object sender, EventArgs e)
         {
             mostrarHoteles();
             hotelSeleccionado = -1;
@@ -242,7 +247,7 @@ namespace Proyecto
 
         }
 
-        private void Cargar_Click(object sender, EventArgs e)
+        private void btnCargarHotel_Click(object sender, EventArgs e)
         {
             cargarHotel();
         }
@@ -252,8 +257,7 @@ namespace Proyecto
             string nombre = textBoxNombre.Text;
             string capacidadText = textBoxCapacidad.Text;
             string costoText = textBoxCosto.Text;
-            string ciudadBuscada = cb_ciudadH.Text.ToLower();
-            Ciudad ciudad = miAgencia.obtenerCiudad().FirstOrDefault(c => c.nombre.ToLower().Contains(ciudadBuscada));
+            string ciudad = cb_ciudadH.Text;
             int capacidad;
             double costo;
 
@@ -261,23 +265,25 @@ namespace Proyecto
             {
                 if (double.TryParse(costoText, out costo))
                 {
-
-                    miAgencia.agregarHotel(ciudad, capacidad, costo, nombre);
-                    textBoxNombre.Text = "";
-                    textBoxCapacidad.Text = "";
-                    textBoxCosto.Text = "";
-                    cb_ciudadH.SelectedIndex = 0;
-                    MessageBox.Show("Se ha cargado un nuevo hotel con exito");
+                    if (miAgencia.agregarHotel(ciudad, capacidad, costo, nombre))
+                    {
+                        textBoxNombre.Text = "";
+                        textBoxCapacidad.Text = "";
+                        textBoxCosto.Text = "";
+                        cb_ciudadH.SelectedIndex = 0;
+                        MessageBox.Show("Se ha cargado un nuevo hotel con exito");
+                    }
+                    else
+                        MessageBox.Show("Hubo un problema");
                 }
-                else MessageBox.Show("ingrese solo numero en Costo");
-
-
+                else
+                    MessageBox.Show("Costo inválido");
             }
-            else MessageBox.Show("ingrese solo numero en Capacidad");
-
+            else
+                MessageBox.Show("Capacidad inválida");
         }
 
-        private void dataGridView2Hoteles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridViewHoteles_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string id = dataGridView2Hoteles[0, e.RowIndex].Value.ToString();
             string nombre = dataGridView2Hoteles[1, e.RowIndex].Value.ToString();
@@ -292,13 +298,12 @@ namespace Proyecto
             hotelSeleccionado = int.Parse(id);
         }
 
-        private void Modificar_Click(object sender, EventArgs e)
+        private void btnModificarHotel_Click(object sender, EventArgs e)
         {
 
             string nombre = textBoxNombre.Text;
             string capacidad = textBoxCapacidad.Text;
-            string ciudadBuscada = cb_ciudadH.Text.ToLower();
-            Ciudad ciudad = miAgencia.obtenerCiudad().FirstOrDefault(c => c.nombre.ToLower().Contains(ciudadBuscada));
+            string ciudad = cb_ciudadH.Text;
             string costo = textBoxCosto.Text;
             int capacidadParseada;
             double costoParseado;
@@ -314,7 +319,7 @@ namespace Proyecto
                 MessageBox.Show("Ingrese capacidad");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(ciudadBuscada))
+            if (string.IsNullOrWhiteSpace(ciudad))
             {
                 MessageBox.Show("Ingrese ciudad");
                 return;
@@ -326,22 +331,33 @@ namespace Proyecto
                 return;
             }
 
-            if (int.TryParse(capacidad, out capacidadParseada) && double.TryParse(costo, out costoParseado))
+            if (int.TryParse(capacidad, out capacidadParseada))
             {
-                if (hotelSeleccionado != -1)
+                if (double.TryParse(costo, out costoParseado))
                 {
-                    if (miAgencia.modificarHoteles(hotelSeleccionado, ciudad, capacidadParseada, costoParseado, nombre))
-                        MessageBox.Show("Modificado con exito");
+                    if (hotelSeleccionado != -1)
+                    {
+                        if (miAgencia.modificarHotel(hotelSeleccionado, ciudad, capacidadParseada, costoParseado, nombre))
+                        {
+                            textBoxNombre.Text = "";
+                            textBoxCapacidad.Text = "";
+                            textBoxCosto.Text = "";
+                            cb_ciudadH.SelectedIndex = 0;
+                        }
+                        else
+                            MessageBox.Show("Problemas al modificar");
+                    }
                     else
-                        MessageBox.Show("Problemas al modificar");
+                        MessageBox.Show("Debe seleccionar un Hotel");
                 }
                 else
-                    MessageBox.Show("Debe seleccionar un Hotel");
+                    MessageBox.Show("Costo inválido");
             }
-            else MessageBox.Show("Capacidad y Dni solo admiten números");
+            else
+                MessageBox.Show("Capacidad inválida");
         }
 
-        private void Eliminar_Click(object sender, EventArgs e)
+        private void btnEliminarHotel_Click(object sender, EventArgs e)
         {
             if (hotelSeleccionado != -1)
             {
@@ -358,47 +374,7 @@ namespace Proyecto
 
         //Seccion CRUD Vuelos
 
-
-        private void Cargar_vuelos_Click(object sender, EventArgs e)
-        {
-            cargarVuelo();
-        }
-
-
-        private void cargarVuelo()
-        {
-            string ciudadOrigen = cb_origenV.Text.ToLower();
-            string ciudadDestino = cb_destinoV.Text.ToLower();
-            Ciudad origen = miAgencia.obtenerCiudad().FirstOrDefault(c => c.nombre.ToLower().Contains(ciudadOrigen));
-            Ciudad destino = miAgencia.obtenerCiudad().FirstOrDefault(c => c.nombre.ToLower().Contains(ciudadDestino));
-            string capacidad = tbCapacidad.Text;
-            string costo = textBox_costo_vuelos.Text;
-            DateTime fecha = dateTimePicker_vuelos.Value;
-            string aerolinea = textBox_aerolineas_vuelos.Text;
-            string avion = textBox_avion_vuelos.Text;
-
-            double costoParse;
-            int capacidadParseada;
-
-
-            if (double.TryParse(costo, out costoParse) && int.TryParse(capacidad, out capacidadParseada))
-            {
-                miAgencia.agregarVuelos(origen, destino, capacidadParseada, costoParse, fecha, aerolinea, avion);
-                cb_origenV.SelectedIndex = 0;
-                cb_destinoV.SelectedIndex = 0;
-                tbCapacidad.Text = "";
-                textBox_costo_vuelos.Text = "";
-                dateTimePicker_vuelos.Value = DateTime.Now;
-                textBox_aerolineas_vuelos.Text = "";
-                textBox_avion_vuelos.Text = "";
-                MessageBox.Show("Se ha cargado un nuevo Vuelo con exito");
-            }
-            else
-                MessageBox.Show("Solo puede ingresar numeros en costo y capacidad");
-
-        }
-
-        private void Mostrar_vuelos_Click(object sender, EventArgs e)
+        private void btnBuscarVuelos_Click(object sender, EventArgs e)
         {
             mostrarVuelos();
             vueloSeleccionado = -1;
@@ -438,6 +414,53 @@ namespace Proyecto
 
         }
 
+        private void btnCargarVuelo_Click(object sender, EventArgs e)
+        {
+            cargarVuelo();
+        }
+
+        private void cargarVuelo()
+        {
+            string origen = cb_origenV.Text;
+            string destino = cb_destinoV.Text;
+            string capacidad = tbCapacidad.Text;
+            string costo = textBox_costo_vuelos.Text;
+            DateTime fecha = dateTimePicker_vuelos.Value;
+            DateTime fecha_horario = new DateTime(fecha.Year, fecha.Month, fecha.Day, 9, 0, 0);
+            string aerolinea = textBox_aerolineas_vuelos.Text;
+            string avion = textBox_avion_vuelos.Text;
+
+            double costoParse;
+            int capacidadParseada;
+
+
+            if (double.TryParse(costo, out costoParse))
+            {
+
+                if (int.TryParse(capacidad, out capacidadParseada))
+                {
+                    if (miAgencia.agregarVuelo(origen, destino, capacidadParseada, costoParse, fecha_horario, aerolinea, avion))
+                    {
+                        cb_origenV.SelectedIndex = 0;
+                        cb_destinoV.SelectedIndex = 0;
+                        tbCapacidad.Text = "";
+                        textBox_costo_vuelos.Text = "";
+                        dateTimePicker_vuelos.Value = DateTime.Now;
+                        textBox_aerolineas_vuelos.Text = "";
+                        textBox_avion_vuelos.Text = "";
+                        MessageBox.Show("Se ha cargado un nuevo Vuelo con exito");
+                    }
+                    else
+                        MessageBox.Show("Hubo un problema");
+                }
+                else
+                    MessageBox.Show("Capacidad inválida");
+            }
+            else
+                MessageBox.Show("Costo inválido");
+
+        }
+
         private void dataGridViewVuelos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string id = dataGridViewVuelos[0, e.RowIndex].Value.ToString();
@@ -467,28 +490,27 @@ namespace Proyecto
             }
         }
 
-        private void Modificar_vuelos_Click(object sender, EventArgs e)
+        private void btnModificarVuelo_Click(object sender, EventArgs e)
         {
 
-            string ciudadOrigen = cb_origenV.Text.ToLower();
-            string ciudadDestino = cb_destinoV.Text.ToLower();
-            Ciudad origen = miAgencia.obtenerCiudad().FirstOrDefault(c => c.nombre.ToLower().Contains(ciudadOrigen));
-            Ciudad destino = miAgencia.obtenerCiudad().FirstOrDefault(c => c.nombre.ToLower().Contains(ciudadDestino));
+            string origen = cb_origenV.Text;
+            string destino = cb_destinoV.Text;
             string costo = textBox_costo_vuelos.Text;
-            string fecha = dateTimePicker_vuelos.Text;
+            DateTime fecha = dateTimePicker_vuelos.Value;
+            DateTime fecha_horario = new DateTime(fecha.Year, fecha.Month, fecha.Day, 9, 0, 0);
             string aerolinea = textBox_aerolineas_vuelos.Text;
             string avion = textBox_avion_vuelos.Text;
             string capacidad = tbCapacidad.Text;
             double costoParseado;
             int capacidadParseada;
 
-            if (string.IsNullOrWhiteSpace(ciudadOrigen))
+            if (string.IsNullOrWhiteSpace(origen))
             {
                 MessageBox.Show("Ingrese origen");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(ciudadDestino))
+            if (string.IsNullOrWhiteSpace(destino))
             {
                 MessageBox.Show("Ingrese destino");
                 return;
@@ -496,12 +518,6 @@ namespace Proyecto
             if (string.IsNullOrWhiteSpace(costo))
             {
                 MessageBox.Show("Ingrese costo");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(fecha))
-            {
-                MessageBox.Show("Ingrese fecha");
                 return;
             }
 
@@ -523,24 +539,36 @@ namespace Proyecto
                 return;
             }
 
-            if (double.TryParse(costo, out costoParseado) && int.TryParse(capacidad, out capacidadParseada))
+            if (double.TryParse(costo, out costoParseado))
             {
-                if (vueloSeleccionado != -1)
+
+                if (int.TryParse(capacidad, out capacidadParseada))
                 {
-                    if (miAgencia.modificarVuelos(vueloSeleccionado, origen, destino, capacidadParseada, costoParseado, fecha, aerolinea, avion))
-                        MessageBox.Show("Modificado con exito");
+                    if (vueloSeleccionado != -1)
+                    {
+                        if (miAgencia.modificarVuelo(vueloSeleccionado, origen, destino, capacidadParseada, costoParseado, fecha_horario, aerolinea, avion))
+                        {
+                            cb_origenV.SelectedIndex = 0;
+                            cb_destinoV.SelectedIndex = 0;
+                            tbCapacidad.Text = "";
+                            textBox_costo_vuelos.Text = "";
+                            dateTimePicker_vuelos.Value = DateTime.Now;
+                            textBox_aerolineas_vuelos.Text = "";
+                            textBox_avion_vuelos.Text = "";
+                        }
+                    }
                     else
-                        MessageBox.Show("Problemas al modificar");
+                        MessageBox.Show("Debe seleccionar un Vuelo");
                 }
                 else
-                    MessageBox.Show("Debe seleccionar un Vuelo");
+                    MessageBox.Show("Capacidad inválida");
             }
             else
-                MessageBox.Show("Ingrese un costo o una capacidad válida");
+                MessageBox.Show("Costo inválido");
 
         }
 
-        private void Eliminar_vuelos_Click(object sender, EventArgs e)
+        private void btnEliminarVuelo_Click(object sender, EventArgs e)
         {
             if (vueloSeleccionado != -1)
             {
@@ -554,7 +582,7 @@ namespace Proyecto
                 MessageBox.Show("Debe seleccionar un Vuelo");
         }
 
-        private void mostrar_reservasH(object sender, EventArgs e)
+        private void btnBuscarReservaH_Click(object sender, EventArgs e)
         {
             mostrarReservasH();
             reservaHotelSeleccionada = -1;
@@ -592,15 +620,16 @@ namespace Proyecto
         {
             string id = dataGridViewReservasH[0, e.RowIndex].Value.ToString();
             string hotel = dataGridViewReservasH[1, e.RowIndex].Value.ToString();
-            string usuario = dataGridViewReservasH[2, e.RowIndex].Value.ToString();
-            string fechaDesde = dataGridViewReservasH[3, e.RowIndex].Value.ToString();
-            string fechaHasta = dataGridViewReservasH[4, e.RowIndex].Value.ToString();
-            string pagado = dataGridViewReservasH[5, e.RowIndex].Value.ToString();
-            string cantPersonas = dataGridViewReservasH[6, e.RowIndex].Value.ToString();
+            string usuario_id = dataGridViewReservasH[2, e.RowIndex].Value.ToString();
+            string usuario = dataGridViewReservasH[3, e.RowIndex].Value.ToString();
+            string fechaDesde = dataGridViewReservasH[4, e.RowIndex].Value.ToString();
+            string fechaHasta = dataGridViewReservasH[5, e.RowIndex].Value.ToString();
+            string pagado = dataGridViewReservasH[6, e.RowIndex].Value.ToString();
+            string cantPersonas = dataGridViewReservasH[7, e.RowIndex].Value.ToString();
 
             reservaHotelSeleccionada = int.Parse(id);
             cbHotelReservaH.Text = hotel;
-            cbUsuarioReservaH.Text = usuario;
+            cbUsuarioReservaH.Text = usuario_id + ". " + usuario;
 
             if (DateTime.TryParse(fechaDesde, out DateTime fechaD) && DateTime.TryParse(fechaHasta, out DateTime fechaH))
             {
@@ -615,7 +644,7 @@ namespace Proyecto
             cb_cantPersonasH.Text = cantPersonas;
         }
 
-        private void cargar_reservasH(object sender, EventArgs e)
+        private void btnCargarReservaH_Click(object sender, EventArgs e)
         {
             reservasH();
         }
@@ -623,10 +652,8 @@ namespace Proyecto
         private void reservasH()
         {
 
-            string hotelSeleccionado = cbHotelReservaH.Text.ToLower();
-            string usuarioSeleccionado = cbUsuarioReservaH.Text.ToLower();
-            Hotel hotel = miAgencia.obtenerHoteles().FirstOrDefault(h => h.nombre.ToLower().Contains(hotelSeleccionado));
-            Usuario usuario = miAgencia.obtenerUsuarios().FirstOrDefault(u => u.nombre.ToLower().Contains(usuarioSeleccionado));
+            string hotel = cbHotelReservaH.Text;
+            string usuario = cbUsuarioReservaH.Text;
             DateTime fechaDesde = fecha_desde_reservarH.Value;
             DateTime fechaHasta = fecha_hasta_reservarH.Value;
             string pagado = tbPagadoReservaH.Text;
@@ -635,62 +662,48 @@ namespace Proyecto
             double pagoParse;
             int cantPersonasParseadas;
 
-            if (double.TryParse(pagado, out pagoParse) && int.TryParse(cantPersonas, out cantPersonasParseadas))
+            if (double.TryParse(pagado, out pagoParse))
             {
-                if (usuario.credito >= hotel.costo)
+
+                if (int.TryParse(cantPersonas, out cantPersonasParseadas))
                 {
-                    hotel.capacidad -= cantPersonasParseadas;
-                    usuario.credito -= hotel.costo;
-
-                    miAgencia.agregarReservaHotel(hotel, usuario, fechaDesde, fechaHasta, hotel.costo, cantPersonasParseadas);
-
-                    fecha_desde_reservarH.Value = DateTime.Now;
-                    fecha_hasta_reservarH.Value = DateTime.Now;
-                    cbHotelReservaH.SelectedIndex = 0;
-                    cbUsuarioReservaH.SelectedIndex = 0;
-                    cb_cantPersonasH.SelectedIndex = 0;
-                    tbPagadoReservaH.Text = "";
-                    MessageBox.Show("Se ha cargado una nueva reserva con exito");
+                    if (miAgencia.agregarReservaHotel(hotel, usuario, fechaDesde, fechaHasta, pagoParse, cantPersonasParseadas))
+                    {
+                        fecha_desde_reservarH.Value = DateTime.Now;
+                        fecha_hasta_reservarH.Value = DateTime.Now;
+                        cbHotelReservaH.SelectedIndex = 0;
+                        cbUsuarioReservaH.SelectedIndex = 0;
+                        cb_cantPersonasH.SelectedIndex = 0;
+                        tbPagadoReservaH.Text = "";
+                        MessageBox.Show("Se ha cargado una nueva reserva con exito");
+                    }
                 }
-                else MessageBox.Show("Crédito insuficiente");
+                else MessageBox.Show("Cantidad de personas inválida");
             }
-            else MessageBox.Show("Cantidad de personas inválida");
+            else MessageBox.Show("Pago inválido");
 
         }
 
-        private void modificar_reservasH(object sender, EventArgs e)
+        private void btnModificarReservaH_Click(object sender, EventArgs e)
         {
-            string hotelSeleccionado = cbHotelReservaH.Text.ToLower();
-            string usuarioSeleccionado = cbUsuarioReservaH.Text.ToLower();
-            Hotel hotel = miAgencia.obtenerHoteles().FirstOrDefault(h => h.nombre.ToLower().Contains(hotelSeleccionado));
-            Usuario usuario = miAgencia.obtenerUsuarios().FirstOrDefault(u => u.nombre.ToLower().Contains(usuarioSeleccionado));
-            string fechaDesde = fecha_desde_reservarH.Text;
-            string fechaHasta = fecha_hasta_reservarH.Text;
+            string hotel = cbHotelReservaH.Text;
+            string usuario = cbUsuarioReservaH.Text;
+            DateTime fechaDesde = fecha_desde_reservarH.Value;
+            DateTime fechaHasta = fecha_hasta_reservarH.Value;
             string pagado = tbPagadoReservaH.Text;
             string cantPersonas = cb_cantPersonasH.Text;
             double pagadoParseado;
             int cantPersonasParseadas;
 
-            if (string.IsNullOrWhiteSpace(hotelSeleccionado))
+            if (string.IsNullOrWhiteSpace(hotel))
             {
                 MessageBox.Show("Ingrese hotel");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(usuarioSeleccionado))
+            if (string.IsNullOrWhiteSpace(usuario))
             {
                 MessageBox.Show("Ingrese usuario");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(fechaDesde))
-            {
-                MessageBox.Show("Ingrese fechaDesde");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(fechaHasta))
-            {
-                MessageBox.Show("Ingrese fechaHasta");
                 return;
             }
 
@@ -706,23 +719,34 @@ namespace Proyecto
                 return;
             }
 
-            if (double.TryParse(pagado, out pagadoParseado) && int.TryParse(cantPersonas, out cantPersonasParseadas))
+            if (double.TryParse(pagado, out pagadoParseado))
             {
-                if (reservaHotelSeleccionada != -1)
+
+                if (int.TryParse(cantPersonas, out cantPersonasParseadas))
                 {
-                    if (miAgencia.modificarReservaHotel(reservaHotelSeleccionada, hotel, usuario, fechaDesde, fechaHasta, pagadoParseado, cantPersonasParseadas))
-                        MessageBox.Show("Modificada con exito");
+                    if (reservaHotelSeleccionada != -1)
+                    {
+                        if (miAgencia.modificarReservaHotel(reservaHotelSeleccionada, hotel, usuario, fechaDesde, fechaHasta, pagadoParseado, cantPersonasParseadas))
+                        {
+                            fecha_desde_reservarH.Value = DateTime.Now;
+                            fecha_hasta_reservarH.Value = DateTime.Now;
+                            cbHotelReservaH.SelectedIndex = 0;
+                            cbUsuarioReservaH.SelectedIndex = 0;
+                            cb_cantPersonasH.SelectedIndex = 0;
+                            tbPagadoReservaH.Text = "";
+                        }
+                    }
                     else
-                        MessageBox.Show("Problemas al modificar");
+                        MessageBox.Show("Debe seleccionar una Reserva");
                 }
                 else
-                    MessageBox.Show("Debe seleccionar una Reserva");
+                    MessageBox.Show("Ingrese una cantidad de personas válida");
             }
             else
                 MessageBox.Show("Ingrese un pago válido");
         }
 
-        private void eliminar_reservasH(object sender, EventArgs e)
+        private void btnEliminarReservaH_Click(object sender, EventArgs e)
         {
             if (reservaHotelSeleccionada != -1)
             {
@@ -736,7 +760,7 @@ namespace Proyecto
                 MessageBox.Show("Debe seleccionar un Reserva");
         }
 
-        private void mostrar_reservasV(object sender, EventArgs e)
+        private void btnBuscarReservaV_Click(object sender, EventArgs e)
         {
             mostrarReservasV();
             reservaVueloSeleccionada = -1;
@@ -747,8 +771,8 @@ namespace Proyecto
 
             dataGridViewReservasV.Rows.Clear();
 
-            string origen = tb_origenRV.Text.ToLower();
-            string destino = tb_destinoRV.Text.ToLower();
+            string origen = cb_origenRV.Text.ToLower();
+            string destino = cb_destinoRV.Text.ToLower();
             string usuario = cbUsuarioReservaV.Text.ToLower();
             string cantidad = cb_cantPersonasRV.Text.ToLower();
             string pagado = tbPagadoReservaV.Text.ToLower();
@@ -778,84 +802,104 @@ namespace Proyecto
             string id = dataGridViewReservasV[0, e.RowIndex].Value.ToString();
             string origen = dataGridViewReservasV[1, e.RowIndex].Value.ToString();
             string destino = dataGridViewReservasV[2, e.RowIndex].Value.ToString();
-            string usuario = dataGridViewReservasV[3, e.RowIndex].Value.ToString();
-            string fecha = dataGridViewReservasV[4, e.RowIndex].Value.ToString();
-            string cantPersonas = dataGridViewReservasV[5, e.RowIndex].Value.ToString();
-            string pagado = dataGridViewReservasV[6, e.RowIndex].Value.ToString();
+            string usuario_id = dataGridViewReservasV[3, e.RowIndex].Value.ToString();
+            string usuario = dataGridViewReservasV[4, e.RowIndex].Value.ToString();
+            string fecha = dataGridViewReservasV[5, e.RowIndex].Value.ToString();
+            string cantPersonas = dataGridViewReservasV[6, e.RowIndex].Value.ToString();
+            string pagado = dataGridViewReservasV[7, e.RowIndex].Value.ToString();
 
             reservaVueloSeleccionada = int.Parse(id);
-            tb_origenRV.Text = origen;
-            tb_destinoRV.Text = destino;
-            cbUsuarioReservaV.Text = usuario;
+            cb_origenRV.Text = origen;
+            cb_destinoRV.Text = destino;
+            cbUsuarioReservaV.Text = usuario_id + ". " + usuario;
             fecha_RV.Value = DateTime.Parse(fecha);
             cb_cantPersonasRV.Text = cantPersonas;
             tbPagadoReservaV.Text = pagado;
         }
 
-        private void cargar_reservasV(object sender, EventArgs e)
+        private void btnCargarReservaV_Click(object sender, EventArgs e)
         {
             reservasV();
         }
 
         private void reservasV()
         {
-            string origenSeleccionado = tb_origenRV.Text.ToLower();
-            string destinoSeleccionado = tb_destinoRV.Text.ToLower();
-            string usuarioSeleccionado = cbUsuarioReservaV.Text.ToLower();
-            Ciudad origen = miAgencia.obtenerCiudad().FirstOrDefault(c => c.nombre.ToLower().Contains(origenSeleccionado));
-            Ciudad destino = miAgencia.obtenerCiudad().FirstOrDefault(c => c.nombre.ToLower().Contains(destinoSeleccionado));
-            Vuelo vuelo = miAgencia.obtenerVuelos().FirstOrDefault(v => v.id == reservaVueloSeleccionada);
-            Usuario usuario = miAgencia.obtenerUsuarios().FirstOrDefault(u => u.nombre.ToLower().Contains(usuarioSeleccionado));
+            string origen = cb_origenRV.Text;
+            string destino = cb_destinoRV.Text;
+            string usuario = cbUsuarioReservaV.Text;
             string cantPersonas = cb_cantPersonasRV.Text;
             string pagado = tbPagadoReservaV.Text;
             DateTime fecha = fecha_RV.Value;
+            DateTime fecha_horario = new DateTime(fecha.Year, fecha.Month, fecha.Day, 9, 0, 0);
 
             double pagoParse;
             int cantPersonasParseadas;
 
-            if (double.TryParse(pagado, out pagoParse) && int.TryParse(cantPersonas, out cantPersonasParseadas) && cantPersonasParseadas > 0 && cantPersonasParseadas <= 10)
-            {
-                miAgencia.agregarReservaVuelo(vuelo, usuario, pagoParse, cantPersonasParseadas);
-                tb_origenRV.Text = "";
-                tb_destinoRV.Text = "";
-                cbUsuarioReservaV.SelectedIndex = 0;
-                cb_cantPersonasRV.Text = "";
-                tbPagadoReservaV.Text = "";
-                fecha_RV.Value = DateTime.Now;
-
-                MessageBox.Show("Se ha cargado una nueva reserva con exito");
-            }
-            else MessageBox.Show("Número inválido");
-        }
-
-        private void modificar_reservasV(object sender, EventArgs e)
-        {
-
-            string origenSeleccionado = tb_origenRV.Text.ToLower();
-            string destinoSeleccionado = tb_destinoRV.Text.ToLower();
-            string usuarioSeleccionado = cbUsuarioReservaV.Text.ToLower();
-            Ciudad origen = miAgencia.obtenerCiudad().FirstOrDefault(c => c.nombre.ToLower().Contains(origenSeleccionado));
-            Ciudad destino = miAgencia.obtenerCiudad().FirstOrDefault(c => c.nombre.ToLower().Contains(destinoSeleccionado));
-            Vuelo vuelo = miAgencia.obtenerVuelos().FirstOrDefault(v => v.id == reservaVueloSeleccionada);
-            Usuario usuario = miAgencia.obtenerUsuarios().FirstOrDefault(u => u.nombre.ToLower().Contains(usuarioSeleccionado));
-            string cantPersonas = cb_cantPersonasRV.Text;
-            string pagado = tbPagadoReservaV.Text;
-            DateTime fecha = fecha_RV.Value;
-
-            double pagoParseado;
-            int cantPersonasParseadas;
-
-            if (string.IsNullOrWhiteSpace(origenSeleccionado))
+            if (string.IsNullOrWhiteSpace(origen))
             {
                 MessageBox.Show("Ingrese origen");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(destinoSeleccionado))
+
+            if (string.IsNullOrWhiteSpace(destino))
             {
                 MessageBox.Show("Ingrese destino");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(usuarioSeleccionado))
+            if (string.IsNullOrWhiteSpace(usuario))
+            {
+                MessageBox.Show("Ingrese usuario");
+                return;
+            }
+
+            if (double.TryParse(pagado, out pagoParse))
+            {
+
+                if (int.TryParse(cantPersonas, out cantPersonasParseadas))
+                {
+                    if (miAgencia.agregarReservaVuelo(origen, destino, usuario, pagoParse, cantPersonasParseadas, fecha_horario))
+                    {
+                        cb_origenRV.Text = "";
+                        cb_destinoRV.Text = "";
+                        cbUsuarioReservaV.SelectedIndex = 0;
+                        cb_cantPersonasRV.SelectedIndex = 0;
+                        tbPagadoReservaV.Text = "";
+                        fecha_RV.Value = DateTime.Now;
+                        MessageBox.Show("Se ha cargado una nueva reserva con exito");
+                    }
+                }
+                else
+                    MessageBox.Show("Cantidad de personas inválida");
+            }
+            else
+                MessageBox.Show("Pago inválido");
+        }
+
+        private void btnModificarReservaV_Click(object sender, EventArgs e)
+        {
+
+            string origen = cb_origenRV.Text;
+            string destino = cb_destinoRV.Text;
+            string usuario = cbUsuarioReservaV.Text;
+            string cantPersonas = cb_cantPersonasRV.Text;
+            string pagado = tbPagadoReservaV.Text;
+            DateTime fecha = fecha_RV.Value;
+            DateTime fecha_horario = new DateTime(fecha.Year, fecha.Month, fecha.Day, 9, 0, 0);
+
+            double pagoParseado;
+            int cantPersonasParseadas;
+
+            if (string.IsNullOrWhiteSpace(origen))
+            {
+                MessageBox.Show("Ingrese origen");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(destino))
+            {
+                MessageBox.Show("Ingrese destino");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(usuario))
             {
                 MessageBox.Show("Ingrese usuario");
                 return;
@@ -873,31 +917,33 @@ namespace Proyecto
 
             if (reservaVueloSeleccionada != -1)
             {
-                if (double.TryParse(pagado, out pagoParseado) && int.TryParse(cantPersonas, out cantPersonasParseadas) && cantPersonasParseadas > 0 && cantPersonasParseadas <= 10)
+                if (double.TryParse(pagado, out pagoParseado))
                 {
-                    vuelo.capacidad -= cantPersonasParseadas;
 
-                    miAgencia.modificarReservaVuelo(reservaVueloSeleccionada, vuelo, usuario, pagoParseado, cantPersonasParseadas);
-                    miAgencia.modificarFechaVuelo(vuelo.id, fecha);
-
-                    tb_origenRV.Text = "";
-                    tb_destinoRV.Text = "";
-                    cbUsuarioReservaV.SelectedIndex = 0;
-                    cb_cantPersonasRV.Text = "";
-                    tbPagadoReservaV.Text = "";
-                    fecha_RV.Value = DateTime.Now;
-
-                    MessageBox.Show("Modificada con exito");
+                    if (int.TryParse(cantPersonas, out cantPersonasParseadas))
+                    {
+                        if (miAgencia.modificarReservaVuelo(reservaVueloSeleccionada, origen, destino, usuario, pagoParseado, cantPersonasParseadas, fecha_horario))
+                        {
+                            cb_origenRV.Text = "";
+                            cb_destinoRV.Text = "";
+                            cbUsuarioReservaV.SelectedIndex = 0;
+                            cb_cantPersonasRV.SelectedIndex = 0;
+                            tbPagadoReservaV.Text = "";
+                            fecha_RV.Value = DateTime.Now;
+                        }
+                    }
+                    else
+                        MessageBox.Show("Cantidad de personas inválida");
                 }
                 else
-                    MessageBox.Show("Ingrese un pago válido");
+                    MessageBox.Show("Pago inválido");
             }
             else
                 MessageBox.Show("Debe seleccionar una Reserva");
 
         }
 
-        private void eliminar_reservasV(object sender, EventArgs e)
+        private void btnEliminarReservaV_Click(object sender, EventArgs e)
         {
             if (reservaVueloSeleccionada != -1)
             {
@@ -935,12 +981,30 @@ namespace Proyecto
             tbPagadoReservaH.Text = "";
             fecha_desde_reservarH.Value = DateTime.Now;
             fecha_hasta_reservarH.Value = DateTime.Now;
-            tb_origenRV.Text = "";
-            tb_destinoRV.Text = "";
+            cb_origenRV.SelectedIndex = 0;
+            cb_destinoRV.SelectedIndex = 0;
             cbUsuarioReservaV.SelectedIndex = 0;
             cb_cantPersonasRV.SelectedIndex = 0;
             tbPagadoReservaV.Text = "";
             fecha_RV.Value = DateTime.Now;
         }
+
+        //private void cb_origenRV_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    string origenSeleccionado = cb_origenRV.SelectedItem as string;
+
+        //    List<string> destinosFiltrados = miAgencia.obtenerDestinosAsociadosAlOrigen(origenSeleccionado);
+
+        //    cb_destinoRV.DataSource = destinosFiltrados;
+        //}
+
+        //private void cb_destinoRV_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    string destinoSeleccionado = cb_destinoRV.SelectedItem as string;
+
+        //    List<string> origenesFiltrados = miAgencia.obtenerOrigenesAsociadosAlDestino(destinoSeleccionado);
+
+        //    cb_origenRV.DataSource = origenesFiltrados;
+        //}
     }
 }

@@ -34,11 +34,8 @@ namespace Proyecto
             this.clave = clave;
             this.isAdmin = isAdmin;
             this.credito = credito;
-        }
-
-        public Usuario(string nombre)
-        {
-            this.nombre = nombre;
+            misReservasHoteles = new List<ReservaHotel>();
+            misReservasVuelos = new List<ReservaVuelo>();
         }
 
         public string[] ToString()

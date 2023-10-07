@@ -31,6 +31,8 @@
             label1 = new Label();
             tabControl1 = new TabControl();
             hoteles = new TabPage();
+            label11 = new Label();
+            tb_pagoH = new TextBox();
             cb_hotel = new ComboBox();
             cb_ciudadH = new ComboBox();
             cb_cantPersonasH = new ComboBox();
@@ -51,6 +53,8 @@
             Column3 = new DataGridViewTextBoxColumn();
             Column4 = new DataGridViewTextBoxColumn();
             vuelos = new TabPage();
+            label12 = new Label();
+            tb_pagoV = new TextBox();
             cb_origenV = new ComboBox();
             cb_destinoV = new ComboBox();
             cb_cantPersonasV = new ComboBox();
@@ -85,6 +89,8 @@
             Column15 = new DataGridViewTextBoxColumn();
             Column16 = new DataGridViewTextBoxColumn();
             Column17 = new DataGridViewTextBoxColumn();
+            btnLimpiar = new Button();
+            button4 = new Button();
             tabControl1.SuspendLayout();
             hoteles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView_hoteles_UC).BeginInit();
@@ -120,6 +126,9 @@
             // 
             // hoteles
             // 
+            hoteles.Controls.Add(btnLimpiar);
+            hoteles.Controls.Add(label11);
+            hoteles.Controls.Add(tb_pagoH);
             hoteles.Controls.Add(cb_hotel);
             hoteles.Controls.Add(cb_ciudadH);
             hoteles.Controls.Add(cb_cantPersonasH);
@@ -142,11 +151,27 @@
             hoteles.Text = "Hoteles";
             hoteles.UseVisualStyleBackColor = true;
             // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(423, 44);
+            label11.Name = "label11";
+            label11.Size = new Size(34, 15);
+            label11.TabIndex = 18;
+            label11.Text = "Pago";
+            // 
+            // tb_pagoH
+            // 
+            tb_pagoH.Location = new Point(423, 69);
+            tb_pagoH.Name = "tb_pagoH";
+            tb_pagoH.Size = new Size(100, 23);
+            tb_pagoH.TabIndex = 17;
+            // 
             // cb_hotel
             // 
             cb_hotel.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_hotel.FormattingEnabled = true;
-            cb_hotel.Location = new Point(101, 69);
+            cb_hotel.Location = new Point(59, 69);
             cb_hotel.Name = "cb_hotel";
             cb_hotel.Size = new Size(100, 23);
             cb_hotel.TabIndex = 16;
@@ -155,7 +180,7 @@
             // 
             cb_ciudadH.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_ciudadH.FormattingEnabled = true;
-            cb_ciudadH.Location = new Point(216, 69);
+            cb_ciudadH.Location = new Point(174, 69);
             cb_ciudadH.Name = "cb_ciudadH";
             cb_ciudadH.Size = new Size(100, 23);
             cb_ciudadH.TabIndex = 15;
@@ -164,7 +189,7 @@
             // 
             cb_cantPersonasH.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_cantPersonasH.FormattingEnabled = true;
-            cb_cantPersonasH.Location = new Point(555, 69);
+            cb_cantPersonasH.Location = new Point(288, 69);
             cb_cantPersonasH.Name = "cb_cantPersonasH";
             cb_cantPersonasH.Size = new Size(121, 23);
             cb_cantPersonasH.TabIndex = 14;
@@ -172,7 +197,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(101, 44);
+            label10.Location = new Point(59, 44);
             label10.Name = "label10";
             label10.Size = new Size(36, 15);
             label10.TabIndex = 13;
@@ -180,7 +205,7 @@
             // 
             // btn_buscarHotel
             // 
-            btn_buscarHotel.Location = new Point(601, 113);
+            btn_buscarHotel.Location = new Point(668, 127);
             btn_buscarHotel.Name = "btn_buscarHotel";
             btn_buscarHotel.Size = new Size(75, 23);
             btn_buscarHotel.TabIndex = 11;
@@ -190,7 +215,7 @@
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(601, 222);
+            btnSalir.Location = new Point(668, 240);
             btnSalir.Name = "btnSalir";
             btnSalir.Size = new Size(75, 23);
             btnSalir.TabIndex = 10;
@@ -200,7 +225,7 @@
             // 
             // btn_comprarHotel
             // 
-            btn_comprarHotel.Location = new Point(601, 168);
+            btn_comprarHotel.Location = new Point(668, 185);
             btn_comprarHotel.Name = "btn_comprarHotel";
             btn_comprarHotel.Size = new Size(75, 23);
             btn_comprarHotel.TabIndex = 9;
@@ -211,7 +236,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(555, 44);
+            label5.Location = new Point(288, 44);
             label5.Name = "label5";
             label5.Size = new Size(121, 15);
             label5.TabIndex = 8;
@@ -220,7 +245,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(442, 44);
+            label4.Location = new Point(540, 113);
             label4.Name = "label4";
             label4.Size = new Size(69, 15);
             label4.TabIndex = 7;
@@ -229,7 +254,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(329, 44);
+            label3.Location = new Point(540, 45);
             label3.Name = "label3";
             label3.Size = new Size(72, 15);
             label3.TabIndex = 6;
@@ -238,7 +263,7 @@
             // Ciudad
             // 
             Ciudad.AutoSize = true;
-            Ciudad.Location = new Point(216, 44);
+            Ciudad.Location = new Point(174, 44);
             Ciudad.Name = "Ciudad";
             Ciudad.Size = new Size(45, 15);
             Ciudad.TabIndex = 5;
@@ -247,7 +272,7 @@
             // dateTimePicker2
             // 
             dateTimePicker2.Format = DateTimePickerFormat.Custom;
-            dateTimePicker2.Location = new Point(442, 69);
+            dateTimePicker2.Location = new Point(540, 138);
             dateTimePicker2.Name = "dateTimePicker2";
             dateTimePicker2.Size = new Size(100, 23);
             dateTimePicker2.TabIndex = 4;
@@ -255,7 +280,7 @@
             // dateTimePicker1
             // 
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
-            dateTimePicker1.Location = new Point(329, 69);
+            dateTimePicker1.Location = new Point(540, 70);
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(100, 23);
             dateTimePicker1.TabIndex = 3;
@@ -264,7 +289,7 @@
             // 
             dataGridView_hoteles_UC.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView_hoteles_UC.Columns.AddRange(new DataGridViewColumn[] { Column13, Column1, Column2, Column3, Column4 });
-            dataGridView_hoteles_UC.Location = new Point(101, 113);
+            dataGridView_hoteles_UC.Location = new Point(59, 113);
             dataGridView_hoteles_UC.Name = "dataGridView_hoteles_UC";
             dataGridView_hoteles_UC.RowTemplate.Height = 25;
             dataGridView_hoteles_UC.Size = new Size(464, 150);
@@ -305,6 +330,9 @@
             // 
             // vuelos
             // 
+            vuelos.Controls.Add(button4);
+            vuelos.Controls.Add(label12);
+            vuelos.Controls.Add(tb_pagoV);
             vuelos.Controls.Add(cb_origenV);
             vuelos.Controls.Add(cb_destinoV);
             vuelos.Controls.Add(cb_cantPersonasV);
@@ -325,11 +353,27 @@
             vuelos.Text = "Vuelos";
             vuelos.UseVisualStyleBackColor = true;
             // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(533, 47);
+            label12.Name = "label12";
+            label12.Size = new Size(34, 15);
+            label12.TabIndex = 16;
+            label12.Text = "Pago";
+            // 
+            // tb_pagoV
+            // 
+            tb_pagoV.Location = new Point(533, 74);
+            tb_pagoV.Name = "tb_pagoV";
+            tb_pagoV.Size = new Size(100, 23);
+            tb_pagoV.TabIndex = 15;
+            // 
             // cb_origenV
             // 
             cb_origenV.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_origenV.FormattingEnabled = true;
-            cb_origenV.Location = new Point(69, 74);
+            cb_origenV.Location = new Point(37, 74);
             cb_origenV.Name = "cb_origenV";
             cb_origenV.Size = new Size(100, 23);
             cb_origenV.TabIndex = 14;
@@ -338,7 +382,7 @@
             // 
             cb_destinoV.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_destinoV.FormattingEnabled = true;
-            cb_destinoV.Location = new Point(199, 74);
+            cb_destinoV.Location = new Point(158, 74);
             cb_destinoV.Name = "cb_destinoV";
             cb_destinoV.Size = new Size(100, 23);
             cb_destinoV.TabIndex = 13;
@@ -347,14 +391,14 @@
             // 
             cb_cantPersonasV.DropDownStyle = ComboBoxStyle.DropDownList;
             cb_cantPersonasV.FormattingEnabled = true;
-            cb_cantPersonasV.Location = new Point(457, 74);
+            cb_cantPersonasV.Location = new Point(395, 74);
             cb_cantPersonasV.Name = "cb_cantPersonasV";
             cb_cantPersonasV.Size = new Size(121, 23);
             cb_cantPersonasV.TabIndex = 12;
             // 
             // btn_buscarVuelo
             // 
-            btn_buscarVuelo.Location = new Point(657, 118);
+            btn_buscarVuelo.Location = new Point(664, 133);
             btn_buscarVuelo.Name = "btn_buscarVuelo";
             btn_buscarVuelo.Size = new Size(100, 23);
             btn_buscarVuelo.TabIndex = 11;
@@ -365,7 +409,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(457, 47);
+            label8.Location = new Point(395, 47);
             label8.Name = "label8";
             label8.Size = new Size(121, 15);
             label8.TabIndex = 10;
@@ -374,7 +418,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(329, 47);
+            label7.Location = new Point(277, 47);
             label7.Name = "label7";
             label7.Size = new Size(38, 15);
             label7.TabIndex = 9;
@@ -383,7 +427,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(199, 47);
+            label6.Location = new Point(158, 47);
             label6.Name = "label6";
             label6.Size = new Size(47, 15);
             label6.TabIndex = 8;
@@ -392,7 +436,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(69, 47);
+            label2.Location = new Point(37, 47);
             label2.Name = "label2";
             label2.Size = new Size(43, 15);
             label2.TabIndex = 7;
@@ -401,7 +445,7 @@
             // dateTimePicker3
             // 
             dateTimePicker3.Format = DateTimePickerFormat.Custom;
-            dateTimePicker3.Location = new Point(329, 74);
+            dateTimePicker3.Location = new Point(277, 74);
             dateTimePicker3.Name = "dateTimePicker3";
             dateTimePicker3.Size = new Size(100, 23);
             dateTimePicker3.TabIndex = 6;
@@ -410,10 +454,10 @@
             // 
             dataGridView_vuelos_UC.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView_vuelos_UC.Columns.AddRange(new DataGridViewColumn[] { Column18, Column5, Column6, Column11, Column7, Column8, Column9, Column10 });
-            dataGridView_vuelos_UC.Location = new Point(69, 118);
+            dataGridView_vuelos_UC.Location = new Point(37, 118);
             dataGridView_vuelos_UC.Name = "dataGridView_vuelos_UC";
             dataGridView_vuelos_UC.RowTemplate.Height = 25;
-            dataGridView_vuelos_UC.Size = new Size(542, 150);
+            dataGridView_vuelos_UC.Size = new Size(596, 150);
             dataGridView_vuelos_UC.TabIndex = 2;
             dataGridView_vuelos_UC.CellDoubleClick += doble_click_vuelos;
             // 
@@ -468,7 +512,7 @@
             // 
             // btn_salir
             // 
-            btn_salir.Location = new Point(657, 223);
+            btn_salir.Location = new Point(664, 245);
             btn_salir.Name = "btn_salir";
             btn_salir.Size = new Size(100, 23);
             btn_salir.TabIndex = 1;
@@ -478,7 +522,7 @@
             // 
             // btn_comprarVuelo
             // 
-            btn_comprarVuelo.Location = new Point(657, 172);
+            btn_comprarVuelo.Location = new Point(664, 190);
             btn_comprarVuelo.Name = "btn_comprarVuelo";
             btn_comprarVuelo.Size = new Size(100, 23);
             btn_comprarVuelo.TabIndex = 0;
@@ -616,6 +660,26 @@
             Column17.ReadOnly = true;
             Column17.Width = 120;
             // 
+            // btnLimpiar
+            // 
+            btnLimpiar.Location = new Point(668, 70);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(75, 23);
+            btnLimpiar.TabIndex = 19;
+            btnLimpiar.Text = "Limpiar";
+            btnLimpiar.UseVisualStyleBackColor = true;
+            btnLimpiar.Click += btnLimpiar_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(664, 73);
+            button4.Name = "button4";
+            button4.Size = new Size(100, 23);
+            button4.TabIndex = 20;
+            button4.Text = "Limpiar";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += btnLimpiar_Click;
+            // 
             // Form5
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -703,5 +767,11 @@
         private ComboBox cb_origenV;
         private ComboBox cb_destinoV;
         private Button button3;
+        private Label label11;
+        private TextBox tb_pagoH;
+        private Label label12;
+        private TextBox tb_pagoV;
+        private Button btnLimpiar;
+        private Button button4;
     }
 }
