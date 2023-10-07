@@ -23,6 +23,7 @@ namespace Proyecto
         private int cantReservasVuelos;
         private int cantidadPersonasRH;
         private int cantidadPersonasRV;
+        private DAL DB;
 
         public Agencia()
         {
@@ -39,6 +40,19 @@ namespace Proyecto
             cantReservasVuelos = 0;
             cantidadPersonasRH = 0;
             cantidadPersonasRV = 0;
+            //HACER LISTAS MANY TO MANY
+            DB = new DAL();
+            inicializarAtributos();
+        }
+
+        private void inicializarAtributos()
+        {
+            usuarios = DB.inicializarUsuarios();
+            hoteles = DB.inicializarHoteles();
+            vuelos = DB.inicializarVuelos();
+            reservasHotel = DB.inicializarReservasH();
+            reservasVuelo = DB.inicializarReservasV();
+            ciudades = DB.inicializarCiudades();
         }
 
         public bool agregarUsuario(int dni, string nombre, string apellido, string mail, string clave, bool isAdmin, double credito)

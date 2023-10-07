@@ -28,6 +28,15 @@ namespace Proyecto
             this.cantPersonas = cantPersonas;
         }
 
+        public ReservaHotel(int id, DateTime fechaDesde, DateTime fechaHasta, double pagado, int cantPersonas, int hotel_fk, int usuario_fk)
+        {
+            this.id = id;
+            this.fechaDesde = fechaDesde;
+            this.fechaHasta = fechaHasta;
+            this.pagado = pagado;
+            this.cantPersonas = cantPersonas;
+        }
+
         public string[] ToString()
         {
             return new string[] { id.ToString(), miHotel.nombre, miUsuario.id.ToString(), miUsuario.nombre, fechaDesde.ToString(), fechaHasta.ToString(), pagado.ToString(), cantPersonas.ToString() };

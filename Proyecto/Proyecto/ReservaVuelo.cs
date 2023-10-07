@@ -24,6 +24,13 @@ namespace Proyecto
             this.cantPersonas = cantPersonas;
         }
 
+        public ReservaVuelo(int id, double pagado, int cantPersonas, int vuelo_fk, int usuario_fk)
+        {
+            this.id = id;
+            this.pagado = pagado;
+            this.cantPersonas = cantPersonas;
+        }
+
         public string[] ToString()
         {
             return new string[] { id.ToString(), miVuelo.origen.nombre, miVuelo.destino.nombre, miUsuario.id.ToString(), miUsuario.nombre, miVuelo.fecha.ToString(), cantPersonas.ToString(), pagado.ToString() };

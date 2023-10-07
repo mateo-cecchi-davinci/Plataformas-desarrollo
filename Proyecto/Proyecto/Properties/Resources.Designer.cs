@@ -59,5 +59,14 @@ namespace Proyecto.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Source=(localdb)\MateServer;Initial Catalog=agencia;Integrated Security=True.
+        /// </summary>
+        internal static string ConnectionStr {
+            get {
+                return ResourceManager.GetString("ConnectionStr", resourceCulture);
+            }
+        }
     }
 }

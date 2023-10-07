@@ -38,6 +38,20 @@ namespace Proyecto
             misReservasVuelos = new List<ReservaVuelo>();
         }
 
+        public Usuario(int id, int dni, string nombre, string apellido, string mail, string clave, int intentosFallidos, bool bloqueado, double credito, bool isAdmin)
+        {
+            this.id = id;
+            this.dni = dni;
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.mail = mail;
+            this.clave = clave;
+            this.intentosFallidos = intentosFallidos;
+            this.bloqueado = bloqueado;
+            this.credito = credito;
+            this.isAdmin = isAdmin;
+        }
+
         public string[] ToString()
         {
             return new string[] { id.ToString(), dni.ToString(), nombre, apellido, credito.ToString(), mail };

@@ -34,6 +34,17 @@ namespace Proyecto
             misReservas = new List<ReservaVuelo>();
         }
 
+        public Vuelo(int id, int capacidad, int vendido, double costo, DateTime fecha, string aerolinea, string avion, int origen_fk, int destino_fk)
+        {
+            this.id = id;
+            this.capacidad = capacidad;
+            this.vendido = vendido;
+            this.costo = costo;
+            this.fecha = fecha;
+            this.aerolinea = aerolinea;
+            this.avion = avion;
+        }
+
         public string[] ToString()
         {
             return new string[] { id.ToString(), origen.nombre, destino.nombre, costo.ToString(), capacidad.ToString(), fecha.ToString(), aerolinea, avion };

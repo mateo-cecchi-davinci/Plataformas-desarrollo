@@ -29,6 +29,15 @@ namespace Proyecto
             misReservas = new List<ReservaHotel>();
         }
 
+        public Hotel(int id, string nombre, int capacidad, double costo, int ciudad_fk)
+        {
+            this.id = id;
+            this.ubicacion = ubicacion;
+            this.capacidad = capacidad;
+            this.costo = costo;
+            this.nombre = nombre;
+        }
+
         public string[] ToString()
         {
             return new string[] { id.ToString(), nombre, ubicacion.nombre, costo.ToString(), capacidad.ToString() };

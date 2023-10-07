@@ -21,5 +21,11 @@ namespace Proyecto
             this.vuelos = new List<Vuelo>();
         }
 
+        public Ciudad(int id, string nombre)
+        {
+            this.id = id;
+            this.nombre = nombre;
+        }
+
     }
 }
