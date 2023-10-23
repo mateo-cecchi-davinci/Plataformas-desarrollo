@@ -21,8 +21,6 @@ namespace Proyecto
         public registrado submit;
         public volver back;
 
-
-
         public Form4(Agencia agencia)
         {
             miAgencia = agencia;
@@ -81,8 +79,11 @@ namespace Proyecto
 
             if (int.TryParse(dni, out numDni))
             {
-                miAgencia.agregarUsuario(numDni, nombre, apellido, mail, clave, checkBox_IsAdmin.Checked, 0);
-                submit();
+                if (miAgencia.agregarUsuario(numDni, nombre, apellido, mail, clave, 0))
+                {
+                    submit();
+                }
+                else MessageBox.Show("Hubo un problema");
             }
             else MessageBox.Show("El campo Dni solo admite números");
 
@@ -126,9 +127,6 @@ namespace Proyecto
                 tbMail.ForeColor = Color.DimGray;
             }
         }
-
-
-
 
         private void tbClave_Enter_1(object sender, EventArgs e)
         {

@@ -17,7 +17,11 @@ namespace Proyecto
         public double costo { get; set; }
         public List<Usuario> huespedes { get => huesped.ToList(); }
         public string nombre { get; set; }
-        public List<ReservaHotel> misReservas { get; set; }
+        public int ciudad_fk { get; set; }
+        public List<ReservaHotel> misReservas { get; set; } = new List<ReservaHotel>();
+        public List<UsuarioHotel> hotel_usuario { get; set; } = new List<UsuarioHotel>();
+
+        //public IEnumerable<ReservaHotel> misReservas { get; set; }
 
         public Hotel(int id, Ciudad ubicacion, int capacidad, double costo, string nombre)
         {
@@ -26,16 +30,15 @@ namespace Proyecto
             this.capacidad = capacidad;
             this.costo = costo;
             this.nombre = nombre;
-            misReservas = new List<ReservaHotel>();
         }
 
         public Hotel(int id, string nombre, int capacidad, double costo, int ciudad_fk)
         {
             this.id = id;
-            this.ubicacion = ubicacion;
+            this.nombre = nombre;
             this.capacidad = capacidad;
             this.costo = costo;
-            this.nombre = nombre;
+            this.ciudad_fk = ciudad_fk;
         }
 
         public string[] ToString()

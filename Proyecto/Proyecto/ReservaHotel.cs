@@ -16,6 +16,8 @@ namespace Proyecto
         public DateTime fechaHasta { get; set; }
         public double pagado { get; set; }
         public int cantPersonas { get; set; }
+        public int hotel_fk { get; set; }
+        public int usuario_fk { get; set; }
 
         public ReservaHotel (int id, Hotel miHotel, Usuario miUsuario, DateTime fechaDesde, DateTime fechaHasta, double pagado, int cantPersonas)
         {
@@ -35,6 +37,8 @@ namespace Proyecto
             this.fechaHasta = fechaHasta;
             this.pagado = pagado;
             this.cantPersonas = cantPersonas;
+            this.hotel_fk = hotel_fk;
+            this.usuario_fk = usuario_fk;
         }
 
         public string[] ToString()

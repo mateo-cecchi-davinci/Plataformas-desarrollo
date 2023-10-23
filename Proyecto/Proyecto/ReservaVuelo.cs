@@ -14,6 +14,8 @@ namespace Proyecto
         public Usuario miUsuario { get; set;}
         public double pagado { get; set;}
         public int cantPersonas { get; set;}
+        public int vuelo_fk { get; set; }
+        public int usuario_fk { get; set;}
 
         public ReservaVuelo (int id, Vuelo miVuelo, Usuario miUsuario, double pagado, int cantPersonas)
         {
@@ -29,6 +31,8 @@ namespace Proyecto
             this.id = id;
             this.pagado = pagado;
             this.cantPersonas = cantPersonas;
+            this.vuelo_fk = vuelo_fk;
+            this.usuario_fk = usuario_fk;
         }
 
         public string[] ToString()

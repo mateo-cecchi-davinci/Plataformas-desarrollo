@@ -38,7 +38,6 @@
             tbClave = new TextBox();
             tbDni = new TextBox();
             tbApellido = new TextBox();
-            checkBox_IsAdmin = new CheckBox();
             SuspendLayout();
             // 
             // label1
@@ -140,23 +139,12 @@
             tbApellido.Enter += tbApellido_Enter_1;
             tbApellido.Leave += tbApellido_Leave_1;
             // 
-            // checkBox_IsAdmin
-            // 
-            checkBox_IsAdmin.ForeColor = Color.FromArgb(64, 64, 64);
-            checkBox_IsAdmin.Location = new Point(317, 356);
-            checkBox_IsAdmin.Name = "checkBox_IsAdmin";
-            checkBox_IsAdmin.Size = new Size(161, 19);
-            checkBox_IsAdmin.TabIndex = 10;
-            checkBox_IsAdmin.Text = "Administrador";
-            checkBox_IsAdmin.UseVisualStyleBackColor = true;
-            // 
             // Form4
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(800, 450);
-            Controls.Add(checkBox_IsAdmin);
             Controls.Add(tbApellido);
             Controls.Add(tbDni);
             Controls.Add(tbClave);
@@ -185,6 +173,5 @@
         private TextBox tbClave;
         private TextBox tbDni;
         private TextBox tbApellido;
-        private CheckBox checkBox_IsAdmin;
     }
 }

@@ -17,12 +17,13 @@ namespace Proyecto
         public string clave { get; set; }
         public int intentosFallidos { get; set; }
         public bool bloqueado { get; set; }
-        public List<ReservaHotel> misReservasHoteles { get; set; }
-        public List<ReservaVuelo> misReservasVuelos { get; set; }
+        public List<ReservaHotel> misReservasHoteles { get; set; } = new List<ReservaHotel>();
+        public List<ReservaVuelo> misReservasVuelos { get; set; } = new List<ReservaVuelo>();
         public double credito { get; set; }
         public bool isAdmin { get; set; }
         public List<Hotel> hotelesVisitados { get; set; }
         public List<Vuelo> vuelosTomados { get; set; }
+        public List<UsuarioHotel> usuario_hotel { get; set; }
 
         public Usuario(int id, int dni, string nombre, string apellido, string mail, string clave, bool isAdmin, double credito)
         {
@@ -34,8 +35,6 @@ namespace Proyecto
             this.clave = clave;
             this.isAdmin = isAdmin;
             this.credito = credito;
-            misReservasHoteles = new List<ReservaHotel>();
-            misReservasVuelos = new List<ReservaVuelo>();
         }
 
         public Usuario(int id, int dni, string nombre, string apellido, string mail, string clave, int intentosFallidos, bool bloqueado, double credito, bool isAdmin)

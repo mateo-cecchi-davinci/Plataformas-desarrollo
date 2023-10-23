@@ -19,7 +19,9 @@ namespace Proyecto
         public DateTime fecha { get; set; }
         public string aerolinea { get; set; }
         public string avion { get; set; }
-        public List<ReservaVuelo> misReservas { get; set; }
+        public int origen_fk { get; set; }
+        public int destino_fk { get; set; }
+        public List<ReservaVuelo> misReservas { get; set; } = new List<ReservaVuelo>();
 
         public Vuelo(int id, Ciudad origen, Ciudad destino, int capacidad,  double costo, DateTime fecha, string aerolinea, string avion)
         {
@@ -31,7 +33,6 @@ namespace Proyecto
             this.fecha = fecha;
             this.aerolinea = aerolinea;
             this.avion = avion;
-            misReservas = new List<ReservaVuelo>();
         }
 
         public Vuelo(int id, int capacidad, int vendido, double costo, DateTime fecha, string aerolinea, string avion, int origen_fk, int destino_fk)
@@ -43,6 +44,8 @@ namespace Proyecto
             this.fecha = fecha;
             this.aerolinea = aerolinea;
             this.avion = avion;
+            this.origen_fk = origen_fk;
+            this.destino_fk = destino_fk;
         }
 
         public string[] ToString()

@@ -11,14 +11,12 @@ namespace Proyecto
 
         public int id { get; set; }
         public string nombre { get; set; }
-        public List<Vuelo> vuelos { get; set; }
-        public List<Hotel> hoteles { get; set; }
+        public List<Vuelo> vuelos { get; set; } = new List<Vuelo>();
+        public List<Hotel> hoteles { get; set; } = new List<Hotel>();
 
         public Ciudad(string nombre)
         {
             this.nombre = nombre;
-            this.hoteles = new List<Hotel>();
-            this.vuelos = new List<Vuelo>();
         }
 
         public Ciudad(int id, string nombre)
