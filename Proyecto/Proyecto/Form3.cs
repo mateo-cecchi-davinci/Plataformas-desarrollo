@@ -275,6 +275,7 @@ namespace Proyecto
                         textBoxCosto.Text = "";
                         cb_ciudadH.SelectedIndex = 0;
                         MessageBox.Show("Se ha cargado un nuevo hotel con exito");
+                        mostrarHoteles();
                     }
                     else
                         MessageBox.Show("Hubo un problema");
@@ -346,6 +347,7 @@ namespace Proyecto
                             textBoxCapacidad.Text = "";
                             textBoxCosto.Text = "";
                             cb_ciudadH.SelectedIndex = 0;
+                            mostrarHoteles();
                         }
                         else
                             MessageBox.Show("Problemas al modificar");
@@ -365,7 +367,11 @@ namespace Proyecto
             if (hotelSeleccionado != -1)
             {
                 if (miAgencia.elminarHotel(hotelSeleccionado))
+                {
+
                     MessageBox.Show("Eliminado con exito");
+                     mostrarHoteles();
+                }
                 else
                     MessageBox.Show("Problemas al eliminar");
             }
@@ -452,6 +458,7 @@ namespace Proyecto
                         textBox_aerolineas_vuelos.Text = "";
                         textBox_avion_vuelos.Text = "";
                         MessageBox.Show("Se ha cargado un nuevo Vuelo con exito");
+                        mostrarVuelos();
                     }
                     else
                         MessageBox.Show("Hubo un problema");
@@ -558,6 +565,7 @@ namespace Proyecto
                             dateTimePicker_vuelos.Value = DateTime.Now;
                             textBox_aerolineas_vuelos.Text = "";
                             textBox_avion_vuelos.Text = "";
+                            mostrarVuelos();
                         }
                     }
                     else
@@ -576,7 +584,11 @@ namespace Proyecto
             if (vueloSeleccionado != -1)
             {
                 if (miAgencia.elminarVuelo(vueloSeleccionado))
+                {
                     MessageBox.Show("Eliminado con exito");
+                    mostrarVuelos();
+                }
+
                 else
                     MessageBox.Show("Problemas al eliminar");
             }
