@@ -15,13 +15,11 @@ namespace Proyecto
         public Ciudad ubicacion { get; set; }
         public int capacidad { get; set; }
         public double costo { get; set; }
-        public List<Usuario> huespedes { get => huesped.ToList(); }
+        public List<Usuario> huespedes { get; set; } = new List<Usuario>();
         public string nombre { get; set; }
         public int ciudad_fk { get; set; }
         public List<ReservaHotel> misReservas { get; set; } = new List<ReservaHotel>();
         public List<UsuarioHotel> hotel_usuario { get; set; } = new List<UsuarioHotel>();
-
-        //public IEnumerable<ReservaHotel> misReservas { get; set; }
 
         public Hotel(int id, Ciudad ubicacion, int capacidad, double costo, string nombre)
         {

@@ -72,14 +72,6 @@ namespace Proyecto
 
             foreach (ReservaHotel rh in reservasHotel)
             {
-                foreach (Usuario u in usuarios)
-                {
-                    if (u.id == rh.usuario_fk)
-                    {
-                        u.misReservasHoteles.Add(rh);
-                        rh.miUsuario = u;
-                    }
-                }
 
                 foreach (Hotel h in hoteles)
                 {
@@ -89,18 +81,25 @@ namespace Proyecto
                         rh.miHotel = h;
                     }
                 }
+
+                foreach (Usuario u in usuarios)
+                {
+                    if (u.id == rh.usuario_fk)
+                    {
+                        u.misReservasHoteles.Add(rh);
+                        rh.miUsuario = u;
+
+                        if (DateTime.Now >= rh.fechaDesde)
+                        {
+                            u.hotelesVisitados.Add(rh.miHotel);
+                            rh.miHotel.huespedes.Add(u);
+                        }
+                    }
+                }
             }
 
             foreach (ReservaVuelo rv in reservasVuelo)
             {
-                foreach (Usuario u in usuarios)
-                {
-                    if (u.id == rv.usuario_fk)
-                    {
-                        u.misReservasVuelos.Add(rv);
-                        rv.miUsuario = u;
-                    }
-                }
 
                 foreach (Vuelo v in vuelos)
                 {
@@ -108,6 +107,21 @@ namespace Proyecto
                     {
                         v.misReservas.Add(rv);
                         rv.miVuelo = v;
+                    }
+                }
+
+                foreach (Usuario u in usuarios)
+                {
+                    if (u.id == rv.usuario_fk)
+                    {
+                        u.misReservasVuelos.Add(rv);
+                        rv.miUsuario = u;
+
+                        if (DateTime.Now >= rv.miVuelo.fecha)
+                        {
+                            u.vuelosTomados.Add(rv.miVuelo);
+                            rv.miVuelo.pasajeros.Add(u);
+                        }
                     }
                 }
             }
@@ -120,8 +134,6 @@ namespace Proyecto
                     {
                         if (uh.usuario_fk == u.id && uh.hotel_fk == h.id)
                         {
-                            u.hotelesVisitados.Add(h);
-                            h.huespedes.Add(u);
                             uh.usuario = u;
                             uh.hotel = h;
                         }
@@ -137,8 +149,6 @@ namespace Proyecto
                     {
                         if (uv.usuario_fk == u.id && uv.vuelo_fk == v.id)
                         {
-                            u.vuelosTomados.Add(v);
-                            v.pasajeros.Add(u);
                             uv.usuario = u;
                             uv.vuelo = v;
                         }
@@ -253,6 +263,7 @@ namespace Proyecto
                     {
                         try
                         {
+                            //ACA DEBERIA ELIMINAR SUS RESERVAS EN CASO DE QUE SEAN A FUTURO?
                             usuarios.Remove(u);
                             return true;
                         }

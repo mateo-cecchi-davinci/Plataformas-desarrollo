@@ -14,7 +14,7 @@ namespace Proyecto
         public Ciudad destino { get; set; }
         public int capacidad { get; set; }
         public int vendido { get; set; }
-        public List<Usuario> pasajeros { get; set; }
+        public List<Usuario> pasajeros { get; set; } = new List<Usuario>();
         public double costo { get; set; }
         public DateTime fecha { get; set; }
         public string aerolinea { get; set; }
