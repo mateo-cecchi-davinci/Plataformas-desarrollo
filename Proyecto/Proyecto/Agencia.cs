@@ -72,7 +72,6 @@ namespace Proyecto
 
             foreach (ReservaHotel rh in reservasHotel)
             {
-
                 foreach (Hotel h in hoteles)
                 {
                     if (h.id == rh.hotel_fk)
@@ -89,10 +88,13 @@ namespace Proyecto
                         u.misReservasHoteles.Add(rh);
                         rh.miUsuario = u;
 
-                        if (DateTime.Now >= rh.fechaDesde)
+                        if (!u.hotelesVisitados.Contains(rh.miHotel))
                         {
-                            u.hotelesVisitados.Add(rh.miHotel);
-                            rh.miHotel.huespedes.Add(u);
+                            if (DateTime.Now >= rh.fechaDesde)
+                            {
+                                u.hotelesVisitados.Add(rh.miHotel);
+                                rh.miHotel.huespedes.Add(u);
+                            }
                         }
                     }
                 }
@@ -100,7 +102,6 @@ namespace Proyecto
 
             foreach (ReservaVuelo rv in reservasVuelo)
             {
-
                 foreach (Vuelo v in vuelos)
                 {
                     if (v.id == rv.vuelo_fk)
@@ -117,10 +118,13 @@ namespace Proyecto
                         u.misReservasVuelos.Add(rv);
                         rv.miUsuario = u;
 
-                        if (DateTime.Now >= rv.miVuelo.fecha)
+                        if (!u.vuelosTomados.Contains(rv.miVuelo))
                         {
-                            u.vuelosTomados.Add(rv.miVuelo);
-                            rv.miVuelo.pasajeros.Add(u);
+                            if (DateTime.Now >= rv.miVuelo.fecha)
+                            {
+                                u.vuelosTomados.Add(rv.miVuelo);
+                                rv.miVuelo.pasajeros.Add(u);
+                            }
                         }
                     }
                 }
@@ -172,7 +176,7 @@ namespace Proyecto
             if (esValido)
             {
                 int idNuevoUsuario;
-                idNuevoUsuario = DB.agregarUsuario(dni, nombre, apellido, mail, clave, false, credito);
+                idNuevoUsuario = DB.agregarUsuario(dni, nombre, apellido, mail, clave, 0, false, false, credito);
 
                 if (idNuevoUsuario != -1)
                 {
@@ -332,52 +336,55 @@ namespace Proyecto
 
             foreach (Hotel h in hoteles)
             {
-
-                if (capacidad < h.capacidad)
+                if (h.id == id)
                 {
-                    try
+                    if (capacidad < h.capacidad)
                     {
-                        ReservaHotel reserva = h.misReservas.First(r => DateTime.Now < r.fechaDesde);
-
-                        if (reserva != null)
+                        try
                         {
-                            MessageBox.Show("No se puede realizar la modificación porque\" & vbCrLf & \"" +
-                                "la capacidad ingresada es menor a la anterior\" & vbCrLf & \"" +
-                                "y el hotel tiene reservas a futuro que pueden\" & vbCrLf & \"" +
-                                "causar problemas con la disponibilidad.");
+                            ReservaHotel reserva = h.misReservas.First(r => DateTime.Now < r.fechaDesde);
+
+                            if (reserva != null)
+                            {
+                                MessageBox.Show("No se puede realizar la modificación porque\" & vbCrLf & \"" +
+                                    "la capacidad ingresada es menor a la anterior\" & vbCrLf & \"" +
+                                    "y el hotel tiene reservas a futuro que pueden\" & vbCrLf & \"" +
+                                    "causar problemas con la disponibilidad.");
+                                return false;
+                            }
+                        }
+                        catch (InvalidOperationException) { }
+                    }
+
+                    if (DB.modificarHotel(id, nuevaUbicacion.id, capacidad, costo, nombre) == 1)
+                    {
+                        try
+                        {
+                            if (h.ubicacion != nuevaUbicacion)
+                            {
+                                h.ubicacion.hoteles.Remove(h);
+                            }
+
+                            h.ubicacion = nuevaUbicacion;
+                            h.capacidad = capacidad;
+                            h.costo = costo;
+                            h.nombre = nombre;
+
+                            if (!h.ubicacion.hoteles.Contains(h))
+                            {
+                                h.ubicacion.hoteles.Add(h);
+                            }
+                            MessageBox.Show("Modificado con exito");
+                            return true;
+                        }
+                        catch (Exception)
+                        {
                             return false;
                         }
                     }
-                    catch (InvalidOperationException) { }
-                }
-
-                if (DB.modificarHotel(id, nuevaUbicacion.id, capacidad, costo, nombre) == 1)
-                {
-                    try
-                    {
-                        if (h.ubicacion != nuevaUbicacion)
-                        {
-                            h.ubicacion.hoteles.Remove(h);
-                        }
-
-                        h.ubicacion = nuevaUbicacion;
-                        h.capacidad = capacidad;
-                        h.costo = costo;
-                        h.nombre = nombre;
-
-                        if (!h.ubicacion.hoteles.Contains(h))
-                        {
-                            h.ubicacion.hoteles.Add(h);
-                        }
-                        MessageBox.Show("Modificado con exito");
-                        return true;
-                    }
-                    catch (Exception)
-                    {
-                        return false;
-                    }
                 }
             }
+
             return false;
         }
 
@@ -436,7 +443,7 @@ namespace Proyecto
                 return false;
             }
 
-            int idNuevoVuelo = DB.agregarVuelo(ciudadO.id, ciudadD.id, capacidad, costo, fecha, aerolinea, avion);
+            int idNuevoVuelo = DB.agregarVuelo(ciudadO.id, ciudadD.id, capacidad, 0, costo, fecha, aerolinea, avion);
 
             if (idNuevoVuelo != -1)
             {
@@ -522,7 +529,6 @@ namespace Proyecto
                             {
                                 ciudadD.vuelos.Add(v);
                             }
-                            MessageBox.Show("Modificado con exito");
 
                             return true;
                         }
@@ -578,8 +584,8 @@ namespace Proyecto
         public bool agregarReservaHotel(string hotel, string usuario, DateTime fechaDesde, DateTime fechaHasta, double pagado, int cantPersonas)
         {
 
-            string u = usuario.Substring(0, 1);
-            int usuario_id = int.Parse(u);
+            string[] partes = usuario.Split(new string[] { ". " }, StringSplitOptions.None);
+            int usuario_id = int.Parse(partes[0]);
 
             Usuario usuarioSeleccionado = usuarios.FirstOrDefault(u => u.id == usuario_id);
             Hotel hotelSeleccionado = hoteles.FirstOrDefault(h => h.nombre == hotel);
@@ -623,21 +629,62 @@ namespace Proyecto
             }
             else if (pagado >= hotelSeleccionado.costo * cantPersonas)
             {
+                int idNuevaReservaHotel = DB.agregarReservaHotel(fechaDesde, fechaHasta, pagado, cantPersonas, hotelSeleccionado.id, usuario_id);
+                int cant = 0;
 
-                int idNuevaReservaHotel = DB.agregarReservaHotel(fechaDesde, fechaHasta, pagado, cantPersonas, hotelSeleccionado.id, usuarioSeleccionado.id);
+                if (DateTime.Now >= fechaDesde)
+                {
+                    cant = 1;
+                }
 
                 if (idNuevaReservaHotel != -1)
                 {
-                    usuarioSeleccionado.credito -= hotelSeleccionado.costo * cantPersonas;
-                    pagado = hotelSeleccionado.costo * cantPersonas;
+                    if (DB.obtenerUsuarioHotel(usuario_id, hotelSeleccionado.id) != 0)
+                    {
+                        if (DB.modificarUsuarioHotel(usuario_id, hotelSeleccionado.id, cant) == 1)
+                        {
+                            try
+                            {
+                                UsuarioHotel usuario_hotel = usuarioHotel.First(uh => uh.usuario_fk == usuario_id && uh.hotel_fk == hotelSeleccionado.id);
+                                usuario_hotel.cantidad += cant;
+                            }
+                            catch (InvalidOperationException ex)
+                            {
+                                Console.WriteLine("Registro no encontrado: " + ex.Message);
+                            }
 
-                    ReservaHotel nuevaReserva = new ReservaHotel(idNuevaReservaHotel, hotelSeleccionado, usuarioSeleccionado, fechaDesde, fechaHasta, pagado, cantPersonas);
+                            usuarioSeleccionado.credito -= hotelSeleccionado.costo * cantPersonas;
+                            pagado = hotelSeleccionado.costo * cantPersonas;
 
-                    reservasHotel.Add(nuevaReserva);
-                    usuarioSeleccionado.misReservasHoteles.Add(nuevaReserva);
-                    hotelSeleccionado.misReservas.Add(nuevaReserva);
+                            ReservaHotel nuevaReserva = new ReservaHotel(idNuevaReservaHotel, hotelSeleccionado, usuarioSeleccionado, fechaDesde, fechaHasta, pagado, cantPersonas);
 
-                    return true;
+                            reservasHotel.Add(nuevaReserva);
+                            usuarioSeleccionado.misReservasHoteles.Add(nuevaReserva);
+                            hotelSeleccionado.misReservas.Add(nuevaReserva);
+
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (DB.agregarUsuarioHotel(usuario_id, hotelSeleccionado.id, cant) == 1)
+                        {
+                            UsuarioHotel usuario_hotel = new UsuarioHotel(usuario_id, hotelSeleccionado.id, cant);
+
+                            usuarioHotel.Add(usuario_hotel);
+
+                            usuarioSeleccionado.credito -= hotelSeleccionado.costo * cantPersonas;
+                            pagado = hotelSeleccionado.costo * cantPersonas;
+
+                            ReservaHotel nuevaReserva = new ReservaHotel(idNuevaReservaHotel, hotelSeleccionado, usuarioSeleccionado, fechaDesde, fechaHasta, pagado, cantPersonas);
+
+                            reservasHotel.Add(nuevaReserva);
+                            usuarioSeleccionado.misReservasHoteles.Add(nuevaReserva);
+                            hotelSeleccionado.misReservas.Add(nuevaReserva);
+
+                            return true;
+                        }
+                    }
                 }
 
                 return false;
@@ -658,8 +705,8 @@ namespace Proyecto
         public bool modificarReservaHotel(int id, string hotel, string usuario, DateTime fechaDesde, DateTime fechaHasta, double pagado, int cantidad)
         {
 
-            string u = usuario.Substring(0, 1);
-            int usuario_id = int.Parse(u);
+            string[] partes = usuario.Split(new string[] { ". " }, StringSplitOptions.None);
+            int usuario_id = int.Parse(partes[0]);
 
             Usuario usuarioSeleccionado = usuarios.FirstOrDefault(u => u.id == usuario_id);
             Hotel hotelSeleccionado = hoteles.FirstOrDefault(h => h.nombre == hotel);
@@ -694,52 +741,110 @@ namespace Proyecto
             {
                 if (rh.id == id)
                 {
-
                     cantidadPersonasRH -= rh.cantPersonas;
                     cantidadPersonasRH += cantidad;
 
                     if (hotelSeleccionado.capacidad > cantidadPersonasRH)
                     {
-
                         if (usuarioSeleccionado.credito >= pagado)
                         {
-
                             if (usuarioSeleccionado.credito + rh.pagado - pagado >= hotelSeleccionado.costo * cantidad)
                             {
-
                                 if (DB.modificarReservaHotel(id, fechaDesde, fechaHasta, pagado, cantidad, hotelSeleccionado.id, usuarioSeleccionado.id) == 1)
                                 {
-                                    if (hotelSeleccionado != rh.miHotel)
+                                    int cant = 0;
+
+                                    if (DateTime.Now >= fechaDesde)
                                     {
-                                        rh.miHotel.misReservas.Remove(rh);
+                                        if (usuarioHotel.First(uh => uh.usuario == rh.miUsuario && uh.hotel == rh.miHotel) == null)
+                                            cant = 1;
                                     }
 
-                                    if (usuarioSeleccionado != rh.miUsuario)
+                                    if (DB.modificarUsuarioHotel(usuario_id, hotelSeleccionado.id, cant) == 1)
                                     {
-                                        rh.miUsuario.credito += rh.pagado;
-                                        rh.miUsuario.misReservasHoteles.Remove(rh);
+                                        try
+                                        {
+                                            UsuarioHotel usuario_hotel = usuarioHotel.First(uh => uh.usuario_fk == usuario_id && uh.hotel_fk == hotelSeleccionado.id);
+                                            usuario_hotel.cantidad += cant;
+                                        }
+                                        catch (InvalidOperationException ex)
+                                        {
+                                            Console.WriteLine("Registro no encontrado: " + ex.Message);
+                                        }
+
+                                        if (hotelSeleccionado != rh.miHotel)
+                                        {
+                                            rh.miHotel.misReservas.Remove(rh);
+                                        }
+
+                                        if (usuarioSeleccionado != rh.miUsuario)
+                                        {
+                                            rh.miUsuario.credito += rh.pagado;
+                                            rh.miUsuario.misReservasHoteles.Remove(rh);
+                                        }
+
+                                        pagado = hotelSeleccionado.costo * cantidad;
+
+                                        usuarioSeleccionado.credito += rh.pagado;
+                                        usuarioSeleccionado.credito -= pagado;
+
+                                        hotelSeleccionado.misReservas.Remove(rh);
+                                        usuarioSeleccionado.misReservasHoteles.Remove(rh);
+
+                                        rh.miHotel = hotelSeleccionado;
+                                        rh.miUsuario = usuarioSeleccionado;
+                                        rh.fechaDesde = fechaDesde;
+                                        rh.fechaHasta = fechaHasta;
+                                        rh.pagado = pagado;
+                                        rh.cantPersonas = cantidad;
+
+                                        hotelSeleccionado.misReservas.Add(rh);
+                                        usuarioSeleccionado.misReservasHoteles.Add(rh);
+                                        MessageBox.Show("Modificada con exito");
+
+                                        return true;
                                     }
+                                    else
+                                    {
+                                        if (DB.agregarUsuarioHotel(usuario_id, hotelSeleccionado.id, cant) == 1)
+                                        {
+                                            UsuarioHotel usuario_hotel = new UsuarioHotel(usuario_id, hotelSeleccionado.id, cant);
 
-                                    pagado = hotelSeleccionado.costo * cantidad;
+                                            usuarioHotel.Add(usuario_hotel);
 
-                                    usuarioSeleccionado.credito += rh.pagado;
-                                    usuarioSeleccionado.credito -= pagado;
+                                            if (hotelSeleccionado != rh.miHotel)
+                                            {
+                                                rh.miHotel.misReservas.Remove(rh);
+                                            }
 
-                                    hotelSeleccionado.misReservas.Remove(rh);
-                                    usuarioSeleccionado.misReservasHoteles.Remove(rh);
+                                            if (usuarioSeleccionado != rh.miUsuario)
+                                            {
+                                                rh.miUsuario.credito += rh.pagado;
+                                                rh.miUsuario.misReservasHoteles.Remove(rh);
+                                            }
 
-                                    rh.miHotel = hotelSeleccionado;
-                                    rh.miUsuario = usuarioSeleccionado;
-                                    rh.fechaDesde = fechaDesde;
-                                    rh.fechaHasta = fechaHasta;
-                                    rh.pagado = pagado;
-                                    rh.cantPersonas = cantidad;
+                                            pagado = hotelSeleccionado.costo * cantidad;
 
-                                    hotelSeleccionado.misReservas.Add(rh);
-                                    usuarioSeleccionado.misReservasHoteles.Add(rh);
-                                    MessageBox.Show("Modificada con exito");
+                                            usuarioSeleccionado.credito += rh.pagado;
+                                            usuarioSeleccionado.credito -= pagado;
 
-                                    return true;
+                                            hotelSeleccionado.misReservas.Remove(rh);
+                                            usuarioSeleccionado.misReservasHoteles.Remove(rh);
+
+                                            rh.miHotel = hotelSeleccionado;
+                                            rh.miUsuario = usuarioSeleccionado;
+                                            rh.fechaDesde = fechaDesde;
+                                            rh.fechaHasta = fechaHasta;
+                                            rh.pagado = pagado;
+                                            rh.cantPersonas = cantidad;
+
+                                            hotelSeleccionado.misReservas.Add(rh);
+                                            usuarioSeleccionado.misReservasHoteles.Add(rh);
+                                            MessageBox.Show("Modificada con exito");
+
+                                            return true;
+                                        }
+                                    }
                                 }
 
                                 return false;
@@ -762,12 +867,10 @@ namespace Proyecto
                         MessageBox.Show("El hotel no tiene disponibilidad para esa cantidad de personas");
                         return false;
                     }
-
                 }
-
             }
-            return false;
 
+            return false;
         }
 
         public bool elminarReservaHotel(int id)
@@ -783,7 +886,17 @@ namespace Proyecto
                             rh.miUsuario.credito += rh.miHotel.costo;
                         }
 
-                        //rh.miUsuario.hotelesVisitados.Remove(rh.miHotel); <--- ESTO VA???
+                        usuarioHotel.ForEach(uh =>
+                        {
+                            if (uh.usuario == rh.miUsuario && uh.hotel == rh.miHotel && uh.cantidad == 0)
+                            {
+                                if (DB.eliminarUsuarioHotel(uh.usuario_fk, uh.hotel_fk) == 1)
+                                {
+                                    usuarioHotel.Remove(uh);
+                                }
+                            }
+                        });
+
                         rh.miUsuario.misReservasHoteles.Remove(rh);
                         rh.miHotel.misReservas.Remove(rh);
                         reservasHotel.Remove(rh);
@@ -798,9 +911,8 @@ namespace Proyecto
 
         public bool agregarReservaVuelo(string origen, string destino, string usuario, double pagado, int cantPersonas, DateTime fecha)
         {
-
-            string u = usuario.Substring(0, 1);
-            int usuario_id = int.Parse(u);
+            string[] partes = usuario.Split(new string[] { ". " }, StringSplitOptions.None);
+            int usuario_id = int.Parse(partes[0]);
 
             Usuario usuarioSeleccionado = usuarios.FirstOrDefault(u => u.id == usuario_id);
             Vuelo vueloSeleccionado = vuelos.FirstOrDefault(v => v.origen.nombre == origen && v.destino.nombre == destino && v.fecha == fecha);
@@ -836,21 +948,66 @@ namespace Proyecto
             {
 
                 int idNuevaReservaVuelo = DB.agregarReservaVuelo(pagado, cantPersonas, vueloSeleccionado.id, usuario_id);
+                int cant = 0;
+
+                if (DateTime.Now >= fecha)
+                {
+                    cant = 1;
+                }
 
                 if (idNuevaReservaVuelo != -1)
                 {
-                    vueloSeleccionado.capacidad -= cantPersonas;
-                    usuarioSeleccionado.credito -= vueloSeleccionado.costo * cantPersonas;
-                    pagado = vueloSeleccionado.costo * cantPersonas;
+                    if (DB.obtenerUsuarioVuelo(usuario_id, vueloSeleccionado.id) != 0)
+                    {
+                        if (DB.modificarUsuarioVuelo(usuario_id, vueloSeleccionado.id, cant) == 1)
+                        {
+                            try
+                            {
+                                UsuarioVuelo usuario_vuelo = usuarioVuelo.First(uv => uv.usuario_fk == usuario_id && uv.vuelo_fk == vueloSeleccionado.id);
+                                usuario_vuelo.cantidad += cant;
+                            }
+                            catch (InvalidOperationException ex)
+                            {
+                                Console.WriteLine("Registro no encontrado: " + ex.Message);
+                            }
 
-                    ReservaVuelo rv = new ReservaVuelo(idNuevaReservaVuelo, vueloSeleccionado, usuarioSeleccionado, pagado, cantPersonas);
+                            vueloSeleccionado.capacidad -= cantPersonas;
+                            usuarioSeleccionado.credito -= vueloSeleccionado.costo * cantPersonas;
+                            pagado = vueloSeleccionado.costo * cantPersonas;
 
-                    reservasVuelo.Add(rv);
-                    usuarioSeleccionado.misReservasVuelos.Add(rv);
-                    vueloSeleccionado.misReservas.Add(rv);
+                            ReservaVuelo rv = new ReservaVuelo(idNuevaReservaVuelo, vueloSeleccionado, usuarioSeleccionado, pagado, cantPersonas);
 
-                    return true;
+                            reservasVuelo.Add(rv);
+                            usuarioSeleccionado.misReservasVuelos.Add(rv);
+                            vueloSeleccionado.misReservas.Add(rv);
+
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (DB.agregarUsuarioVuelo(usuario_id, vueloSeleccionado.id, cant) == 1)
+                        {
+                            UsuarioVuelo usuario_vuelo = new UsuarioVuelo(usuario_id, vueloSeleccionado.id, cant);
+
+                            usuarioVuelo.Add(usuario_vuelo);
+
+                            vueloSeleccionado.capacidad -= cantPersonas;
+                            usuarioSeleccionado.credito -= vueloSeleccionado.costo * cantPersonas;
+                            pagado = vueloSeleccionado.costo * cantPersonas;
+
+                            ReservaVuelo rv = new ReservaVuelo(idNuevaReservaVuelo, vueloSeleccionado, usuarioSeleccionado, pagado, cantPersonas);
+
+                            reservasVuelo.Add(rv);
+                            usuarioSeleccionado.misReservasVuelos.Add(rv);
+                            vueloSeleccionado.misReservas.Add(rv);
+
+                            return true;
+                        }
+                    }
+
                 }
+
                 return false;
             }
             else
@@ -872,9 +1029,8 @@ namespace Proyecto
             {
                 if (rv.id == id)
                 {
-
-                    string u = usuario.Substring(0, 1);
-                    int usuario_id = int.Parse(u);
+                    string[] partes = usuario.Split(new string[] { ". " }, StringSplitOptions.None);
+                    int usuario_id = int.Parse(partes[0]);
 
                     try
                     {
@@ -905,40 +1061,105 @@ namespace Proyecto
 
                                 if (DB.modificarReservaVuelo(id, pagado, cantPersonas, vueloSeleccionado.id, usuario_id) == 1)
                                 {
-                                    if (vueloSeleccionado != rv.miVuelo)
+                                    int cant = 0;
+
+                                    if (DateTime.Now >= fecha)
                                     {
-                                        rv.miVuelo.capacidad += rv.cantPersonas;
-                                        rv.miVuelo.misReservas.Remove(rv);
+                                        if (usuarioVuelo.First(uv => uv.usuario == rv.miUsuario && uv.vuelo == rv.miVuelo) == null)
+                                            cant = 1;
                                     }
 
-                                    if (usuarioSeleccionado != rv.miUsuario)
+                                    if (DB.modificarUsuarioVuelo(usuario_id, vueloSeleccionado.id, cant) == 1)
                                     {
-                                        rv.miUsuario.credito += rv.pagado;
-                                        rv.miUsuario.misReservasVuelos.Remove(rv);
+                                        try
+                                        {
+                                            UsuarioVuelo usuario_vuelo = usuarioVuelo.First(uh => uh.usuario_fk == usuario_id && uh.vuelo_fk == vueloSeleccionado.id);
+                                            usuario_vuelo.cantidad += cant;
+                                        }
+                                        catch (InvalidOperationException ex)
+                                        {
+                                            Console.WriteLine("Registro no encontrado: " + ex.Message);
+                                        }
+
+                                        if (vueloSeleccionado != rv.miVuelo)
+                                        {
+                                            rv.miVuelo.capacidad += rv.cantPersonas;
+                                            rv.miVuelo.misReservas.Remove(rv);
+                                        }
+
+                                        if (usuarioSeleccionado != rv.miUsuario)
+                                        {
+                                            rv.miUsuario.credito += rv.pagado;
+                                            rv.miUsuario.misReservasVuelos.Remove(rv);
+                                        }
+
+                                        vueloSeleccionado.capacidad += rv.cantPersonas;
+                                        vueloSeleccionado.capacidad -= cantPersonas;
+
+                                        usuarioSeleccionado.credito += rv.pagado;
+                                        usuarioSeleccionado.credito -= vueloSeleccionado.costo * cantPersonas;
+
+                                        pagado = vueloSeleccionado.costo * cantPersonas;
+
+                                        usuarioSeleccionado.misReservasVuelos.Remove(rv);
+                                        vueloSeleccionado.misReservas.Remove(rv);
+
+                                        rv.miVuelo = vueloSeleccionado;
+                                        rv.miUsuario = usuarioSeleccionado;
+                                        rv.pagado = pagado;
+                                        rv.cantPersonas = cantPersonas;
+
+                                        usuarioSeleccionado.misReservasVuelos.Add(rv);
+                                        vueloSeleccionado.misReservas.Add(rv);
+
+                                        MessageBox.Show("Modificada con exito");
+
+                                        return true;
                                     }
+                                    else
+                                    {
+                                        if (DB.agregarUsuarioVuelo(usuario_id, vueloSeleccionado.id, cant) == 1)
+                                        {
+                                            UsuarioVuelo usuario_vuelo = new UsuarioVuelo(usuario_id, vueloSeleccionado.id, cant);
 
-                                    vueloSeleccionado.capacidad += rv.cantPersonas;
-                                    vueloSeleccionado.capacidad -= cantPersonas;
+                                            usuarioVuelo.Add(usuario_vuelo);
 
-                                    usuarioSeleccionado.credito += rv.pagado;
-                                    usuarioSeleccionado.credito -= vueloSeleccionado.costo * cantPersonas;
+                                            if (vueloSeleccionado != rv.miVuelo)
+                                            {
+                                                rv.miVuelo.capacidad += rv.cantPersonas;
+                                                rv.miVuelo.misReservas.Remove(rv);
+                                            }
 
-                                    pagado = vueloSeleccionado.costo * cantPersonas;
+                                            if (usuarioSeleccionado != rv.miUsuario)
+                                            {
+                                                rv.miUsuario.credito += rv.pagado;
+                                                rv.miUsuario.misReservasVuelos.Remove(rv);
+                                            }
 
-                                    usuarioSeleccionado.misReservasVuelos.Remove(rv);
-                                    vueloSeleccionado.misReservas.Remove(rv);
+                                            vueloSeleccionado.capacidad += rv.cantPersonas;
+                                            vueloSeleccionado.capacidad -= cantPersonas;
 
-                                    rv.miVuelo = vueloSeleccionado;
-                                    rv.miUsuario = usuarioSeleccionado;
-                                    rv.pagado = pagado;
-                                    rv.cantPersonas = cantPersonas;
+                                            usuarioSeleccionado.credito += rv.pagado;
+                                            usuarioSeleccionado.credito -= vueloSeleccionado.costo * cantPersonas;
 
-                                    usuarioSeleccionado.misReservasVuelos.Add(rv);
-                                    vueloSeleccionado.misReservas.Add(rv);
+                                            pagado = vueloSeleccionado.costo * cantPersonas;
 
-                                    MessageBox.Show("Modificada con exito");
+                                            usuarioSeleccionado.misReservasVuelos.Remove(rv);
+                                            vueloSeleccionado.misReservas.Remove(rv);
 
-                                    return true;
+                                            rv.miVuelo = vueloSeleccionado;
+                                            rv.miUsuario = usuarioSeleccionado;
+                                            rv.pagado = pagado;
+                                            rv.cantPersonas = cantPersonas;
+
+                                            usuarioSeleccionado.misReservasVuelos.Add(rv);
+                                            vueloSeleccionado.misReservas.Add(rv);
+
+                                            MessageBox.Show("Modificada con exito");
+
+                                            return true;
+                                        }
+                                    }
                                 }
                                 return false;
                             }
@@ -977,7 +1198,17 @@ namespace Proyecto
                             rv.miUsuario.credito += rv.miVuelo.costo;
                         }
 
-                        //rv.miUsuario.vuelosTomados.Remove(rv.miVuelo); <--- ESTO VA???
+                        usuarioVuelo.ForEach(uv =>
+                        {
+                            if (uv.usuario == rv.miUsuario && uv.vuelo == rv.miVuelo && uv.cantidad == 0)
+                            {
+                                if (DB.eliminarUsuarioVuelo(uv.usuario_fk, uv.vuelo_fk) == 1)
+                                {
+                                    usuarioVuelo.Remove(uv);
+                                }
+                            }
+                        });
+
                         rv.miUsuario.misReservasVuelos.Remove(rv);
                         rv.miVuelo.misReservas.Remove(rv);
                         reservasVuelo.Remove(rv);
@@ -988,6 +1219,16 @@ namespace Proyecto
             return false;
         }
 
+        public List<UsuarioHotel> obtenerUsuariosHoteles()
+        {
+            return usuarioHotel;
+        }
+
+        public List<UsuarioVuelo> obtenerUsuariosVuelos()
+        {
+            return usuarioVuelo;
+        }
+
         //Ciudades
 
         public List<Ciudad> obtenerCiudades()
@@ -995,7 +1236,7 @@ namespace Proyecto
             return ciudades;
         }
 
-        //  ***Esto creo que va a servir despues :)***
+        //  ***Esto puede servir despues :)***
         //public int obtenerCiudadId(string ciudad)
         //{
         //    Ciudad ciudadEncontrada = ciudades.FirstOrDefault(c => c.nombre == ciudad);

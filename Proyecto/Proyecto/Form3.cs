@@ -181,7 +181,10 @@ namespace Proyecto
                 if (usuarioSeleccionado != -1)
                 {
                     if (miAgencia.modificarUsuario(usuarioSeleccionado, numDni, nombre, apellido, mail, creditoParseado))
+                    {
                         MessageBox.Show("Modificado con exito");
+                        limpiarCampos();
+                    }
                     else
                         MessageBox.Show("Problemas al modificar");
                 }
@@ -565,6 +568,7 @@ namespace Proyecto
                             dateTimePicker_vuelos.Value = DateTime.Now;
                             textBox_aerolineas_vuelos.Text = "";
                             textBox_avion_vuelos.Text = "";
+                            MessageBox.Show("Modificado con exito");
                             mostrarVuelos();
                         }
                     }

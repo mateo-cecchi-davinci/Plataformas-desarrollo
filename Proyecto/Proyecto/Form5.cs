@@ -89,6 +89,7 @@ namespace Proyecto
                 if (reserva.miHotel != null)
                 {
                     dataGridView_perfil_UC.Rows.Add();
+
                     dataGridView_perfil_UC.Rows[rowIndexReservaHotel].Cells[0].Value = reserva.miHotel.nombre;
 
                     rowIndexReservaHotel++;
@@ -103,32 +104,47 @@ namespace Proyecto
                     {
                         dataGridView_perfil_UC.Rows.Add();
                     }
+                    
                     dataGridView_perfil_UC.Rows[rowIndexReservaVuelo].Cells[1].Value = reserva.miVuelo.destino.nombre;
 
                     rowIndexReservaVuelo++;
                 }
             }
 
-            foreach (Hotel h in usuario.hotelesVisitados)
+            foreach (UsuarioHotel uh in miAgencia.obtenerUsuariosHoteles())
             {
-                if (rowIndexHotel >= dataGridView_perfil_UC.Rows.Count)
+                foreach (Hotel h in usuario.hotelesVisitados)
                 {
-                    dataGridView_perfil_UC.Rows.Add();
-                }
-                dataGridView_perfil_UC.Rows[rowIndexHotel].Cells[3].Value = h.nombre;
+                    if (uh.usuario_fk == usuario.id && uh.hotel_fk == h.id)
+                    {
+                        if (rowIndexHotel >= dataGridView_perfil_UC.Rows.Count)
+                        {
+                            dataGridView_perfil_UC.Rows.Add();
+                        }
 
-                rowIndexHotel++;
+                        dataGridView_perfil_UC.Rows[rowIndexHotel].Cells[3].Value = h.nombre + " x" + uh.cantidad;
+
+                        rowIndexHotel++;
+                    }
+                }
             }
 
-            foreach (Vuelo v in usuario.vuelosTomados)
+            foreach (UsuarioVuelo uv in miAgencia.obtenerUsuariosVuelos())
             {
-                if (rowIndexVuelo >= dataGridView_perfil_UC.Rows.Count)
+                foreach (Vuelo v in usuario.vuelosTomados)
                 {
-                    dataGridView_perfil_UC.Rows.Add();
-                }
-                dataGridView_perfil_UC.Rows[rowIndexVuelo].Cells[2].Value = v.destino.nombre;
+                    if (uv.usuario_fk == usuario.id && uv.vuelo_fk == v.id)
+                    {
+                        if (rowIndexVuelo >= dataGridView_perfil_UC.Rows.Count)
+                        {
+                            dataGridView_perfil_UC.Rows.Add();
+                        }
 
-                rowIndexVuelo++;
+                        dataGridView_perfil_UC.Rows[rowIndexVuelo].Cells[2].Value = v.destino.nombre + " x" + uv.cantidad;
+
+                        rowIndexVuelo++;
+                    }
+                }
             }
 
         }
@@ -305,6 +321,8 @@ namespace Proyecto
 
             dataGridView_perfil_UC.Rows.Clear();
 
+            int rowIndexReservaHotel = 0;
+            int rowIndexReservaVuelo = 0;
             int rowIndexHotel = 0;
             int rowIndexVuelo = 0;
 
@@ -313,9 +331,9 @@ namespace Proyecto
                 if (reserva.miHotel != null)
                 {
                     dataGridView_perfil_UC.Rows.Add();
-                    dataGridView_perfil_UC.Rows[rowIndexHotel].Cells[0].Value = reserva.miHotel.nombre;
+                    dataGridView_perfil_UC.Rows[rowIndexReservaHotel].Cells[0].Value = reserva.miHotel.nombre;
 
-                    rowIndexHotel++;
+                    rowIndexReservaHotel++;
                 }
             }
 
@@ -327,9 +345,45 @@ namespace Proyecto
                     {
                         dataGridView_perfil_UC.Rows.Add();
                     }
-                    dataGridView_perfil_UC.Rows[rowIndexVuelo].Cells[1].Value = reserva.miVuelo.destino.nombre;
+                    dataGridView_perfil_UC.Rows[rowIndexReservaVuelo].Cells[1].Value = reserva.miVuelo.destino.nombre;
 
-                    rowIndexVuelo++;
+                    rowIndexReservaVuelo++;
+                }
+            }
+
+            foreach (UsuarioHotel uh in miAgencia.obtenerUsuariosHoteles())
+            {
+                foreach (Hotel h in usuario.hotelesVisitados)
+                {
+                    if (uh.usuario_fk == usuario.id && uh.hotel_fk == h.id)
+                    {
+                        if (rowIndexHotel >= dataGridView_perfil_UC.Rows.Count)
+                        {
+                            dataGridView_perfil_UC.Rows.Add();
+                        }
+
+                        dataGridView_perfil_UC.Rows[rowIndexHotel].Cells[3].Value = h.nombre + " x" + uh.cantidad;
+
+                        rowIndexHotel++;
+                    }
+                }
+            }
+
+            foreach (UsuarioVuelo uv in miAgencia.obtenerUsuariosVuelos())
+            {
+                foreach (Vuelo v in usuario.vuelosTomados)
+                {
+                    if (uv.usuario_fk == usuario.id && uv.vuelo_fk == v.id)
+                    {
+                        if (rowIndexVuelo >= dataGridView_perfil_UC.Rows.Count)
+                        {
+                            dataGridView_perfil_UC.Rows.Add();
+                        }
+
+                        dataGridView_perfil_UC.Rows[rowIndexVuelo].Cells[2].Value = v.destino.nombre + " x" + uv.cantidad;
+
+                        rowIndexVuelo++;
+                    }
                 }
             }
         }
