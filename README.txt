@@ -1,11 +1,11 @@
 
 
 Admin:
-user: cris@gmail.com
+user: juan@gmail.com
 pass: 123
 
 Comun:
-user: pepe@gmail.com
+user: PRUEBA
 pass: 123
 
 
@@ -30,30 +30,40 @@ NOTAS:
 
 Si el usuario se equivoca tres veces se bloquea
 Si es admin ingresa al form de admin y si no al comun
-Al principio del Form1 se cargan registros en todas las entidades.
 Se filtra en funcion de los text box y los combo box
 Ej. si en destino se pone la ciudad chaco, solo aparecen los vuelos que tienen ese destino.
 Eso funciona para casi todos los campos.
 Algunos decidimos no filtrarlos como por ejemplo cantidad de personas.
 Cuando se modifica un usuario, un hotel o un vuelo ese cambio se refleja en las reservas.
 Si se crea/modifica un usuario o un hotel los mismos se reflejaran en los combo box habiendo cerrado sesion ya que el contenido de los combo box se carga/actualiza cuando se inicia sesion. 
-Falta la logica para mostrar en el perfil del usuario comun sus hoteles visitados y sus vuelos tomados.
-Para el desarrollo de este proyecto se tuvieron que cambiar algunas cosas como por ejemplo la lista de vuelos del objeto Ciudad en el cual usamos vuelosOrigen y vuelosDestino. Se crearon algunos metodos como mostrarCredito, modificarFechaVuelo y agregarCiudad.
 
 
 COMENTARIOS:
 
-No nos quedo claro como es el tema de la disponibilidad de los hoteles ya que eso varia dependiendo del tiempo en que se hospeda una persona.
+-Hay que deslogear al usuario cuando se borra a si mismo (tirar algun mensaje de advertencia para avisarle que se esta por auto-borrar)
+-Que los cambios en usuarios, hoteles y vuelos impacten dinamicamente en los combo box para no tener q salir
+-Si se eliminan usuario, hotel o vuelo tambien se derian eliminar las reservas asociadas
+-Agregar mensajes lindos cuando se hacen cosas. Osea, ponerle un poquito mas de onda al MessageBox
+-El admin deberia poder alternar entre la perspectiva del usuario comun y el usuario administrador???
+-Cuando se clickea el vuelo reservado en el perfil se tendria que abrir una ventana con toda la data de la reserva
+-La fecha impacta sobre el precio? hoteles agregarReserva-modificarReserva
+-No se reflejan las modificaciones en el UI. Por ejemplo las de usuarios en el modo admin y la cantidad de hotelesVisitados-vuelosTomados en el modo usuario-comun
+-Cuando se bloquea un usuario eso tambien se tendria que hacer en la bdd
+-Para elegir un vuelo valido a la hora de hacer una reserva se tiene que elegir la fecha de ese vuelo, si el vuelo de bs as a cordoba es el primero de octubre, hay que elegir esa fecha
+-Si se modifica el nombre de un hotel, este no se refleja en los combo box de reserva hotel (lo mismo para todo lo que es modificable y tiene combo box), entonces cuando se selecciona para cargar/modificar una reserva salta un MessageBox porque no se encuentra el hotel. Hay que cerrar y volver a abrir la app para que se actualicen los combo box.
+-Flatan metodos en DAL para modificar todo lo modificable. (credito, capacidad_hotel, capacidad_vuelo)
+Esos metodos se tendrian que ejecutar dentro de modificarReservaHotel o modificarReservaVuelo. Ejemplo cuando se resta el costo de un hotel/vuelo del credito de un usuario. Estos cambios se hacen en memoria pero no en la bdd.
+-No se deberia aumentar cantidad cada vez que se modifican las reservas, se deberia aumentar solo cuando se agrega una relacion que antes no existia o cuando se agrega una relacion que antes existia pero tiene un id de reserva distinto.*CORREGIDO*
+-Cuando se modifica una reserva, si por ejemplo en usuario_hotel esa relacion no existe se tiene que crear y si existe se tiene que actualizar la cantidad en funcion del id de la reserva, ya que si este sigue siendo el mismo entonces a la cantidad no hay que hacerle nada.*CORREGIDO*
+-No se actualizan las propiedades de usuarioHotel y usuarioVuelo cuando se hacen modificaciones de las reservas (se hace en la bdd pero no en memoria).
+Para que se refleje en la memoria hay que cerrar y abrir la app.
 
-Ejemplo:
-Si un usuario se hospeda del 1 al 5, durante esos dias se le tendria que restar 1 a la capacidad del hotel y al termino de ese lapso de tiempo se le tendria que sumar la cantidad restada por ese usuario.
 
-La cantidad restada es relativa porque el usuario puede seleccionar una cantidad de personas x, entonces a la hora de sumar dadose el termino del lapso de tiempo de la reserva se deberia sumar el valor de x que esta asociado a ese usuario en especifico.
-Esta logica implica tener que manejar la capacidad en funcion de las fechas de las reservas y la fecha actual.
-A traves de la fecha actual se podria validar si ese hotel entra en el rango de "reservado". A partir de ese punto a la capacidad se le resta uno y al usuario se le agregaria el hotel en la lista "hotelesVisitados".
-Siguiendo la linea de tiempo con una variable que almacena la fecha actual se valida si esa reserva deberia seguir con el estado de "reservado", cuando ya no lo tiene, ahi se le vuelve a sumar la capacidad restada al hotel. Esa capacidad se debe almacenar por usuario ya que c/u ocupa un espacio fisico en el hotel. Deberian tener una lista "camasOcupadas" o "espacioOcupado"?
+IMPLEMENTAR: 
 
-La forma en que manejamos la capacidad de los hoteles fue a traves de la creacion de reservas por parte de los usuarios comunes. Simplemente le restamos el numero que seleccionan. Pero eso esta mal. Ese valor restado deberia ser relativo en funcion de la fecha que elige.
+HOTEL
+huespedes
 
-El mayor problema con el desarrollo de este proyecto fue no tener una base de datos. Sin eso, manejar las relaciones es muy dificil. Errores como el anteriormente mencionado se solucionarian facilmente con un "stored procedure" que se corre todos los dias en un determinado horario.
+VUELO
+vendido
 
