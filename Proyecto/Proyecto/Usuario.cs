@@ -24,6 +24,7 @@ namespace Proyecto
         public List<Hotel> hotelesVisitados { get; set; } = new List<Hotel>();
         public List<Vuelo> vuelosTomados { get; set; } = new List<Vuelo>();
         public List<UsuarioHotel> usuario_hotel { get; set; } = new List<UsuarioHotel>();
+        public List<UsuarioVuelo> usuario_vuelo { get; set; } = new List<UsuarioVuelo>();
 
         public Usuario(int id, int dni, string nombre, string apellido, string mail, string clave, bool isAdmin, double credito)
         {
@@ -53,7 +54,7 @@ namespace Proyecto
 
         public string[] ToString()
         {
-            return new string[] { id.ToString(), dni.ToString(), nombre, apellido, credito.ToString(), mail };
+            return new string[] { id.ToString(), dni.ToString(), nombre, apellido, credito.ToString(), mail, intentosFallidos.ToString(), bloqueado.ToString() };
         }
 
     }

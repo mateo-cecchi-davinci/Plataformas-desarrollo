@@ -113,11 +113,11 @@ namespace Proyecto
             }
         }
 
-        public int modificarUsuario(int id, int dni, string nombre, string apellido, string mail, double credito)
+        public int modificarUsuario(int id, int dni, string nombre, string apellido, string mail, double credito, int intentosFallidos, bool bloqueado)
         {
             string querySrting = 
                 "UPDATE [dbo].[usuario] " +
-                "SET dni = @dni, nombre = @nombre, apellido = @apellido, mail = @mail, credito = @credito " +
+                "SET dni = @dni, nombre = @nombre, apellido = @apellido, mail = @mail, credito = @credito, intentosFallidos = @intentosFallidos, bloqueado = @bloqueado " +
                 "WHERE usuario_id = @id;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -128,12 +128,16 @@ namespace Proyecto
                 command.Parameters.Add(new SqlParameter("@apellido", SqlDbType.VarChar));
                 command.Parameters.Add(new SqlParameter("@mail", SqlDbType.VarChar));
                 command.Parameters.Add(new SqlParameter("@credito", SqlDbType.Decimal));
+                command.Parameters.Add(new SqlParameter("@intentosFallidos", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@bloqueado", SqlDbType.Bit));
                 command.Parameters["@id"].Value = id;
                 command.Parameters["@dni"].Value = dni;
                 command.Parameters["@nombre"].Value = nombre;
                 command.Parameters["@apellido"].Value = apellido;
                 command.Parameters["@mail"].Value = mail;
                 command.Parameters["@credito"].Value = credito;
+                command.Parameters["@intentosFallidos"].Value = intentosFallidos;
+                command.Parameters["@bloqueado"].Value = bloqueado;
                 try
                 {
                     connection.Open();
@@ -621,34 +625,6 @@ namespace Proyecto
             return usuarioHotel;
         }
 
-        public int obtenerUsuarioHotel(int usuario_id, int hotel_id)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string queryString = "SELECT 1 FROM [dbo].[usuario_hotel] WHERE [usuario_fk] = @usuario_id AND [hotel_fk] = @hotel_id;";
-
-                using (SqlCommand command = new SqlCommand(queryString, connection))
-                {
-                    command.Parameters.Add(new SqlParameter("@usuario_id", SqlDbType.Int)).Value = usuario_id;
-                    command.Parameters.Add(new SqlParameter("@hotel_id", SqlDbType.Int)).Value = hotel_id;
-
-                    try
-                    {
-                        connection.Open();
-                        var result = command.ExecuteScalar();
-                        return result != null ? 1 : 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                }
-            }
-
-            return 0;
-        }
-
-
         public int agregarUsuarioHotel(int usuario_fk, int hotel_fk, int cantidad)
         {
             string queryString =
@@ -880,7 +856,7 @@ namespace Proyecto
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        usuarioVuelo.Add(new UsuarioVuelo(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2)));
+                        usuarioVuelo.Add(new UsuarioVuelo(reader.GetInt32(0), reader.GetInt32(1)));
                     }
                     reader.Close();
                 }
@@ -892,79 +868,20 @@ namespace Proyecto
             return usuarioVuelo;
         }
 
-        public int obtenerUsuarioVuelo(int usuario_id, int vuelo_id)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string queryString = "SELECT 1 FROM [dbo].[usuario_vuelo] WHERE [usuario_fk] = @usuario_id AND [vuelo_fk] = @vuelo_id;";
-
-                using (SqlCommand command = new SqlCommand(queryString, connection))
-                {
-                    command.Parameters.Add(new SqlParameter("@usuario_id", SqlDbType.Int)).Value = usuario_id;
-                    command.Parameters.Add(new SqlParameter("@vuelo_id", SqlDbType.Int)).Value = vuelo_id;
-
-                    try
-                    {
-                        connection.Open();
-                        var result = command.ExecuteScalar();
-                        return result != null ? 1 : 0;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                }
-            }
-
-            return 0;
-        }
-
-
-        public int agregarUsuarioVuelo(int usuario_fk, int vuelo_fk, int cantidad)
+        public int agregarUsuarioVuelo(int usuario_fk, int vuelo_fk)
         {
             string queryString =
-                "INSERT INTO [dbo].[usuario_vuelo] ([usuario_fk], [vuelo_fk], [cantidad]) " +
-                "VALUES (@usuario_fk, @vuelo_fk, @cantidad);";
+                "INSERT INTO [dbo].[usuario_vuelo] ([usuario_fk], [vuelo_fk]) " +
+                "VALUES (@usuario_fk, @vuelo_fk);";
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Parameters.Add(new SqlParameter("@usuario_fk", SqlDbType.Int));
                 command.Parameters.Add(new SqlParameter("@vuelo_fk", SqlDbType.Int));
-                command.Parameters.Add(new SqlParameter("@cantidad", SqlDbType.Int));
                 command.Parameters["@usuario_fk"].Value = usuario_fk;
                 command.Parameters["@vuelo_fk"].Value = vuelo_fk;
-                command.Parameters["@cantidad"].Value = cantidad;
 
-                try
-                {
-                    connection.Open();
-                    return command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    return 0;
-                }
-            }
-        }
-
-        public int modificarUsuarioVuelo(int usuario_fk, int vuelo_fk, int cantidad)
-        {
-            string querySrting =
-                "UPDATE [dbo].[usuario_vuelo] " +
-                "SET cantidad += @cantidad " +
-                "WHERE usuario_fk = @usuario_fk " +
-                "AND vuelo_fk = @vuelo_fk;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(querySrting, connection);
-                command.Parameters.Add(new SqlParameter("@usuario_fk", SqlDbType.Int));
-                command.Parameters.Add(new SqlParameter("@vuelo_fk", SqlDbType.Int));
-                command.Parameters.Add(new SqlParameter("@cantidad", SqlDbType.Int));
-                command.Parameters["@usuario_fk"].Value = usuario_fk;
-                command.Parameters["@vuelo_fk"].Value = vuelo_fk;
-                command.Parameters["@cantidad"].Value = cantidad;
                 try
                 {
                     connection.Open();

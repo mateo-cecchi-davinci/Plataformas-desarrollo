@@ -12,8 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\mateo\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\mateo\\.nuget\\packages"
+      "C:\\Users\\20418749572\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\20418749572\\.nuget\\packages"
     ],
     "configProperties": {
       "System.Reflection.NullabilityInfoContext.IsSupported": true,

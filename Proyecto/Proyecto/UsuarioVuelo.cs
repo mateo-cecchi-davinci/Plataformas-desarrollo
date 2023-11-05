@@ -11,15 +11,13 @@ namespace Proyecto
 
         public int usuario_fk { get; set; }
         public int vuelo_fk { get; set; }
-        public int cantidad { get; set; }
         public Usuario usuario { get; set; }
         public Vuelo vuelo { get; set;}
 
-        public UsuarioVuelo (int usuario_fk, int vuelo_fk, int cantidad)
+        public UsuarioVuelo (int usuario_fk, int vuelo_fk)
         {
             this.usuario_fk = usuario_fk;
             this.vuelo_fk = vuelo_fk;
-            this.cantidad = cantidad;
         }
 
     }

@@ -22,6 +22,7 @@ namespace Proyecto
         public int origen_fk { get; set; }
         public int destino_fk { get; set; }
         public List<ReservaVuelo> misReservas { get; set; } = new List<ReservaVuelo>();
+        public List<UsuarioVuelo> vuelo_usuario { get; set; } = new List<UsuarioVuelo>();
 
         public Vuelo(int id, Ciudad origen, Ciudad destino, int capacidad,  double costo, DateTime fecha, string aerolinea, string avion)
         {

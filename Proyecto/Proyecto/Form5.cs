@@ -104,7 +104,7 @@ namespace Proyecto
                     {
                         dataGridView_perfil_UC.Rows.Add();
                     }
-                    
+
                     dataGridView_perfil_UC.Rows[rowIndexReservaVuelo].Cells[1].Value = reserva.miVuelo.destino.nombre;
 
                     rowIndexReservaVuelo++;
@@ -140,7 +140,7 @@ namespace Proyecto
                             dataGridView_perfil_UC.Rows.Add();
                         }
 
-                        dataGridView_perfil_UC.Rows[rowIndexVuelo].Cells[2].Value = v.destino.nombre + " x" + uv.cantidad;
+                        dataGridView_perfil_UC.Rows[rowIndexVuelo].Cells[2].Value = v.destino.nombre;
 
                         rowIndexVuelo++;
                     }
@@ -182,10 +182,8 @@ namespace Proyecto
             string id = dataGridView_hoteles_UC[0, e.RowIndex].Value.ToString();
             string hotel = dataGridView_hoteles_UC[1, e.RowIndex].Value.ToString();
             string ciudad = dataGridView_hoteles_UC[2, e.RowIndex].Value.ToString();
-            string costo = dataGridView_hoteles_UC[3, e.RowIndex].Value.ToString();
             cb_hotel.Text = hotel;
             cb_ciudadH.Text = ciudad;
-            tb_pagoH.Text = costo;
             hotelSeleccionado = int.Parse(id);
         }
 
@@ -198,21 +196,17 @@ namespace Proyecto
         {
             string hotel = cb_hotel.Text;
             string usuario = miAgencia.nombreLogueado();
-            string pago = tb_pagoH.Text;
             DateTime fechaDesde = dateTimePicker1.Value;
             DateTime fechaHasta = dateTimePicker2.Value;
             DateTime fechaDesde_horario = new DateTime(fechaDesde.Year, fechaDesde.Month, fechaDesde.Day, 9, 0, 0);
             DateTime fechaHasta_horario = new DateTime(fechaHasta.Year, fechaHasta.Month, fechaHasta.Day, 9, 0, 0);
             string cantPersonas = cb_cantPersonasH.Text;
 
-            double pagoParseado;
             int cantPersonasParseadas;
 
             if (int.TryParse(cantPersonas, out cantPersonasParseadas))
             {
-                if (double.TryParse(pago, out pagoParseado))
-                {
-                    if (miAgencia.agregarReservaHotel(hotel, usuario, fechaDesde_horario, fechaHasta_horario, pagoParseado, cantPersonasParseadas))
+                    if (miAgencia.agregarReservaHotel(hotel, usuario, fechaDesde_horario, fechaHasta_horario, cantPersonasParseadas))
                     {
                         cb_hotel.Text = "";
                         cb_ciudadH.Text = "";
@@ -221,9 +215,6 @@ namespace Proyecto
                         cb_cantPersonasH.Text = "";
                         MessageBox.Show("Se ha cargado una nueva reserva con exito");
                     }
-                }
-                else
-                    MessageBox.Show("Cantidad de personas inválida");
             }
             else
                 MessageBox.Show("Cantidad de personas inválida");
@@ -257,11 +248,9 @@ namespace Proyecto
             string id = dataGridView_vuelos_UC[0, e.RowIndex].Value.ToString();
             string origen = dataGridView_vuelos_UC[1, e.RowIndex].Value.ToString();
             string destino = dataGridView_vuelos_UC[2, e.RowIndex].Value.ToString();
-            string costo = dataGridView_vuelos_UC[3, e.RowIndex].Value.ToString();
             string fecha = dataGridView_vuelos_UC[5, e.RowIndex].Value.ToString();
             cb_origenV.Text = origen;
             cb_destinoV.Text = destino;
-            tb_pagoV.Text = costo;
             vueloSeleccionado = int.Parse(id);
 
             if (DateTime.TryParse(fecha, out DateTime fechaParseada))
@@ -284,20 +273,16 @@ namespace Proyecto
         {
             string origen = cb_origenV.Text;
             string destino = cb_destinoV.Text;
-            string pago = tb_pagoV.Text;
             string usuario = miAgencia.nombreLogueado();
             DateTime fecha = dateTimePicker3.Value;
             DateTime fecha_horario = new DateTime(fecha.Year, fecha.Month, fecha.Day, 9, 0, 0);
             string cantPersonas = cb_cantPersonasV.Text;
 
-            double pagoParseado;
             int cantPersonasParseadas;
 
             if (int.TryParse(cantPersonas, out cantPersonasParseadas))
             {
-                if (double.TryParse(pago, out pagoParseado))
-                {
-                    if (miAgencia.agregarReservaVuelo(origen, destino, usuario, pagoParseado, cantPersonasParseadas, fecha_horario))
+                    if (miAgencia.agregarReservaVuelo(origen, destino, usuario, cantPersonasParseadas, fecha_horario))
                     {
                         cb_origenV.Text = "";
                         cb_destinoV.Text = "";
@@ -305,9 +290,6 @@ namespace Proyecto
                         cb_cantPersonasV.Text = "";
                         MessageBox.Show("Se ha cargado una nueva reserva con exito");
                     }
-                }
-                else
-                    MessageBox.Show("Cantidad de personas inválida");
             }
             else
                 MessageBox.Show("Cantidad de personas inválida");
@@ -380,7 +362,7 @@ namespace Proyecto
                             dataGridView_perfil_UC.Rows.Add();
                         }
 
-                        dataGridView_perfil_UC.Rows[rowIndexVuelo].Cells[2].Value = v.destino.nombre + " x" + uv.cantidad;
+                        dataGridView_perfil_UC.Rows[rowIndexVuelo].Cells[2].Value = v.destino.nombre;
 
                         rowIndexVuelo++;
                     }
@@ -393,14 +375,12 @@ namespace Proyecto
             cb_hotel.SelectedIndex = 0;
             cb_ciudadH.SelectedIndex = 0;
             cb_cantPersonasH.SelectedIndex = 0;
-            tb_pagoH.Text = "";
             dateTimePicker1.Value = DateTime.Now;
             dateTimePicker2.Value = DateTime.Now;
             dateTimePicker3.Value = DateTime.Now;
             cb_origenV.SelectedIndex = 0;
             cb_destinoV.SelectedIndex = 0;
             cb_cantPersonasV.SelectedIndex = 0;
-            tb_pagoV.Text = "";
         }
 
         public delegate void cerrar();

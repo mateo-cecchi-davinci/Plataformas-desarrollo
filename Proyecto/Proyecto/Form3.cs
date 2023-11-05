@@ -99,6 +99,8 @@ namespace Proyecto
             string dni = tbDni.Text.ToLower();
             string mail = tbMail.Text.ToLower();
             string credito = tbCargarCredito.Text.ToLower();
+            string intentosFallidos = tbIntentosFallidos.Text.ToLower();
+            string bloqueado = cbBloqueado.Checked.ToString().ToLower();
 
             foreach (Usuario u in miAgencia.obtenerUsuarios())
             {
@@ -107,12 +109,16 @@ namespace Proyecto
                 string dniUsuario = u.dni.ToString().ToLower();
                 string mailUsuario = u.mail.ToLower();
                 string creditoUsuario = u.credito.ToString().ToLower();
+                string intentosFallidosUsuario = u.intentosFallidos.ToString().ToLower();
+                string bloqueadoUsuario = u.bloqueado.ToString().ToLower();
 
                 if (nombreUsuario.Contains(nombre) &&
                     apellidoUsuario.Contains(apellido) &&
                     dniUsuario.Contains(dni) &&
                     mailUsuario.Contains(mail) &&
-                    creditoUsuario.Contains(credito))
+                    creditoUsuario.Contains(credito) &&
+                    intentosFallidosUsuario.Contains(intentosFallidos) &&
+                    bloqueadoUsuario.Contains(bloqueado))
                 {
                     dataGridView1.Rows.Add(u.ToString());
                 }
@@ -128,13 +134,18 @@ namespace Proyecto
             string apellido = dataGridView1[3, e.RowIndex].Value.ToString();
             string credito = dataGridView1[4, e.RowIndex].Value.ToString();
             string mail = dataGridView1[5, e.RowIndex].Value.ToString();
+            string intentosFallidos = dataGridView1[6, e.RowIndex].Value.ToString();
+            string bloqueado = dataGridView1[7, e.RowIndex].Value.ToString();
+            bool estaBloqueado = (bloqueado == "true");
 
+            usuarioSeleccionado = int.Parse(id);
             tbDni.Text = dni;
             tbNombre.Text = nombre;
             tbApellido.Text = apellido;
             tbMail.Text = mail;
             tbCargarCredito.Text = credito;
-            usuarioSeleccionado = int.Parse(id);
+            tbIntentosFallidos.Text = intentosFallidos;
+            cbBloqueado.Checked = estaBloqueado;
         }
 
         private void btnModificarUsuario_Click(object sender, EventArgs e)
@@ -144,8 +155,11 @@ namespace Proyecto
             string dni = tbDni.Text;
             string mail = tbMail.Text;
             string credito = tbCargarCredito.Text;
+            string intentosFallidos = tbIntentosFallidos.Text;
+            bool bloqueado = cbBloqueado.Checked;
             int numDni;
             double creditoParseado;
+            int intentosFallidosParseado;
 
             if (string.IsNullOrWhiteSpace(nombre))
             {
@@ -176,11 +190,17 @@ namespace Proyecto
                 return;
             }
 
-            if (int.TryParse(dni, out numDni) && double.TryParse(credito, out creditoParseado))
+            if (string.IsNullOrWhiteSpace(intentosFallidos))
+            {
+                MessageBox.Show("Ingrese intentos fallidos");
+                return;
+            }
+
+            if (int.TryParse(dni, out numDni) && double.TryParse(credito, out creditoParseado) && int.TryParse(intentosFallidos, out intentosFallidosParseado))
             {
                 if (usuarioSeleccionado != -1)
                 {
-                    if (miAgencia.modificarUsuario(usuarioSeleccionado, numDni, nombre, apellido, mail, creditoParseado))
+                    if (miAgencia.modificarUsuario(usuarioSeleccionado, numDni, nombre, apellido, mail, creditoParseado, intentosFallidosParseado, bloqueado))
                     {
                         MessageBox.Show("Modificado con exito");
                         limpiarCampos();
@@ -373,7 +393,7 @@ namespace Proyecto
                 {
 
                     MessageBox.Show("Eliminado con exito");
-                     mostrarHoteles();
+                    mostrarHoteles();
                 }
                 else
                     MessageBox.Show("Problemas al eliminar");
@@ -615,19 +635,16 @@ namespace Proyecto
             string hotel = cbHotelReservaH.Text.ToLower();
             string usuario = cbUsuarioReservaH.Text.ToLower();
             string cantidad = cb_cantPersonasH.Text.ToLower();
-            string pagado = tbPagadoReservaH.Text.ToLower();
 
             foreach (ReservaHotel rh in miAgencia.obtenerReservaHotel())
             {
                 string hotelRH = rh.miHotel.nombre.ToLower();
                 string usuarioRH = rh.miUsuario.nombre.ToLower();
                 string cantidadRH = rh.cantPersonas.ToString().ToLower();
-                string pagadoRH = rh.pagado.ToString().ToLower();
 
                 if (hotelRH.Contains(hotel) &&
                     usuarioRH.Contains(usuario) &&
-                    cantidadRH.Contains(cantidad) &&
-                    pagadoRH.Contains(pagado))
+                    cantidadRH.Contains(cantidad))
                 {
                     dataGridViewReservasH.Rows.Add(rh.ToString());
                 }
@@ -643,7 +660,6 @@ namespace Proyecto
             string usuario = dataGridViewReservasH[3, e.RowIndex].Value.ToString();
             string fechaDesde = dataGridViewReservasH[4, e.RowIndex].Value.ToString();
             string fechaHasta = dataGridViewReservasH[5, e.RowIndex].Value.ToString();
-            string pagado = dataGridViewReservasH[6, e.RowIndex].Value.ToString();
             string cantPersonas = dataGridViewReservasH[7, e.RowIndex].Value.ToString();
 
             reservaHotelSeleccionada = int.Parse(id);
@@ -659,7 +675,6 @@ namespace Proyecto
             {
                 MessageBox.Show("Formato de fecha incorrecto");
             }
-            tbPagadoReservaH.Text = pagado;
             cb_cantPersonasH.Text = cantPersonas;
         }
 
@@ -675,31 +690,24 @@ namespace Proyecto
             string usuario = cbUsuarioReservaH.Text;
             DateTime fechaDesde = fecha_desde_reservarH.Value;
             DateTime fechaHasta = fecha_hasta_reservarH.Value;
-            string pagado = tbPagadoReservaH.Text;
             string cantPersonas = cb_cantPersonasH.Text;
 
-            double pagoParse;
             int cantPersonasParseadas;
 
-            if (double.TryParse(pagado, out pagoParse))
-            {
 
                 if (int.TryParse(cantPersonas, out cantPersonasParseadas))
                 {
-                    if (miAgencia.agregarReservaHotel(hotel, usuario, fechaDesde, fechaHasta, pagoParse, cantPersonasParseadas))
+                    if (miAgencia.agregarReservaHotel(hotel, usuario, fechaDesde, fechaHasta, cantPersonasParseadas))
                     {
                         fecha_desde_reservarH.Value = DateTime.Now;
                         fecha_hasta_reservarH.Value = DateTime.Now;
                         cbHotelReservaH.SelectedIndex = 0;
                         cbUsuarioReservaH.SelectedIndex = 0;
                         cb_cantPersonasH.SelectedIndex = 0;
-                        tbPagadoReservaH.Text = "";
                         MessageBox.Show("Se ha cargado una nueva reserva con exito");
                     }
                 }
                 else MessageBox.Show("Cantidad de personas inválida");
-            }
-            else MessageBox.Show("Pago inválido");
 
         }
 
@@ -709,7 +717,6 @@ namespace Proyecto
             string usuario = cbUsuarioReservaH.Text;
             DateTime fechaDesde = fecha_desde_reservarH.Value;
             DateTime fechaHasta = fecha_hasta_reservarH.Value;
-            string pagado = tbPagadoReservaH.Text;
             string cantPersonas = cb_cantPersonasH.Text;
             double pagadoParseado;
             int cantPersonasParseadas;
@@ -726,33 +733,23 @@ namespace Proyecto
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(pagado))
-            {
-                MessageBox.Show("Ingrese pago");
-                return;
-            }
-
             if (string.IsNullOrWhiteSpace(cantPersonas))
             {
                 MessageBox.Show("Ingrese cantidad de personas");
                 return;
             }
 
-            if (double.TryParse(pagado, out pagadoParseado))
-            {
-
                 if (int.TryParse(cantPersonas, out cantPersonasParseadas))
                 {
                     if (reservaHotelSeleccionada != -1)
                     {
-                        if (miAgencia.modificarReservaHotel(reservaHotelSeleccionada, hotel, usuario, fechaDesde, fechaHasta, pagadoParseado, cantPersonasParseadas))
+                        if (miAgencia.modificarReservaHotel(reservaHotelSeleccionada, hotel, usuario, fechaDesde, fechaHasta, cantPersonasParseadas))
                         {
                             fecha_desde_reservarH.Value = DateTime.Now;
                             fecha_hasta_reservarH.Value = DateTime.Now;
                             cbHotelReservaH.SelectedIndex = 0;
                             cbUsuarioReservaH.SelectedIndex = 0;
                             cb_cantPersonasH.SelectedIndex = 0;
-                            tbPagadoReservaH.Text = "";
                         }
                     }
                     else
@@ -760,9 +757,6 @@ namespace Proyecto
                 }
                 else
                     MessageBox.Show("Ingrese una cantidad de personas válida");
-            }
-            else
-                MessageBox.Show("Ingrese un pago válido");
         }
 
         private void btnEliminarReservaH_Click(object sender, EventArgs e)
@@ -794,7 +788,6 @@ namespace Proyecto
             string destino = cb_destinoRV.Text.ToLower();
             string usuario = cbUsuarioReservaV.Text.ToLower();
             string cantidad = cb_cantPersonasRV.Text.ToLower();
-            string pagado = tbPagadoReservaV.Text.ToLower();
 
             foreach (ReservaVuelo rv in miAgencia.obtenerReservaVuelo())
             {
@@ -802,13 +795,11 @@ namespace Proyecto
                 string destinoRV = rv.miVuelo.destino.nombre.ToLower();
                 string usuarioRV = rv.miUsuario.nombre.ToLower();
                 string cantidadRV = rv.cantPersonas.ToString().ToLower();
-                string pagadoRV = rv.pagado.ToString().ToLower();
 
                 if (origenRV.Contains(origen) &&
                     destinoRV.Contains(destino) &&
                     usuarioRV.Contains(usuario) &&
-                    cantidadRV.Contains(cantidad) &&
-                    pagadoRV.Contains(pagado))
+                    cantidadRV.Contains(cantidad))
                 {
                     dataGridViewReservasV.Rows.Add(rv.ToString());
                 }
@@ -825,7 +816,6 @@ namespace Proyecto
             string usuario = dataGridViewReservasV[4, e.RowIndex].Value.ToString();
             string fecha = dataGridViewReservasV[5, e.RowIndex].Value.ToString();
             string cantPersonas = dataGridViewReservasV[6, e.RowIndex].Value.ToString();
-            string pagado = dataGridViewReservasV[7, e.RowIndex].Value.ToString();
 
             reservaVueloSeleccionada = int.Parse(id);
             cb_origenRV.Text = origen;
@@ -833,7 +823,6 @@ namespace Proyecto
             cbUsuarioReservaV.Text = usuario_id + ". " + usuario;
             fecha_RV.Value = DateTime.Parse(fecha);
             cb_cantPersonasRV.Text = cantPersonas;
-            tbPagadoReservaV.Text = pagado;
         }
 
         private void btnCargarReservaV_Click(object sender, EventArgs e)
@@ -847,11 +836,9 @@ namespace Proyecto
             string destino = cb_destinoRV.Text;
             string usuario = cbUsuarioReservaV.Text;
             string cantPersonas = cb_cantPersonasRV.Text;
-            string pagado = tbPagadoReservaV.Text;
             DateTime fecha = fecha_RV.Value;
             DateTime fecha_horario = new DateTime(fecha.Year, fecha.Month, fecha.Day, 9, 0, 0);
 
-            double pagoParse;
             int cantPersonasParseadas;
 
             if (string.IsNullOrWhiteSpace(origen))
@@ -871,27 +858,20 @@ namespace Proyecto
                 return;
             }
 
-            if (double.TryParse(pagado, out pagoParse))
-            {
-
                 if (int.TryParse(cantPersonas, out cantPersonasParseadas))
                 {
-                    if (miAgencia.agregarReservaVuelo(origen, destino, usuario, pagoParse, cantPersonasParseadas, fecha_horario))
+                    if (miAgencia.agregarReservaVuelo(origen, destino, usuario, cantPersonasParseadas, fecha_horario))
                     {
                         cb_origenRV.Text = "";
                         cb_destinoRV.Text = "";
                         cbUsuarioReservaV.SelectedIndex = 0;
                         cb_cantPersonasRV.SelectedIndex = 0;
-                        tbPagadoReservaV.Text = "";
                         fecha_RV.Value = DateTime.Now;
                         MessageBox.Show("Se ha cargado una nueva reserva con exito");
                     }
                 }
                 else
                     MessageBox.Show("Cantidad de personas inválida");
-            }
-            else
-                MessageBox.Show("Pago inválido");
         }
 
         private void btnModificarReservaV_Click(object sender, EventArgs e)
@@ -901,11 +881,9 @@ namespace Proyecto
             string destino = cb_destinoRV.Text;
             string usuario = cbUsuarioReservaV.Text;
             string cantPersonas = cb_cantPersonasRV.Text;
-            string pagado = tbPagadoReservaV.Text;
             DateTime fecha = fecha_RV.Value;
             DateTime fecha_horario = new DateTime(fecha.Year, fecha.Month, fecha.Day, 9, 0, 0);
 
-            double pagoParseado;
             int cantPersonasParseadas;
 
             if (string.IsNullOrWhiteSpace(origen))
@@ -928,34 +906,23 @@ namespace Proyecto
                 MessageBox.Show("Ingrese cantidad de personas");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(pagado))
-            {
-                MessageBox.Show("Ingrese pago");
-                return;
-            }
 
             if (reservaVueloSeleccionada != -1)
             {
-                if (double.TryParse(pagado, out pagoParseado))
-                {
 
                     if (int.TryParse(cantPersonas, out cantPersonasParseadas))
                     {
-                        if (miAgencia.modificarReservaVuelo(reservaVueloSeleccionada, origen, destino, usuario, pagoParseado, cantPersonasParseadas, fecha_horario))
+                        if (miAgencia.modificarReservaVuelo(reservaVueloSeleccionada, origen, destino, usuario, cantPersonasParseadas, fecha_horario))
                         {
                             cb_origenRV.Text = "";
                             cb_destinoRV.Text = "";
                             cbUsuarioReservaV.SelectedIndex = 0;
                             cb_cantPersonasRV.SelectedIndex = 0;
-                            tbPagadoReservaV.Text = "";
                             fecha_RV.Value = DateTime.Now;
                         }
                     }
                     else
                         MessageBox.Show("Cantidad de personas inválida");
-                }
-                else
-                    MessageBox.Show("Pago inválido");
             }
             else
                 MessageBox.Show("Debe seleccionar una Reserva");
@@ -997,14 +964,12 @@ namespace Proyecto
             cbHotelReservaH.SelectedIndex = 0;
             cbUsuarioReservaH.SelectedIndex = 0;
             cb_cantPersonasH.SelectedIndex = 0;
-            tbPagadoReservaH.Text = "";
             fecha_desde_reservarH.Value = DateTime.Now;
             fecha_hasta_reservarH.Value = DateTime.Now;
             cb_origenRV.SelectedIndex = 0;
             cb_destinoRV.SelectedIndex = 0;
             cbUsuarioReservaV.SelectedIndex = 0;
             cb_cantPersonasRV.SelectedIndex = 0;
-            tbPagadoReservaV.Text = "";
             fecha_RV.Value = DateTime.Now;
         }
 
