@@ -14,6 +14,8 @@ namespace Proyecto
         public Usuario usuario { get; set; }
         public Vuelo vuelo { get; set;}
 
+        public UsuarioVuelo() { }
+
         public UsuarioVuelo (int usuario_fk, int vuelo_fk)
         {
             this.usuario_fk = usuario_fk;

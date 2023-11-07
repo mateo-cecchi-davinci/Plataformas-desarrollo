@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,28 +12,24 @@ namespace Proyecto
 
         public int id {  get; set; }
         public Vuelo miVuelo { get; set; }
+
+        [ForeignKey("usuarioRV_fk")]
         public Usuario miUsuario { get; set;}
         public double pagado { get; set;}
         public int cantPersonas { get; set;}
         public int vuelo_fk { get; set; }
-        public int usuario_fk { get; set;}
+        public int usuarioRV_fk { get; set;}
 
-        public ReservaVuelo (int id, Vuelo miVuelo, Usuario miUsuario, double pagado, int cantPersonas)
+        public ReservaVuelo() { }
+
+        public ReservaVuelo(Vuelo miVuelo, Usuario miUsuario, double pagado, int cantPersonas, int vuelo_fk, int usuario_fk)
         {
-            this.id = id;
             this.miVuelo = miVuelo;
             this.miUsuario = miUsuario;
             this.pagado = pagado;
             this.cantPersonas = cantPersonas;
-        }
-
-        public ReservaVuelo(int id, double pagado, int cantPersonas, int vuelo_fk, int usuario_fk)
-        {
-            this.id = id;
-            this.pagado = pagado;
-            this.cantPersonas = cantPersonas;
             this.vuelo_fk = vuelo_fk;
-            this.usuario_fk = usuario_fk;
+            this.usuarioRV_fk = usuario_fk;
         }
 
         public string[] ToString()

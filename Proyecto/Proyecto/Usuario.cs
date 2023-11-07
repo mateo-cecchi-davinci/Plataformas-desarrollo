@@ -21,26 +21,15 @@ namespace Proyecto
         public List<ReservaVuelo> misReservasVuelos { get; set; } = new List<ReservaVuelo>();
         public double credito { get; set; }
         public bool isAdmin { get; set; }
-        public List<Hotel> hotelesVisitados { get; set; } = new List<Hotel>();
-        public List<Vuelo> vuelosTomados { get; set; } = new List<Vuelo>();
+        public ICollection<Hotel> hotelesVisitados { get; set; } = new List<Hotel>();
+        public ICollection<Vuelo> vuelosTomados { get; set; } = new List<Vuelo>();
         public List<UsuarioHotel> usuario_hotel { get; set; } = new List<UsuarioHotel>();
         public List<UsuarioVuelo> usuario_vuelo { get; set; } = new List<UsuarioVuelo>();
 
-        public Usuario(int id, int dni, string nombre, string apellido, string mail, string clave, bool isAdmin, double credito)
-        {
-            this.id = id;
-            this.dni = dni;
-            this.nombre = nombre;
-            this.apellido = apellido;
-            this.mail = mail;
-            this.clave = clave;
-            this.isAdmin = isAdmin;
-            this.credito = credito;
-        }
+        public Usuario() { }
 
-        public Usuario(int id, int dni, string nombre, string apellido, string mail, string clave, int intentosFallidos, bool bloqueado, double credito, bool isAdmin)
+        public Usuario(int dni, string nombre, string apellido, string mail, string clave, int intentosFallidos, bool bloqueado, double credito, bool isAdmin)
         {
-            this.id = id;
             this.dni = dni;
             this.nombre = nombre;
             this.apellido = apellido;

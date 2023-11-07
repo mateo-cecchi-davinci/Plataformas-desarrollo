@@ -15,6 +15,8 @@ namespace Proyecto
         public Usuario usuario { get; set; } 
         public Hotel hotel { get; set; }
 
+        public UsuarioHotel() { }
+
         public UsuarioHotel(int usuario_fk, int hotel_fk, int cantidad) 
         { 
         

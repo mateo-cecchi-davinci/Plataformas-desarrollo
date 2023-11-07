@@ -206,15 +206,15 @@ namespace Proyecto
 
             if (int.TryParse(cantPersonas, out cantPersonasParseadas))
             {
-                    if (miAgencia.agregarReservaHotel(hotel, usuario, fechaDesde_horario, fechaHasta_horario, cantPersonasParseadas))
-                    {
-                        cb_hotel.Text = "";
-                        cb_ciudadH.Text = "";
-                        dateTimePicker1.Value = DateTime.Now;
-                        dateTimePicker2.Value = DateTime.Now;
-                        cb_cantPersonasH.Text = "";
-                        MessageBox.Show("Se ha cargado una nueva reserva con exito");
-                    }
+                if (miAgencia.agregarReservaHotel(hotel, usuario, fechaDesde_horario, fechaHasta_horario, cantPersonasParseadas))
+                {
+                    cb_hotel.Text = "";
+                    cb_ciudadH.Text = "";
+                    dateTimePicker1.Value = DateTime.Now;
+                    dateTimePicker2.Value = DateTime.Now;
+                    cb_cantPersonasH.Text = "";
+                    MessageBox.Show("Se ha cargado una nueva reserva con exito");
+                }
             }
             else
                 MessageBox.Show("Cantidad de personas inválida");
@@ -282,14 +282,14 @@ namespace Proyecto
 
             if (int.TryParse(cantPersonas, out cantPersonasParseadas))
             {
-                    if (miAgencia.agregarReservaVuelo(origen, destino, usuario, cantPersonasParseadas, fecha_horario))
-                    {
-                        cb_origenV.Text = "";
-                        cb_destinoV.Text = "";
-                        dateTimePicker3.Value = DateTime.Now;
-                        cb_cantPersonasV.Text = "";
-                        MessageBox.Show("Se ha cargado una nueva reserva con exito");
-                    }
+                if (miAgencia.agregarReservaVuelo(origen, destino, usuario, cantPersonasParseadas, fecha_horario))
+                {
+                    cb_origenV.Text = "";
+                    cb_destinoV.Text = "";
+                    dateTimePicker3.Value = DateTime.Now;
+                    cb_cantPersonasV.Text = "";
+                    MessageBox.Show("Se ha cargado una nueva reserva con exito");
+                }
             }
             else
                 MessageBox.Show("Cantidad de personas inválida");
