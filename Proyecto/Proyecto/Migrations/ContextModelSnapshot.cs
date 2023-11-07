@@ -174,7 +174,7 @@ namespace Proyecto.Migrations
                             id = 1,
                             capacidad = 101,
                             ciudad_fk = 7,
-                            costo = 110000.0,
+                            costo = 21000.0,
                             nombre = "Hotel Buenos Aires"
                         },
                         new
@@ -182,7 +182,7 @@ namespace Proyecto.Migrations
                             id = 2,
                             capacidad = 80,
                             ciudad_fk = 2,
-                            costo = 120000.0,
+                            costo = 22000.0,
                             nombre = "Hotel Rosario"
                         },
                         new
@@ -190,7 +190,7 @@ namespace Proyecto.Migrations
                             id = 3,
                             capacidad = 120,
                             ciudad_fk = 3,
-                            costo = 170000.0,
+                            costo = 27000.0,
                             nombre = "Hotel Córdoba"
                         },
                         new
@@ -198,7 +198,7 @@ namespace Proyecto.Migrations
                             id = 4,
                             capacidad = 90,
                             ciudad_fk = 4,
-                            costo = 140000.0,
+                            costo = 24000.0,
                             nombre = "Hotel Mendoza"
                         },
                         new
@@ -206,7 +206,7 @@ namespace Proyecto.Migrations
                             id = 5,
                             capacidad = 70,
                             ciudad_fk = 5,
-                            costo = 110000.0,
+                            costo = 21000.0,
                             nombre = "Hotel San Juan"
                         },
                         new
@@ -214,7 +214,7 @@ namespace Proyecto.Migrations
                             id = 6,
                             capacidad = 110,
                             ciudad_fk = 6,
-                            costo = 160000.0,
+                            costo = 26000.0,
                             nombre = "Hotel Mar del Plata"
                         },
                         new
@@ -222,7 +222,7 @@ namespace Proyecto.Migrations
                             id = 7,
                             capacidad = 95,
                             ciudad_fk = 7,
-                            costo = 135000.0,
+                            costo = 23500.0,
                             nombre = "Hotel Tucumán"
                         },
                         new
@@ -230,7 +230,7 @@ namespace Proyecto.Migrations
                             id = 8,
                             capacidad = 75,
                             ciudad_fk = 8,
-                            costo = 125000.0,
+                            costo = 22500.0,
                             nombre = "Hotel Salta"
                         },
                         new
@@ -238,7 +238,7 @@ namespace Proyecto.Migrations
                             id = 9,
                             capacidad = 85,
                             ciudad_fk = 9,
-                            costo = 145000.0,
+                            costo = 24500.0,
                             nombre = "Hotel Jujuy"
                         },
                         new
@@ -246,7 +246,7 @@ namespace Proyecto.Migrations
                             id = 10,
                             capacidad = 105,
                             ciudad_fk = 10,
-                            costo = 155000.0,
+                            costo = 25500.0,
                             nombre = "Hotel Neuquén"
                         },
                         new
@@ -254,7 +254,7 @@ namespace Proyecto.Migrations
                             id = 11,
                             capacidad = 80,
                             ciudad_fk = 1,
-                            costo = 120000.0,
+                            costo = 22000.0,
                             nombre = "Hotel La Plata"
                         },
                         new
@@ -262,7 +262,7 @@ namespace Proyecto.Migrations
                             id = 12,
                             capacidad = 110,
                             ciudad_fk = 2,
-                            costo = 165000.0,
+                            costo = 26500.0,
                             nombre = "Hotel Santa Fe"
                         },
                         new
@@ -270,7 +270,7 @@ namespace Proyecto.Migrations
                             id = 13,
                             capacidad = 90,
                             ciudad_fk = 3,
-                            costo = 130000.0,
+                            costo = 23000.0,
                             nombre = "Hotel San Luis"
                         },
                         new
@@ -278,7 +278,7 @@ namespace Proyecto.Migrations
                             id = 14,
                             capacidad = 70,
                             ciudad_fk = 4,
-                            costo = 110000.0,
+                            costo = 21000.0,
                             nombre = "Hotel Formosa"
                         },
                         new
@@ -286,7 +286,7 @@ namespace Proyecto.Migrations
                             id = 15,
                             capacidad = 100,
                             ciudad_fk = 5,
-                            costo = 150000.0,
+                            costo = 25000.0,
                             nombre = "Hotel Entre Ríos"
                         },
                         new
@@ -294,7 +294,7 @@ namespace Proyecto.Migrations
                             id = 16,
                             capacidad = 120,
                             ciudad_fk = 6,
-                            costo = 120000.0,
+                            costo = 22000.0,
                             nombre = "Hotel Catamarca"
                         },
                         new
@@ -302,7 +302,7 @@ namespace Proyecto.Migrations
                             id = 17,
                             capacidad = 120,
                             ciudad_fk = 7,
-                            costo = 175000.0,
+                            costo = 27500.0,
                             nombre = "Hotel La Rioja"
                         },
                         new
@@ -310,7 +310,7 @@ namespace Proyecto.Migrations
                             id = 18,
                             capacidad = 95,
                             ciudad_fk = 8,
-                            costo = 140000.0,
+                            costo = 24000.0,
                             nombre = "Hotel Chaco"
                         },
                         new
@@ -318,7 +318,7 @@ namespace Proyecto.Migrations
                             id = 19,
                             capacidad = 75,
                             ciudad_fk = 9,
-                            costo = 125000.0,
+                            costo = 22500.0,
                             nombre = "Hotel Tierra del Fuego"
                         },
                         new
@@ -326,7 +326,7 @@ namespace Proyecto.Migrations
                             id = 20,
                             capacidad = 105,
                             ciudad_fk = 10,
-                            costo = 155000.0,
+                            costo = 25500.0,
                             nombre = "Hotel Santa Cruz"
                         },
                         new
@@ -334,7 +334,7 @@ namespace Proyecto.Migrations
                             id = 2021,
                             capacidad = 101,
                             ciudad_fk = 7,
-                            costo = 110000.0,
+                            costo = 21000.0,
                             nombre = "PRUEBA"
                         });
                 });
@@ -1259,7 +1259,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Buenos Aires",
                             avion = "Boeing 747",
                             capacidad = 150,
-                            costo = 120000.0,
+                            costo = 22000.0,
                             destino_fk = 3,
                             fecha = new DateTime(2023, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 1,
@@ -1271,7 +1271,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Córdoba",
                             avion = "Airbus A320",
                             capacidad = 120,
-                            costo = 110000.0,
+                            costo = 21000.0,
                             destino_fk = 4,
                             fecha = new DateTime(2023, 10, 2, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 2,
@@ -1283,7 +1283,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Mendoza",
                             avion = "Boeing 787 Dreamliner",
                             capacidad = 180,
-                            costo = 140000.0,
+                            costo = 24000.0,
                             destino_fk = 5,
                             fecha = new DateTime(2023, 10, 3, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 3,
@@ -1295,7 +1295,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Buenos Aires",
                             avion = "Airbus A320",
                             capacidad = 160,
-                            costo = 125000.0,
+                            costo = 22500.0,
                             destino_fk = 1,
                             fecha = new DateTime(2023, 10, 4, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 4,
@@ -1307,7 +1307,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Córdoba",
                             avion = "Boeing 747",
                             capacidad = 130,
-                            costo = 130000.0,
+                            costo = 23000.0,
                             destino_fk = 2,
                             fecha = new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 5,
@@ -1319,7 +1319,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Córdoba",
                             avion = "Boeing 787 Dreamliner",
                             capacidad = 170,
-                            costo = 135000.0,
+                            costo = 23500.0,
                             destino_fk = 3,
                             fecha = new DateTime(2023, 10, 6, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 1,
@@ -1331,7 +1331,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Buenos Aires",
                             avion = "Airbus A320",
                             capacidad = 140,
-                            costo = 128000.0,
+                            costo = 22800.0,
                             destino_fk = 4,
                             fecha = new DateTime(2023, 10, 7, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 2,
@@ -1343,7 +1343,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Mendoza",
                             avion = "Boeing 747",
                             capacidad = 110,
-                            costo = 115000.0,
+                            costo = 21500.0,
                             destino_fk = 5,
                             fecha = new DateTime(2023, 10, 8, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 3,
@@ -1355,7 +1355,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Córdoba",
                             avion = "Boeing 787 Dreamliner",
                             capacidad = 190,
-                            costo = 145000.0,
+                            costo = 24500.0,
                             destino_fk = 1,
                             fecha = new DateTime(2023, 10, 9, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 4,
@@ -1367,7 +1367,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Buenos Aires",
                             avion = "Airbus A320",
                             capacidad = 155,
-                            costo = 127000.0,
+                            costo = 22700.0,
                             destino_fk = 2,
                             fecha = new DateTime(2023, 10, 10, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 5,
@@ -1379,7 +1379,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Mendoza",
                             avion = "Boeing 747",
                             capacidad = 170,
-                            costo = 135000.0,
+                            costo = 23500.0,
                             destino_fk = 3,
                             fecha = new DateTime(2023, 10, 11, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 1,
@@ -1391,7 +1391,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Córdoba",
                             avion = "Boeing 787 Dreamliner",
                             capacidad = 120,
-                            costo = 110000.0,
+                            costo = 21000.0,
                             destino_fk = 4,
                             fecha = new DateTime(2023, 10, 12, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 2,
@@ -1403,7 +1403,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Buenos Aires",
                             avion = "Airbus A320",
                             capacidad = 140,
-                            costo = 128000.0,
+                            costo = 22800.0,
                             destino_fk = 5,
                             fecha = new DateTime(2023, 10, 13, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 3,
@@ -1415,7 +1415,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Mendoza",
                             avion = "Boeing 747",
                             capacidad = 180,
-                            costo = 140000.0,
+                            costo = 24000.0,
                             destino_fk = 1,
                             fecha = new DateTime(2023, 10, 14, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 4,
@@ -1427,7 +1427,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Córdoba",
                             avion = "Boeing 787 Dreamliner",
                             capacidad = 130,
-                            costo = 130000.0,
+                            costo = 23000.0,
                             destino_fk = 2,
                             fecha = new DateTime(2023, 10, 15, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 5,
@@ -1439,7 +1439,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Buenos Aires",
                             avion = "Airbus A320",
                             capacidad = 150,
-                            costo = 120000.0,
+                            costo = 22000.0,
                             destino_fk = 3,
                             fecha = new DateTime(2023, 10, 16, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 1,
@@ -1451,7 +1451,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Mendoza",
                             avion = "Boeing 747",
                             capacidad = 160,
-                            costo = 125000.0,
+                            costo = 22500.0,
                             destino_fk = 4,
                             fecha = new DateTime(2023, 10, 17, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 2,
@@ -1463,7 +1463,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Córdoba",
                             avion = "Boeing 787 Dreamliner",
                             capacidad = 190,
-                            costo = 145000.0,
+                            costo = 24500.0,
                             destino_fk = 5,
                             fecha = new DateTime(2023, 10, 18, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 3,
@@ -1475,7 +1475,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Buenos Aires",
                             avion = "Airbus A320",
                             capacidad = 155,
-                            costo = 127000.0,
+                            costo = 22700.0,
                             destino_fk = 1,
                             fecha = new DateTime(2023, 10, 19, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 4,
@@ -1487,7 +1487,7 @@ namespace Proyecto.Migrations
                             aerolinea = "Aerolínea Mendoza",
                             avion = "Boeing 747",
                             capacidad = 110,
-                            costo = 115000.0,
+                            costo = 21500.0,
                             destino_fk = 2,
                             fecha = new DateTime(2023, 10, 20, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 5,
@@ -1499,7 +1499,7 @@ namespace Proyecto.Migrations
                             aerolinea = "PRUEBA",
                             avion = "PRUEBA",
                             capacidad = 110,
-                            costo = 110000.0,
+                            costo = 21000.0,
                             destino_fk = 19,
                             fecha = new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             origen_fk = 1,

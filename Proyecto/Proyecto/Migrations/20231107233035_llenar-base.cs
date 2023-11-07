@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Proyecto.Migrations
 {
     /// <inheritdoc />
-    public partial class llenar_bdd : Migration
+    public partial class llenarbase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -266,27 +266,27 @@ namespace Proyecto.Migrations
                 columns: new[] { "id", "capacidad", "ciudad_fk", "costo", "nombre" },
                 values: new object[,]
                 {
-                    { 1, 101, 7, 110000.0, "Hotel Buenos Aires" },
-                    { 2, 80, 2, 120000.0, "Hotel Rosario" },
-                    { 3, 120, 3, 170000.0, "Hotel Córdoba" },
-                    { 4, 90, 4, 140000.0, "Hotel Mendoza" },
-                    { 5, 70, 5, 110000.0, "Hotel San Juan" },
-                    { 6, 110, 6, 160000.0, "Hotel Mar del Plata" },
-                    { 7, 95, 7, 135000.0, "Hotel Tucumán" },
-                    { 8, 75, 8, 125000.0, "Hotel Salta" },
-                    { 9, 85, 9, 145000.0, "Hotel Jujuy" },
-                    { 10, 105, 10, 155000.0, "Hotel Neuquén" },
-                    { 11, 80, 1, 120000.0, "Hotel La Plata" },
-                    { 12, 110, 2, 165000.0, "Hotel Santa Fe" },
-                    { 13, 90, 3, 130000.0, "Hotel San Luis" },
-                    { 14, 70, 4, 110000.0, "Hotel Formosa" },
-                    { 15, 100, 5, 150000.0, "Hotel Entre Ríos" },
-                    { 16, 120, 6, 120000.0, "Hotel Catamarca" },
-                    { 17, 120, 7, 175000.0, "Hotel La Rioja" },
-                    { 18, 95, 8, 140000.0, "Hotel Chaco" },
-                    { 19, 75, 9, 125000.0, "Hotel Tierra del Fuego" },
-                    { 20, 105, 10, 155000.0, "Hotel Santa Cruz" },
-                    { 2021, 101, 7, 110000.0, "PRUEBA" }
+                    { 1, 101, 7, 21000.0, "Hotel Buenos Aires" },
+                    { 2, 80, 2, 22000.0, "Hotel Rosario" },
+                    { 3, 120, 3, 27000.0, "Hotel Córdoba" },
+                    { 4, 90, 4, 24000.0, "Hotel Mendoza" },
+                    { 5, 70, 5, 21000.0, "Hotel San Juan" },
+                    { 6, 110, 6, 26000.0, "Hotel Mar del Plata" },
+                    { 7, 95, 7, 23500.0, "Hotel Tucumán" },
+                    { 8, 75, 8, 22500.0, "Hotel Salta" },
+                    { 9, 85, 9, 24500.0, "Hotel Jujuy" },
+                    { 10, 105, 10, 25500.0, "Hotel Neuquén" },
+                    { 11, 80, 1, 22000.0, "Hotel La Plata" },
+                    { 12, 110, 2, 26500.0, "Hotel Santa Fe" },
+                    { 13, 90, 3, 23000.0, "Hotel San Luis" },
+                    { 14, 70, 4, 21000.0, "Hotel Formosa" },
+                    { 15, 100, 5, 25000.0, "Hotel Entre Ríos" },
+                    { 16, 120, 6, 22000.0, "Hotel Catamarca" },
+                    { 17, 120, 7, 27500.0, "Hotel La Rioja" },
+                    { 18, 95, 8, 24000.0, "Hotel Chaco" },
+                    { 19, 75, 9, 22500.0, "Hotel Tierra del Fuego" },
+                    { 20, 105, 10, 25500.0, "Hotel Santa Cruz" },
+                    { 2021, 101, 7, 21000.0, "PRUEBA" }
                 });
 
             migrationBuilder.InsertData(
@@ -294,27 +294,27 @@ namespace Proyecto.Migrations
                 columns: new[] { "id", "aerolinea", "avion", "capacidad", "costo", "destino_fk", "fecha", "origen_fk", "vendido" },
                 values: new object[,]
                 {
-                    { 1, "Aerolínea Buenos Aires", "Boeing 747", 150, 120000.0, 3, new DateTime(2023, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 0 },
-                    { 2, "Aerolínea Córdoba", "Airbus A320", 120, 110000.0, 4, new DateTime(2023, 10, 2, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 0 },
-                    { 3, "Aerolínea Mendoza", "Boeing 787 Dreamliner", 180, 140000.0, 5, new DateTime(2023, 10, 3, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 0 },
-                    { 4, "Aerolínea Buenos Aires", "Airbus A320", 160, 125000.0, 1, new DateTime(2023, 10, 4, 9, 0, 0, 0, DateTimeKind.Unspecified), 4, 0 },
-                    { 5, "Aerolínea Córdoba", "Boeing 747", 130, 130000.0, 2, new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 0 },
-                    { 6, "Aerolínea Córdoba", "Boeing 787 Dreamliner", 170, 135000.0, 3, new DateTime(2023, 10, 6, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 0 },
-                    { 7, "Aerolínea Buenos Aires", "Airbus A320", 140, 128000.0, 4, new DateTime(2023, 10, 7, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 0 },
-                    { 8, "Aerolínea Mendoza", "Boeing 747", 110, 115000.0, 5, new DateTime(2023, 10, 8, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 0 },
-                    { 9, "Aerolínea Córdoba", "Boeing 787 Dreamliner", 190, 145000.0, 1, new DateTime(2023, 10, 9, 9, 0, 0, 0, DateTimeKind.Unspecified), 4, 0 },
-                    { 10, "Aerolínea Buenos Aires", "Airbus A320", 155, 127000.0, 2, new DateTime(2023, 10, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 0 },
-                    { 11, "Aerolínea Mendoza", "Boeing 747", 170, 135000.0, 3, new DateTime(2023, 10, 11, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 0 },
-                    { 12, "Aerolínea Córdoba", "Boeing 787 Dreamliner", 120, 110000.0, 4, new DateTime(2023, 10, 12, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 0 },
-                    { 13, "Aerolínea Buenos Aires", "Airbus A320", 140, 128000.0, 5, new DateTime(2023, 10, 13, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 0 },
-                    { 14, "Aerolínea Mendoza", "Boeing 747", 180, 140000.0, 1, new DateTime(2023, 10, 14, 9, 0, 0, 0, DateTimeKind.Unspecified), 4, 0 },
-                    { 15, "Aerolínea Córdoba", "Boeing 787 Dreamliner", 130, 130000.0, 2, new DateTime(2023, 10, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 0 },
-                    { 16, "Aerolínea Buenos Aires", "Airbus A320", 150, 120000.0, 3, new DateTime(2023, 10, 16, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 0 },
-                    { 17, "Aerolínea Mendoza", "Boeing 747", 160, 125000.0, 4, new DateTime(2023, 10, 17, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 0 },
-                    { 18, "Aerolínea Córdoba", "Boeing 787 Dreamliner", 190, 145000.0, 5, new DateTime(2023, 10, 18, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 0 },
-                    { 19, "Aerolínea Buenos Aires", "Airbus A320", 155, 127000.0, 1, new DateTime(2023, 10, 19, 9, 0, 0, 0, DateTimeKind.Unspecified), 4, 0 },
-                    { 20, "Aerolínea Mendoza", "Boeing 747", 110, 115000.0, 2, new DateTime(2023, 10, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 0 },
-                    { 22, "PRUEBA", "PRUEBA", 110, 110000.0, 19, new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 0 }
+                    { 1, "Aerolínea Buenos Aires", "Boeing 747", 150, 22000.0, 3, new DateTime(2023, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 0 },
+                    { 2, "Aerolínea Córdoba", "Airbus A320", 120, 21000.0, 4, new DateTime(2023, 10, 2, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 0 },
+                    { 3, "Aerolínea Mendoza", "Boeing 787 Dreamliner", 180, 24000.0, 5, new DateTime(2023, 10, 3, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 0 },
+                    { 4, "Aerolínea Buenos Aires", "Airbus A320", 160, 22500.0, 1, new DateTime(2023, 10, 4, 9, 0, 0, 0, DateTimeKind.Unspecified), 4, 0 },
+                    { 5, "Aerolínea Córdoba", "Boeing 747", 130, 23000.0, 2, new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 0 },
+                    { 6, "Aerolínea Córdoba", "Boeing 787 Dreamliner", 170, 23500.0, 3, new DateTime(2023, 10, 6, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 0 },
+                    { 7, "Aerolínea Buenos Aires", "Airbus A320", 140, 22800.0, 4, new DateTime(2023, 10, 7, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 0 },
+                    { 8, "Aerolínea Mendoza", "Boeing 747", 110, 21500.0, 5, new DateTime(2023, 10, 8, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 0 },
+                    { 9, "Aerolínea Córdoba", "Boeing 787 Dreamliner", 190, 24500.0, 1, new DateTime(2023, 10, 9, 9, 0, 0, 0, DateTimeKind.Unspecified), 4, 0 },
+                    { 10, "Aerolínea Buenos Aires", "Airbus A320", 155, 22700.0, 2, new DateTime(2023, 10, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 0 },
+                    { 11, "Aerolínea Mendoza", "Boeing 747", 170, 23500.0, 3, new DateTime(2023, 10, 11, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 0 },
+                    { 12, "Aerolínea Córdoba", "Boeing 787 Dreamliner", 120, 21000.0, 4, new DateTime(2023, 10, 12, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 0 },
+                    { 13, "Aerolínea Buenos Aires", "Airbus A320", 140, 22800.0, 5, new DateTime(2023, 10, 13, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 0 },
+                    { 14, "Aerolínea Mendoza", "Boeing 747", 180, 24000.0, 1, new DateTime(2023, 10, 14, 9, 0, 0, 0, DateTimeKind.Unspecified), 4, 0 },
+                    { 15, "Aerolínea Córdoba", "Boeing 787 Dreamliner", 130, 23000.0, 2, new DateTime(2023, 10, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 0 },
+                    { 16, "Aerolínea Buenos Aires", "Airbus A320", 150, 22000.0, 3, new DateTime(2023, 10, 16, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 0 },
+                    { 17, "Aerolínea Mendoza", "Boeing 747", 160, 22500.0, 4, new DateTime(2023, 10, 17, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 0 },
+                    { 18, "Aerolínea Córdoba", "Boeing 787 Dreamliner", 190, 24500.0, 5, new DateTime(2023, 10, 18, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 0 },
+                    { 19, "Aerolínea Buenos Aires", "Airbus A320", 155, 22700.0, 1, new DateTime(2023, 10, 19, 9, 0, 0, 0, DateTimeKind.Unspecified), 4, 0 },
+                    { 20, "Aerolínea Mendoza", "Boeing 747", 110, 21500.0, 2, new DateTime(2023, 10, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 0 },
+                    { 22, "PRUEBA", "PRUEBA", 110, 21000.0, 19, new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 0 }
                 });
 
             migrationBuilder.InsertData(
