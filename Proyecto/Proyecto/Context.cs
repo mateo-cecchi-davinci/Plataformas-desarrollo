@@ -105,20 +105,6 @@ namespace Proyecto
                 .HasConstraintName("ciudad_fk")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //modelBuilder.Entity<Ciudad>()
-            //    .HasMany(c => c.vuelos)
-            //    .WithOne(v => v.origen)
-            //    .HasForeignKey(v => v.origen_fk)
-            //    .HasConstraintName("origen_fk")
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<Ciudad>()
-            //    .HasMany(c => c.vuelos)
-            //    .WithOne(v => v.destino)
-            //    .HasForeignKey(v => v.destino_fk)
-            //    .HasConstraintName("destino_fk")
-            //    .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<Vuelo>()
                 .HasOne(v => v.origen)
                 .WithMany(c => c.vuelos)
