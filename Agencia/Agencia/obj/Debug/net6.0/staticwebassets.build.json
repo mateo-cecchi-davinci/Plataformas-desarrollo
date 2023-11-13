@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "sQ9BPkjZlV3X0l/y7dQmlHcV57FK3/wosMCoqQqMJn8=",
+  "Hash": "0LLJPateJ1zz0APiSKPG4czMmWvfdO/qc6EQGm1dH5I=",
   "Source": "Agencia",
   "BasePath": "_content/Agencia",
   "Mode": "Default",
@@ -51,6 +51,40 @@
       "OriginalItemSpec": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\Agencia.bundle.scp.css"
     },
     {
+      "Identity": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\home.css",
+      "SourceId": "Agencia",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\",
+      "BasePath": "_content/Agencia",
+      "RelativePath": "css/home.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\home.css"
+    },
+    {
+      "Identity": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\sidebar.css",
+      "SourceId": "Agencia",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\",
+      "BasePath": "_content/Agencia",
+      "RelativePath": "css/sidebar.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\sidebar.css"
+    },
+    {
       "Identity": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\site.css",
       "SourceId": "Agencia",
       "SourceType": "Discovered",
@@ -66,6 +100,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\topbar.css",
+      "SourceId": "Agencia",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\",
+      "BasePath": "_content/Agencia",
+      "RelativePath": "css/topbar.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\topbar.css"
     },
     {
       "Identity": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\favicon.ico",
@@ -85,12 +136,12 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
-      "Identity": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\js\\site.js",
+      "Identity": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\js\\popover.js",
       "SourceId": "Agencia",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\",
       "BasePath": "_content/Agencia",
-      "RelativePath": "js/site.js",
+      "RelativePath": "js/popover.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -99,7 +150,24 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\site.js"
+      "OriginalItemSpec": "wwwroot\\js\\popover.js"
+    },
+    {
+      "Identity": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\js\\sidebar.js",
+      "SourceId": "Agencia",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\",
+      "BasePath": "_content/Agencia",
+      "RelativePath": "js/sidebar.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\sidebar.js"
     },
     {
       "Identity": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",

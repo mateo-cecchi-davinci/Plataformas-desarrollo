@@ -1,8 +1,181 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Explora mundi";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="home-content row justify-content-center ps-4">
+    <div class="card card-bg search-form col-xl-12">
+        <div class="m-0 pb-4">
+            <div class="d-flex text-nowrap form-title">
+                <h4 class="m-0 pe-4 fw-bold text-white form-title-text">Paquetes turísticos</h4>
+                <button class="btn btn-sm bg-light rounded-pill me-2 form-title-btn">
+                    <i class="bx bxs-plane-alt icon pe-1"></i>Vuelo +
+                    <i class="bx bx-hotel icon pe-1"></i>Alojamiento
+                </button>
+                @* <button class="btn btn-sm btn-outline-light rounded-pill">
+                    <i class="bx bxs-plane-alt icon pe-1"></i>Vuelo +
+                    <i class="bx bx-hotel icon pe-1"></i>2 Alojamientos
+                </button> *@
+            </div>
+        </div>
+        <form method="GET" action="">
+            <div class="search-form-content">
+                <div class="d-flex search-inputs">
+                    <div class="m-0 p-2 card package-origin overflow-hidden flex-fill">
+                        <div class="d-flex align-items-center">
+                            <i class="bx bx-circle icon m-0 pt-3 ps-2 fs-5"></i>
+                            <div class="flex-fill">
+                                <p class="font-small m-0 ps-2">ORIGEN</p>
+                                <input type="text" name="origin" class="input-places ps-2 m-0"
+                                       placeholder="Ingresa desde dónde viajas" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-0 p-2 card package-destination overflow-hidden flex-fill me-2">
+                        <div class="d-flex align-items-center">
+                            <i class="bx bx-map icon m-0 pt-3 ps-2 fs-5"></i>
+                            <div class="flex-fill">
+                                <p class="font-small m-0 ps-2">DESTINO</p>
+                                <input type="text" name="destination" class="input-places ps-2 m-0"
+                                       placeholder="Ingresa hacia dónde viajas" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="d-flex search-inputs">
+                        <div class="m-0 p-2 card package-srtDate flex-fill">
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-calendar icon m-0 pt-3 ps-2 fs-5"></i>
+                                <div>
+                                    <p class="font-small m-0 ps-2">IDA</p>
+                                    <input type="date" name="start_date" id="start_date" class="input-date ps-2 m-0"
+                                           min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" required>
+                                           @*Poner minimo de fecha*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-0 p-2 card package-endDate flex-fill me-2">
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-calendar icon m-0 pt-3 ps-2 fs-5"></i>
+                                <div>
+                                    <p class="font-small m-0 ps-2">VUELTA</p>
+                                    <input type="date" name="end_date" id="end_date" class="input-date ps-2 m-0"
+                                           required disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @* <div class="d-flex align-items-center m-0 p-0 mt-2 ms-2">
+                        <label class="toggle">
+                            <input class="toggle-checkbox" type="checkbox">
+                            <div class="toggle-switch"></div>
+                        </label>
+                        <p class="fs-6 text-white m-0 ps-2">Todavía no he decidido la fecha</p>
+                    </div> *@ 
+                </div>
+                <div class="d-flex m-0">
+                    <div class="popover-btn" id="popover-btn">
+                        <div class="card me-2 p-2 package-rooms">
+                            <p class="font-small m-0 ps-2">HABITACIONES</p>
+                            <div class="d-flex justify-content-evenly align-items-center">
+                                <i class="bx bx-bed icon m-0 p-0 fs-5"></i>
+                                <input type="text" name="rooms" class="m-0 p-0 room-amount" value="1"
+                                       readonly>
+                                <i class="bx bx-user icon m-0 p-0 fs-5"></i>
+                                <input type="text" name="people" class="m-0 p-0 total-people" value="1"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="popover" id="popover">
+                            <p class="fs-6 text-body text-opacity-75 p-2 ps-3 pb-1 m-0">
+                                Habitaciones: <span class="room-index">1</span>
+                            </p>
+                            <div class="d-flex justify-content-between px-3 pt-1 pb-2">
+                                <div class="d-block">
+                                    <p class="fs-5 text-body m-0">Adultos</p>
+                                    <p class="popover-sml-txt text-body text-opacity-50 m-0">Desde 18 años</p>
+                                </div>
+                                <div class="wrapper mt-2">
+                                    <span class="minus text-body">-</span>
+                                    <span class="num text-body">1</span>
+                                    <span class="plus text-body">+</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between px-3 py-2">
+                                <div class="d-block">
+                                    <p class="fs-5 text-body m-0">Menores</p>
+                                    <p class="popover-sml-txt text-body text-opacity-50 m-0">Hasta 17 años</p>
+                                </div>
+                                <div class="wrapper mt-2">
+                                    <span class="minus-minors text-body">-</span>
+                                    <span class="num-minors text-body">0</span>
+                                    <span class="plus-minors text-body">+</span>
+                                </div>
+                            </div>
+                            <div id="rooms"></div>
+                            <div id="apply-four-rooms"
+                                 class="d-flex justify-content-between align-items-center border-top py-2 px-3">
+                                <a id="addRoom" class="text-decoration-none popover-sml-txt">Añadir habitacion</a>
+                                <button type="button" id="btn-apply"
+                                        class="btn btn-success rounded-pill">
+                                    Aplicar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="total_adults" id="total_adults">
+                    <input type="hidden" name="total_minors" id="total_minors">
+                    <input type="hidden" name="total_people_rooms" id="total_people_rooms">
+                    <button type="submit" class="btn btn-lg btn-danger rounded-pill btn-search fs-5">
+                        <i class="bx bx-search icon"></i>
+                        Buscar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="py-5 px-0 col-8 row justify-content-center">
+        <div class="card book-card my-4 overflow-hidden package-details">
+            <div class="row">
+                <div class="col-12 col-md-5 p-0 overflow-hidden">
+                    <a href="#">
+                        <img src="" class="rounded-start img-home"
+                             alt="IMG">
+                    </a>
+                </div>
+                <div class="col-12 col-md-7">
+                    <div class="card-body ps-0">
+                        <p class="card-text">VUELO + ALOJAMIENTO</p>
+                        <h5 class="card-title">Hotel Buenos Aires</h5>
+                        <p class="card-text text-body-secondary fs-6 mb-0">
+                            1 de JUN al 10 de JUN
+                        </p>
+                        <p class="card-text text-body-secondary fs-6">
+                            Desde Bs. As.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+
+    startDateInput.addEventListener('input', function () {
+        const selectedStartDate = new Date(startDateInput.value);
+
+        const minEndDate = new Date(selectedStartDate);
+        minEndDate.setDate(selectedStartDate.getDate() + 1);
+
+        const formattedMinEndDate = minEndDate.toISOString().split('T')[0];
+
+        endDateInput.min = formattedMinEndDate;
+
+        endDateInput.disabled = false;
+        endDateInput.value = '';
+    });
+</script>
