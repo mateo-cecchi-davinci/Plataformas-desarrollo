@@ -85,11 +85,11 @@ namespace Proyecto
 
         private void btnBuscarUsuario_Click(object sender, EventArgs e)
         {
-            limpiarCampos();
+            buscar();
             usuarioSeleccionado = -1;
         }
 
-        private void limpiarCampos()
+        private void buscar()
         {
 
             dataGridView1.Rows.Clear();
@@ -203,7 +203,7 @@ namespace Proyecto
                     if (miAgencia.modificarUsuario(usuarioSeleccionado, numDni, nombre, apellido, mail, creditoParseado, intentosFallidosParseado, bloqueado))
                     {
                         MessageBox.Show("Modificado con exito");
-                        limpiarCampos();
+                        buscar();
                     }
                     else
                         MessageBox.Show("Problemas al modificar");
@@ -695,19 +695,19 @@ namespace Proyecto
             int cantPersonasParseadas;
 
 
-                if (int.TryParse(cantPersonas, out cantPersonasParseadas))
+            if (int.TryParse(cantPersonas, out cantPersonasParseadas))
+            {
+                if (miAgencia.agregarReservaHotel(hotel, usuario, fechaDesde, fechaHasta, cantPersonasParseadas))
                 {
-                    if (miAgencia.agregarReservaHotel(hotel, usuario, fechaDesde, fechaHasta, cantPersonasParseadas))
-                    {
-                        fecha_desde_reservarH.Value = DateTime.Now;
-                        fecha_hasta_reservarH.Value = DateTime.Now;
-                        cbHotelReservaH.SelectedIndex = 0;
-                        cbUsuarioReservaH.SelectedIndex = 0;
-                        cb_cantPersonasH.SelectedIndex = 0;
-                        MessageBox.Show("Se ha cargado una nueva reserva con exito");
-                    }
+                    fecha_desde_reservarH.Value = DateTime.Now;
+                    fecha_hasta_reservarH.Value = DateTime.Now;
+                    cbHotelReservaH.SelectedIndex = 0;
+                    cbUsuarioReservaH.SelectedIndex = 0;
+                    cb_cantPersonasH.SelectedIndex = 0;
+                    MessageBox.Show("Se ha cargado una nueva reserva con exito");
                 }
-                else MessageBox.Show("Cantidad de personas inválida");
+            }
+            else MessageBox.Show("Cantidad de personas inválida");
 
         }
 
@@ -739,24 +739,24 @@ namespace Proyecto
                 return;
             }
 
-                if (int.TryParse(cantPersonas, out cantPersonasParseadas))
+            if (int.TryParse(cantPersonas, out cantPersonasParseadas))
+            {
+                if (reservaHotelSeleccionada != -1)
                 {
-                    if (reservaHotelSeleccionada != -1)
+                    if (miAgencia.modificarReservaHotel(reservaHotelSeleccionada, hotel, usuario, fechaDesde, fechaHasta, cantPersonasParseadas))
                     {
-                        if (miAgencia.modificarReservaHotel(reservaHotelSeleccionada, hotel, usuario, fechaDesde, fechaHasta, cantPersonasParseadas))
-                        {
-                            fecha_desde_reservarH.Value = DateTime.Now;
-                            fecha_hasta_reservarH.Value = DateTime.Now;
-                            cbHotelReservaH.SelectedIndex = 0;
-                            cbUsuarioReservaH.SelectedIndex = 0;
-                            cb_cantPersonasH.SelectedIndex = 0;
-                        }
+                        fecha_desde_reservarH.Value = DateTime.Now;
+                        fecha_hasta_reservarH.Value = DateTime.Now;
+                        cbHotelReservaH.SelectedIndex = 0;
+                        cbUsuarioReservaH.SelectedIndex = 0;
+                        cb_cantPersonasH.SelectedIndex = 0;
                     }
-                    else
-                        MessageBox.Show("Debe seleccionar una Reserva");
                 }
                 else
-                    MessageBox.Show("Ingrese una cantidad de personas válida");
+                    MessageBox.Show("Debe seleccionar una Reserva");
+            }
+            else
+                MessageBox.Show("Ingrese una cantidad de personas válida");
         }
 
         private void btnEliminarReservaH_Click(object sender, EventArgs e)
@@ -858,20 +858,20 @@ namespace Proyecto
                 return;
             }
 
-                if (int.TryParse(cantPersonas, out cantPersonasParseadas))
+            if (int.TryParse(cantPersonas, out cantPersonasParseadas))
+            {
+                if (miAgencia.agregarReservaVuelo(origen, destino, usuario, cantPersonasParseadas, fecha_horario))
                 {
-                    if (miAgencia.agregarReservaVuelo(origen, destino, usuario, cantPersonasParseadas, fecha_horario))
-                    {
-                        cb_origenRV.Text = "";
-                        cb_destinoRV.Text = "";
-                        cbUsuarioReservaV.SelectedIndex = 0;
-                        cb_cantPersonasRV.SelectedIndex = 0;
-                        fecha_RV.Value = DateTime.Now;
-                        MessageBox.Show("Se ha cargado una nueva reserva con exito");
-                    }
+                    cb_origenRV.Text = "";
+                    cb_destinoRV.Text = "";
+                    cbUsuarioReservaV.SelectedIndex = 0;
+                    cb_cantPersonasRV.SelectedIndex = 0;
+                    fecha_RV.Value = DateTime.Now;
+                    MessageBox.Show("Se ha cargado una nueva reserva con exito");
                 }
-                else
-                    MessageBox.Show("Cantidad de personas inválida");
+            }
+            else
+                MessageBox.Show("Cantidad de personas inválida");
         }
 
         private void btnModificarReservaV_Click(object sender, EventArgs e)
@@ -910,19 +910,19 @@ namespace Proyecto
             if (reservaVueloSeleccionada != -1)
             {
 
-                    if (int.TryParse(cantPersonas, out cantPersonasParseadas))
+                if (int.TryParse(cantPersonas, out cantPersonasParseadas))
+                {
+                    if (miAgencia.modificarReservaVuelo(reservaVueloSeleccionada, origen, destino, usuario, cantPersonasParseadas, fecha_horario))
                     {
-                        if (miAgencia.modificarReservaVuelo(reservaVueloSeleccionada, origen, destino, usuario, cantPersonasParseadas, fecha_horario))
-                        {
-                            cb_origenRV.Text = "";
-                            cb_destinoRV.Text = "";
-                            cbUsuarioReservaV.SelectedIndex = 0;
-                            cb_cantPersonasRV.SelectedIndex = 0;
-                            fecha_RV.Value = DateTime.Now;
-                        }
+                        cb_origenRV.Text = "";
+                        cb_destinoRV.Text = "";
+                        cbUsuarioReservaV.SelectedIndex = 0;
+                        cb_cantPersonasRV.SelectedIndex = 0;
+                        fecha_RV.Value = DateTime.Now;
                     }
-                    else
-                        MessageBox.Show("Cantidad de personas inválida");
+                }
+                else
+                    MessageBox.Show("Cantidad de personas inválida");
             }
             else
                 MessageBox.Show("Debe seleccionar una Reserva");
@@ -950,6 +950,7 @@ namespace Proyecto
             tbApellido.Text = "";
             tbCargarCredito.Text = "";
             tbMail.Text = "";
+            tbIntentosFallidos.Text = "";
             textBoxNombre.Text = "";
             cb_ciudadH.SelectedIndex = 0;
             textBoxCosto.Text = "";

@@ -447,6 +447,9 @@ namespace Proyecto
 
                         vuelo.origen.vuelos.Remove(vuelo);
                         contexto.ciudades.Update(vuelo.origen);
+
+                        vuelo.destino.vuelos.Remove(vuelo);
+                        contexto.ciudades.Update(vuelo.destino);
                     });
 
                     contexto.vuelos.Remove(vuelo);
