@@ -1,16 +1,21 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Agencia</title>
+    <title>@ViewData["Title"] - Inicio</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/topbar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Agencia.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        @* <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Agencia</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -28,8 +33,84 @@
                     </ul>
                 </div>
             </div>
+        </nav> *@
+        <nav class="navbar navbar-expand-lg topBar">
+            <div class="display-menu-icon">
+                <i class="bx bx-menu fs-1 ms-3 text-white"></i>
+            </div>
+            <div class="user-navbar">
+                <div class="user2-img">
+                    @* <img src="/img/inicial_nombre.png" alt="Perfil" class="img-fluid">
+                    <div class="first-letter">
+                        {{ substr(Auth::user()->name, 0, 1) }}
+                    </div> *@
+                    IMG
+                </div>
+                <div class="text-end username-role">
+                    <div class="username">Nombre</div>
+                    <div class="role">Administrador</div>
+                </div>
+            </div>
         </nav>
     </header>
+
+    <div class="sidebar fixed-top">
+        <div class="profile">
+            <div class="logo_details py-4">
+                <i class="bx bx-planet icon"></i>
+                <div class="logo_name">Explora Mundi</div>
+                <i id="btn"></i>
+            </div>
+        </div>
+        <div data-simplebar class="sidebar-content">
+            <div class="profile_details">
+                <div class="profile_content">
+                    <div class="name">Nombre</div>
+                    <div class="designation">Nombre@gmail.com</div>
+                </div>
+                <div class="user-img">
+                    @* <img src="/img/inicial_nombre.png" alt="Foto de perfil" class="img-fluid">
+                    <div class="first-letter">
+                    {{ substr(Auth::user()->name, 0, 1) }}
+                    </div> *@
+                    IMG
+                </div>
+            </div>
+            <ul class="p-0 mt-5 ms-3">
+                <li>
+                    <i class="bx bx-search"></i>
+                    <input type="text" placeholder="Buscar...">
+                </li>
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="bx bx-home mt-1"></i>
+                        <span class="link_name">Inicio</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bx bx-world mt-1"></i>
+                        <span class="link_name">Paquetes turísticos</span>
+                    </a>
+                </li>
+                <div class="line"></div>
+                <li>
+                    <a href="#">
+                        <i class="bx bx-data mt-1"></i>
+                        <span class="link_name">Base de datos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="bx bx-log-out mt-1" id="log_out"></i>
+                        <span class="link_name">Salir</span>
+                    </a>
+                    @* <form id="logout-form" action="" method="POST" class="d-none"></form> *@
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -43,7 +124,16 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/sidebar.js" asp-append-version="true"></script>
+    <script src="~/js/popover.js" asp-append-version="true"></script>
+    @* <script src="~/js/package-details.js" asp-append-version="true"></script>
+    <script src="~/js/buy.js" asp-append-version="true"></script>
+    <script src="~/js/btn-delete.js" asp-append-version="true"></script> *@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.6"
+            integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni" crossorigin="anonymous" defer>
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -5,16 +5,32 @@
       "PackagePath": "staticwebassets\\Agencia.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\home.css",
+      "PackagePath": "staticwebassets\\css\\home.css"
+    },
+    {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\sidebar.css",
+      "PackagePath": "staticwebassets\\css\\sidebar.css"
+    },
+    {
       "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\topbar.css",
+      "PackagePath": "staticwebassets\\css\\topbar.css"
     },
     {
       "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\js\\site.js",
-      "PackagePath": "staticwebassets\\js\\site.js"
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\js\\popover.js",
+      "PackagePath": "staticwebassets\\js\\popover.js"
+    },
+    {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\js\\sidebar.js",
+      "PackagePath": "staticwebassets\\js\\sidebar.js"
     },
     {
       "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\lib\\bootstrap\\LICENSE",
