@@ -153,6 +153,7 @@ namespace Agencia.Models
                     h.Property(h => h.costo).HasColumnType("float");
                     h.Property(h => h.nombre).HasColumnType("varchar(50)");
                     h.Property(h => h.nombre).IsRequired(true);
+                    h.Property(h => h.imagen).HasColumnType("varchar(255)");
                 });
 
             modelBuilder.Entity<Vuelo>(

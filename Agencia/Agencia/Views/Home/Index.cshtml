@@ -12,8 +12,8 @@
                     <i class="bx bx-hotel icon pe-1"></i>Alojamiento
                 </button>
                 @* <button class="btn btn-sm btn-outline-light rounded-pill">
-                    <i class="bx bxs-plane-alt icon pe-1"></i>Vuelo +
-                    <i class="bx bx-hotel icon pe-1"></i>2 Alojamientos
+                <i class="bx bxs-plane-alt icon pe-1"></i>Vuelo +
+                <i class="bx bx-hotel icon pe-1"></i>2 Alojamientos
                 </button> *@
             </div>
         </div>
@@ -51,7 +51,6 @@
                                     <p class="font-small m-0 ps-2">IDA</p>
                                     <input type="date" name="start_date" id="start_date" class="input-date ps-2 m-0"
                                            min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" required>
-                                           @*Poner minimo de fecha*@
                                 </div>
                             </div>
                         </div>
@@ -67,12 +66,12 @@
                         </div>
                     </div>
                     @* <div class="d-flex align-items-center m-0 p-0 mt-2 ms-2">
-                        <label class="toggle">
-                            <input class="toggle-checkbox" type="checkbox">
-                            <div class="toggle-switch"></div>
-                        </label>
-                        <p class="fs-6 text-white m-0 ps-2">Todavía no he decidido la fecha</p>
-                    </div> *@ 
+                    <label class="toggle">
+                    <input class="toggle-checkbox" type="checkbox">
+                    <div class="toggle-switch"></div>
+                    </label>
+                    <p class="fs-6 text-white m-0 ps-2">Todavía no he decidido la fecha</p>
+                    </div> *@
                 </div>
                 <div class="d-flex m-0">
                     <div class="popover-btn" id="popover-btn">
@@ -136,28 +135,69 @@
         </form>
     </div>
     <div class="py-5 px-0 col-8 row justify-content-center">
-        <div class="card book-card my-4 overflow-hidden package-details">
-            <div class="row">
-                <div class="col-12 col-md-5 p-0 overflow-hidden">
-                    <a href="#">
-                        <img src="" class="rounded-start img-home"
-                             alt="IMG">
-                    </a>
-                </div>
-                <div class="col-12 col-md-7">
-                    <div class="card-body ps-0">
-                        <p class="card-text">VUELO + ALOJAMIENTO</p>
-                        <h5 class="card-title">Hotel Buenos Aires</h5>
-                        <p class="card-text text-body-secondary fs-6 mb-0">
-                            1 de JUN al 10 de JUN
-                        </p>
-                        <p class="card-text text-body-secondary fs-6">
-                            Desde Bs. As.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @{
+            int contador = 0;
+            int ciudad_hotel_id = -1;
+        }
+        @foreach (var hotel in ViewData["hoteles"] as List<Hotel>)
+        {
+            @foreach (var vuelo in ViewData["vuelos"] as List<Vuelo>)
+            {
+                @if (hotel.ciudad_fk == vuelo.destino_fk)
+                {
+                    if (contador < 2)
+                    {
+                        if (ciudad_hotel_id != hotel.ciudad_fk)
+                        {
+                            DateTime salida = vuelo.fecha;
+                            DateTime llegada = salida.AddDays(7);
+
+                            string formatoFecha = "dd 'de' MMM";
+                            string fechaSalidaFormateada = salida.ToString(formatoFecha);
+                            string fechaLlegadaFormateada = llegada.ToString(formatoFecha);
+
+                            string fecha = fechaSalidaFormateada + " al " + fechaLlegadaFormateada;
+
+                            <div class="card book-card my-4 overflow-hidden package-details">
+                                <div class="row">
+                                    <div class="col-12 col-md-5 p-0 overflow-hidden">
+                                        <a href="#">
+                                            @if (!string.IsNullOrEmpty(hotel.imagen))
+                                            {
+                                                <img src="~/@hotel.imagen" alt="Imagen del hotel" class="rounded-start img-home" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/noImageFound.png" alt="Imagen no encontrada" class="rounded-start img-home" />
+                                            }
+                                        </a>
+                                    </div>
+                                    <div class="col-12 col-md-7">
+                                        <div class="card-body ps-0">
+                                            <p class="card-text">VUELO + ALOJAMIENTO</p>
+                                            <h5 class="card-title">@hotel.nombre</h5>
+                                            <p class="card-text text-body-secondary fs-6 mb-0">
+                                                @fecha
+                                            </p>
+                                            <p class="card-text text-body-secondary fs-6">
+                                                Desde @vuelo.origen.nombre
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            contador++;
+                            ciudad_hotel_id = hotel.ciudad_fk;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
     </div>
 </div>
 

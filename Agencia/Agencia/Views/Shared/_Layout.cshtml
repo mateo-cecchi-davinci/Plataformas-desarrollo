@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/topbar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/paquetes.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/base.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Agencia.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
     <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css" />
@@ -40,11 +42,10 @@
             </div>
             <div class="user-navbar">
                 <div class="user2-img">
-                    @* <img src="/img/inicial_nombre.png" alt="Perfil" class="img-fluid">
+                    <img src="~/images/inicial_nombre.png" alt="Perfil" class="img-fluid">
                     <div class="first-letter">
-                        {{ substr(Auth::user()->name, 0, 1) }}
-                    </div> *@
-                    IMG
+                        M
+                    </div>
                 </div>
                 <div class="text-end username-role">
                     <div class="username">Nombre</div>
@@ -69,11 +70,10 @@
                     <div class="designation">Nombre@gmail.com</div>
                 </div>
                 <div class="user-img">
-                    @* <img src="/img/inicial_nombre.png" alt="Foto de perfil" class="img-fluid">
+                    <img src="~/images/inicial_nombre.png" alt="Foto de perfil" class="img-fluid">
                     <div class="first-letter">
-                    {{ substr(Auth::user()->name, 0, 1) }}
-                    </div> *@
-                    IMG
+                        M
+                    </div>
                 </div>
             </div>
             <ul class="p-0 mt-5 ms-3">
@@ -88,14 +88,14 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a asp-controller="Home" asp-action="Paquetes">
                         <i class="bx bx-world mt-1"></i>
                         <span class="link_name">Paquetes turísticos</span>
                     </a>
                 </li>
                 <div class="line"></div>
                 <li>
-                    <a href="#">
+                    <a asp-controller="Home" asp-action="Base">
                         <i class="bx bx-data mt-1"></i>
                         <span class="link_name">Base de datos</span>
                     </a>

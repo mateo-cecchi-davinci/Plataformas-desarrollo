@@ -56,10 +56,26 @@ namespace Agencia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,capacidad,costo,nombre,ciudad_fk")] Hotel hotel)
+        public async Task<IActionResult> Create([Bind("id,capacidad,costo,nombre,ciudad_fk,archivoImagen")] Hotel hotel)
         {
             if (ModelState.IsValid)
             {
+                if (hotel.archivoImagen != null)
+                {
+                    string directorio = "wwwroot/images/hotel/";
+                    string nombreArchivo = Guid.NewGuid().ToString() + "_" + hotel.archivoImagen.FileName;
+                    string rutaCompleta = Path.Combine(directorio, nombreArchivo);
+
+                    Directory.CreateDirectory(Path.GetDirectoryName(rutaCompleta));
+
+                    using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+                    {
+                        await hotel.archivoImagen.CopyToAsync(stream);
+                    }
+
+                    hotel.imagen = rutaCompleta.Replace("wwwroot", "").TrimStart('\\', '/');
+                }
+
                 _context.Add(hotel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -90,7 +106,7 @@ namespace Agencia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,capacidad,costo,nombre,ciudad_fk")] Hotel hotel)
+        public async Task<IActionResult> Edit(int id, [Bind("id,capacidad,costo,nombre,ciudad_fk,archivoImagen")] Hotel hotel)
         {
             if (id != hotel.id)
             {
@@ -101,6 +117,22 @@ namespace Agencia.Controllers
             {
                 try
                 {
+                    if (hotel.archivoImagen != null)
+                    {
+                        string directorio = "wwwroot/images/hotel/";
+                        string nombreArchivo = Guid.NewGuid().ToString() + "_" + hotel.archivoImagen.FileName;
+                        string rutaCompleta = Path.Combine(directorio, nombreArchivo);
+
+                        Directory.CreateDirectory(Path.GetDirectoryName(rutaCompleta));
+
+                        using (var stream = new FileStream(rutaCompleta, FileMode.Create))
+                        {
+                            await hotel.archivoImagen.CopyToAsync(stream);
+                        }
+
+                        hotel.imagen = rutaCompleta.Replace("wwwroot", "").TrimStart('\\', '/');
+                    }
+
                     _context.Update(hotel);
                     await _context.SaveChangesAsync();
                 }

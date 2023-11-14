@@ -5,8 +5,16 @@
       "PackagePath": "staticwebassets\\Agencia.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\base.css",
+      "PackagePath": "staticwebassets\\css\\base.css"
+    },
+    {
       "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\home.css",
       "PackagePath": "staticwebassets\\css\\home.css"
+    },
+    {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\paquetes.css",
+      "PackagePath": "staticwebassets\\css\\paquetes.css"
     },
     {
       "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\css\\sidebar.css",
@@ -23,6 +31,26 @@
     {
       "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\images\\hotel\\7eee78ff-b901-414d-b103-1cc5aa64a4a0_chalpHosteria.jpg",
+      "PackagePath": "staticwebassets\\images\\hotel\\7eee78ff-b901-414d-b103-1cc5aa64a4a0_chalpHosteria.jpg"
+    },
+    {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\images\\hotel\\85f51cd6-3d1c-4284-9e51-5013bfccb1f7_nhGranHotelProvincial.jpg",
+      "PackagePath": "staticwebassets\\images\\hotel\\85f51cd6-3d1c-4284-9e51-5013bfccb1f7_nhGranHotelProvincial.jpg"
+    },
+    {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\images\\hotel\\b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg",
+      "PackagePath": "staticwebassets\\images\\hotel\\b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg"
+    },
+    {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\images\\inicial_nombre.png",
+      "PackagePath": "staticwebassets\\images\\inicial_nombre.png"
+    },
+    {
+      "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\images\\noImageFound.png",
+      "PackagePath": "staticwebassets\\images\\noImageFound.png"
     },
     {
       "Id": "C:\\Users\\mateo\\Source\\Repos\\Plataformas-desarrollo\\Agencia\\Agencia\\wwwroot\\js\\popover.js",

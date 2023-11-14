@@ -10,30 +10,35 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="capacidad" class="control-label"></label>
                 <input asp-for="capacidad" class="form-control" />
                 <span asp-validation-for="capacidad" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="costo" class="control-label"></label>
                 <input asp-for="costo" class="form-control" />
                 <span asp-validation-for="costo" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="nombre" class="control-label"></label>
                 <input asp-for="nombre" class="form-control" />
                 <span asp-validation-for="nombre" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="ciudad_fk" class="control-label"></label>
                 <select asp-for="ciudad_fk" class="form-control" asp-items="ViewBag.ciudad_fk"></select>
                 <span asp-validation-for="ciudad_fk" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
+                <label asp-for="archivoImagen" class="control-label" for="inputGroupFile">Imagen</label>
+                <input asp-for="archivoImagen" class="form-control" id="inputGroupFile">
+                <span asp-validation-for="archivoImagen" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
