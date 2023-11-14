@@ -35,6 +35,9 @@
                             double totalViejo = costoHospedaje + vuelo.costo;
                             double total = totalViejo - ((costoHospedaje + vuelo.costo) * 0.0661);
 
+                            string origen_codificado = vuelo.origen.nombre.Substring(0, Math.Min(3, vuelo.origen.nombre.Length)).ToUpper();
+                            string destino_codificado = vuelo.destino.nombre.Substring(0, Math.Min(3, vuelo.origen.nombre.Length)).ToUpper();
+
                             <div class="col-xxl-3 col-xl-5 col-md-6 col-sm-8 col-12">
                                 <div class="card mb-4 shadow packages-cards package-details">
                                     <a href="#">
@@ -54,9 +57,9 @@
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <i class="bx bxs-plane-alt icon mb-2 pe-2"></i>
-                                            <p class="mb-2 font-size">Vuelo directo BUE</p>
+                                            <p class="mb-2 font-size">Vuelo directo @origen_codificado</p>
                                             <i class="bx bx-transfer icon  mb-2  px-2"></i>
-                                            <p class="mb-2 font-size">COR</p>
+                                            <p class="mb-2 font-size">@destino_codificado</p>
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <i class="bx bx-hotel icon  mb-2  pe-2"></i>

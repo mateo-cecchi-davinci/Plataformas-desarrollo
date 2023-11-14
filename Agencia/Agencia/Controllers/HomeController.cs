@@ -50,6 +50,18 @@ namespace Agencia.Controllers
             return View();
         }
 
+        public IActionResult ResultadosDeLaBusqueda(string origin, string destination, DateTime start_date, DateTime end_date, int rooms, int people)
+        {
+            ViewBag.origen = origin;
+            ViewBag.destino = destination;
+            ViewBag.fecha_desde = start_date;
+            ViewBag.fecha_hasta = end_date;
+            ViewBag.cantHabitaciones = rooms;
+            ViewBag.cantPersonas = people;
+
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
