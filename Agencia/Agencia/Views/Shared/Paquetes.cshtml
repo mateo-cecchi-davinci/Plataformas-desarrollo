@@ -31,7 +31,7 @@
                             string fechaLlegadaFormateada = llegada.ToString(formatoFecha);
                             string fecha = fechaSalidaFormateada + " al " + fechaLlegadaFormateada;
 
-                            double costoHospedaje = hotel.costo * 7;
+                            double costoHospedaje = hotel.costo_hab_chicas * 7;
                             double totalViejo = costoHospedaje + vuelo.costo;
                             double total = totalViejo - ((costoHospedaje + vuelo.costo) * 0.0661);
 

@@ -28,38 +28,51 @@
                 @Html.DisplayNameFor(model => model.pagado)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.cantPersonas)
+                @Html.DisplayNameFor(model => model.cant_hab_chicas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cant_hab_medianas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cant_hab_grandes)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.miHotel.nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.miUsuario.apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fechaDesde)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fechaHasta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.pagado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cantPersonas)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.miHotel.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.miUsuario.apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fechaDesde)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fechaHasta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pagado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cant_hab_chicas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cant_hab_medianas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cant_hab_grandes)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

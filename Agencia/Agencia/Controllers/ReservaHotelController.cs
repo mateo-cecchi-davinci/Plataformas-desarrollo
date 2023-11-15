@@ -58,7 +58,7 @@ namespace Agencia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,fechaDesde,fechaHasta,pagado,cantPersonas,hotel_fk,usuarioRH_fk")] ReservaHotel reservaHotel)
+        public async Task<IActionResult> Create([Bind("id,fechaDesde,fechaHasta,pagado,cant_hab_chicas,cant_hab_medianas,cant_hab_grandes,hotel_fk,usuarioRH_fk")] ReservaHotel reservaHotel)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +94,7 @@ namespace Agencia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,fechaDesde,fechaHasta,pagado,cantPersonas,hotel_fk,usuarioRH_fk")] ReservaHotel reservaHotel)
+        public async Task<IActionResult> Edit(int id, [Bind("id,fechaDesde,fechaHasta,pagado,cant_hab_chicas,cant_hab_medianas,cant_hab_grandes,hotel_fk,usuarioRH_fk")] ReservaHotel reservaHotel)
         {
             if (id != reservaHotel.id)
             {

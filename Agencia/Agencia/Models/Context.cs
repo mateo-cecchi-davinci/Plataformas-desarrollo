@@ -81,13 +81,22 @@ namespace Agencia.Models
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Hotel>()
-                .HasMany(h => h.huespedes)
-                .WithMany(u => u.hotelesVisitados)
-                .UsingEntity<UsuarioHotel>(
-                    euh => euh.HasOne(uh => uh.usuario).WithMany(u => u.usuario_hotel).HasForeignKey(uh => uh.usuario_fk),
-                    euh => euh.HasOne(uh => uh.hotel).WithMany(h => h.hotel_usuario).HasForeignKey(uh => uh.hotel_fk),
-                    euh => euh.HasKey(k => new { k.usuario_fk, k.hotel_fk })
-                );
+                .HasOne(h => h.misReservas)
+                .WithMany(rh => rh.miHotel)
+                .HasForeignKey(rh => rh.hotel_fk)
+                .HasConstraintName("hotel_fk")
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<Hotel>()
+            //    .HasMany(h => h.huespedes)
+            //    .WithMany(u => u.hotelesVisitados)
+            //    .UsingEntity<UsuarioHotel>(
+            //        euh => euh.HasOne(uh => uh.usuario).WithMany(u => u.usuario_hotel).HasForeignKey(uh => uh.usuario_fk),
+            //        euh => euh.HasOne(uh => uh.hotel).WithMany(h => h.hotel_usuario).HasForeignKey(uh => uh.hotel_fk),
+            //        euh => euh.HasKey(k => new { k.usuario_fk, k.hotel_fk })
+            //    );
+
+
 
             modelBuilder.Entity<Vuelo>()
                 .HasMany(v => v.misReservas)
@@ -149,8 +158,12 @@ namespace Agencia.Models
             modelBuilder.Entity<Hotel>(
                 h =>
                 {
-                    h.Property(h => h.capacidad).HasColumnType("int");
-                    h.Property(h => h.costo).HasColumnType("float");
+                    h.Property(h => h.habitaciones_chicas).HasColumnType("int");
+                    h.Property(h => h.habitaciones_medianas).HasColumnType("int");
+                    h.Property(h => h.habitaciones_grandes).HasColumnType("int");
+                    h.Property(h => h.costo_hab_chicas).HasColumnType("float");
+                    h.Property(h => h.costo_hab_medianas).HasColumnType("float");
+                    h.Property(h => h.costo_hab_grandes).HasColumnType("float");
                     h.Property(h => h.nombre).HasColumnType("varchar(50)");
                     h.Property(h => h.nombre).IsRequired(true);
                     h.Property(h => h.imagen).HasColumnType("varchar(255)");
@@ -185,7 +198,9 @@ namespace Agencia.Models
                     rh.Property(rh => rh.fechaHasta).HasColumnType("datetime");
                     rh.Property(rh => rh.fechaHasta).IsRequired(true);
                     rh.Property(rh => rh.pagado).HasColumnType("float");
-                    rh.Property(rh => rh.cantPersonas).HasColumnType("int");
+                    rh.Property(rh => rh.cant_hab_chicas).HasColumnType("int");
+                    rh.Property(rh => rh.cant_hab_medianas).HasColumnType("int");
+                    rh.Property(rh => rh.cant_hab_grandes).HasColumnType("int");
                 });
 
             modelBuilder.Entity<ReservaVuelo>(
@@ -243,27 +258,27 @@ namespace Agencia.Models
                 new { id = 20, nombre = "Concordia" });
 
             modelBuilder.Entity<Hotel>().HasData(
-                new { id = 1, nombre = "Hotel Buenos Aires", capacidad = 101, costo = 21000.00, ciudad_fk = 7 },
-                new { id = 2, nombre = "Hotel Rosario", capacidad = 80, costo = 22000.00, ciudad_fk = 2 },
-                new { id = 3, nombre = "Hotel Córdoba", capacidad = 120, costo = 27000.00, ciudad_fk = 3 },
-                new { id = 4, nombre = "Hotel Mendoza", capacidad = 90, costo = 24000.00, ciudad_fk = 4 },
-                new { id = 5, nombre = "Hotel San Juan", capacidad = 70, costo = 21000.00, ciudad_fk = 5 },
-                new { id = 6, nombre = "Hotel Mar del Plata", capacidad = 110, costo = 26000.00, ciudad_fk = 6 },
-                new { id = 7, nombre = "Hotel Tucumán", capacidad = 95, costo = 23500.00, ciudad_fk = 7 },
-                new { id = 8, nombre = "Hotel Salta", capacidad = 75, costo = 22500.00, ciudad_fk = 8 },
-                new { id = 9, nombre = "Hotel Jujuy", capacidad = 85, costo = 24500.00, ciudad_fk = 9 },
-                new { id = 10, nombre = "Hotel Neuquén", capacidad = 105, costo = 25500.00, ciudad_fk = 10 },
-                new { id = 11, nombre = "Hotel La Plata", capacidad = 80, costo = 22000.00, ciudad_fk = 1 },
-                new { id = 12, nombre = "Hotel Santa Fe", capacidad = 110, costo = 26500.00, ciudad_fk = 2 },
-                new { id = 13, nombre = "Hotel San Luis", capacidad = 90, costo = 23000.00, ciudad_fk = 3 },
-                new { id = 14, nombre = "Hotel Formosa", capacidad = 70, costo = 21000.00, ciudad_fk = 4 },
-                new { id = 15, nombre = "Hotel Entre Ríos", capacidad = 100, costo = 25000.00, ciudad_fk = 5 },
-                new { id = 16, nombre = "Hotel Catamarca", capacidad = 120, costo = 22000.00, ciudad_fk = 6 },
-                new { id = 17, nombre = "Hotel La Rioja", capacidad = 120, costo = 27500.00, ciudad_fk = 7 },
-                new { id = 18, nombre = "Hotel Chaco", capacidad = 95, costo = 24000.00, ciudad_fk = 8 },
-                new { id = 19, nombre = "Hotel Tierra del Fuego", capacidad = 75, costo = 22500.00, ciudad_fk = 9 },
-                new { id = 20, nombre = "Hotel Santa Cruz", capacidad = 105, costo = 25500.00, ciudad_fk = 10 },
-                new { id = 2021, nombre = "PRUEBA", capacidad = 101, costo = 21000.00, ciudad_fk = 7 });
+                new { id = 1, nombre = "Hotel Buenos Aires", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 7 },
+                new { id = 2, nombre = "Hotel Rosario", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 2 },
+                new { id = 3, nombre = "Hotel Córdoba", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 3 },
+                new { id = 4, nombre = "Hotel Mendoza", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 4 },
+                new { id = 5, nombre = "Hotel San Juan", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 5 },
+                new { id = 6, nombre = "Hotel Mar del Plata", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 6 },
+                new { id = 7, nombre = "Hotel Tucumán", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 7 },
+                new { id = 8, nombre = "Hotel Salta", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 8 },
+                new { id = 9, nombre = "Hotel Jujuy", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 9 },
+                new { id = 10, nombre = "Hotel Neuquén", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 10 },
+                new { id = 11, nombre = "Hotel La Plata", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 1 },
+                new { id = 12, nombre = "Hotel Santa Fe", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 2 },
+                new { id = 13, nombre = "Hotel San Luis", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 3 },
+                new { id = 14, nombre = "Hotel Formosa", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 4 },
+                new { id = 15, nombre = "Hotel Entre Ríos", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 5 },
+                new { id = 16, nombre = "Hotel Catamarca", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 6 },
+                new { id = 17, nombre = "Hotel La Rioja", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 7 },
+                new { id = 18, nombre = "Hotel Chaco", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 8 },
+                new { id = 19, nombre = "Hotel Tierra del Fuego", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 9 },
+                new { id = 20, nombre = "Hotel Santa Cruz", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 10 },
+                new { id = 2021, nombre = "PRUEBA", habitaciones_chicas = 50, habitaciones_medianas = 20, habitaciones_grandes = 10, costo_hab_chicas = 20000.00, costo_hab_medianas = 35000.00, costo_hab_grandes = 70000.00, ciudad_fk = 7 });
 
             modelBuilder.Entity<Vuelo>().HasData(
                 new { id = 1, capacidad = 150, vendido = 0, costo = 22000.00, fecha = DateTime.Parse("2023-10-01 09:00:00"), aerolinea = "Aerolínea Buenos Aires", avion = "Boeing 747", origen_fk = 1, destino_fk = 3 },
@@ -289,22 +304,22 @@ namespace Agencia.Models
                 new { id = 22, capacidad = 110, vendido = 0, costo = 21000.00, fecha = DateTime.Parse("2023-10-25 09:00:00"), aerolinea = "PRUEBA", avion = "PRUEBA", origen_fk = 1, destino_fk = 19 });
 
             modelBuilder.Entity<ReservaHotel>().HasData(
-                new { id = 1, fechaDesde = DateTime.Parse("2023-10-01 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-05 09:00:00.000"), pagado = 150000.00, cantPersonas = 1, hotel_fk = 1, usuarioRH_fk = 1 },
-                new { id = 2, fechaDesde = DateTime.Parse("2023-11-15 09:00:00.000"), fechaHasta = DateTime.Parse("2023-11-20 09:00:00.000"), pagado = 120000.00, cantPersonas = 1, hotel_fk = 2, usuarioRH_fk = 2 },
-                new { id = 3, fechaDesde = DateTime.Parse("2023-10-03 09:00:00.000"), fechaHasta = DateTime.Parse("2023-11-03 09:00:00.000"), pagado = 170000.00, cantPersonas = 1, hotel_fk = 3, usuarioRH_fk = 3 },
-                new { id = 4, fechaDesde = DateTime.Parse("2023-09-20 09:00:00.000"), fechaHasta = DateTime.Parse("2023-09-25 09:00:00.000"), pagado = 140000.00, cantPersonas = 2, hotel_fk = 4, usuarioRH_fk = 4 },
-                new { id = 5, fechaDesde = DateTime.Parse("2023-11-01 09:00:00.000"), fechaHasta = DateTime.Parse("2023-11-10 09:00:00.000"), pagado = 110000.00, cantPersonas = 2, hotel_fk = 5, usuarioRH_fk = 5 },
-                new { id = 6, fechaDesde = DateTime.Parse("2023-10-08 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-12 09:00:00.000"), pagado = 150000.00, cantPersonas = 2, hotel_fk = 1, usuarioRH_fk = 6 },
-                new { id = 7, fechaDesde = DateTime.Parse("2023-12-05 09:00:00.000"), fechaHasta = DateTime.Parse("2023-12-10 09:00:00.000"), pagado = 120000.00, cantPersonas = 1, hotel_fk = 2, usuarioRH_fk = 7 },
-                new { id = 8, fechaDesde = DateTime.Parse("2023-09-25 09:00:00.000"), fechaHasta = DateTime.Parse("2023-09-30 09:00:00.000"), pagado = 170000.00, cantPersonas = 1, hotel_fk = 3, usuarioRH_fk = 8 },
-                new { id = 9, fechaDesde = DateTime.Parse("2023-11-12 09:00:00.000"), fechaHasta = DateTime.Parse("2023-11-17 09:00:00.000"), pagado = 140000.00, cantPersonas = 2, hotel_fk = 4, usuarioRH_fk = 9 },
-                new { id = 10, fechaDesde = DateTime.Parse("2023-12-20 09:00:00.000"), fechaHasta = DateTime.Parse("2023-12-25 09:00:00.000"), pagado = 110000.00, cantPersonas = 2, hotel_fk = 5, usuarioRH_fk = 10 },
-                new { id = 1002, fechaDesde = DateTime.Parse("2023-10-20 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-24 09:00:00.000"), pagado = 150000.00, cantPersonas = 1, hotel_fk = 1, usuarioRH_fk = 3 },
-                new { id = 2007, fechaDesde = DateTime.Parse("2023-10-25 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-31 09:00:00.000"), pagado = 120000.00, cantPersonas = 1, hotel_fk = 2, usuarioRH_fk = 1024 },
-                new { id = 2008, fechaDesde = DateTime.Parse("2023-10-11 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-18 09:00:00.000"), pagado = 110000.00, cantPersonas = 1, hotel_fk = 5, usuarioRH_fk = 1024 },
-                new { id = 2009, fechaDesde = DateTime.Parse("2023-10-25 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-25 09:00:00.000"), pagado = 160000.00, cantPersonas = 1, hotel_fk = 6, usuarioRH_fk = 1024 },
-                new { id = 2010, fechaDesde = DateTime.Parse("2023-10-23 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-23 09:00:00.000"), pagado = 135000.00, cantPersonas = 1, hotel_fk = 7, usuarioRH_fk = 1024 },
-                new { id = 2011, fechaDesde = DateTime.Parse("2023-10-02 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-05 09:00:00.000"), pagado = 110000.00, cantPersonas = 1, hotel_fk = 5, usuarioRH_fk = 1024 });
+                new { id = 1, fechaDesde = DateTime.Parse("2023-10-01 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-05 09:00:00.000"), pagado = 150000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 1, usuarioRH_fk = 1 },
+                new { id = 2, fechaDesde = DateTime.Parse("2023-11-15 09:00:00.000"), fechaHasta = DateTime.Parse("2023-11-20 09:00:00.000"), pagado = 120000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 2, usuarioRH_fk = 2 },
+                new { id = 3, fechaDesde = DateTime.Parse("2023-10-03 09:00:00.000"), fechaHasta = DateTime.Parse("2023-11-03 09:00:00.000"), pagado = 170000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 3, usuarioRH_fk = 3 },
+                new { id = 4, fechaDesde = DateTime.Parse("2023-09-20 09:00:00.000"), fechaHasta = DateTime.Parse("2023-09-25 09:00:00.000"), pagado = 140000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 4, usuarioRH_fk = 4 },
+                new { id = 5, fechaDesde = DateTime.Parse("2023-11-01 09:00:00.000"), fechaHasta = DateTime.Parse("2023-11-10 09:00:00.000"), pagado = 110000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 5, usuarioRH_fk = 5 },
+                new { id = 6, fechaDesde = DateTime.Parse("2023-10-08 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-12 09:00:00.000"), pagado = 150000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 1, usuarioRH_fk = 6 },
+                new { id = 7, fechaDesde = DateTime.Parse("2023-12-05 09:00:00.000"), fechaHasta = DateTime.Parse("2023-12-10 09:00:00.000"), pagado = 120000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 2, usuarioRH_fk = 7 },
+                new { id = 8, fechaDesde = DateTime.Parse("2023-09-25 09:00:00.000"), fechaHasta = DateTime.Parse("2023-09-30 09:00:00.000"), pagado = 170000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 3, usuarioRH_fk = 8 },
+                new { id = 9, fechaDesde = DateTime.Parse("2023-11-12 09:00:00.000"), fechaHasta = DateTime.Parse("2023-11-17 09:00:00.000"), pagado = 140000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 4, usuarioRH_fk = 9 },
+                new { id = 10, fechaDesde = DateTime.Parse("2023-12-20 09:00:00.000"), fechaHasta = DateTime.Parse("2023-12-25 09:00:00.000"), pagado = 110000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 5, usuarioRH_fk = 10 },
+                new { id = 1002, fechaDesde = DateTime.Parse("2023-10-20 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-24 09:00:00.000"), pagado = 150000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 1, usuarioRH_fk = 3 },
+                new { id = 2007, fechaDesde = DateTime.Parse("2023-10-25 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-31 09:00:00.000"), pagado = 120000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 2, usuarioRH_fk = 1024 },
+                new { id = 2008, fechaDesde = DateTime.Parse("2023-10-11 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-18 09:00:00.000"), pagado = 110000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 5, usuarioRH_fk = 1024 },
+                new { id = 2009, fechaDesde = DateTime.Parse("2023-10-25 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-25 09:00:00.000"), pagado = 160000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 6, usuarioRH_fk = 1024 },
+                new { id = 2010, fechaDesde = DateTime.Parse("2023-10-23 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-23 09:00:00.000"), pagado = 135000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 7, usuarioRH_fk = 1024 },
+                new { id = 2011, fechaDesde = DateTime.Parse("2023-10-02 09:00:00.000"), fechaHasta = DateTime.Parse("2023-10-05 09:00:00.000"), pagado = 110000.00, cant_hab_chicas = 1, cant_hab_medianas = 0, cant_hab_grandes = 0, hotel_fk = 5, usuarioRH_fk = 1024 });
 
             modelBuilder.Entity<ReservaVuelo>().HasData(
                 new { id = 1, pagado = 120000.00, cantPersonas = 1, vuelo_fk = 1, usuarioRV_fk = 1 },

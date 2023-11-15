@@ -1,6 +1,7 @@
 ﻿using Agencia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Agencia.Controllers
@@ -50,7 +51,7 @@ namespace Agencia.Controllers
             return View();
         }
 
-        public IActionResult ResultadosDeLaBusqueda(string origin, string destination, DateTime start_date, DateTime end_date, int rooms, int people)
+        public IActionResult ResultadosDeLaBusqueda(string origin, string destination, DateTime start_date, DateTime end_date, int rooms, int people, string total_adults, string total_minors, string total_people_rooms)
         {
             ViewBag.origen = origin;
             ViewBag.destino = destination;
@@ -58,6 +59,9 @@ namespace Agencia.Controllers
             ViewBag.fecha_hasta = end_date;
             ViewBag.cantHabitaciones = rooms;
             ViewBag.cantPersonas = people;
+            ViewBag.total_adults = total_adults;
+            ViewBag.total_minors = total_minors;
+            ViewBag.total_people_rooms = total_people_rooms;
 
             return View();
         }
