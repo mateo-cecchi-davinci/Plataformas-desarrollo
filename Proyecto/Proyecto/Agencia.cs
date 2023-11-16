@@ -593,10 +593,10 @@ namespace Proyecto
                 MessageBox.Show("Crédito insuficiente");
                 return false;
             }
-            //Esto esa mal
+            
             hotelSeleccionado.misReservas.ForEach(r =>
             {
-                if (r.fechaDesde <= fechaHasta && r.fechaHasta >= fechaDesde)
+                if (r.fechaDesde <= fechaHasta && r.fechaHasta >= fechaDesde && r.id != id)
                 {
                     cantidadPersonasRH += r.cantPersonas;
                 }
