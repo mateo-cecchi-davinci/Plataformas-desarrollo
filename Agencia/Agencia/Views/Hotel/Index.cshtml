@@ -16,63 +16,32 @@
                 @Html.DisplayNameFor(model => model.ubicacion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.habitaciones_chicas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.habitaciones_medianas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.habitaciones_grandes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.costo_hab_chicas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.costo_hab_medianas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.costo_hab_grandes)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.imagen)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ubicacion.nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.habitaciones_chicas)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.habitaciones_medianas)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.habitaciones_grandes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.costo_hab_chicas)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.costo_hab_medianas)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.costo_hab_grandes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.nombre)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ubicacion.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.imagen)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>

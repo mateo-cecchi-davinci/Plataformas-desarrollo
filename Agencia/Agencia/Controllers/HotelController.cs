@@ -18,14 +18,14 @@ namespace Agencia.Controllers
             _context = context;
         }
 
-        // GET: Hotel
+        // GET: Hotels
         public async Task<IActionResult> Index()
         {
             var context = _context.hoteles.Include(h => h.ubicacion);
             return View(await context.ToListAsync());
         }
 
-        // GET: Hotel/Details/5
+        // GET: Hotels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.hoteles == null)
@@ -44,19 +44,19 @@ namespace Agencia.Controllers
             return View(hotel);
         }
 
-        // GET: Hotel/Create
+        // GET: Hotels/Create
         public IActionResult Create()
         {
             ViewData["ciudad_fk"] = new SelectList(_context.ciudades, "id", "nombre");
             return View();
         }
 
-        // POST: Hotel/Create
+        // POST: Hotels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id, habitaciones_chicas, habitaciones_medianas, habitaciones_grandes, costo_hab_chicas, costo_hab_medianas, costo_hab_grandes, nombre, ciudad_fk, archivoImagen")] Hotel hotel)
+        public async Task<IActionResult> Create([Bind("id, nombre, ciudad_fk, archivoImagen")] Hotel hotel)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Agencia.Controllers
             return View(hotel);
         }
 
-        // GET: Hotel/Edit/5
+        // GET: Hotels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.hoteles == null)
@@ -101,12 +101,12 @@ namespace Agencia.Controllers
             return View(hotel);
         }
 
-        // POST: Hotel/Edit/5
+        // POST: Hotels/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id, habitaciones_chicas, habitaciones_medianas, habitaciones_grandes, costo_hab_chicas, costo_hab_medianas, costo_hab_grandes, nombre, ciudad_fk, archivoImagen")] Hotel hotel)
+        public async Task<IActionResult> Edit(int id, [Bind("id, nombre, ciudad_fk, archivoImagen")] Hotel hotel)
         {
             if (id != hotel.id)
             {
@@ -153,7 +153,7 @@ namespace Agencia.Controllers
             return View(hotel);
         }
 
-        // GET: Hotel/Delete/5
+        // GET: Hotels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.hoteles == null)
@@ -172,7 +172,7 @@ namespace Agencia.Controllers
             return View(hotel);
         }
 
-        // POST: Hotel/Delete/5
+        // POST: Hotels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

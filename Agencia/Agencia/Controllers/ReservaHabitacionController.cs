@@ -9,23 +9,23 @@ using Agencia.Models;
 
 namespace Agencia.Controllers
 {
-    public class ReservaHotelController : Controller
+    public class ReservaHabitacionController : Controller
     {
         private readonly Context _context;
 
-        public ReservaHotelController(Context context)
+        public ReservaHabitacionController(Context context)
         {
             _context = context;
         }
 
-        // GET: ReservaHotel
+        // GET: ReservaHabitacions
         public async Task<IActionResult> Index()
         {
-            var context = _context.reservasHotel.Include(r => r.miHotel).Include(r => r.miUsuario);
+            var context = _context.reservasHotel.Include(r => r.miHabitacion).Include(r => r.miUsuario);
             return View(await context.ToListAsync());
         }
 
-        // GET: ReservaHotel/Details/5
+        // GET: ReservaHabitacions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.reservasHotel == null)
@@ -33,45 +33,45 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
-            var reservaHotel = await _context.reservasHotel
-                .Include(r => r.miHotel)
+            var reservaHabitacion = await _context.reservasHotel
+                .Include(r => r.miHabitacion)
                 .Include(r => r.miUsuario)
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (reservaHotel == null)
+            if (reservaHabitacion == null)
             {
                 return NotFound();
             }
 
-            return View(reservaHotel);
+            return View(reservaHabitacion);
         }
 
-        // GET: ReservaHotel/Create
+        // GET: ReservaHabitacions/Create
         public IActionResult Create()
         {
-            ViewData["hotel_fk"] = new SelectList(_context.hoteles, "id", "nombre");
+            ViewData["habitacion_fk"] = new SelectList(_context.Habitacion, "id", "id");
             ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido");
             return View();
         }
 
-        // POST: ReservaHotel/Create
+        // POST: ReservaHabitacions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,fechaDesde,fechaHasta,pagado,cant_hab_chicas,cant_hab_medianas,cant_hab_grandes,hotel_fk,usuarioRH_fk")] ReservaHotel reservaHotel)
+        public async Task<IActionResult> Create([Bind("id,fechaDesde,fechaHasta,pagado,cantPersonas,habitacion_fk,usuarioRH_fk")] ReservaHabitacion reservaHabitacion)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reservaHotel);
+                _context.Add(reservaHabitacion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["hotel_fk"] = new SelectList(_context.hoteles, "id", "nombre", reservaHotel.hotel_fk);
-            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHotel.usuarioRH_fk);
-            return View(reservaHotel);
+            ViewData["habitacion_fk"] = new SelectList(_context.Habitacion, "id", "id", reservaHabitacion.habitacion_fk);
+            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHabitacion.usuarioRH_fk);
+            return View(reservaHabitacion);
         }
 
-        // GET: ReservaHotel/Edit/5
+        // GET: ReservaHabitacions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.reservasHotel == null)
@@ -79,24 +79,24 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
-            var reservaHotel = await _context.reservasHotel.FindAsync(id);
-            if (reservaHotel == null)
+            var reservaHabitacion = await _context.reservasHotel.FindAsync(id);
+            if (reservaHabitacion == null)
             {
                 return NotFound();
             }
-            ViewData["hotel_fk"] = new SelectList(_context.hoteles, "id", "nombre", reservaHotel.hotel_fk);
-            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHotel.usuarioRH_fk);
-            return View(reservaHotel);
+            ViewData["habitacion_fk"] = new SelectList(_context.Habitacion, "id", "id", reservaHabitacion.habitacion_fk);
+            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHabitacion.usuarioRH_fk);
+            return View(reservaHabitacion);
         }
 
-        // POST: ReservaHotel/Edit/5
+        // POST: ReservaHabitacions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,fechaDesde,fechaHasta,pagado,cant_hab_chicas,cant_hab_medianas,cant_hab_grandes,hotel_fk,usuarioRH_fk")] ReservaHotel reservaHotel)
+        public async Task<IActionResult> Edit(int id, [Bind("id,fechaDesde,fechaHasta,pagado,cantPersonas,habitacion_fk,usuarioRH_fk")] ReservaHabitacion reservaHabitacion)
         {
-            if (id != reservaHotel.id)
+            if (id != reservaHabitacion.id)
             {
                 return NotFound();
             }
@@ -105,12 +105,12 @@ namespace Agencia.Controllers
             {
                 try
                 {
-                    _context.Update(reservaHotel);
+                    _context.Update(reservaHabitacion);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReservaHotelExists(reservaHotel.id))
+                    if (!ReservaHabitacionExists(reservaHabitacion.id))
                     {
                         return NotFound();
                     }
@@ -121,12 +121,12 @@ namespace Agencia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["hotel_fk"] = new SelectList(_context.hoteles, "id", "nombre", reservaHotel.hotel_fk);
-            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHotel.usuarioRH_fk);
-            return View(reservaHotel);
+            ViewData["habitacion_fk"] = new SelectList(_context.Habitacion, "id", "id", reservaHabitacion.habitacion_fk);
+            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHabitacion.usuarioRH_fk);
+            return View(reservaHabitacion);
         }
 
-        // GET: ReservaHotel/Delete/5
+        // GET: ReservaHabitacions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.reservasHotel == null)
@@ -134,19 +134,19 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
-            var reservaHotel = await _context.reservasHotel
-                .Include(r => r.miHotel)
+            var reservaHabitacion = await _context.reservasHotel
+                .Include(r => r.miHabitacion)
                 .Include(r => r.miUsuario)
                 .FirstOrDefaultAsync(m => m.id == id);
-            if (reservaHotel == null)
+            if (reservaHabitacion == null)
             {
                 return NotFound();
             }
 
-            return View(reservaHotel);
+            return View(reservaHabitacion);
         }
 
-        // POST: ReservaHotel/Delete/5
+        // POST: ReservaHabitacions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -155,17 +155,17 @@ namespace Agencia.Controllers
             {
                 return Problem("Entity set 'Context.reservasHotel'  is null.");
             }
-            var reservaHotel = await _context.reservasHotel.FindAsync(id);
-            if (reservaHotel != null)
+            var reservaHabitacion = await _context.reservasHotel.FindAsync(id);
+            if (reservaHabitacion != null)
             {
-                _context.reservasHotel.Remove(reservaHotel);
+                _context.reservasHotel.Remove(reservaHabitacion);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ReservaHotelExists(int id)
+        private bool ReservaHabitacionExists(int id)
         {
           return _context.reservasHotel.Any(e => e.id == id);
         }

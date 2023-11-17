@@ -1,4 +1,4 @@
-﻿@model Agencia.Models.UsuarioHotel
+﻿@model Agencia.Models.Habitacion
 
 @{
     ViewData["Title"] = "Details";
@@ -7,20 +7,20 @@
 <h1>Details</h1>
 
 <div>
-    <h4>UsuarioHotel</h4>
+    <h4>Habitacion</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.cantidad)
+            @Html.DisplayNameFor(model => model.capacidad)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.cantidad)
+            @Html.DisplayFor(model => model.capacidad)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.usuario)
+            @Html.DisplayNameFor(model => model.costo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.usuario.apellido)
+            @Html.DisplayFor(model => model.costo)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.hotel)
@@ -31,6 +31,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Agregar</h1>
+<h1>Create</h1>
 
 <h4>Hotel</h4>
 <hr />
@@ -12,44 +12,14 @@
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group mb-3">
-                <label asp-for="nombre" class="control-label">Nombre</label>
+            <div class="form-group">
+                <label asp-for="nombre" class="control-label"></label>
                 <input asp-for="nombre" class="form-control" />
                 <span asp-validation-for="nombre" class="text-danger"></span>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="ciudad_fk" class="control-label">Ciudad</label>
+            <div class="form-group">
+                <label asp-for="ciudad_fk" class="control-label"></label>
                 <select asp-for="ciudad_fk" class ="form-control" asp-items="ViewBag.ciudad_fk"></select>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="habitaciones_chicas" class="control-label">Hab. chicas</label>
-                <input asp-for="habitaciones_chicas" class="form-control" />
-                <span asp-validation-for="habitaciones_chicas" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="habitaciones_medianas" class="control-label">Hab. medianas</label>
-                <input asp-for="habitaciones_medianas" class="form-control" />
-                <span asp-validation-for="habitaciones_medianas" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="habitaciones_grandes" class="control-label">Hab. grandes</label>
-                <input asp-for="habitaciones_grandes" class="form-control" />
-                <span asp-validation-for="habitaciones_grandes" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="costo_hab_chicas" class="control-label">Costo hab. chicas</label>
-                <input asp-for="costo_hab_chicas" class="form-control" />
-                <span asp-validation-for="costo_hab_chicas" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="costo_hab_medianas" class="control-label">Costo hab. medianas</label>
-                <input asp-for="costo_hab_medianas" class="form-control" />
-                <span asp-validation-for="costo_hab_medianas" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="costo_hab_grandes" class="control-label">Costo hab. grandes</label>
-                <input asp-for="costo_hab_grandes" class="form-control" />
-                <span asp-validation-for="costo_hab_grandes" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="archivoImagen" class="control-label" for="inputGroupFile">Imagen</label>
@@ -67,6 +37,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

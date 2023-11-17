@@ -18,13 +18,13 @@ namespace Agencia.Controllers
             _context = context;
         }
 
-        // GET: Usuario
+        // GET: Usuarios
         public async Task<IActionResult> Index()
         {
               return View(await _context.usuarios.ToListAsync());
         }
 
-        // GET: Usuario/Details/5
+        // GET: Usuarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.usuarios == null)
@@ -42,13 +42,13 @@ namespace Agencia.Controllers
             return View(usuario);
         }
 
-        // GET: Usuario/Create
+        // GET: Usuarios/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Usuario/Create
+        // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -64,7 +64,7 @@ namespace Agencia.Controllers
             return View(usuario);
         }
 
-        // GET: Usuario/Edit/5
+        // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.usuarios == null)
@@ -80,7 +80,7 @@ namespace Agencia.Controllers
             return View(usuario);
         }
 
-        // POST: Usuario/Edit/5
+        // POST: Usuarios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -115,7 +115,7 @@ namespace Agencia.Controllers
             return View(usuario);
         }
 
-        // GET: Usuario/Delete/5
+        // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.usuarios == null)
@@ -133,7 +133,7 @@ namespace Agencia.Controllers
             return View(usuario);
         }
 
-        // POST: Usuario/Delete/5
+        // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

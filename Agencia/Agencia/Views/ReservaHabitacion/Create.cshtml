@@ -1,4 +1,4 @@
-﻿@model Agencia.Models.ReservaHotel
+﻿@model Agencia.Models.ReservaHabitacion
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>ReservaHotel</h4>
+<h4>ReservaHabitacion</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -28,23 +28,13 @@
                 <span asp-validation-for="pagado" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="cant_hab_chicas" class="control-label"></label>
-                <input asp-for="cant_hab_chicas" class="form-control" />
-                <span asp-validation-for="cant_hab_chicas" class="text-danger"></span>
+                <label asp-for="cantPersonas" class="control-label"></label>
+                <input asp-for="cantPersonas" class="form-control" />
+                <span asp-validation-for="cantPersonas" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="cant_hab_medianas" class="control-label"></label>
-                <input asp-for="cant_hab_medianas" class="form-control" />
-                <span asp-validation-for="cant_hab_medianas" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="cant_hab_grandes" class="control-label"></label>
-                <input asp-for="cant_hab_grandes" class="form-control" />
-                <span asp-validation-for="cant_hab_grandes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="hotel_fk" class="control-label"></label>
-                <select asp-for="hotel_fk" class ="form-control" asp-items="ViewBag.hotel_fk"></select>
+                <label asp-for="habitacion_fk" class="control-label"></label>
+                <select asp-for="habitacion_fk" class ="form-control" asp-items="ViewBag.habitacion_fk"></select>
             </div>
             <div class="form-group">
                 <label asp-for="usuarioRH_fk" class="control-label"></label>
@@ -61,6 +51,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
