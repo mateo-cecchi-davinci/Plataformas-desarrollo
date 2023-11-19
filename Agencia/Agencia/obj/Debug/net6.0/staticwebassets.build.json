@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "riUy3uzv56O013WAwhcTyGWQ/shUsKCqLOd5VzwnuaE=",
+  "Hash": "TGhSILL89zzO49u1g8dGBPiNAGRfex1zOOhk03hRxuA=",
   "Source": "Agencia",
   "BasePath": "_content/Agencia",
   "Mode": "Default",
@@ -100,6 +100,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\paquetes.css"
+    },
+    {
+      "Identity": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\css\\resultados.css",
+      "SourceId": "Agencia",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\",
+      "BasePath": "_content/Agencia",
+      "RelativePath": "css/resultados.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\resultados.css"
     },
     {
       "Identity": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\css\\sidebar.css",
@@ -219,6 +236,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\hotel\\85f51cd6-3d1c-4284-9e51-5013bfccb1f7_nhGranHotelProvincial.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\9cf1abf5-da87-4ccb-9484-11f3e5a9fe8d_b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg",
+      "SourceId": "Agencia",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\",
+      "BasePath": "_content/Agencia",
+      "RelativePath": "images/hotel/9cf1abf5-da87-4ccb-9484-11f3e5a9fe8d_b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\hotel\\9cf1abf5-da87-4ccb-9484-11f3e5a9fe8d_b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg"
     },
     {
       "Identity": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg",

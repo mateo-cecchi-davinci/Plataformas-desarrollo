@@ -51,16 +51,24 @@ namespace Agencia.Controllers
             return View();
         }
 
-        // POST: Habitacion/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,capacidad,costo,hotel_fk")] Habitacion habitacion)
+        public async Task<IActionResult> Create([Bind("id,capacidad,costo,hotel_fk")] Habitacion habitacion, int cantidad)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(habitacion);
+                for (int i = 0; i < cantidad; i++)
+                {
+                    var nuevaHabitacion = new Habitacion
+                    {
+                        capacidad = habitacion.capacidad,
+                        costo = habitacion.costo,
+                        hotel_fk = habitacion.hotel_fk
+                    };
+
+                    _context.Add(nuevaHabitacion);
+                }
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -154,14 +162,14 @@ namespace Agencia.Controllers
             {
                 _context.Habitacion.Remove(habitacion);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool HabitacionExists(int id)
         {
-          return _context.Habitacion.Any(e => e.id == id);
+            return _context.Habitacion.Any(e => e.id == id);
         }
     }
 }

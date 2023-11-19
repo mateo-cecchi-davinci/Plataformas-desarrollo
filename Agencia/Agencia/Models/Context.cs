@@ -12,6 +12,7 @@ namespace Agencia.Models
     {
         public DbSet<Usuario> usuarios { get; set; }
         public DbSet<Hotel> hoteles { get; set; }
+        //public DbSet<Habitacion> habitaciones { get; set; }
         public DbSet<Vuelo> vuelos { get; set; }
         public DbSet<Ciudad> ciudades { get; set; }
         public DbSet<ReservaHabitacion> reservasHotel { get; set; }

@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\css\\paquetes.css"
     },
     {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\css\\resultados.css",
+      "PackagePath": "staticwebassets\\css\\resultados.css"
+    },
+    {
       "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\css\\sidebar.css",
       "PackagePath": "staticwebassets\\css\\sidebar.css"
     },
@@ -43,6 +47,10 @@
     {
       "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\85f51cd6-3d1c-4284-9e51-5013bfccb1f7_nhGranHotelProvincial.jpg",
       "PackagePath": "staticwebassets\\images\\hotel\\85f51cd6-3d1c-4284-9e51-5013bfccb1f7_nhGranHotelProvincial.jpg"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\9cf1abf5-da87-4ccb-9484-11f3e5a9fe8d_b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg",
+      "PackagePath": "staticwebassets\\images\\hotel\\9cf1abf5-da87-4ccb-9484-11f3e5a9fe8d_b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg"
     },
     {
       "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg",
