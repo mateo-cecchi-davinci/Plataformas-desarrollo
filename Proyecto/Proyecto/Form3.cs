@@ -607,7 +607,7 @@ namespace Proyecto
         {
             if (vueloSeleccionado != -1)
             {
-                if (miAgencia.elminarVuelo(vueloSeleccionado))
+                if (miAgencia.eliminarVuelo(vueloSeleccionado))
                 {
                     MessageBox.Show("Eliminado con exito");
                     mostrarVuelos();
