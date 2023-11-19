@@ -39,7 +39,7 @@ El costo de las reservas de los hoteles se calcula de la siguiente manera:
 Costo del hotel * cantidad de noches * cantidad de personas
 El costo de las reservas de los vuelos se calcula de la siguiente manera:
 Costo del vuelo * cantidad de personas
--Para elegir un vuelo valido a la hora de hacer una reserva se tiene que elegir la fecha de ese vuelo, si el vuelo de bs as a cordoba es el primero de octubre, hay que elegir esa fecha
+-Para elegir un vuelo valido a la hora de hacer una reserva se tiene que elegir la fecha de ese vuelo, si el vuelo de Bs. As. a Cordoba es el primero de octubre, hay que elegir esa fecha
 -Si a un usuario se le modifica el estado de bloqueado, hay que tener eso en cuenta a la hora de buscar ya que se filtra por ese campo. En una primera instancia se muestran todos los que no estan bloqueados porque por defecto ese checkbox viene destildado. 
 -Si se modifica el nombre de un hotel, este no se refleja en los combo box de reserva hotel (lo mismo para todo lo que es modificable y tiene combo box), entonces cuando se selecciona para cargar/modificar una reserva salta un MessageBox porque no se encuentra el hotel. Hay que cerrar y volver a abrir la app para que se actualicen los combo box.
 
