@@ -1,28 +1,46 @@
 ﻿@{
     ViewData["Title"] = "ResultadosDeLaBusqueda";
-    // @ViewBag.origin;
-    // @ViewBag.StartDate.ToString("yyyy-MM-dd")
 }
 
-@foreach (Hotel h in ViewBag.hoteles)
+@foreach (var item in ViewBag.hotelesConCostoTotal)
 {
+    var hotel = item.hotel;
+    var costo = item.costo;
+
     @foreach (Vuelo v in ViewBag.vuelos)
     {
-        @if (h.ciudad_fk == v.destino_fk)
+        @if (hotel.ciudad_fk == v.destino_fk)
         {
             double personas = ViewBag.total_adultos + (ViewBag.total_menores - ViewBag.total_menores * 0.15);
             double costo_vuelo = v.costo * personas;
+            double total = costo_vuelo + costo;
+            double impuesto_pais = total * 0.3;
+            double RG_4815 = total * 0.45;
+            double RG_5272 = total * 0.05;
+            double impuestos = impuesto_pais + RG_4815 + RG_5272;
+            double descuento = Math.Round(total * 0.0661, 2);
+            double suma_total = total + impuestos - descuento;
+            double precio_por_persona = suma_total / ViewBag.total_personas;
 
+            string codigoOrigen = v.origen.nombre.ToUpper().Substring(0, Math.Min(3, v.origen.nombre.Length));
+            string codigoDestino = v.destino.nombre.ToUpper().Substring(0, Math.Min(3, v.destino.nombre.Length));
 
             <div class="box-container">
                 <div class="box row d-flex">
                     <div class="col-md-4 p-0 hotel-image">
-                        <img src="#" alt="Imagen del hotel">
+                        @if (!string.IsNullOrEmpty(hotel.imagen))
+                        {
+                            <img src="~/@hotel.imagen" alt="Imagen del hotel" />
+                        }
+                        else
+                        {
+                            <img src="~/images/noImageFound.png" alt="Imagen no encontrada" />
+                        }
                     </div>
                     <div class="content border-end col-md-5">
-                        <h3 class="fs-4 fw-semibold m-0"><i class="bx bxs-map icon"></i> Nombre hotel</h3>
+                        <h3 class="fs-4 fw-semibold m-0"><i class="bx bxs-map icon"></i> @hotel.nombre</h3>
                         <p class="location-distance p-0 m-0 mb-2">
-                            Descripcion
+                            Rio de Janeiro, Barra da Tijuca. A 15,29 km del centro
                             <a href="#" class="text-decoration-none ms-1 map">Ver en mapa</a>
                         </p>
                         <div class="stars mb-2 fs-6">
@@ -38,9 +56,9 @@
                         <span class="px-2 fw-semibold capacity-alert">Solo quedan 3</span>
                         <div class="d-flex align-items-center fs-6">
                             <i class="bx bxs-plane-alt icon pe-1 pt-0 mb-3 fs-4"></i>
-                            <p class="pt-0">Vuelo directo BUE</p>
+                            <p class="pt-0">Vuelo directo @codigoOrigen</p>
                             <i class="bx bx-transfer icon px-1 pt-0 mb-3 fs-5"></i>
-                            <p class="pt-0">MEN</p>
+                            <p class="pt-0">@codigoDestino</p>
                         </div>
                     </div>
                     <div class="mt-3 payment-info col-md-3">
@@ -56,52 +74,52 @@
                                         <div class="modal-body pb-0 border-bottom">
                                             <div class="row d-flex justify-content-between">
                                                 <h1 class="fs-4 fw-semibold col-10 mb-0">
-                                                    Detalle de
-                                                    precio
+                                                    Detalle de precio
                                                 </h1>
                                                 <button type="button" class="btn-close col-2 fs-5 pe-4"
-                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        data-bs-dismiss="modal" aria-label="Close">
+                                                </button>
                                             </div>
-                                            @* @if ($total_minors == 0 && $total_adults == 1) *@
-                                            @* <p class="d-block">Para {{ $total_adults }} adulto</p> *@
-
-                                            @* @elseif ($total_minors == 0 && $total_adults > 1) *@
-                                            @* <p class="d-block">Para {{ $total_adults }} adultos</p> *@
-                                            @* @elseif ($total_minors > 1 && $total_adults > 1) *@
-                                            <p class="d-block">
-                                                Para 2 adultos y
-                                                2 menores
-                                            </p>
-                                            @* @else *@
-                                            @* <p class="d-block">
-                                Para {{ $total_adults }} adultos y
-                                {{ $total_minors }} menor
-                                </p> *@
-                                            @* @endif *@
+                                            @if (ViewBag.total_menores == 0 && ViewBag.total_adultos == 1)
+                                            {
+                                                <p class="d-block">Para @ViewBag.total_adultos adulto</p>
+                                            }
+                                            else if (ViewBag.total_menores == 0 && ViewBag.total_adultos > 1)
+                                            {
+                                                <p class="d-block">Para @ViewBag.total_adultos adultos</p>
+                                            }
+                                            else if (ViewBag.total_menores > 1 && ViewBag.total_adultos > 1)
+                                            {
+                                                <p class="d-block">Para @ViewBag.total_adultos adultos y @ViewBag.total_menores menores </p>
+                                            }
+                                            else
+                                            {
+                                                <p class="d-block">
+                                                    Para @ViewBag.total_adultos adultos adultos y @ViewBag.total_menores menor
+                                                </p>
+                                            }
                                             <div class="row d-flex payment-small-font">
                                                 <p class="col-9 mb-0">Vuelo</p>
-                                                <p class="col-3 mb-0 px-0 text-end pe-3">$ 200000</p>
+                                                <p class="col-3 mb-0 px-0 text-end pe-3">$ @costo_vuelo</p>
                                             </div>
                                             <p class="d-block text-body text-opacity-50">Ida y vuelta directo</p>
                                             <div class="row d-flex payment-small-font">
                                                 <p class="col-9 mb-0">Alojamiento</p>
-                                                <p class="col-3 mb-0 px-0 text-end pe-3">$ 20000</p>
+                                                <p class="col-3 mb-0 px-0 text-end pe-3">$ @costo</p>
                                             </div>
                                             <p class="d-block text-body text-opacity-50">
-                                                Nombre hotel x
-                                                5 noches
+                                                @hotel.nombre x @ViewBag.cantDias noches
                                             </p>
                                         </div>
                                         <div class="modal-body pb-0 border-bottom">
                                             <div class="row d-flex payment-small-font">
                                                 <p class="col-9 mb-2">Precio Total</p>
-                                                <p class="col-3 mb-2 px-0 text-end pe-3">$ 220000</p>
+                                                <p class="col-3 mb-2 px-0 text-end pe-3">$ @total</p>
                                             </div>
                                             <div class="row d-flex payment-small-font">
                                                 <p class="col-9 mb-0">Impuestos, tasas y cargos incluidos</p>
                                                 <p class="col-3 mb-0 px-0 text-end pe-3">
-                                                    $220000
-                                                    @* {{ number_format($taxes, 2, ',', '.') }} *@
+                                                    $@impuestos
                                                 </p>
                                             </div>
                                             <p class="d-block text-body text-opacity-50">
@@ -111,53 +129,37 @@
                                             <div class="row d-flex text-success payment-small-font">
                                                 <p class="col-9 mb-2">Ahorro paquete</p>
                                                 <p class="col-3 mb-2 px-0 text-end pe-3 text-nowrap">
-                                                    - $20000
-                                                    @* {{ number_format($discount, 2, ',', '.') }} *@
+                                                    - $@descuento
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="row d-flex justify-content-between fw-semibold ps-3 pe-3 pt-2 payment-small-font">
                                             @if (ViewBag.personas > 1)
                                             {
-                                                <p class="col-9">Final {{ $people }} personas</p>
-                                            } 
-                                            else {
-                                                <p class="col-9">Final {{ $people }} persona</p>
+                                                <p class="col-9">Final @ViewBag.total_personas personas</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="col-9">Final @ViewBag.total_personas persona</p>
                                             }
 
-                                            <p class="col-9">Final 4 personas</p>
                                             <p class="col-3 px-0 text-end pe-3 text-nowrap">
-                                                $220000
-                                                @* {{ number_format($total_sum, 2, ',', '.') }} *@
+                                                $@suma_total
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <p class="fs-6 mb-0">$ <span class="fs-4">@* {{ $total / $people }} *@200000</span></p>
+                            <p class="fs-6 mb-0">$ <span class="fs-4">@precio_por_persona</span></p>
                         </div>
-                        @* @if ($people > 1)
-            <p class="fw-semibold mb-0 text-nowrap">
-            Final {{ $people }} personas <span>
-            $
-            {{ number_format($total_sum, 2, ',', '.') }}
-            </span>
-            </p>
-
-            @else
-            <p class="fw-semibold mb-0 text-nowrap">
-            Final {{ $people }} persona <span>
-            $
-            {{ number_format($total_sum, 2, ',', '.') }}
-            </span>
-            </p>
-            @endif *@
-                        <p class="fw-semibold mb-0 text-nowrap">
-                            Final 4 personas <span>
-                                $220000
-                                @* {{ number_format($total_sum, 2, ',', '.') }} *@
-                            </span>
-                        </p>
+                        @if (ViewBag.total_personas > 1)
+                        {
+                            <p class="fw-semibold mb-0 text-nowrap">Final @ViewBag.total_personas personas <span>$@suma_total</span></p>
+                        }
+                        else
+                        {
+                            <p class="fw-semibold mb-0 text-nowrap">Final @ViewBag.total_personas persona <span>$@suma_total</span></p>
+                        }
                         <p class="tax-message">Incluye Impto. PAIS y Percepciones</p>
                         <button class="btn btn-warning rounded-pill buy-button" data-hotel="{{ json_encode($h) }}"
                                 data-flight="{{ json_encode($f) }}" data-start_date="{{ $start_date }}"

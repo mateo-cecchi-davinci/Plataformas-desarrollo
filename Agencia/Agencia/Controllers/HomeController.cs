@@ -54,15 +54,23 @@ namespace Agencia.Controllers
 
         public IActionResult ResultadosDeLaBusqueda(string origin, string destination, DateTime start_date, DateTime end_date, int rooms, int people, string total_adults, string total_minors, string total_people_rooms)
         {
-            var hoteles = _context.hoteles.Where(hotel => hotel.ubicacion.nombre == destination).ToList();
-            var vuelos = _context.vuelos.Where(vuelo => vuelo.origen.nombre == origin && vuelo.destino.nombre == destination);
+            var hoteles = _context.hoteles
+                .Include(h => h.ubicacion)
+                .Include(h => h.habitaciones)
+                .Where(hotel => hotel.ubicacion.nombre == destination)
+                .ToList();
+            var vuelos = _context.vuelos
+                .Include(v => v.origen)
+                .Include(v => v.destino)
+                .Where(vuelo => vuelo.origen.nombre == origin && vuelo.destino.nombre == destination)
+                .ToList();
 
             TimeSpan diferencia = end_date.Subtract(start_date);
             int cantDias = diferencia.Days;
 
             Dictionary<string, int> habitaciones = JsonSerializer.Deserialize<Dictionary<string, int>>(total_people_rooms);
-            List<int> adultos = JsonSerializer.Deserialize<List<int>>(total_adults);
-            List<int> menores = JsonSerializer.Deserialize<List<int>>(total_minors);
+            Dictionary<string, int> adultos = JsonSerializer.Deserialize<Dictionary<string, int>>(total_adults);
+            Dictionary<string, int> menores = JsonSerializer.Deserialize<Dictionary<string, int>>(total_minors);
 
             int habitaciones_chicas = 0;
             int habitaciones_medianas = 0;
@@ -84,24 +92,36 @@ namespace Agencia.Controllers
                 }
             }
 
-            //Small Rooms: 2
-            //Medium Rooms: 1
-            //Large Rooms: 0
-            //Total Adults: { "room-1":2,"room-2":1,"room-3":1}
-            //Total Minors: { "room-1":1,"room-2":1,"room-3":1}
-            //Total People: 7
+            var hotelesSeleccionados = hoteles
+                .Where(h => h.habitaciones
+                .Count(hab => hab.capacidad == 2) >= habitaciones_chicas && h.habitaciones
+                .Count(hab => hab.capacidad == 4) >= habitaciones_medianas && h.habitaciones
+                .Count(hab => hab.capacidad == 8) >= habitaciones_grandes)
+                .ToList();
 
-            int total_adultos = adultos.Sum();
-            int total_menores = menores.Sum();
+            var hotelesConCostoTotal = hotelesSeleccionados.Select(hotel =>
+            {
+                var costo = hotel.habitaciones
+                    .Where(habitacion => habitacion.capacidad == 2 || habitacion.capacidad == 4 || habitacion.capacidad == 8)
+                    .Take(habitaciones_chicas + habitaciones_medianas + habitaciones_grandes)
+                    .Sum(habitacion => habitacion.costo);
 
-            ViewBag.hoteles = hoteles;
+                return new
+                {
+                    hotel,
+                    costo
+                };
+            }).ToList();
+
+
+            int total_adultos = adultos.Values.Sum();
+            int total_menores = menores.Values.Sum();
+
+            ViewBag.hotelesConCostoTotal = hotelesConCostoTotal;
             ViewBag.vuelos = vuelos;
             ViewBag.fecha_desde = start_date;
             ViewBag.fecha_hasta = end_date;
             ViewBag.cantDias = cantDias;
-            ViewBag.habitaciones_chicas = habitaciones_chicas;
-            ViewBag.habitaciones_medianas = habitaciones_medianas;
-            ViewBag.habitaciones_grandes = habitaciones_grandes;
             ViewBag.total_adultos = total_adultos;
             ViewBag.total_menores = total_menores;
             ViewBag.total_personas = people;
