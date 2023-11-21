@@ -38,11 +38,27 @@ namespace Agencia.Controllers
         public IActionResult Paquetes()
         {
 
-            var hoteles = _context.hoteles.Include(h => h.ubicacion).ToList();
-            var vuelos = _context.vuelos.Include(v => v.origen).Include(v => v.destino).ToList();
+            var hoteles = _context.hoteles
+                .Include(h => h.ubicacion)
+                .Include(h => h.habitaciones)
+                .ToList();
+            var vuelos = _context.vuelos
+                .Include(v => v.origen)
+                .Include(v => v.destino)
+                .ToList();
+
+            var habitacionesDoblesPorHotel = new Dictionary<int, List<Habitacion>>();
+
+            foreach (var hotel in hoteles)
+            {
+                var habitacionesDobles = hotel.habitaciones.Where(h => h.capacidad == 2).ToList();
+
+                habitacionesDoblesPorHotel.Add(hotel.id, habitacionesDobles);
+            }
 
             ViewData["hoteles"] = hoteles;
             ViewData["vuelos"] = vuelos;
+            ViewData["habitacionesDoblesPorHotel"] = habitacionesDoblesPorHotel;
 
             return View();
         }
@@ -125,6 +141,9 @@ namespace Agencia.Controllers
             ViewBag.total_adultos = total_adultos;
             ViewBag.total_menores = total_menores;
             ViewBag.total_personas = people;
+            ViewBag.habitaciones_chicas = habitaciones_chicas;
+            ViewBag.habitaciones_medianas = habitaciones_medianas;
+            ViewBag.habitaciones_grandes = habitaciones_grandes;
 
             return View();
         }

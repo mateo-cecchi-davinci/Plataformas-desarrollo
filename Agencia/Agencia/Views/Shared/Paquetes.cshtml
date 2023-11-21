@@ -20,68 +20,75 @@
             {
                 @if (hotel.ciudad_fk == vuelo.destino_fk)
                 {
-                    if (contador < 4)
+                    @if (contador < 4)
                     {
-                        if (ciudad_hotel_id != hotel.ciudad_fk)
+                        @if (ciudad_hotel_id != hotel.ciudad_fk)
                         {
-                            DateTime salida = vuelo.fecha;
-                            DateTime llegada = salida.AddDays(7);
-                            string formatoFecha = "dd 'de' MMM";
-                            string fechaSalidaFormateada = salida.ToString(formatoFecha);
-                            string fechaLlegadaFormateada = llegada.ToString(formatoFecha);
-                            string fecha = fechaSalidaFormateada + " al " + fechaLlegadaFormateada;
+                            var habitacionesDobles = ViewData["habitacionesDoblesPorHotel"] as Dictionary<int, List<Habitacion>>;
+                            var habitacionesDoblesDelHotel = habitacionesDobles[hotel.id];
 
-                            double costoHospedaje = 100 * 7;
-                            double totalViejo = costoHospedaje + vuelo.costo;
-                            double total = totalViejo - ((costoHospedaje + vuelo.costo) * 0.0661);
+                            @foreach (var habitacionDoble in habitacionesDoblesDelHotel)
+                            {
+                                DateTime salida = vuelo.fecha;
+                                DateTime llegada = salida.AddDays(7);
+                                string formatoFecha = "dd 'de' MMM";
+                                string fechaSalidaFormateada = salida.ToString(formatoFecha);
+                                string fechaLlegadaFormateada = llegada.ToString(formatoFecha);
+                                string fecha = fechaSalidaFormateada + " al " + fechaLlegadaFormateada;
 
-                            string origen_codificado = vuelo.origen.nombre.Substring(0, Math.Min(3, vuelo.origen.nombre.Length)).ToUpper();
-                            string destino_codificado = vuelo.destino.nombre.Substring(0, Math.Min(3, vuelo.origen.nombre.Length)).ToUpper();
+                                double costoHospedaje = habitacionDoble.costo * 7;
+                                double totalViejo = costoHospedaje + vuelo.costo;
+                                double total = totalViejo - (totalViejo * 0.0661);
 
-                            <div class="col-xxl-3 col-xl-5 col-md-6 col-sm-8 col-12">
-                                <div class="card mb-4 shadow packages-cards package-details">
-                                    <a href="#">
-                                        @if (!string.IsNullOrEmpty(hotel.imagen))
-                                        {
-                                            <img src="~/@hotel.imagen" alt="Imagen del hotel" class="img-fluid rounded-top-2" />
-                                        }
-                                        else
-                                        {
-                                            <img src="~/images/noImageFound.png" alt="Imagen no encontrada" class="img-fluid rounded-top-2" />
-                                        }
-                                    </a>
-                                    <div class="border-bottom p-3">
-                                        <h4 class="package-hotel-name">@hotel.nombre</h4>
-                                        <div class="d-flex">
-                                            <p>Desde el @fecha</p>
+                                string origen_codificado = vuelo.origen.nombre.Substring(0, Math.Min(3, vuelo.origen.nombre.Length)).ToUpper();
+                                string destino_codificado = vuelo.destino.nombre.Substring(0, Math.Min(3, vuelo.origen.nombre.Length)).ToUpper();
+
+                                <div class="col-xxl-3 col-xl-5 col-md-6 col-sm-8 col-12">
+                                    <div class="card mb-4 shadow packages-cards package-details">
+                                        <a href="#">
+                                            @if (!string.IsNullOrEmpty(hotel.imagen))
+                                            {
+                                                <img src="~/@hotel.imagen" alt="Imagen del hotel" class="img-fluid rounded-top-2" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/noImageFound.png" alt="Imagen no encontrada" class="img-fluid rounded-top-2" />
+                                            }
+                                        </a>
+                                        <div class="border-bottom p-3">
+                                            <h4 class="package-hotel-name">@hotel.nombre</h4>
+                                            <div class="d-flex">
+                                                <p>Desde el @fecha</p>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bx bxs-plane-alt icon mb-2 pe-2"></i>
+                                                <p class="mb-2 font-size">Vuelo directo @origen_codificado</p>
+                                                <i class="bx bx-transfer icon  mb-2  px-2"></i>
+                                                <p class="mb-2 font-size">@destino_codificado</p>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bx bx-hotel icon  mb-2  pe-2"></i>
+                                                <p class="mb-2 font-size">@hotel.nombre</p>
+                                            </div>
                                         </div>
-                                        <div class="d-flex align-items-center">
-                                            <i class="bx bxs-plane-alt icon mb-2 pe-2"></i>
-                                            <p class="mb-2 font-size">Vuelo directo @origen_codificado</p>
-                                            <i class="bx bx-transfer icon  mb-2  px-2"></i>
-                                            <p class="mb-2 font-size">@destino_codificado</p>
+                                        <div class="border-bottom p-3">
+                                            <p class="font-size m-0">Precio final por persona</p>
+                                            <p class="font-size m-0 text-decoration-line-through">
+                                                @totalViejo
+                                            </p>
+                                            <div class="d-flex align-items-center m-0">
+                                                <p class="font-size pt-1 pe-1 m-0">$</p>
+                                                <h4 class="m-0">@total</h4>
+                                            </div>
+                                            <h6 class="m-0">Incluye Impto. PAIS y Percepciones</h6>
                                         </div>
-                                        <div class="d-flex align-items-center">
-                                            <i class="bx bx-hotel icon  mb-2  pe-2"></i>
-                                            <p class="mb-2 font-size">@hotel.nombre</p>
-                                        </div>
-                                    </div>
-                                    <div class="border-bottom p-3">
-                                        <p class="font-size m-0">Precio final por persona</p>
-                                        <p class="font-size m-0 text-decoration-line-through">
-                                            @totalViejo
-                                        </p>
-                                        <div class="d-flex align-items-center m-0">
-                                            <p class="font-size pt-1 pe-1 m-0">$</p>
-                                            <h4 class="m-0">@total</h4>
-                                        </div>
-                                        <h6 class="m-0">Incluye Impto. PAIS y Percepciones</h6>
                                     </div>
                                 </div>
-                            </div>
 
-                            contador++;
-                            ciudad_hotel_id = hotel.ciudad_fk;
+                                contador++;
+                                ciudad_hotel_id = hotel.ciudad_fk;
+                                break;
+                            }
                         }
                     }
                     else

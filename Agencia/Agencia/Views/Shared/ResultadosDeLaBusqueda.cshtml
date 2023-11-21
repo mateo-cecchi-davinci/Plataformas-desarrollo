@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Newtonsoft.Json;
+@{
     ViewData["Title"] = "ResultadosDeLaBusqueda";
 }
 
@@ -7,12 +8,12 @@
     var hotel = item.hotel;
     var costo = item.costo;
 
-    @foreach (Vuelo v in ViewBag.vuelos)
+    @foreach (Vuelo vuelo in ViewBag.vuelos)
     {
-        @if (hotel.ciudad_fk == v.destino_fk)
+        @if (hotel.ciudad_fk == vuelo.destino_fk)
         {
             double personas = ViewBag.total_adultos + (ViewBag.total_menores - ViewBag.total_menores * 0.15);
-            double costo_vuelo = v.costo * personas;
+            double costo_vuelo = vuelo.costo * personas;
             double total = costo_vuelo + costo;
             double impuesto_pais = total * 0.3;
             double RG_4815 = total * 0.45;
@@ -22,8 +23,8 @@
             double suma_total = total + impuestos - descuento;
             double precio_por_persona = suma_total / ViewBag.total_personas;
 
-            string codigoOrigen = v.origen.nombre.ToUpper().Substring(0, Math.Min(3, v.origen.nombre.Length));
-            string codigoDestino = v.destino.nombre.ToUpper().Substring(0, Math.Min(3, v.destino.nombre.Length));
+            string codigoOrigen = vuelo.origen.nombre.ToUpper().Substring(0, Math.Min(3, vuelo.origen.nombre.Length));
+            string codigoDestino = vuelo.destino.nombre.ToUpper().Substring(0, Math.Min(3, vuelo.destino.nombre.Length));
 
             <div class="box-container">
                 <div class="box row d-flex">
@@ -161,13 +162,19 @@
                             <p class="fw-semibold mb-0 text-nowrap">Final @ViewBag.total_personas persona <span>$@suma_total</span></p>
                         }
                         <p class="tax-message">Incluye Impto. PAIS y Percepciones</p>
-                        <button class="btn btn-warning rounded-pill buy-button" data-hotel="{{ json_encode($h) }}"
-                                data-flight="{{ json_encode($f) }}" data-start_date="{{ $start_date }}"
-                                data-end_date="{{ $end_date }}" data-total="{{ $total_sum }}"
-                                data-sm_rooms="{{ $sm_rooms }}" data-md_rooms="{{ $md_rooms }}"
-                                data-xl_rooms="{{ $xl_rooms }}" data-people="{{ $people }}">
+                        <button class="btn btn-warning rounded-pill buy-button"
+                                data-hotel="@JsonConvert.SerializeObject(ViewBag.hotel)"
+                                data-flight="@JsonConvert.SerializeObject(ViewBag.vuelo)"
+                                data-start_date="@ViewBag.fecha_desde"
+                                data-end_date="@ViewBag.fecha_hasta"
+                                data-total="suma_total"
+                                data-sm_rooms="@ViewBag.habitaciones_chicas"
+                                data-md_rooms="@ViewBag.habitaciones_medianas"
+                                data-xl_rooms="@ViewBag.habitaciones_grandes"
+                                data-people="@ViewBag.total_personas">
                             Comprar
                         </button>
+
                     </div>
                 </div>
             </div>

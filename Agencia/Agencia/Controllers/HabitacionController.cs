@@ -21,19 +21,19 @@ namespace Agencia.Controllers
         // GET: Habitacion
         public async Task<IActionResult> Index()
         {
-            var context = _context.Habitacion.Include(h => h.hotel);
+            var context = _context.habitaciones.Include(h => h.hotel);
             return View(await context.ToListAsync());
         }
 
         // GET: Habitacion/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Habitacion == null)
+            if (id == null || _context.habitaciones == null)
             {
                 return NotFound();
             }
 
-            var habitacion = await _context.Habitacion
+            var habitacion = await _context.habitaciones
                 .Include(h => h.hotel)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (habitacion == null)
@@ -79,12 +79,12 @@ namespace Agencia.Controllers
         // GET: Habitacion/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Habitacion == null)
+            if (id == null || _context.habitaciones == null)
             {
                 return NotFound();
             }
 
-            var habitacion = await _context.Habitacion.FindAsync(id);
+            var habitacion = await _context.habitaciones.FindAsync(id);
             if (habitacion == null)
             {
                 return NotFound();
@@ -132,12 +132,12 @@ namespace Agencia.Controllers
         // GET: Habitacion/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Habitacion == null)
+            if (id == null || _context.habitaciones == null)
             {
                 return NotFound();
             }
 
-            var habitacion = await _context.Habitacion
+            var habitacion = await _context.habitaciones
                 .Include(h => h.hotel)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (habitacion == null)
@@ -153,14 +153,14 @@ namespace Agencia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Habitacion == null)
+            if (_context.habitaciones == null)
             {
                 return Problem("Entity set 'Context.Habitacion'  is null.");
             }
-            var habitacion = await _context.Habitacion.FindAsync(id);
+            var habitacion = await _context.habitaciones.FindAsync(id);
             if (habitacion != null)
             {
-                _context.Habitacion.Remove(habitacion);
+                _context.habitaciones.Remove(habitacion);
             }
 
             await _context.SaveChangesAsync();
@@ -169,7 +169,7 @@ namespace Agencia.Controllers
 
         private bool HabitacionExists(int id)
         {
-            return _context.Habitacion.Any(e => e.id == id);
+            return _context.habitaciones.Any(e => e.id == id);
         }
     }
 }

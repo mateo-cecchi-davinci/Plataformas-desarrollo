@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Agencia.Migrations
 {
-    public partial class inicial : Migration
+    public partial class primera : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,10 +49,9 @@ namespace Agencia.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    capacidad = table.Column<int>(type: "int", nullable: false),
-                    costo = table.Column<double>(type: "float", nullable: false),
                     nombre = table.Column<string>(type: "varchar(50)", nullable: false),
-                    ciudad_fk = table.Column<int>(type: "int", nullable: false)
+                    ciudad_fk = table.Column<int>(type: "int", nullable: false),
+                    imagen = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,56 +95,22 @@ namespace Agencia.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "reservaHotel",
+                name: "habitacion",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    fechaDesde = table.Column<DateTime>(type: "datetime", nullable: false),
-                    fechaHasta = table.Column<DateTime>(type: "datetime", nullable: false),
-                    pagado = table.Column<double>(type: "float", nullable: false),
-                    cantPersonas = table.Column<int>(type: "int", nullable: false),
-                    hotel_fk = table.Column<int>(type: "int", nullable: false),
-                    usuarioRH_fk = table.Column<int>(type: "int", nullable: false)
+                    capacidad = table.Column<int>(type: "int", nullable: false),
+                    costo = table.Column<double>(type: "float", nullable: false),
+                    hotel_fk = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_reservaHotel", x => x.id);
+                    table.PrimaryKey("PK_habitacion", x => x.id);
                     table.ForeignKey(
                         name: "hotel_fk",
                         column: x => x.hotel_fk,
                         principalTable: "hotel",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "usuarioRH_fk",
-                        column: x => x.usuarioRH_fk,
-                        principalTable: "usuario",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "usuarioHotel",
-                columns: table => new
-                {
-                    usuario_fk = table.Column<int>(type: "int", nullable: false),
-                    hotel_fk = table.Column<int>(type: "int", nullable: false),
-                    cantidad = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_usuarioHotel", x => new { x.usuario_fk, x.hotel_fk });
-                    table.ForeignKey(
-                        name: "FK_usuarioHotel_hotel_hotel_fk",
-                        column: x => x.hotel_fk,
-                        principalTable: "hotel",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_usuarioHotel_usuario_usuario_fk",
-                        column: x => x.usuario_fk,
-                        principalTable: "usuario",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -198,6 +163,61 @@ namespace Agencia.Migrations
                         name: "FK_usuarioVuelo_vuelo_vuelo_fk",
                         column: x => x.vuelo_fk,
                         principalTable: "vuelo",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "reservaHotel",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    fechaDesde = table.Column<DateTime>(type: "datetime", nullable: false),
+                    fechaHasta = table.Column<DateTime>(type: "datetime", nullable: false),
+                    pagado = table.Column<double>(type: "float", nullable: false),
+                    cantPersonas = table.Column<int>(type: "int", nullable: false),
+                    habitacion_fk = table.Column<int>(type: "int", nullable: false),
+                    usuarioRH_fk = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_reservaHotel", x => x.id);
+                    table.ForeignKey(
+                        name: "habitacion_fk",
+                        column: x => x.habitacion_fk,
+                        principalTable: "habitacion",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "usuarioRH_fk",
+                        column: x => x.usuarioRH_fk,
+                        principalTable: "usuario",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "usuarioHabitacion",
+                columns: table => new
+                {
+                    usuarios_fk = table.Column<int>(type: "int", nullable: false),
+                    habitaciones_fk = table.Column<int>(type: "int", nullable: false),
+                    cantidad = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_usuarioHabitacion", x => new { x.usuarios_fk, x.habitaciones_fk });
+                    table.ForeignKey(
+                        name: "FK_usuarioHabitacion_habitacion_habitaciones_fk",
+                        column: x => x.habitaciones_fk,
+                        principalTable: "habitacion",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_usuarioHabitacion_usuario_usuarios_fk",
+                        column: x => x.usuarios_fk,
+                        principalTable: "usuario",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -259,30 +279,30 @@ namespace Agencia.Migrations
 
             migrationBuilder.InsertData(
                 table: "hotel",
-                columns: new[] { "id", "capacidad", "ciudad_fk", "costo", "nombre" },
+                columns: new[] { "id", "ciudad_fk", "imagen", "nombre" },
                 values: new object[,]
                 {
-                    { 1, 101, 7, 21000.0, "Hotel Buenos Aires" },
-                    { 2, 80, 2, 22000.0, "Hotel Rosario" },
-                    { 3, 120, 3, 27000.0, "Hotel Córdoba" },
-                    { 4, 90, 4, 24000.0, "Hotel Mendoza" },
-                    { 5, 70, 5, 21000.0, "Hotel San Juan" },
-                    { 6, 110, 6, 26000.0, "Hotel Mar del Plata" },
-                    { 7, 95, 7, 23500.0, "Hotel Tucumán" },
-                    { 8, 75, 8, 22500.0, "Hotel Salta" },
-                    { 9, 85, 9, 24500.0, "Hotel Jujuy" },
-                    { 10, 105, 10, 25500.0, "Hotel Neuquén" },
-                    { 11, 80, 1, 22000.0, "Hotel La Plata" },
-                    { 12, 110, 2, 26500.0, "Hotel Santa Fe" },
-                    { 13, 90, 3, 23000.0, "Hotel San Luis" },
-                    { 14, 70, 4, 21000.0, "Hotel Formosa" },
-                    { 15, 100, 5, 25000.0, "Hotel Entre Ríos" },
-                    { 16, 120, 6, 22000.0, "Hotel Catamarca" },
-                    { 17, 120, 7, 27500.0, "Hotel La Rioja" },
-                    { 18, 95, 8, 24000.0, "Hotel Chaco" },
-                    { 19, 75, 9, 22500.0, "Hotel Tierra del Fuego" },
-                    { 20, 105, 10, 25500.0, "Hotel Santa Cruz" },
-                    { 2021, 101, 7, 21000.0, "PRUEBA" }
+                    { 1, 7, "images/hotel/04a270ea-1772-4970-84ea-8511a77d344b_hotelGardenPlaza-Tucuman.png", "Garden Plaza" },
+                    { 2, 2, "images/hotel/04314e9f-5c9a-4f8a-8672-94781301b98f_selinaNuevaCordoba-Cordoba.png", "Selina Nueva Cordoba" },
+                    { 3, 3, "images/hotel/79fdae4f-dfee-4262-9803-b1094618f216_americanPuertoRosarioHotel-Rosario.png", "American Puerto Rosario Hotel" },
+                    { 4, 4, "images/hotel/c9252ae1-4112-4f7e-9ca2-7b87cb681dda_raicesAconcaguaHotel-Mendoza.png", "Raices Aconcagua Hotel" },
+                    { 5, 5, "images/hotel/0bf11e5f-3554-42a0-b0e0-6087fd485599_dazzlerByWyndhamLaPlata-La Plata.png", "Dazzler by Wyndham La Plata" },
+                    { 6, 6, "images/hotel/5b90c67e-11a4-45f7-aa5f-36101400d3ac_hotelAatracMarDelPlata-Mar del Plata.png", "Hotel Aatrac Mar del Plata" },
+                    { 7, 7, "images/hotel/bdbb374f-432c-4147-a5ce-499bbc0a292f_hotelPortalDelNorte-Tucuman.png", "Hotel Portal del Norte" },
+                    { 8, 8, "images/hotel/a917a5f2-964c-4bb7-94d1-ec4ba0c2baae_hotelPosadaDelSolSalta-Salta.png", "Hotel Posada del Sol Salta" },
+                    { 9, 9, "images/hotel/3bd2a198-62ac-47cd-8158-fd910db6fb15_hotelCastelar-Santa Fe.png", "Hotel Castelar" },
+                    { 10, 10, "images/hotel/779f2715-5640-4c7e-af86-dbfc2f2b05a4_alhambraInnHotel-San Juan.png", "Alhambra Inn Hotel" },
+                    { 11, 1, "images/hotel/97148535-98f8-41a2-8584-678d3874d480_granHotelBuenosAires-Buenos Aires.png", "Gran Hotel Buenos Aires" },
+                    { 12, 2, "images/hotel/00475231-6fa4-4b8b-9ee6-5837912b6f28_howardJohnsonByWyndhamCordoba-Cordoba.png", "Howard Johnson by Wyndham Cordoba" },
+                    { 13, 3, "images/hotel/27806441-6c89-466a-9766-3264bb46cdaf_aristonHotel-Rosario.png", "Ariston Hotel" },
+                    { 14, 4, "images/hotel/8477278d-e8cc-49fe-8afb-1182f09f77e0_hotelPrincessGold-Mendoza.png", "Hotel Princess Gold" },
+                    { 15, 5, "images/hotel/6c8fbd02-09ed-49c2-b4cc-3e2bbb0c17f9_hotelDelSol-La Plata.png", "Hotel del Sol" },
+                    { 16, 6, "images/hotel/d76a8e6a-4453-4e94-9cf5-2f09fe59a298_hotelArgentino-Mar del Plata.png", "Hotel Argentino" },
+                    { 17, 7, "images/hotel/dd74e84b-2fa4-455f-9064-a20e5cbb8230_hotelLePark-tucuman.png", "Hotel Le Park" },
+                    { 18, 8, "images/hotel/6e456053-c5b0-462e-a510-2722dbe875b6_hotelSamka-Salta.png", "Hotel Samka" },
+                    { 19, 9, "images/hotel/15c46820-eb41-468f-833e-8a1aae28eade_puertoAmarrasHotel&Suites-Santa Fe.png", "Puerto Amarras Hotel & Suites" },
+                    { 20, 10, "images/hotel/7ccd44f5-2b8d-4217-b152-10508cd991e0_hotelAlbertina-San Juan.png", "Hotel Albertina" },
+                    { 2021, 7, "images/hotel/9d04ad05-788c-4f24-b594-f7944b62eb62_sheratonTucumanHotel-Tucuman.png", "Sheraton Tucuman Hotel" }
                 });
 
             migrationBuilder.InsertData(
@@ -314,26 +334,150 @@ namespace Agencia.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "reservaHotel",
-                columns: new[] { "id", "cantPersonas", "fechaDesde", "fechaHasta", "hotel_fk", "pagado", "usuarioRH_fk" },
+                table: "habitacion",
+                columns: new[] { "id", "capacidad", "costo", "hotel_fk" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 150000.0, 1 },
-                    { 2, 1, new DateTime(2023, 11, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 120000.0, 2 },
-                    { 3, 1, new DateTime(2023, 10, 3, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 3, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 170000.0, 3 },
-                    { 4, 2, new DateTime(2023, 9, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 9, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), 4, 140000.0, 4 },
-                    { 5, 2, new DateTime(2023, 11, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 110000.0, 5 },
-                    { 6, 2, new DateTime(2023, 10, 8, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 12, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 150000.0, 6 },
-                    { 7, 1, new DateTime(2023, 12, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 120000.0, 7 },
-                    { 8, 1, new DateTime(2023, 9, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 9, 30, 9, 0, 0, 0, DateTimeKind.Unspecified), 3, 170000.0, 8 },
-                    { 9, 2, new DateTime(2023, 11, 12, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 17, 9, 0, 0, 0, DateTimeKind.Unspecified), 4, 140000.0, 9 },
-                    { 10, 2, new DateTime(2023, 12, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 110000.0, 10 },
-                    { 1002, 1, new DateTime(2023, 10, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 24, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 150000.0, 3 },
-                    { 2007, 1, new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 31, 9, 0, 0, 0, DateTimeKind.Unspecified), 2, 120000.0, 1024 },
-                    { 2008, 1, new DateTime(2023, 10, 11, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 18, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 110000.0, 1024 },
-                    { 2009, 1, new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), 6, 160000.0, 1024 },
-                    { 2010, 1, new DateTime(2023, 10, 23, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 23, 9, 0, 0, 0, DateTimeKind.Unspecified), 7, 135000.0, 1024 },
-                    { 2011, 1, new DateTime(2023, 10, 2, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 110000.0, 1024 }
+                    { 1, 2, 20000.0, 1 },
+                    { 2, 2, 20000.0, 1 },
+                    { 3, 4, 35000.0, 1 },
+                    { 4, 4, 35000.0, 1 },
+                    { 5, 8, 70000.0, 1 },
+                    { 6, 8, 70000.0, 1 },
+                    { 7, 2, 20000.0, 2 },
+                    { 8, 2, 20000.0, 2 },
+                    { 9, 4, 35000.0, 2 },
+                    { 10, 4, 35000.0, 2 },
+                    { 11, 8, 70000.0, 2 },
+                    { 12, 8, 70000.0, 2 },
+                    { 13, 2, 20000.0, 3 },
+                    { 14, 2, 20000.0, 3 },
+                    { 15, 4, 35000.0, 3 },
+                    { 16, 4, 35000.0, 3 },
+                    { 17, 8, 70000.0, 3 },
+                    { 18, 8, 70000.0, 3 },
+                    { 19, 2, 20000.0, 4 },
+                    { 20, 2, 20000.0, 4 },
+                    { 21, 4, 35000.0, 4 },
+                    { 22, 4, 35000.0, 4 },
+                    { 23, 8, 70000.0, 4 },
+                    { 24, 8, 70000.0, 4 },
+                    { 25, 2, 20000.0, 5 },
+                    { 26, 2, 20000.0, 5 },
+                    { 27, 4, 35000.0, 5 },
+                    { 28, 4, 35000.0, 5 },
+                    { 29, 8, 70000.0, 5 },
+                    { 30, 8, 70000.0, 5 },
+                    { 31, 2, 20000.0, 6 },
+                    { 32, 2, 20000.0, 6 },
+                    { 33, 4, 35000.0, 6 },
+                    { 34, 4, 35000.0, 6 },
+                    { 35, 8, 70000.0, 6 },
+                    { 36, 8, 70000.0, 6 },
+                    { 37, 2, 20000.0, 7 },
+                    { 38, 2, 20000.0, 7 },
+                    { 39, 4, 35000.0, 7 },
+                    { 40, 4, 35000.0, 7 },
+                    { 41, 8, 70000.0, 7 },
+                    { 42, 8, 70000.0, 7 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "habitacion",
+                columns: new[] { "id", "capacidad", "costo", "hotel_fk" },
+                values: new object[,]
+                {
+                    { 43, 2, 20000.0, 8 },
+                    { 44, 2, 20000.0, 8 },
+                    { 45, 4, 35000.0, 8 },
+                    { 46, 4, 35000.0, 8 },
+                    { 47, 8, 70000.0, 8 },
+                    { 48, 8, 70000.0, 8 },
+                    { 49, 2, 20000.0, 9 },
+                    { 50, 2, 20000.0, 9 },
+                    { 51, 4, 35000.0, 9 },
+                    { 52, 4, 35000.0, 9 },
+                    { 53, 8, 70000.0, 9 },
+                    { 54, 8, 70000.0, 9 },
+                    { 55, 2, 20000.0, 10 },
+                    { 56, 2, 20000.0, 10 },
+                    { 57, 4, 35000.0, 10 },
+                    { 58, 4, 35000.0, 10 },
+                    { 59, 8, 70000.0, 10 },
+                    { 60, 8, 70000.0, 10 },
+                    { 61, 2, 20000.0, 11 },
+                    { 62, 2, 20000.0, 11 },
+                    { 63, 4, 35000.0, 11 },
+                    { 64, 4, 35000.0, 11 },
+                    { 65, 8, 70000.0, 11 },
+                    { 66, 8, 70000.0, 11 },
+                    { 67, 2, 20000.0, 12 },
+                    { 68, 2, 20000.0, 12 },
+                    { 69, 4, 35000.0, 12 },
+                    { 70, 4, 35000.0, 12 },
+                    { 71, 8, 70000.0, 12 },
+                    { 72, 8, 70000.0, 12 },
+                    { 73, 2, 20000.0, 13 },
+                    { 74, 2, 20000.0, 13 },
+                    { 75, 4, 35000.0, 13 },
+                    { 76, 4, 35000.0, 13 },
+                    { 77, 8, 70000.0, 13 },
+                    { 78, 8, 70000.0, 13 },
+                    { 79, 2, 20000.0, 14 },
+                    { 80, 2, 20000.0, 14 },
+                    { 81, 4, 35000.0, 14 },
+                    { 82, 4, 35000.0, 14 },
+                    { 83, 8, 70000.0, 14 },
+                    { 84, 8, 70000.0, 14 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "habitacion",
+                columns: new[] { "id", "capacidad", "costo", "hotel_fk" },
+                values: new object[,]
+                {
+                    { 85, 2, 20000.0, 15 },
+                    { 86, 2, 20000.0, 15 },
+                    { 87, 4, 35000.0, 15 },
+                    { 88, 4, 35000.0, 15 },
+                    { 89, 8, 70000.0, 15 },
+                    { 90, 8, 70000.0, 15 },
+                    { 91, 2, 20000.0, 16 },
+                    { 92, 2, 20000.0, 16 },
+                    { 93, 4, 35000.0, 16 },
+                    { 94, 4, 35000.0, 16 },
+                    { 95, 8, 70000.0, 16 },
+                    { 96, 8, 70000.0, 16 },
+                    { 97, 2, 20000.0, 17 },
+                    { 98, 2, 20000.0, 17 },
+                    { 99, 4, 35000.0, 17 },
+                    { 100, 4, 35000.0, 17 },
+                    { 101, 8, 70000.0, 17 },
+                    { 102, 8, 70000.0, 17 },
+                    { 103, 2, 20000.0, 18 },
+                    { 104, 2, 20000.0, 18 },
+                    { 105, 4, 35000.0, 18 },
+                    { 106, 4, 35000.0, 18 },
+                    { 107, 8, 70000.0, 18 },
+                    { 108, 8, 70000.0, 18 },
+                    { 109, 2, 20000.0, 19 },
+                    { 110, 2, 20000.0, 19 },
+                    { 111, 4, 35000.0, 19 },
+                    { 112, 4, 35000.0, 19 },
+                    { 113, 8, 70000.0, 19 },
+                    { 114, 8, 70000.0, 19 },
+                    { 115, 2, 20000.0, 20 },
+                    { 116, 2, 20000.0, 20 },
+                    { 117, 4, 35000.0, 20 },
+                    { 118, 4, 35000.0, 20 },
+                    { 119, 8, 70000.0, 20 },
+                    { 120, 8, 70000.0, 20 },
+                    { 121, 2, 20000.0, 2021 },
+                    { 122, 2, 20000.0, 2021 },
+                    { 123, 4, 35000.0, 2021 },
+                    { 124, 4, 35000.0, 2021 },
+                    { 125, 8, 70000.0, 2021 },
+                    { 126, 8, 70000.0, 2021 }
                 });
 
             migrationBuilder.InsertData(
@@ -354,38 +498,6 @@ namespace Agencia.Migrations
                     { 1002, 1, 120000.0, 3, 1 },
                     { 2010, 1, 125000.0, 1024, 4 },
                     { 2011, 1, 130000.0, 1024, 5 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "usuarioHotel",
-                columns: new[] { "hotel_fk", "usuario_fk", "cantidad" },
-                values: new object[,]
-                {
-                    { 1, 1, 2 },
-                    { 2, 2, 0 },
-                    { 1, 3, 1 },
-                    { 3, 3, 1 },
-                    { 4, 4, 1 },
-                    { 5, 5, 0 },
-                    { 1, 6, 1 },
-                    { 2, 7, 0 },
-                    { 3, 8, 1 },
-                    { 4, 9, 0 },
-                    { 5, 10, 0 },
-                    { 1, 18, 2 },
-                    { 1, 1024, 1 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "usuarioHotel",
-                columns: new[] { "hotel_fk", "usuario_fk", "cantidad" },
-                values: new object[,]
-                {
-                    { 2, 1024, 0 },
-                    { 5, 1024, 2 },
-                    { 6, 1024, 0 },
-                    { 7, 1024, 1 },
-                    { 2021, 1024, 9 }
                 });
 
             migrationBuilder.InsertData(
@@ -410,15 +522,68 @@ namespace Agencia.Migrations
                     { 1024, 5 }
                 });
 
+            migrationBuilder.InsertData(
+                table: "reservaHotel",
+                columns: new[] { "id", "cantPersonas", "fechaDesde", "fechaHasta", "habitacion_fk", "pagado", "usuarioRH_fk" },
+                values: new object[,]
+                {
+                    { 1, 2, new DateTime(2023, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 150000.0, 1 },
+                    { 2, 2, new DateTime(2023, 11, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), 7, 120000.0, 2 },
+                    { 3, 2, new DateTime(2023, 10, 3, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 3, 9, 0, 0, 0, DateTimeKind.Unspecified), 13, 170000.0, 3 },
+                    { 4, 2, new DateTime(2023, 9, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 9, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), 19, 140000.0, 4 },
+                    { 5, 2, new DateTime(2023, 11, 1, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), 25, 110000.0, 5 },
+                    { 6, 2, new DateTime(2023, 10, 8, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 12, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 150000.0, 6 },
+                    { 7, 2, new DateTime(2023, 12, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 10, 9, 0, 0, 0, DateTimeKind.Unspecified), 7, 120000.0, 7 },
+                    { 8, 2, new DateTime(2023, 9, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 9, 30, 9, 0, 0, 0, DateTimeKind.Unspecified), 13, 170000.0, 8 },
+                    { 9, 2, new DateTime(2023, 11, 12, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 11, 17, 9, 0, 0, 0, DateTimeKind.Unspecified), 19, 140000.0, 9 },
+                    { 10, 2, new DateTime(2023, 12, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 12, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), 25, 110000.0, 10 },
+                    { 1002, 2, new DateTime(2023, 10, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 24, 9, 0, 0, 0, DateTimeKind.Unspecified), 1, 150000.0, 3 },
+                    { 2007, 2, new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 31, 9, 0, 0, 0, DateTimeKind.Unspecified), 7, 120000.0, 1024 },
+                    { 2008, 2, new DateTime(2023, 10, 11, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 18, 9, 0, 0, 0, DateTimeKind.Unspecified), 25, 110000.0, 1024 },
+                    { 2009, 2, new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified), 31, 160000.0, 1024 },
+                    { 2010, 2, new DateTime(2023, 10, 23, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 23, 9, 0, 0, 0, DateTimeKind.Unspecified), 37, 135000.0, 1024 },
+                    { 2011, 2, new DateTime(2023, 10, 2, 9, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified), 25, 110000.0, 1024 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "usuarioHabitacion",
+                columns: new[] { "habitaciones_fk", "usuarios_fk", "cantidad" },
+                values: new object[,]
+                {
+                    { 1, 1, 2 },
+                    { 7, 2, 0 },
+                    { 1, 3, 1 },
+                    { 13, 3, 1 },
+                    { 19, 4, 1 },
+                    { 25, 5, 0 },
+                    { 1, 6, 1 },
+                    { 7, 7, 0 },
+                    { 13, 8, 1 },
+                    { 19, 9, 0 },
+                    { 25, 10, 0 },
+                    { 1, 18, 2 },
+                    { 1, 1024, 1 },
+                    { 7, 1024, 0 },
+                    { 25, 1024, 2 },
+                    { 31, 1024, 0 },
+                    { 37, 1024, 1 },
+                    { 121, 1024, 9 }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_habitacion_hotel_fk",
+                table: "habitacion",
+                column: "hotel_fk");
+
             migrationBuilder.CreateIndex(
                 name: "IX_hotel_ciudad_fk",
                 table: "hotel",
                 column: "ciudad_fk");
 
             migrationBuilder.CreateIndex(
-                name: "IX_reservaHotel_hotel_fk",
+                name: "IX_reservaHotel_habitacion_fk",
                 table: "reservaHotel",
-                column: "hotel_fk");
+                column: "habitacion_fk");
 
             migrationBuilder.CreateIndex(
                 name: "IX_reservaHotel_usuarioRH_fk",
@@ -436,9 +601,9 @@ namespace Agencia.Migrations
                 column: "vuelo_fk");
 
             migrationBuilder.CreateIndex(
-                name: "IX_usuarioHotel_hotel_fk",
-                table: "usuarioHotel",
-                column: "hotel_fk");
+                name: "IX_usuarioHabitacion_habitaciones_fk",
+                table: "usuarioHabitacion",
+                column: "habitaciones_fk");
 
             migrationBuilder.CreateIndex(
                 name: "IX_usuarioVuelo_vuelo_fk",
@@ -465,19 +630,22 @@ namespace Agencia.Migrations
                 name: "reservaVuelo");
 
             migrationBuilder.DropTable(
-                name: "usuarioHotel");
+                name: "usuarioHabitacion");
 
             migrationBuilder.DropTable(
                 name: "usuarioVuelo");
 
             migrationBuilder.DropTable(
-                name: "hotel");
+                name: "habitacion");
 
             migrationBuilder.DropTable(
                 name: "usuario");
 
             migrationBuilder.DropTable(
                 name: "vuelo");
+
+            migrationBuilder.DropTable(
+                name: "hotel");
 
             migrationBuilder.DropTable(
                 name: "ciudad");

@@ -162,7 +162,7 @@ namespace Agencia.Migrations
 
                     b.HasIndex("hotel_fk");
 
-                    b.ToTable("Habitacion");
+                    b.ToTable("habitacion", (string)null);
 
                     b.HasData(
                         new
@@ -1078,127 +1078,148 @@ namespace Agencia.Migrations
                         {
                             id = 1,
                             ciudad_fk = 7,
-                            nombre = "Hotel Buenos Aires"
+                            imagen = "images/hotel/04a270ea-1772-4970-84ea-8511a77d344b_hotelGardenPlaza-Tucuman.png",
+                            nombre = "Garden Plaza"
                         },
                         new
                         {
                             id = 2,
                             ciudad_fk = 2,
-                            nombre = "Hotel Rosario"
+                            imagen = "images/hotel/04314e9f-5c9a-4f8a-8672-94781301b98f_selinaNuevaCordoba-Cordoba.png",
+                            nombre = "Selina Nueva Cordoba"
                         },
                         new
                         {
                             id = 3,
                             ciudad_fk = 3,
-                            nombre = "Hotel Córdoba"
+                            imagen = "images/hotel/79fdae4f-dfee-4262-9803-b1094618f216_americanPuertoRosarioHotel-Rosario.png",
+                            nombre = "American Puerto Rosario Hotel"
                         },
                         new
                         {
                             id = 4,
                             ciudad_fk = 4,
-                            nombre = "Hotel Mendoza"
+                            imagen = "images/hotel/c9252ae1-4112-4f7e-9ca2-7b87cb681dda_raicesAconcaguaHotel-Mendoza.png",
+                            nombre = "Raices Aconcagua Hotel"
                         },
                         new
                         {
                             id = 5,
                             ciudad_fk = 5,
-                            nombre = "Hotel San Juan"
+                            imagen = "images/hotel/0bf11e5f-3554-42a0-b0e0-6087fd485599_dazzlerByWyndhamLaPlata-La Plata.png",
+                            nombre = "Dazzler by Wyndham La Plata"
                         },
                         new
                         {
                             id = 6,
                             ciudad_fk = 6,
-                            nombre = "Hotel Mar del Plata"
+                            imagen = "images/hotel/5b90c67e-11a4-45f7-aa5f-36101400d3ac_hotelAatracMarDelPlata-Mar del Plata.png",
+                            nombre = "Hotel Aatrac Mar del Plata"
                         },
                         new
                         {
                             id = 7,
                             ciudad_fk = 7,
-                            nombre = "Hotel Tucumán"
+                            imagen = "images/hotel/bdbb374f-432c-4147-a5ce-499bbc0a292f_hotelPortalDelNorte-Tucuman.png",
+                            nombre = "Hotel Portal del Norte"
                         },
                         new
                         {
                             id = 8,
                             ciudad_fk = 8,
-                            nombre = "Hotel Salta"
+                            imagen = "images/hotel/a917a5f2-964c-4bb7-94d1-ec4ba0c2baae_hotelPosadaDelSolSalta-Salta.png",
+                            nombre = "Hotel Posada del Sol Salta"
                         },
                         new
                         {
                             id = 9,
                             ciudad_fk = 9,
-                            nombre = "Hotel Jujuy"
+                            imagen = "images/hotel/3bd2a198-62ac-47cd-8158-fd910db6fb15_hotelCastelar-Santa Fe.png",
+                            nombre = "Hotel Castelar"
                         },
                         new
                         {
                             id = 10,
                             ciudad_fk = 10,
-                            nombre = "Hotel Neuquén"
+                            imagen = "images/hotel/779f2715-5640-4c7e-af86-dbfc2f2b05a4_alhambraInnHotel-San Juan.png",
+                            nombre = "Alhambra Inn Hotel"
                         },
                         new
                         {
                             id = 11,
                             ciudad_fk = 1,
-                            nombre = "Hotel La Plata"
+                            imagen = "images/hotel/97148535-98f8-41a2-8584-678d3874d480_granHotelBuenosAires-Buenos Aires.png",
+                            nombre = "Gran Hotel Buenos Aires"
                         },
                         new
                         {
                             id = 12,
                             ciudad_fk = 2,
-                            nombre = "Hotel Santa Fe"
+                            imagen = "images/hotel/00475231-6fa4-4b8b-9ee6-5837912b6f28_howardJohnsonByWyndhamCordoba-Cordoba.png",
+                            nombre = "Howard Johnson by Wyndham Cordoba"
                         },
                         new
                         {
                             id = 13,
                             ciudad_fk = 3,
-                            nombre = "Hotel San Luis"
+                            imagen = "images/hotel/27806441-6c89-466a-9766-3264bb46cdaf_aristonHotel-Rosario.png",
+                            nombre = "Ariston Hotel"
                         },
                         new
                         {
                             id = 14,
                             ciudad_fk = 4,
-                            nombre = "Hotel Formosa"
+                            imagen = "images/hotel/8477278d-e8cc-49fe-8afb-1182f09f77e0_hotelPrincessGold-Mendoza.png",
+                            nombre = "Hotel Princess Gold"
                         },
                         new
                         {
                             id = 15,
                             ciudad_fk = 5,
-                            nombre = "Hotel Entre Ríos"
+                            imagen = "images/hotel/6c8fbd02-09ed-49c2-b4cc-3e2bbb0c17f9_hotelDelSol-La Plata.png",
+                            nombre = "Hotel del Sol"
                         },
                         new
                         {
                             id = 16,
                             ciudad_fk = 6,
-                            nombre = "Hotel Catamarca"
+                            imagen = "images/hotel/d76a8e6a-4453-4e94-9cf5-2f09fe59a298_hotelArgentino-Mar del Plata.png",
+                            nombre = "Hotel Argentino"
                         },
                         new
                         {
                             id = 17,
                             ciudad_fk = 7,
-                            nombre = "Hotel La Rioja"
+                            imagen = "images/hotel/dd74e84b-2fa4-455f-9064-a20e5cbb8230_hotelLePark-tucuman.png",
+                            nombre = "Hotel Le Park"
                         },
                         new
                         {
                             id = 18,
                             ciudad_fk = 8,
-                            nombre = "Hotel Chaco"
+                            imagen = "images/hotel/6e456053-c5b0-462e-a510-2722dbe875b6_hotelSamka-Salta.png",
+                            nombre = "Hotel Samka"
                         },
                         new
                         {
                             id = 19,
                             ciudad_fk = 9,
-                            nombre = "Hotel Tierra del Fuego"
+                            imagen = "images/hotel/15c46820-eb41-468f-833e-8a1aae28eade_puertoAmarrasHotel&Suites-Santa Fe.png",
+                            nombre = "Puerto Amarras Hotel & Suites"
                         },
                         new
                         {
                             id = 20,
                             ciudad_fk = 10,
-                            nombre = "Hotel Santa Cruz"
+                            imagen = "images/hotel/7ccd44f5-2b8d-4217-b152-10508cd991e0_hotelAlbertina-San Juan.png",
+                            nombre = "Hotel Albertina"
                         },
                         new
                         {
                             id = 2021,
                             ciudad_fk = 7,
-                            nombre = "PRUEBA"
+                            imagen = "images/hotel/9d04ad05-788c-4f24-b594-f7944b62eb62_sheratonTucumanHotel-Tucuman.png",
+                            nombre = "Sheraton Tucuman Hotel"
                         });
                 });
 

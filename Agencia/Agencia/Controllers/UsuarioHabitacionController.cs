@@ -48,7 +48,7 @@ namespace Agencia.Controllers
         // GET: UsuarioHabitacions/Create
         public IActionResult Create()
         {
-            ViewData["habitaciones_fk"] = new SelectList(_context.Habitacion, "id", "id");
+            ViewData["habitaciones_fk"] = new SelectList(_context.habitaciones, "id", "id");
             ViewData["usuarios_fk"] = new SelectList(_context.usuarios, "id", "apellido");
             return View();
         }
@@ -66,7 +66,7 @@ namespace Agencia.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["habitaciones_fk"] = new SelectList(_context.Habitacion, "id", "id", usuarioHabitacion.habitaciones_fk);
+            ViewData["habitaciones_fk"] = new SelectList(_context.habitaciones, "id", "id", usuarioHabitacion.habitaciones_fk);
             ViewData["usuarios_fk"] = new SelectList(_context.usuarios, "id", "apellido", usuarioHabitacion.usuarios_fk);
             return View(usuarioHabitacion);
         }
@@ -84,7 +84,7 @@ namespace Agencia.Controllers
             {
                 return NotFound();
             }
-            ViewData["habitaciones_fk"] = new SelectList(_context.Habitacion, "id", "id", usuarioHabitacion.habitaciones_fk);
+            ViewData["habitaciones_fk"] = new SelectList(_context.habitaciones, "id", "id", usuarioHabitacion.habitaciones_fk);
             ViewData["usuarios_fk"] = new SelectList(_context.usuarios, "id", "apellido", usuarioHabitacion.usuarios_fk);
             return View(usuarioHabitacion);
         }
@@ -121,7 +121,7 @@ namespace Agencia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["habitaciones_fk"] = new SelectList(_context.Habitacion, "id", "id", usuarioHabitacion.habitaciones_fk);
+            ViewData["habitaciones_fk"] = new SelectList(_context.habitaciones, "id", "id", usuarioHabitacion.habitaciones_fk);
             ViewData["usuarios_fk"] = new SelectList(_context.usuarios, "id", "apellido", usuarioHabitacion.usuarios_fk);
             return View(usuarioHabitacion);
         }

@@ -37,24 +37,88 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\21ba2f3f-6662-4960-8670-0d30e86bc4df_85f51cd6-3d1c-4284-9e51-5013bfccb1f7_nhGranHotelProvincial.jpg",
-      "PackagePath": "staticwebassets\\images\\hotel\\21ba2f3f-6662-4960-8670-0d30e86bc4df_85f51cd6-3d1c-4284-9e51-5013bfccb1f7_nhGranHotelProvincial.jpg"
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\00475231-6fa4-4b8b-9ee6-5837912b6f28_howardJohnsonByWyndhamCordoba-Cordoba.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\00475231-6fa4-4b8b-9ee6-5837912b6f28_howardJohnsonByWyndhamCordoba-Cordoba.png"
     },
     {
-      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\7eee78ff-b901-414d-b103-1cc5aa64a4a0_chalpHosteria.jpg",
-      "PackagePath": "staticwebassets\\images\\hotel\\7eee78ff-b901-414d-b103-1cc5aa64a4a0_chalpHosteria.jpg"
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\04314e9f-5c9a-4f8a-8672-94781301b98f_selinaNuevaCordoba-Cordoba.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\04314e9f-5c9a-4f8a-8672-94781301b98f_selinaNuevaCordoba-Cordoba.png"
     },
     {
-      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\85f51cd6-3d1c-4284-9e51-5013bfccb1f7_nhGranHotelProvincial.jpg",
-      "PackagePath": "staticwebassets\\images\\hotel\\85f51cd6-3d1c-4284-9e51-5013bfccb1f7_nhGranHotelProvincial.jpg"
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\04a270ea-1772-4970-84ea-8511a77d344b_hotelGardenPlaza-Tucuman.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\04a270ea-1772-4970-84ea-8511a77d344b_hotelGardenPlaza-Tucuman.png"
     },
     {
-      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\9cf1abf5-da87-4ccb-9484-11f3e5a9fe8d_b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg",
-      "PackagePath": "staticwebassets\\images\\hotel\\9cf1abf5-da87-4ccb-9484-11f3e5a9fe8d_b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg"
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\0bf11e5f-3554-42a0-b0e0-6087fd485599_dazzlerByWyndhamLaPlata-La Plata.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\0bf11e5f-3554-42a0-b0e0-6087fd485599_dazzlerByWyndhamLaPlata-La Plata.png"
     },
     {
-      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg",
-      "PackagePath": "staticwebassets\\images\\hotel\\b2476477-8c64-46d0-bdff-44330a56cc2c_hotel&CasinoCondorDeLosAndes.jpg"
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\15c46820-eb41-468f-833e-8a1aae28eade_puertoAmarrasHotel&Suites-Santa Fe.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\15c46820-eb41-468f-833e-8a1aae28eade_puertoAmarrasHotel&Suites-Santa Fe.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\27806441-6c89-466a-9766-3264bb46cdaf_aristonHotel-Rosario.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\27806441-6c89-466a-9766-3264bb46cdaf_aristonHotel-Rosario.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\3bd2a198-62ac-47cd-8158-fd910db6fb15_hotelCastelar-Santa Fe.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\3bd2a198-62ac-47cd-8158-fd910db6fb15_hotelCastelar-Santa Fe.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\5b90c67e-11a4-45f7-aa5f-36101400d3ac_hotelAatracMarDelPlata-Mar del Plata.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\5b90c67e-11a4-45f7-aa5f-36101400d3ac_hotelAatracMarDelPlata-Mar del Plata.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\6c8fbd02-09ed-49c2-b4cc-3e2bbb0c17f9_hotelDelSol-La Plata.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\6c8fbd02-09ed-49c2-b4cc-3e2bbb0c17f9_hotelDelSol-La Plata.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\6e456053-c5b0-462e-a510-2722dbe875b6_hotelSamka-Salta.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\6e456053-c5b0-462e-a510-2722dbe875b6_hotelSamka-Salta.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\779f2715-5640-4c7e-af86-dbfc2f2b05a4_alhambraInnHotel-San Juan.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\779f2715-5640-4c7e-af86-dbfc2f2b05a4_alhambraInnHotel-San Juan.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\79fdae4f-dfee-4262-9803-b1094618f216_americanPuertoRosarioHotel-Rosario.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\79fdae4f-dfee-4262-9803-b1094618f216_americanPuertoRosarioHotel-Rosario.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\7ccd44f5-2b8d-4217-b152-10508cd991e0_hotelAlbertina-San Juan.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\7ccd44f5-2b8d-4217-b152-10508cd991e0_hotelAlbertina-San Juan.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\8477278d-e8cc-49fe-8afb-1182f09f77e0_hotelPrincessGold-Mendoza.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\8477278d-e8cc-49fe-8afb-1182f09f77e0_hotelPrincessGold-Mendoza.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\97148535-98f8-41a2-8584-678d3874d480_granHotelBuenosAires-Buenos Aires.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\97148535-98f8-41a2-8584-678d3874d480_granHotelBuenosAires-Buenos Aires.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\9d04ad05-788c-4f24-b594-f7944b62eb62_sheratonTucumanHotel-Tucuman.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\9d04ad05-788c-4f24-b594-f7944b62eb62_sheratonTucumanHotel-Tucuman.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\a917a5f2-964c-4bb7-94d1-ec4ba0c2baae_hotelPosadaDelSolSalta-Salta.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\a917a5f2-964c-4bb7-94d1-ec4ba0c2baae_hotelPosadaDelSolSalta-Salta.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\bdbb374f-432c-4147-a5ce-499bbc0a292f_hotelPortalDelNorte-Tucuman.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\bdbb374f-432c-4147-a5ce-499bbc0a292f_hotelPortalDelNorte-Tucuman.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\c9252ae1-4112-4f7e-9ca2-7b87cb681dda_raicesAconcaguaHotel-Mendoza.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\c9252ae1-4112-4f7e-9ca2-7b87cb681dda_raicesAconcaguaHotel-Mendoza.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\d76a8e6a-4453-4e94-9cf5-2f09fe59a298_hotelArgentino-Mar del Plata.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\d76a8e6a-4453-4e94-9cf5-2f09fe59a298_hotelArgentino-Mar del Plata.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\hotel\\dd74e84b-2fa4-455f-9064-a20e5cbb8230_hotelLePark-tucuman.png",
+      "PackagePath": "staticwebassets\\images\\hotel\\dd74e84b-2fa4-455f-9064-a20e5cbb8230_hotelLePark-tucuman.png"
     },
     {
       "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\inicial_nombre.png",
@@ -63,6 +127,10 @@
     {
       "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\images\\noImageFound.png",
       "PackagePath": "staticwebassets\\images\\noImageFound.png"
+    },
+    {
+      "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\js\\botonCompra.js",
+      "PackagePath": "staticwebassets\\js\\botonCompra.js"
     },
     {
       "Id": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\wwwroot\\js\\popover.js",

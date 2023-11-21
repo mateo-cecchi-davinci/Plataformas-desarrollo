@@ -21,19 +21,19 @@ namespace Agencia.Controllers
         // GET: ReservaHabitacions
         public async Task<IActionResult> Index()
         {
-            var context = _context.reservasHotel.Include(r => r.miHabitacion).Include(r => r.miUsuario);
+            var context = _context.reservasHabitacion.Include(r => r.miHabitacion).Include(r => r.miUsuario);
             return View(await context.ToListAsync());
         }
 
         // GET: ReservaHabitacions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.reservasHotel == null)
+            if (id == null || _context.reservasHabitacion == null)
             {
                 return NotFound();
             }
 
-            var reservaHabitacion = await _context.reservasHotel
+            var reservaHabitacion = await _context.reservasHabitacion
                 .Include(r => r.miHabitacion)
                 .Include(r => r.miUsuario)
                 .FirstOrDefaultAsync(m => m.id == id);
@@ -48,7 +48,7 @@ namespace Agencia.Controllers
         // GET: ReservaHabitacions/Create
         public IActionResult Create()
         {
-            ViewData["habitacion_fk"] = new SelectList(_context.Habitacion, "id", "id");
+            ViewData["habitacion_fk"] = new SelectList(_context.habitaciones, "id", "id");
             ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido");
             return View();
         }
@@ -66,7 +66,7 @@ namespace Agencia.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["habitacion_fk"] = new SelectList(_context.Habitacion, "id", "id", reservaHabitacion.habitacion_fk);
+            ViewData["habitacion_fk"] = new SelectList(_context.habitaciones, "id", "id", reservaHabitacion.habitacion_fk);
             ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHabitacion.usuarioRH_fk);
             return View(reservaHabitacion);
         }
@@ -74,17 +74,17 @@ namespace Agencia.Controllers
         // GET: ReservaHabitacions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.reservasHotel == null)
+            if (id == null || _context.reservasHabitacion == null)
             {
                 return NotFound();
             }
 
-            var reservaHabitacion = await _context.reservasHotel.FindAsync(id);
+            var reservaHabitacion = await _context.reservasHabitacion.FindAsync(id);
             if (reservaHabitacion == null)
             {
                 return NotFound();
             }
-            ViewData["habitacion_fk"] = new SelectList(_context.Habitacion, "id", "id", reservaHabitacion.habitacion_fk);
+            ViewData["habitacion_fk"] = new SelectList(_context.habitaciones, "id", "id", reservaHabitacion.habitacion_fk);
             ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHabitacion.usuarioRH_fk);
             return View(reservaHabitacion);
         }
@@ -121,7 +121,7 @@ namespace Agencia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["habitacion_fk"] = new SelectList(_context.Habitacion, "id", "id", reservaHabitacion.habitacion_fk);
+            ViewData["habitacion_fk"] = new SelectList(_context.habitaciones, "id", "id", reservaHabitacion.habitacion_fk);
             ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHabitacion.usuarioRH_fk);
             return View(reservaHabitacion);
         }
@@ -129,12 +129,12 @@ namespace Agencia.Controllers
         // GET: ReservaHabitacions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.reservasHotel == null)
+            if (id == null || _context.reservasHabitacion == null)
             {
                 return NotFound();
             }
 
-            var reservaHabitacion = await _context.reservasHotel
+            var reservaHabitacion = await _context.reservasHabitacion
                 .Include(r => r.miHabitacion)
                 .Include(r => r.miUsuario)
                 .FirstOrDefaultAsync(m => m.id == id);
@@ -151,14 +151,14 @@ namespace Agencia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.reservasHotel == null)
+            if (_context.reservasHabitacion == null)
             {
                 return Problem("Entity set 'Context.reservasHotel'  is null.");
             }
-            var reservaHabitacion = await _context.reservasHotel.FindAsync(id);
+            var reservaHabitacion = await _context.reservasHabitacion.FindAsync(id);
             if (reservaHabitacion != null)
             {
-                _context.reservasHotel.Remove(reservaHabitacion);
+                _context.reservasHabitacion.Remove(reservaHabitacion);
             }
             
             await _context.SaveChangesAsync();
@@ -167,7 +167,7 @@ namespace Agencia.Controllers
 
         private bool ReservaHabitacionExists(int id)
         {
-          return _context.reservasHotel.Any(e => e.id == id);
+          return _context.reservasHabitacion.Any(e => e.id == id);
         }
     }
 }
