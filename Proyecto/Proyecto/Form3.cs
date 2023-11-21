@@ -763,7 +763,7 @@ namespace Proyecto
         {
             if (reservaHotelSeleccionada != -1)
             {
-                if (miAgencia.elminarReservaHotel(reservaHotelSeleccionada))
+                if (miAgencia.eliminarReservaHotel(reservaHotelSeleccionada))
                     MessageBox.Show("Eliminada con exito");
                 else
                     MessageBox.Show("Problemas al eliminar");
@@ -933,7 +933,7 @@ namespace Proyecto
         {
             if (reservaVueloSeleccionada != -1)
             {
-                if (miAgencia.elminarReservaVuelo(reservaVueloSeleccionada))
+                if (miAgencia.eliminarReservaVuelo(reservaVueloSeleccionada))
                     MessageBox.Show("Eliminada con exito");
                 else
                     MessageBox.Show("Problemas al eliminar");

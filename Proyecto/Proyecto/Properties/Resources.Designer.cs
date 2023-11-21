@@ -61,7 +61,7 @@ namespace Proyecto.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Source=(localdb)\MateServer;Initial Catalog=agencia-Tp3;Integrated Security=True.
+        ///   Looks up a localized string similar to Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=agencia-tp3;Integrated Security=True.
         /// </summary>
         internal static string ConnectionStr {
             get {

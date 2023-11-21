@@ -596,7 +596,7 @@ namespace Proyecto
                 MessageBox.Show("Crédito insuficiente");
                 return false;
             }
-            
+
             hotelSeleccionado.misReservas.ForEach(r =>
             {
                 if (r.fechaDesde <= fechaHasta && r.fechaHasta >= fechaDesde && r.id != id)
@@ -688,7 +688,7 @@ namespace Proyecto
             return false;
         }
 
-        public bool elminarReservaHotel(int id)
+        public bool eliminarReservaHotel(int id)
         {
             var reservaHotel = contexto.reservasHotel.FirstOrDefault(rh => rh.id.Equals(id));
 
@@ -699,18 +699,20 @@ namespace Proyecto
                     reservaHotel.miUsuario.credito += reservaHotel.pagado;
                 }
 
-                contexto.usuarioHotel.ForEachAsync(uh =>
+                var usuarioHotel = contexto.usuarioHotel.FirstOrDefault(uh => uh.usuario == reservaHotel.miUsuario && uh.hotel == reservaHotel.miHotel);
+
+                if (usuarioHotel != null)
                 {
-                    if (uh.usuario == reservaHotel.miUsuario && uh.hotel == reservaHotel.miHotel && uh.cantidad > 1)
+                    if (usuarioHotel.cantidad > 1)
                     {
-                        uh.cantidad--;
-                        contexto.usuarioHotel.Update(uh);
+                        usuarioHotel.cantidad--;
+                        contexto.usuarioHotel.Update(usuarioHotel);
                     }
                     else
                     {
-                        contexto.usuarioHotel.Remove(uh);
+                        contexto.usuarioHotel.Remove(usuarioHotel);
                     }
-                });
+                }
 
                 reservaHotel.miUsuario.misReservasHoteles.Remove(reservaHotel);
                 contexto.usuarios.Update(reservaHotel.miUsuario);
@@ -906,7 +908,7 @@ namespace Proyecto
             return false;
         }
 
-        public bool elminarReservaVuelo(int id)
+        public bool eliminarReservaVuelo(int id)
         {
             var reservaVuelo = contexto.reservasVuelo.FirstOrDefault(rv => rv.id.Equals(id));
 
@@ -917,13 +919,12 @@ namespace Proyecto
                     reservaVuelo.miUsuario.credito += reservaVuelo.pagado;
                 }
 
-                contexto.usuarioVuelo.ForEachAsync(uv =>
+                var usuarioVuelo = contexto.usuarioVuelo.FirstOrDefault( uv => uv.usuario == reservaVuelo.miUsuario && uv.vuelo == reservaVuelo.miVuelo);
+
+                if (usuarioVuelo != null)
                 {
-                    if (uv.usuario == reservaVuelo.miUsuario && uv.vuelo == reservaVuelo.miVuelo)
-                    {
-                        contexto.usuarioVuelo.Remove(uv);
-                    }
-                });
+                    contexto.usuarioVuelo.Remove(usuarioVuelo);
+                }
 
                 reservaVuelo.miUsuario.misReservasVuelos.Remove(reservaVuelo);
                 contexto.usuarios.Update(reservaVuelo.miUsuario);
