@@ -164,6 +164,7 @@ namespace Agencia.Models
                     h.Property(h => h.nombre).HasColumnType("varchar(50)");
                     h.Property(h => h.nombre).IsRequired(true);
                     h.Property(h => h.imagen).HasColumnType("varchar(255)");
+                    h.Property(h => h.descripcion).HasColumnType("varchar(255)");
                 });
 
             modelBuilder.Entity<Habitacion>(
@@ -260,27 +261,27 @@ namespace Agencia.Models
                 new { id = 20, nombre = "Concordia" });
 
             modelBuilder.Entity<Hotel>().HasData(
-                new { id = 1, nombre = "Garden Plaza", ciudad_fk = 7, imagen = "images/hotel/04a270ea-1772-4970-84ea-8511a77d344b_hotelGardenPlaza-Tucuman.png" },
-                new { id = 2, nombre = "Selina Nueva Cordoba", ciudad_fk = 2, imagen = "images/hotel/04314e9f-5c9a-4f8a-8672-94781301b98f_selinaNuevaCordoba-Cordoba.png" },
-                new { id = 3, nombre = "American Puerto Rosario Hotel", ciudad_fk = 3, imagen = "images/hotel/79fdae4f-dfee-4262-9803-b1094618f216_americanPuertoRosarioHotel-Rosario.png" },
-                new { id = 4, nombre = "Raices Aconcagua Hotel", ciudad_fk = 4, imagen = "images/hotel/c9252ae1-4112-4f7e-9ca2-7b87cb681dda_raicesAconcaguaHotel-Mendoza.png" },
-                new { id = 5, nombre = "Dazzler by Wyndham La Plata", ciudad_fk = 5, imagen = "images/hotel/0bf11e5f-3554-42a0-b0e0-6087fd485599_dazzlerByWyndhamLaPlata-La Plata.png" },
-                new { id = 6, nombre = "Hotel Aatrac Mar del Plata", ciudad_fk = 6, imagen = "images/hotel/5b90c67e-11a4-45f7-aa5f-36101400d3ac_hotelAatracMarDelPlata-Mar del Plata.png" },
-                new { id = 7, nombre = "Hotel Portal del Norte", ciudad_fk = 7, imagen = "images/hotel/bdbb374f-432c-4147-a5ce-499bbc0a292f_hotelPortalDelNorte-Tucuman.png" },
-                new { id = 8, nombre = "Hotel Posada del Sol Salta", ciudad_fk = 8, imagen = "images/hotel/a917a5f2-964c-4bb7-94d1-ec4ba0c2baae_hotelPosadaDelSolSalta-Salta.png" },
-                new { id = 9, nombre = "Hotel Castelar", ciudad_fk = 9, imagen = "images/hotel/3bd2a198-62ac-47cd-8158-fd910db6fb15_hotelCastelar-Santa Fe.png" },
-                new { id = 10, nombre = "Alhambra Inn Hotel", ciudad_fk = 10, imagen = "images/hotel/779f2715-5640-4c7e-af86-dbfc2f2b05a4_alhambraInnHotel-San Juan.png" },
-                new { id = 11, nombre = "Gran Hotel Buenos Aires", ciudad_fk = 1, imagen = "images/hotel/97148535-98f8-41a2-8584-678d3874d480_granHotelBuenosAires-Buenos Aires.png" },
-                new { id = 12, nombre = "Howard Johnson by Wyndham Cordoba", ciudad_fk = 2, imagen = "images/hotel/00475231-6fa4-4b8b-9ee6-5837912b6f28_howardJohnsonByWyndhamCordoba-Cordoba.png" },
-                new { id = 13, nombre = "Ariston Hotel", ciudad_fk = 3, imagen = "images/hotel/27806441-6c89-466a-9766-3264bb46cdaf_aristonHotel-Rosario.png" },
-                new { id = 14, nombre = "Hotel Princess Gold", ciudad_fk = 4, imagen = "images/hotel/8477278d-e8cc-49fe-8afb-1182f09f77e0_hotelPrincessGold-Mendoza.png" },
-                new { id = 15, nombre = "Hotel del Sol", ciudad_fk = 5, imagen = "images/hotel/6c8fbd02-09ed-49c2-b4cc-3e2bbb0c17f9_hotelDelSol-La Plata.png" },
-                new { id = 16, nombre = "Hotel Argentino", ciudad_fk = 6, imagen = "images/hotel/d76a8e6a-4453-4e94-9cf5-2f09fe59a298_hotelArgentino-Mar del Plata.png" },
-                new { id = 17, nombre = "Hotel Le Park", ciudad_fk = 7, imagen = "images/hotel/dd74e84b-2fa4-455f-9064-a20e5cbb8230_hotelLePark-tucuman.png" },
-                new { id = 18, nombre = "Hotel Samka", ciudad_fk = 8, imagen = "images/hotel/6e456053-c5b0-462e-a510-2722dbe875b6_hotelSamka-Salta.png" },
-                new { id = 19, nombre = "Puerto Amarras Hotel & Suites", ciudad_fk = 9, imagen = "images/hotel/15c46820-eb41-468f-833e-8a1aae28eade_puertoAmarrasHotel&Suites-Santa Fe.png" },
-                new { id = 20, nombre = "Hotel Albertina", ciudad_fk = 10, imagen = "images/hotel/7ccd44f5-2b8d-4217-b152-10508cd991e0_hotelAlbertina-San Juan.png" },
-                new { id = 2021, nombre = "Sheraton Tucuman Hotel", ciudad_fk = 7, imagen = "images/hotel/9d04ad05-788c-4f24-b594-f7944b62eb62_sheratonTucumanHotel-Tucuman.png" });
+                new { id = 1, nombre = "Garden Plaza", ciudad_fk = 7, imagen = "images/hotel/04a270ea-1772-4970-84ea-8511a77d344b_hotelGardenPlaza-Tucuman.png", descripcion = "San Miguel de Tucumán, Centro histórico. A 287 m del centro" },
+                new { id = 2, nombre = "Selina Nueva Cordoba", ciudad_fk = 2, imagen = "images/hotel/04314e9f-5c9a-4f8a-8672-94781301b98f_selinaNuevaCordoba-Cordoba.png", descripcion = "Córdoba, Barrio ItuzaingóA 445 m del centro" },
+                new { id = 3, nombre = "American Puerto Rosario Hotel", ciudad_fk = 3, imagen = "images/hotel/79fdae4f-dfee-4262-9803-b1094618f216_americanPuertoRosarioHotel-Rosario.png", descripcion = "Rosario, Centro. A 966 m del centro" },
+                new { id = 4, nombre = "Raices Aconcagua Hotel", ciudad_fk = 4, imagen = "images/hotel/c9252ae1-4112-4f7e-9ca2-7b87cb681dda_raicesAconcaguaHotel-Mendoza.png", descripcion = "Mendoza, Centro. A 390 m del centro" },
+                new { id = 5, nombre = "Dazzler by Wyndham La Plata", ciudad_fk = 5, imagen = "images/hotel/0bf11e5f-3554-42a0-b0e0-6087fd485599_dazzlerByWyndhamLaPlata-La Plata.png", descripcion = "Buenos Aires, La Plata. A 2,5 km del Museo de la Plata" },
+                new { id = 6, nombre = "Hotel Aatrac Mar del Plata", ciudad_fk = 6, imagen = "images/hotel/5b90c67e-11a4-45f7-aa5f-36101400d3ac_hotelAatracMarDelPlata-Mar del Plata.png", descripcion = "Mar del Plata. A 9,13 km del centro" },
+                new { id = 7, nombre = "Hotel Portal del Norte", ciudad_fk = 7, imagen = "images/hotel/bdbb374f-432c-4147-a5ce-499bbc0a292f_hotelPortalDelNorte-Tucuman.png", descripcion = " San Miguel de Tucumán, Argentina. A 3,39 km del centro" },
+                new { id = 8, nombre = "Hotel Posada del Sol Salta", ciudad_fk = 8, imagen = "images/hotel/a917a5f2-964c-4bb7-94d1-ec4ba0c2baae_hotelPosadaDelSolSalta-Salta.png", descripcion = "Salta, Centro. A 226 m del centro" },
+                new { id = 9, nombre = "Hotel Castelar", ciudad_fk = 9, imagen = "images/hotel/3bd2a198-62ac-47cd-8158-fd910db6fb15_hotelCastelar-Santa Fe.png", descripcion = "Santa Fe, Argentina. A 1,93 km del centro" },
+                new { id = 10, nombre = "Alhambra Inn Hotel", ciudad_fk = 10, imagen = "images/hotel/779f2715-5640-4c7e-af86-dbfc2f2b05a4_alhambraInnHotel-San Juan.png", descripcion = "San Juan. A 205 m del centro" },
+                new { id = 11, nombre = "Gran Hotel Buenos Aires", ciudad_fk = 1, imagen = "images/hotel/97148535-98f8-41a2-8584-678d3874d480_granHotelBuenosAires-Buenos Aires.png", descripcion = "Buenos Aires, Recoleta. A 1,10 km del centro" },
+                new { id = 12, nombre = "Howard Johnson by Wyndham Cordoba", ciudad_fk = 2, imagen = "images/hotel/00475231-6fa4-4b8b-9ee6-5837912b6f28_howardJohnsonByWyndhamCordoba-Cordoba.png", descripcion = "Córdoba, Argentina. A 31,70 km del centro" },
+                new { id = 13, nombre = "Ariston Hotel", ciudad_fk = 3, imagen = "images/hotel/27806441-6c89-466a-9766-3264bb46cdaf_aristonHotel-Rosario.png", descripcion = "Rosario, Argentina. A 2,38 km del centro" },
+                new { id = 14, nombre = "Hotel Princess Gold", ciudad_fk = 4, imagen = "images/hotel/8477278d-e8cc-49fe-8afb-1182f09f77e0_hotelPrincessGold-Mendoza.png", descripcion = "Mendoza, Argentina. A 346 m del centro" },
+                new { id = 15, nombre = "Hotel del Sol", ciudad_fk = 5, imagen = "images/hotel/6c8fbd02-09ed-49c2-b4cc-3e2bbb0c17f9_hotelDelSol-La Plata.png", descripcion = "Buenos Aires, La Plata. A 5,35 km del centro" },
+                new { id = 16, nombre = "Hotel Argentino", ciudad_fk = 6, imagen = "images/hotel/d76a8e6a-4453-4e94-9cf5-2f09fe59a298_hotelArgentino-Mar del Plata.png", descripcion = "Buenos Aires, Argentina. A 297 m del centro" },
+                new { id = 17, nombre = "Hotel Le Park", ciudad_fk = 7, imagen = "images/hotel/dd74e84b-2fa4-455f-9064-a20e5cbb8230_hotelLePark-tucuman.png", descripcion = "San Miguel de Tucumán, Argentina. A 1,81 km del centro" },
+                new { id = 18, nombre = "Hotel Samka", ciudad_fk = 8, imagen = "images/hotel/6e456053-c5b0-462e-a510-2722dbe875b6_hotelSamka-Salta.png", descripcion = "Salta, Centro. A 704 m del centro" },
+                new { id = 19, nombre = "Puerto Amarras Hotel & Suites", ciudad_fk = 9, imagen = "images/hotel/15c46820-eb41-468f-833e-8a1aae28eade_puertoAmarrasHotel&Suites-Santa Fe.png", descripcion = "Santa Fe. A 2,37 km del centro" },
+                new { id = 20, nombre = "Hotel Albertina", ciudad_fk = 10, imagen = "images/hotel/7ccd44f5-2b8d-4217-b152-10508cd991e0_hotelAlbertina-San Juan.png", descripcion = "San Juan, Argentina. A 43 m del centro" },
+                new { id = 2021, nombre = "Sheraton Tucuman Hotel", ciudad_fk = 7, imagen = "images/hotel/9d04ad05-788c-4f24-b594-f7944b62eb62_sheratonTucumanHotel-Tucuman.png", descripcion = "San Miguel de Tucumán, Barrio Norte. A 1,34 km del centro" });
 
             modelBuilder.Entity<Habitacion>().HasData(
                 new { id = 1, capacidad = 2, costo = 20000.00, hotel_fk = 1 },
