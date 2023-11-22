@@ -18,7 +18,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="capacidad" class="control-label"></label>
-                <input asp-for="capacidad" class="form-control" />
+                <select asp-for="capacidad" class="form-control">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="8">8</option>
+                </select>
                 <span asp-validation-for="capacidad" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -51,12 +51,15 @@ namespace Agencia.Controllers
             return View();
         }
 
+        // POST: Habitacion/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,capacidad,costo,hotel_fk")] Habitacion habitacion, int cantidad)
         {
             if (ModelState.IsValid)
             {
+                //VALIDAR Q LA CAPACIDAD SEA 2-4-8
+
                 for (int i = 0; i < cantidad; i++)
                 {
                     var nuevaHabitacion = new Habitacion
@@ -109,6 +112,8 @@ namespace Agencia.Controllers
             {
                 try
                 {
+                    //VALIDAR Q LA CAPACIDAD SEA 2-4-8
+
                     _context.Update(habitacion);
                     await _context.SaveChangesAsync();
                 }
