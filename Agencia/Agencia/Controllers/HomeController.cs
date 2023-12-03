@@ -73,7 +73,7 @@ namespace Agencia.Controllers
             var hoteles = _context.hoteles
                 .Include(h => h.ubicacion)
                 .Include(h => h.habitaciones)
-                .Where(hotel => hotel.ubicacion.nombre == destination)
+                .Where(hotel => hotel.ubicacion.nombre == destination) //AGREGAR FILTROS ACA
                 .ToList();
             var vuelos = _context.vuelos
                 .Include(v => v.origen)

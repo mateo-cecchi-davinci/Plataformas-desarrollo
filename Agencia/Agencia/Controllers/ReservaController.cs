@@ -64,25 +64,61 @@ namespace Agencia.Controllers
             //}
 
             var habitacionesDisponibles = hotel.habitaciones
-                .GroupBy(habitacion => habitacion.capacidad) 
+                .GroupBy(habitacion => habitacion.capacidad)
                 .ToDictionary(group => group.Key, group => group.Count());
 
             bool hab_suficientes = habitacionesDisponibles.TryGetValue(2, out int disponiblesCapacidad2) &&
                                            habitacionesDisponibles.TryGetValue(4, out int disponiblesCapacidad4) &&
-                                           habitacionesDisponibles.TryGetValue(8 , out int disponiblesCapacidad8) &&
+                                           habitacionesDisponibles.TryGetValue(8, out int disponiblesCapacidad8) &&
                                            disponiblesCapacidad2 >= habitacionesChicas &&
                                            disponiblesCapacidad4 >= habitacionesMedianas &&
                                            disponiblesCapacidad8 >= habitacionesGrandes;
 
             if (hab_suficientes)
             {
+                List<Habitacion> hab_Chicas = new List<Habitacion>();
+                List<Habitacion> hab_Medianas = new List<Habitacion>();
+                List<Habitacion> hab_Grandes = new List<Habitacion>();
+
                 foreach (var habitacion in hotel.habitaciones)
                 {
-                    bool habitacionDisponible = !habitacion.misReservas.Any(reserva =>
-                        reserva.fechaDesde <= fechaHasta && reserva.fechaHasta >= fechaDesde);
-
-                    if (habitacionDisponible)
+                    if (!habitacion.misReservas.Any(reserva => reserva.fechaDesde >= fechaHasta && reserva.fechaHasta <= fechaDesde))
                     {
+                        if (habitacion.capacidad == 2 && habitacionesChicas > 0)
+                        {
+                            hab_Chicas.Add(habitacion);
+                            habitacionesChicas--;
+                        }
+
+                        if (habitacion.capacidad == 2 && habitacionesMedianas > 0)
+                        {
+                            hab_Medianas.Add(habitacion);
+                            habitacionesMedianas--;
+                        }
+
+                        if (habitacion.capacidad == 2 && habitacionesGrandes > 0)
+                        {
+                            hab_Grandes.Add(habitacion);
+                            habitacionesGrandes--;
+                        }
+                    }
+                }
+
+                if (habitacionesGrandes == 0 && habitacionesMedianas == 0 && habitacionesChicas == 0)
+                {
+                    //aca hay disponibilidad para hacer la reserva 
+                    //Listas cargadas y c/u de esas habitaciones hay q reservalas
+                }
+                else
+                {
+                    //no se puede reservar
+                }
+
+                    //bool habitacionDisponible = !habitacion.misReservas.Any(reserva =>
+                    //    reserva.fechaDesde <= fechaHasta && reserva.fechaHasta >= fechaDesde);
+
+                    //if (habitacionDisponible)
+                    //{
                         //AGREGAR LOGICA DEL USUARIO LOGGEADO QUE ESTA HACIENDO LA RESERVA
 
                         //var nuevaReserva = new ReservaHabitacion
@@ -106,12 +142,12 @@ namespace Agencia.Controllers
                         //_context.SaveChanges();
 
 
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         // Lógica en caso de que no haya disponibilidad en alguna habitación
-                    }
-                }
+                    //}
+                
             }
 
             return View();
