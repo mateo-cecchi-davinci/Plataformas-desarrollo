@@ -55,9 +55,10 @@
             </div>
         </nav>
     </header>
-
-    <div class="sidebar fixed-top">
-        <div class="profile">
+    @if (!string.IsNullOrEmpty(ViewBag.usuarioLogeado))
+    {
+        <div class="sidebar fixed-top">
+            <div class="profile">
             <div class="logo_details py-4">
                 <i class="bx bx-planet icon"></i>
                 <div class="logo_name">Explora Mundi</div>
@@ -102,16 +103,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a asp-area="" asp-controller="Login" asp-action="Logout">
                         <i class="bx bx-log-out mt-1" id="log_out"></i>
                         <span class="link_name">Salir</span>
                     </a>
-                    @* <form id="logout-form" action="" method="POST" class="d-none"></form> *@
                 </li>
             </ul>
         </div>
     </div>
-
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
