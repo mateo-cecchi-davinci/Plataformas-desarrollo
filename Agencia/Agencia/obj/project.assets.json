@@ -11053,19 +11053,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\20418749572\\.nuget\\packages\\": {}
+    "C:\\Users\\Emma\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\Agencia.csproj",
+      "projectUniqueName": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrolloPresentacionMiercoles\\Agencia\\Agencia\\Agencia.csproj",
       "projectName": "Agencia",
-      "projectPath": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\Agencia.csproj",
-      "packagesPath": "C:\\Users\\20418749572\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\20418749572\\source\\repos\\Agencia\\Agencia\\obj\\",
+      "projectPath": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrolloPresentacionMiercoles\\Agencia\\Agencia\\Agencia.csproj",
+      "packagesPath": "C:\\Users\\Emma\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Emma\\Source\\Repos\\Plataformas-desarrolloPresentacionMiercoles\\Agencia\\Agencia\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\20418749572\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Emma\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11129,7 +11129,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
