@@ -17,44 +17,43 @@
     <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css" />
 </head>
 <body>
+    
+    
     <header>
-        @* <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Agencia</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav> *@
-        <nav class="navbar navbar-expand-lg topBar">
+
+       
+            <nav class="navbar navbar-expand-lg topBar">
             <div class="display-menu-icon">
                 <i class="bx bx-menu fs-1 ms-3 text-white"></i>
             </div>
+            @{
+                bool isAdmin = false;
+                @if (!string.IsNullOrEmpty(ViewBag.usuarioLogeado))
+                {
             <div class="user-navbar">
                 <div class="user2-img">
                     <img src="~/images/inicial_nombre.png" alt="Perfil" class="img-fluid">
                     <div class="first-letter">
-                        M
+                                @if (!string.IsNullOrEmpty(ViewBag.usuarioLogeado))
+                                {
+                                    <text>@ViewBag.usuarioLogeado[0].ToString().ToUpper()</text>
+                                }
                     </div>
                 </div>
                 <div class="text-end username-role">
-                    <div class="username">Nombre</div>
-                    <div class="role">Administrador</div>
+                    <div class="username">@ViewBag.usuarioLogeado</div>
+                            @if (ViewBag.isAdmin)
+                            {
+                                <div class="role">Administrador</div>
+                            }
                 </div>
-            </div>
+            </div>}
+            }
         </nav>
+        
+        
     </header>
+    
     @if (!string.IsNullOrEmpty(ViewBag.usuarioLogeado))
     {
         <div class="sidebar fixed-top">
@@ -68,16 +67,17 @@
         <div data-simplebar class="sidebar-content">
             <div class="profile_details">
                 <div class="profile_content">
-                    <div class="name">Nombre</div>
-                    <div class="designation">Nombre@gmail.com</div>
+                            <div class="name">@ViewBag.usuarioLogeado</div>
+                    <div class="designation">@ViewBag.usuarioMail</div>
                 </div>
                 <div class="user-img">
                     <img src="~/images/inicial_nombre.png" alt="Foto de perfil" class="img-fluid">
                     <div class="first-letter">
-                        M
+                            <text>@ViewBag.usuarioLogeado[0].ToString().ToUpper()</text>
                     </div>
                 </div>
             </div>
+            <br>
             <ul class="p-0 mt-5 ms-3">
                 <li>
                     <i class="bx bx-search"></i>
@@ -95,13 +95,17 @@
                         <span class="link_name">Paquetes turísticos</span>
                     </a>
                 </li>
-                <div class="line"></div>
-                <li>
-                    <a asp-controller="Home" asp-action="Base">
-                        <i class="bx bx-data mt-1"></i>
-                        <span class="link_name">Base de datos</span>
-                    </a>
-                </li>
+               
+                @if (ViewBag.isAdmin != null && bool.TryParse(ViewBag.isAdmin.ToString(), out isAdmin) && isAdmin)
+                    { 
+                        <div class="line"></div>
+                        <li>
+                            <a asp-controller="Home" asp-action="Base">
+                                <i class="bx bx-data mt-1"></i>
+                                <span class="link_name">Base de datos</span>
+                            </a>
+                        </li>
+                    }
                 <li>
                     <a asp-area="" asp-controller="Login" asp-action="Logout">
                         <i class="bx bx-log-out mt-1" id="log_out"></i>
@@ -112,6 +116,7 @@
         </div>
     </div>
     }
+    
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

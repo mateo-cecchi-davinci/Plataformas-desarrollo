@@ -21,6 +21,19 @@ namespace Agencia.Controllers
         // GET: ReservaHabitacions
         public async Task<IActionResult> Index()
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
             var context = _context.reservasHabitacion.Include(r => r.miHabitacion).Include(r => r.miUsuario);
             return View(await context.ToListAsync());
         }
