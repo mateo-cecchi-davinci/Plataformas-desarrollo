@@ -20,13 +20,29 @@ namespace Agencia.Controllers
 
         public IActionResult Index()
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
             var hoteles = _context.hoteles.Include(h => h.ubicacion).ToList();
             var vuelos = _context.vuelos.Include(v => v.origen).Include(v => v.destino).ToList();
 
             ViewData["hoteles"] = hoteles;
             ViewData["vuelos"] = vuelos;
-
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
             return View();
         }
 
@@ -65,6 +81,19 @@ namespace Agencia.Controllers
 
         public IActionResult Base()
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
             return View();
         }
 

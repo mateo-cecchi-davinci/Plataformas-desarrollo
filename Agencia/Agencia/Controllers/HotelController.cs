@@ -21,6 +21,19 @@ namespace Agencia.Controllers
         // GET: Hotels
         public async Task<IActionResult> Index()
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
             var context = _context.hoteles.Include(h => h.ubicacion);
             return View(await context.ToListAsync());
         }
