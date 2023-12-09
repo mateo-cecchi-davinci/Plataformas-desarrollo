@@ -15,14 +15,8 @@ namespace Agencia.Controllers
 
         public ActionResult Index()
         {
-            
-            return View("Index");
-        }
 
-        public IActionResult Registrar()
-        {
-            ViewData["ErrorMessage"] = TempData["ErrorMessage"];
-            return View();
+            return View("Index");
         }
 
         public ActionResult Login(string email, string password)
@@ -33,19 +27,13 @@ namespace Agencia.Controllers
             {
                 if (user.isAdmin)
                 {
-                    HttpContext.Session.SetString("UsuarioLogeado", user.nombre);
                     HttpContext.Session.SetString("esAdmin", user.isAdmin.ToString());
-                    HttpContext.Session.SetString("userMail", user.mail);
-
-                    return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    HttpContext.Session.SetString("userMail", user.mail);
-                    HttpContext.Session.SetString("UsuarioLogeado", user.nombre);
-                    return RedirectToAction("Index", "Home");
 
-                }
+                HttpContext.Session.SetString("userMail", user.mail);
+                HttpContext.Session.SetString("UsuarioLogeado", user.nombre);
+
+                return RedirectToAction("Index", "Home");
 
             }
             else
@@ -55,9 +43,15 @@ namespace Agencia.Controllers
             }
         }
 
-        public IActionResult RegUser(string nombre, string apellido, int dni, string mail, string clave, string clave2)
+        public IActionResult Registrar()
         {
-            if (clave!=clave2) 
+            ViewData["ErrorMessage"] = TempData["ErrorMessage"];
+            return View();
+        }
+
+        public IActionResult RegUser(string nombre, string apellido, int dni, string mail, string clave, string repetirClave)
+        {
+            if (clave != repetirClave)
             {
                 TempData["ErrorMessage"] = "Las contraseñas no coinciden.";
                 return RedirectToAction("Registrar");
@@ -65,16 +59,14 @@ namespace Agencia.Controllers
 
             var MailRegistrado = _context.usuarios.FirstOrDefault(u => u.mail == mail);
 
-            if (MailRegistrado != null) 
+            if (MailRegistrado != null)
             {
 
                 TempData["ErrorMessage"] = "Email ya registrado";
                 return RedirectToAction("Registrar");
             }
 
-             
-           
-                var nuevoUsuario = new Usuario
+            var nuevoUsuario = new Usuario
             {
                 nombre = nombre,
                 apellido = apellido,
@@ -90,13 +82,8 @@ namespace Agencia.Controllers
             _context.usuarios.Add(nuevoUsuario);
             _context.SaveChanges();
 
-            return RedirectToAction("Index"); 
-
-
-            
+            return RedirectToAction("Index");
         }
-
-
 
         public IActionResult LogOut()
         {

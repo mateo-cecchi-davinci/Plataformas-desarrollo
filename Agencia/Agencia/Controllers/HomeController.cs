@@ -27,14 +27,14 @@ namespace Agencia.Controllers
 
             if (!string.IsNullOrEmpty(esAdminString))
             {
-
                 bool.TryParse(esAdminString, out isAdmin);
             }
 
-            if (usuarioLogeado == null) 
+            if (usuarioLogeado == null)
             {
                 return RedirectToAction("Index", "Login");
             }
+
             var hoteles = _context.hoteles.Include(h => h.ubicacion).ToList();
             var vuelos = _context.vuelos.Include(v => v.origen).Include(v => v.destino).ToList();
 

@@ -2,42 +2,45 @@
     ViewData["Title"] = "Iniciar sesion";
 }
 
-<div class="text-center">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center">Iniciar sesión</h3>
-                    </div>
-                    @if (ViewData.ModelState.ContainsKey(string.Empty) && ViewData.ModelState[string.Empty].Errors.Any())
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @ViewData.ModelState[string.Empty].Errors.First().ErrorMessage
-                        </div>
-                    }
-                    <div class="card-body">
-                        <form method="post" action="@Url.Action("Login", "Login")">
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Correo electrónico</label>
-                                <input type="text" class="form-control" id="email" name="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                            </div>
-                        </form>
+<body class="login-bg">
+    <div class="login-content">
+        <div class="justify-content-center grid-login">
+            <div class="card login-card flex-fill">
+                <i class="bx bx-planet icon text-center fs-2 mt-5 mb-2"></i>
+                <div class="text-center my-3 fs-3">Iniciar sesion</div>
 
+                @if (ViewData.ModelState.ContainsKey(string.Empty) && ViewData.ModelState[string.Empty].Errors.Any())
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @ViewData.ModelState[string.Empty].Errors.First().ErrorMessage
                     </div>
-                    <div class="card-footer text-muted">
-                        ¿No tienes una cuenta? <a asp-controller="Login" asp-action="Registrar">Regístrate aquí</a>
-                    </div>
+                }
+
+                <div class="card-body pb-5">
+                    <form method="post" action="@Url.Action("Login", "Login")" class="form-login">
+
+                        <div class="mb-3">
+                            <input type="email" class="form-control" name="email" required autofocus placeholder="Correo*">
+                        </div>
+
+                        <div class="mb-5 mt-4">
+                            <input type="password" class="form-control" name="password" required placeholder="Contraseña*">
+                        </div>
+
+                        <div class="d-flex justify-content-evenly text-center">
+                            <div>
+                                <a class="btn btn-lg" asp-controller="Login" asp-action="Registrar">Registrarse</a>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-success btn-lg">Acceder</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+            </div>
+            <div class="bg-login d-none d-lg-flex justify-content-center align-items-center ms-5 ps-5">
+                <h1>Bienvenido!</h1>
             </div>
         </div>
     </div>
-
-</div>
+</body>

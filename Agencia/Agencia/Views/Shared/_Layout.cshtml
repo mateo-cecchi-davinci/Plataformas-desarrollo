@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Inicio</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/registro.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/sidebar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/topbar.css" asp-append-version="true" />
@@ -17,87 +19,76 @@
     <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css" />
 </head>
 <body>
-    
-    
-    <header>
 
-       
-            <nav class="navbar navbar-expand-lg topBar">
-            <div class="display-menu-icon">
-                <i class="bx bx-menu fs-1 ms-3 text-white"></i>
-            </div>
-            @{
-                bool isAdmin = false;
-                @if (!string.IsNullOrEmpty(ViewBag.usuarioLogeado))
-                {
-            <div class="user-navbar">
-                <div class="user2-img">
-                    <img src="~/images/inicial_nombre.png" alt="Perfil" class="img-fluid">
-                    <div class="first-letter">
-                                @if (!string.IsNullOrEmpty(ViewBag.usuarioLogeado))
-                                {
-                                    <text>@ViewBag.usuarioLogeado[0].ToString().ToUpper()</text>
-                                }
-                    </div>
-                </div>
-                <div class="text-end username-role">
-                    <div class="username">@ViewBag.usuarioLogeado</div>
-                            @if (ViewBag.isAdmin)
-                            {
-                                <div class="role">Administrador</div>
-                            }
-                </div>
-            </div>}
-            }
-        </nav>
-        
-        
-    </header>
-    
+
     @if (!string.IsNullOrEmpty(ViewBag.usuarioLogeado))
     {
-        <div class="sidebar fixed-top">
-            <div class="profile">
-            <div class="logo_details py-4">
-                <i class="bx bx-planet icon"></i>
-                <div class="logo_name">Explora Mundi</div>
-                <i id="btn"></i>
-            </div>
-        </div>
-        <div data-simplebar class="sidebar-content">
-            <div class="profile_details">
-                <div class="profile_content">
-                            <div class="name">@ViewBag.usuarioLogeado</div>
-                    <div class="designation">@ViewBag.usuarioMail</div>
+        <header>
+            <nav class="navbar navbar-expand-lg topBar">
+                <div class="display-menu-icon">
+                    <i class="bx bx-menu fs-1 ms-3 text-white"></i>
                 </div>
-                <div class="user-img">
-                    <img src="~/images/inicial_nombre.png" alt="Foto de perfil" class="img-fluid">
-                    <div class="first-letter">
-                            <text>@ViewBag.usuarioLogeado[0].ToString().ToUpper()</text>
+
+                <div class="user-navbar">
+                    <div class="user2-img">
+                        <img src="~/images/inicial_nombre.png" alt="Perfil" class="img-fluid">
+                        <div class="first-letter">
+                            @ViewBag.usuarioLogeado[0].ToString().ToUpper()
+                        </div>
+                    </div>
+                    <div class="text-end username-role">
+                        <div class="username">@ViewBag.usuarioLogeado</div>
+                        @if (ViewBag.isAdmin)
+                        {
+                            <div class="role">Administrador</div>
+                        }
                     </div>
                 </div>
+            </nav>
+        </header>
+
+        <div class="sidebar fixed-top">
+            <div class="profile">
+                <div class="logo_details py-4">
+                    <i class="bx bx-planet icon"></i>
+                    <div class="logo_name">Explora Mundi</div>
+                    <i id="btn"></i>
+                </div>
             </div>
-            <br>
-            <ul class="p-0 mt-5 ms-3">
-                <li>
-                    <i class="bx bx-search"></i>
-                    <input type="text" placeholder="Buscar...">
-                </li>
-                <li>
-                    <a asp-area="" asp-controller="Home" asp-action="Index">
-                        <i class="bx bx-home mt-1"></i>
-                        <span class="link_name">Inicio</span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-controller="Home" asp-action="Paquetes">
-                        <i class="bx bx-world mt-1"></i>
-                        <span class="link_name">Paquetes turísticos</span>
-                    </a>
-                </li>
-               
-                @if (ViewBag.isAdmin != null && bool.TryParse(ViewBag.isAdmin.ToString(), out isAdmin) && isAdmin)
-                    { 
+            <div data-simplebar class="sidebar-content">
+                <div class="profile_details">
+                    <div class="profile_content">
+                        <div class="name">@ViewBag.usuarioLogeado</div>
+                        <div class="designation">@ViewBag.usuarioMail</div>
+                    </div>
+                    <div class="user-img">
+                        <img src="~/images/inicial_nombre.png" alt="Foto de perfil" class="img-fluid">
+                        <div class="first-letter">
+                            <text>@ViewBag.usuarioLogeado[0].ToString().ToUpper()</text>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <ul class="p-0 mt-5 ms-3">
+                    <li>
+                        <i class="bx bx-search"></i>
+                        <input type="text" placeholder="Buscar...">
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="bx bx-home mt-1"></i>
+                            <span class="link_name">Inicio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="Paquetes">
+                            <i class="bx bx-world mt-1"></i>
+                            <span class="link_name">Paquetes turísticos</span>
+                        </a>
+                    </li>
+
+                    @if (ViewBag.isAdmin)
+                    {
                         <div class="line"></div>
                         <li>
                             <a asp-controller="Home" asp-action="Base">
@@ -106,28 +97,31 @@
                             </a>
                         </li>
                     }
-                <li>
-                    <a asp-area="" asp-controller="Login" asp-action="Logout">
-                        <i class="bx bx-log-out mt-1" id="log_out"></i>
-                        <span class="link_name">Salir</span>
-                    </a>
-                </li>
-            </ul>
+
+                    <li>
+                        <a asp-area="" asp-controller="Login" asp-action="Logout">
+                            <i class="bx bx-log-out mt-1" id="log_out"></i>
+                            <span class="link_name">Salir</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
     }
-    
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Agencia - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    @if (!string.IsNullOrEmpty(ViewBag.usuarioLogeado))
+    {
+        <footer class="border-top footer text-muted">
+            <div class="container">&copy; 2023 - Agencia - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></div>
+        </footer>
+    }
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/sidebar.js" asp-append-version="true"></script>
