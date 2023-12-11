@@ -285,3 +285,6 @@
     user-select: none;
 }
 
+.reservar-vuelo {
+    cursor: pointer;
+}

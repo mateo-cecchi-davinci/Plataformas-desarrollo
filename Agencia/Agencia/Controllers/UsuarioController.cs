@@ -18,6 +18,42 @@ namespace Agencia.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Perfil()
+        {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+
+            var usuario = await _context.usuarios
+                .Include(u => u.misReservasHabitaciones).ThenInclude(rh => rh.miHabitacion).ThenInclude(h => h.hotel)
+                .Include(u => u.misReservasVuelos).ThenInclude(rv => rv.miVuelo).ThenInclude(v => v.origen)
+                .Include(u => u.habitacionesUsadas)
+                .Include(u => u.vuelosTomados).ThenInclude(v => v.destino)
+                .FirstOrDefaultAsync(u => u.mail == usuarioMail);
+
+            if (usuario != null)
+            {
+                return View(usuario);
+            }
+
+            return NotFound();
+        }
+
+
+        //------------CRUD------------
+
+
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
@@ -31,9 +67,11 @@ namespace Agencia.Controllers
 
                 bool.TryParse(esAdminString, out isAdmin);
             }
+
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
+
             return View(await _context.usuarios.ToListAsync());
         }
 
@@ -160,14 +198,14 @@ namespace Agencia.Controllers
             {
                 _context.usuarios.Remove(usuario);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool UsuarioExists(int id)
         {
-          return _context.usuarios.Any(e => e.id == id);
+            return _context.usuarios.Any(e => e.id == id);
         }
     }
 }

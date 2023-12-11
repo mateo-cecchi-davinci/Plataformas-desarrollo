@@ -1,0 +1,249 @@
+﻿@model Agencia.Models.Usuario
+
+@{
+    ViewData["Title"] = "Perfil";
+}
+
+<h1>Perfil</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.dni)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.dni)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.apellido)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.apellido)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.mail)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.mail)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.credito)
+        </dt>
+        <dd class="col-sm-10">
+            $@Html.DisplayFor(model => model.credito)
+        </dd>
+    </dl>
+
+    <h1>Habitaciones reservadas</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Hotel
+                </th>
+                <th>
+                    Habitaciones
+                </th>
+                <th>
+                    Fecha desde
+                </th>
+                <th>
+                    Fecha hasta
+                </th>
+                <th>
+                    Pago
+                </th>
+                <th>
+                    Cantidad de personas
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reservaHabitacion in Model.misReservasHabitaciones)
+            {
+                <tr>
+                    <td>
+                        @reservaHabitacion.miHabitacion.hotel.nombre
+                    </td>
+                    <td>
+                        @if (@reservaHabitacion.miHabitacion.capacidad == 2)
+                        {
+                            @:Habitacion Chica
+                        }
+
+                        @if (@reservaHabitacion.miHabitacion.capacidad == 4)
+                        {
+                            @:Habitacion Mediana
+                        }
+
+                        @if (@reservaHabitacion.miHabitacion.capacidad == 8)
+                        {
+                            @:Habitacion Grande
+                        }
+                    </td>
+                    <td>
+                        @reservaHabitacion.fechaDesde.ToShortDateString()
+                    </td>
+                    <td>
+                        @reservaHabitacion.fechaHasta.ToShortDateString()
+                    </td>
+                    <td>
+                        @reservaHabitacion.pagado
+                    </td>
+                    <td>
+                        @reservaHabitacion.cantPersonas
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h1>Vuelos reservados</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Origen
+                </th>
+                <th>
+                    Destino
+                </th>
+                <th>
+                    Fecha
+                </th>
+                <th>
+                    Pago
+                </th>
+                <th>
+                    Cantidad de personas
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reservaVuelo in Model.misReservasVuelos)
+            {
+                <tr>
+                    <td>
+                        @reservaVuelo.miVuelo.origen.nombre
+                    </td>
+                    <td>
+                        @reservaVuelo.miVuelo.destino.nombre
+                    </td>
+                    <td>
+                        @reservaVuelo.miVuelo.fecha.ToShortDateString()
+                    </td>
+                    <td>
+                        @reservaVuelo.pagado
+                    </td>
+                    <td>
+                        @reservaVuelo.cantPersonas
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h1>Habitaciones Visitadas</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Hotel
+                </th>
+                <th>
+                    Habitacion
+                </th>
+                <th>
+                    Cantidad de veces visitada
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario_habitacion in Model.usuario_habitacion)
+            {
+                @foreach (var habitacion in Model.habitacionesUsadas)
+                {
+                    @if (usuario_habitacion.usuarios_fk == Model.id && usuario_habitacion.habitaciones_fk == habitacion.id)
+                    {
+                        <tr>
+                            <td>
+                                @habitacion.hotel.nombre
+                            </td>
+                            <td>
+                                @if (@habitacion.capacidad == 2)
+                                {
+                                    @:Habitacion Chica
+                                }
+
+                                @if (@habitacion.capacidad == 4)
+                                {
+                                    @:Habitacion Mediana
+                                }
+
+                                @if (@habitacion.capacidad == 8)
+                                {
+                                    @:Habitacion Grande
+                                }
+                            </td>
+                            <td>
+                                @usuario_habitacion.cantidad
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+    <h1>Vuelos tomados</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Origen
+                </th>
+                <th>
+                    Destino
+                </th>
+                <th>
+                    Fecha
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario_vuelo in Model.usuario_vuelo)
+            {
+                @foreach (var vuelo in Model.vuelosTomados)
+                {
+                    @if (usuario_vuelo.usuario_fk == Model.id && usuario_vuelo.vuelo_fk == vuelo.id)
+                    {
+                        <tr>
+                            <td>
+                                @vuelo.origen.nombre
+                            </td>
+                            <td>
+                                @vuelo.destino.nombre
+                            </td>
+                            <td>
+                                @vuelo.fecha.ToShortDateString()
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-controller="Hotel" asp-action="Home">Volver</a>
+</div>

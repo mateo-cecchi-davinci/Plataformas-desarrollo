@@ -33,7 +33,7 @@ namespace Agencia.Controllers
                 HttpContext.Session.SetString("userMail", user.mail);
                 HttpContext.Session.SetString("UsuarioLogeado", user.nombre);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Home", "Hotel");
 
             }
             else

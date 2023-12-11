@@ -74,7 +74,7 @@
                         <i class="bx bx-search"></i>
                         <input type="text" placeholder="Buscar...">
                     </li>
-                    <li>
+                    @* <li>
                         <a asp-area="" asp-controller="Home" asp-action="Index">
                             <i class="bx bx-home mt-1"></i>
                             <span class="link_name">Inicio</span>
@@ -84,6 +84,18 @@
                         <a asp-controller="Home" asp-action="Paquetes">
                             <i class="bx bx-world mt-1"></i>
                             <span class="link_name">Paquetes turísticos</span>
+                        </a>
+                    </li> *@
+                    <li>
+                        <a asp-controller="Hotel" asp-action="Home">
+                            <i class="bx bx-hotel mt-1"></i>
+                            <span class="link_name">Alojamiento</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Vuelo" asp-action="Home">
+                            <i class="bx bxs-plane-take-off mt-1"></i>
+                            <span class="link_name">Vuelo</span>
                         </a>
                     </li>
 
@@ -97,6 +109,13 @@
                             </a>
                         </li>
                     }
+
+                    <li>
+                        <a asp-controller="Usuario" asp-action="Perfil">
+                            <i class="bx bx-user mt-1"></i>
+                            <span class="link_name">Mi Perfil</span>
+                        </a>
+                    </li>
 
                     <li>
                         <a asp-area="" asp-controller="Login" asp-action="Logout">
@@ -115,18 +134,18 @@
         </main>
     </div>
 
-    @if (!string.IsNullOrEmpty(ViewBag.usuarioLogeado))
+    @* @if (!string.IsNullOrEmpty(ViewBag.usuarioLogeado))
     {
         <footer class="border-top footer text-muted">
             <div class="container">&copy; 2023 - Agencia - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></div>
         </footer>
-    }
+    } *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/sidebar.js" asp-append-version="true"></script>
-    <script src="~/js/popover.js" asp-append-version="true"></script>
-    <script src="~/js/botonCompra.js" asp-append-version="true"></script>
+    <script src="~/js/reservarHotel.js" asp-append-version="true"></script>
+    @* <script src="~/js/botonCompra.js" asp-append-version="true"></script> *@
     @* <script src="~/js/package-details.js" asp-append-version="true"></script>
     <script src="~/js/btn-delete.js" asp-append-version="true"></script> *@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

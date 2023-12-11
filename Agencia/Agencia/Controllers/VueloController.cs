@@ -18,8 +18,128 @@ namespace Agencia.Controllers
             _context = context;
         }
 
-        // GET: Vuelo
-        public async Task<IActionResult> Index()
+        public IActionResult Home()
+        {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            var vuelos = _context.vuelos.Include(v => v.origen).Include(v => v.destino).ToList();
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+            ViewData["vuelos"] = vuelos;
+
+            return View();
+        }
+
+        public IActionResult ResultadosDeLaBusqueda(string origin, string destination, DateTime? start_date, int people)
+        {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            var vuelos = _context.vuelos.Include(v => v.origen).Include(v => v.destino).ToList();
+
+            if (!string.IsNullOrEmpty(origin))
+            {
+                vuelos = vuelos.Where(v => v.origen.nombre.ToLower().Contains(origin.ToLower())).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(destination))
+            {
+                vuelos = vuelos.Where(v => v.destino.nombre.ToLower().Contains(destination.ToLower())).ToList();
+            }
+
+            if (start_date != null)
+            {
+                vuelos = vuelos.Where(v => v.fecha.Date == start_date.Value.Date).ToList();
+            }
+
+            vuelos = vuelos.Where(v => v.capacidad - v.vendido >= people).ToList();
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+            ViewBag.people = people;
+            ViewData["vuelos"] = vuelos;
+
+            return View("Home");
+        }
+
+        [HttpPost]
+        public IActionResult Reservar(int id, int people)
+        {
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+
+            var usuario = _context.usuarios.FirstOrDefault(u => u.mail == usuarioMail);
+
+            if (usuario != null)
+            {
+                var vuelo = _context.vuelos.FirstOrDefault(v => v.id == id);
+
+                if (vuelo != null)
+                {
+                    if (people == 0)
+                    {
+                        people = 1;
+                    }
+
+                    double pago = vuelo.costo * people;
+
+                    if (pago <= usuario.credito)
+                    {
+                        var usuario_vuelo = _context.usuarioVuelo.FirstOrDefault(uv => uv.usuario_fk == usuario.id && uv.vuelo_fk == vuelo.id);
+
+                        if (usuario_vuelo == null)
+                        {
+                            usuario_vuelo = new UsuarioVuelo(usuario.id, vuelo.id);
+
+                            _context.usuarioVuelo.Add(usuario_vuelo);
+                        }
+
+                        vuelo.vendido += people;
+                        usuario.credito -= pago;
+
+                        var nuevaReserva = new ReservaVuelo(vuelo, usuario, pago, people, vuelo.id, usuario.id);
+
+                        usuario.misReservasVuelos.Add(nuevaReserva);
+                        vuelo.misReservas.Add(nuevaReserva);
+
+                        _context.reservasVuelo.Add(nuevaReserva);
+                        _context.usuarios.Update(usuario);
+                        _context.vuelos.Update(vuelo);
+                        _context.SaveChanges();
+
+                        return Ok();
+                    }
+                }
+            }
+
+            return NotFound();
+        }
+
+
+            //------------CRUD------------
+
+
+            // GET: Vuelo
+            public async Task<IActionResult> Index()
         {
             string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
             string esAdminString = HttpContext.Session.GetString("esAdmin");
