@@ -57,12 +57,6 @@ namespace Agencia.Controllers
                 bool.TryParse(esAdminString, out isAdmin);
             }
 
-            var hoteles = _context.hoteles
-                .Include(h => h.ubicacion)
-                .Include(h => h.habitaciones)
-                .Where(hotel => hotel.ubicacion.nombre == destination) //AGREGAR FILTROS ACA
-                .ToList();
-
             TimeSpan diferencia = end_date.Subtract(start_date);
             int cantDias = diferencia.Days;
 
@@ -90,23 +84,41 @@ namespace Agencia.Controllers
                 }
             }
 
-            var hotelesSeleccionados = hoteles
-                .Where(h => h.habitaciones.Count(hab => hab.capacidad == 2) >= habitaciones_chicas &&
-                    h.habitaciones.Count(hab => hab.capacidad == 4) >= habitaciones_medianas &&
-                    h.habitaciones.Count(hab => hab.capacidad == 8) >= habitaciones_grandes)
-                .Select(hotel => new
-                {
-                    hotel.id,
-                    hotel.nombre,
-                    hotel.descripcion,
-                    hotel.imagen,
-                    costo = hotel.habitaciones
-                        .Where(hab => hab.capacidad == 2 || hab.capacidad == 4 || hab.capacidad == 8)
-                        .Take(habitaciones_chicas + habitaciones_medianas + habitaciones_grandes)
-                        .Sum(hab => hab.costo)
-                })
-            .ToList();
+            var hoteles = _context.hoteles
+                .Include(h => h.ubicacion)
+                .Include(h => h.habitaciones)
+                .Where(hotel => hotel.ubicacion.nombre == destination &&
+                    hotel.habitaciones.Count(hab => hab.capacidad == 2) >= habitaciones_chicas &&
+                    hotel.habitaciones.Count(hab => hab.capacidad == 4) >= habitaciones_medianas &&
+                    hotel.habitaciones.Count(hab => hab.capacidad == 8) >= habitaciones_grandes)
+                .ToList();
 
+            var costo_habitaciones_chicas = _context.habitaciones
+                .ToList()
+                .Where(habitacion => hoteles.Any(h => h.id == habitacion.hotel_fk) && habitacion.capacidad == 2)
+                .Select(habitacion => habitacion.costo * habitaciones_chicas)
+                .ToList();
+
+            var costo_habitaciones_medianas = _context.habitaciones
+                .ToList()
+                .Where(habitacion => hoteles.Any(h => h.id == habitacion.hotel_fk) && habitacion.capacidad == 4)
+                .Select(habitacion => habitacion.costo * habitaciones_medianas)
+                .ToList();
+
+            var costo_habitaciones_grandes = _context.habitaciones
+                .ToList()
+                .Where(habitacion => hoteles.Any(h => h.id == habitacion.hotel_fk) && habitacion.capacidad == 8)
+                .Select(habitacion => habitacion.costo * habitaciones_grandes)
+                .ToList();
+
+            var sumaCostosPorHotel = costo_habitaciones_chicas
+                .Zip(costo_habitaciones_medianas, (chicas, medianas) => chicas + medianas)
+                .Zip(costo_habitaciones_grandes, (subtotal, grandes) => subtotal + grandes)
+                .ToList();
+
+            var diccionarioCostosPorHotel = hoteles
+                .Select((hotel, index) => new { hotel, costo = sumaCostosPorHotel[index] })
+                .ToDictionary(x => x.hotel, x => x.costo);
 
             int total_adultos = adultos.Values.Sum();
             int total_menores = menores.Values.Sum();
@@ -114,7 +126,7 @@ namespace Agencia.Controllers
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
-            ViewBag.hotelesSeleccionados = hotelesSeleccionados;
+            ViewBag.hotelesSeleccionados = diccionarioCostosPorHotel;
             ViewBag.fecha_desde = start_date;
             ViewBag.fecha_hasta = end_date;
             ViewBag.cantDias = cantDias;

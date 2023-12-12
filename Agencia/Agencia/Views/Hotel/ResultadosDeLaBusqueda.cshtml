@@ -8,11 +8,11 @@
 
 @foreach (var item in ViewBag.hotelesSeleccionados)
 {
-    var id = item.id;
-    var nombre = item.nombre;
-    var imagen = item.imagen;
-    var descripcion = item.descripcion;
-    var costo = item.costo;
+    int id = item.Key.id;
+    string nombre = item.Key.nombre;
+    string imagen = item.Key.imagen;
+    string descripcion = item.Key.descripcion;
+    var costo = item.Value;
 
     double personas = ViewBag.total_adultos + (ViewBag.total_menores - ViewBag.total_menores * 0.15);
     double impuesto_pais = costo * 0.3;

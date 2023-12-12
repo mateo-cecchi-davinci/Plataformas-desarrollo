@@ -21,26 +21,59 @@ namespace Agencia.Controllers
 
         public ActionResult Login(string email, string password)
         {
-            var user = _context.usuarios.FirstOrDefault(u => u.mail == email && u.clave == password);
+            var user = _context.usuarios.FirstOrDefault(u => u.mail.Equals(email));
 
             if (user != null)
             {
-                if (user.isAdmin)
+                if (user.bloqueado)
                 {
-                    HttpContext.Session.SetString("esAdmin", user.isAdmin.ToString());
+                    ModelState.AddModelError(string.Empty, "El usuario está bloqueado. Contáctese con un administrador.");
+
+                    return View("Index");
                 }
 
-                HttpContext.Session.SetString("userMail", user.mail);
-                HttpContext.Session.SetString("UsuarioLogeado", user.nombre);
+                if (user.clave.Equals(password))
+                {
+                    if (user.isAdmin)
+                    {
+                        HttpContext.Session.SetString("esAdmin", user.isAdmin.ToString());
+                    }
 
-                return RedirectToAction("Home", "Hotel");
+                    HttpContext.Session.SetString("userMail", user.mail);
+                    HttpContext.Session.SetString("UsuarioLogeado", user.nombre);
 
+                    user.intentosFallidos = 0;
+
+                    _context.usuarios.Update(user);
+                    _context.SaveChanges();
+
+                    return RedirectToAction("Home", "Hotel");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error, mail o contraseña incorrectos");
+
+                    user.intentosFallidos++;
+
+                    _context.usuarios.Update(user);
+                    _context.SaveChanges();
+
+                    if (user.intentosFallidos >= 3)
+                    {
+                        user.bloqueado = true;
+
+                        _context.usuarios.Update(user);
+                        _context.SaveChanges();
+
+                        ModelState.AddModelError(string.Empty, "El usuario ha sido bloqueado debido a múltiples intentos fallidos.");
+                    }
+
+                    return View("Index");
+                }
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Email y contraseña incorrectas!");
-                return View("Index");
-            }
+            
+            ModelState.AddModelError(string.Empty, "Mail no registrado");
+            return View("Index");
         }
 
         public IActionResult Registrar()
