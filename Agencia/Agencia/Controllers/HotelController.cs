@@ -96,24 +96,33 @@ namespace Agencia.Controllers
             var costo_habitaciones_chicas = _context.habitaciones
                 .ToList()
                 .Where(habitacion => hoteles.Any(h => h.id == habitacion.hotel_fk) && habitacion.capacidad == 2)
-                .Select(habitacion => habitacion.costo * habitaciones_chicas)
+                .GroupBy(habitacion => habitacion.hotel_fk)
+                .Select(group => group.First())
                 .ToList();
+
+            var costos_chicas = costo_habitaciones_chicas.Select(habitacion => habitacion.costo * habitaciones_chicas).ToList();
 
             var costo_habitaciones_medianas = _context.habitaciones
                 .ToList()
                 .Where(habitacion => hoteles.Any(h => h.id == habitacion.hotel_fk) && habitacion.capacidad == 4)
-                .Select(habitacion => habitacion.costo * habitaciones_medianas)
+                .GroupBy(habitacion => habitacion.hotel_fk)
+                .Select(group => group.First())
                 .ToList();
+
+            var costos_medianas = costo_habitaciones_medianas.Select(habitacion => habitacion.costo * habitaciones_medianas).ToList();
 
             var costo_habitaciones_grandes = _context.habitaciones
                 .ToList()
                 .Where(habitacion => hoteles.Any(h => h.id == habitacion.hotel_fk) && habitacion.capacidad == 8)
-                .Select(habitacion => habitacion.costo * habitaciones_grandes)
+                .GroupBy(habitacion => habitacion.hotel_fk)
+                .Select(group => group.First())
                 .ToList();
 
-            var sumaCostosPorHotel = costo_habitaciones_chicas
-                .Zip(costo_habitaciones_medianas, (chicas, medianas) => chicas + medianas)
-                .Zip(costo_habitaciones_grandes, (subtotal, grandes) => subtotal + grandes)
+            var costos_grandes = costo_habitaciones_grandes.Select(habitacion => habitacion.costo * habitaciones_grandes).ToList();
+
+            var sumaCostosPorHotel = costos_chicas
+                .Zip(costos_medianas, (chicas, medianas) => chicas + medianas)
+                .Zip(costos_grandes, (subtotal, grandes) => subtotal + grandes)
                 .ToList();
 
             var diccionarioCostosPorHotel = hoteles
