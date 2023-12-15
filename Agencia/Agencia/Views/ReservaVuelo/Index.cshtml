@@ -4,50 +4,53 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="d-flex justify-content-between align-items-center my-5">
+    <h1>Reservas de vuelos</h1>
+    <p>
+        <a asp-action="Create" type="button" class="btn btn-success">Crear</a>
+    </p>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.miVuelo)
+                Vuelo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.miUsuario)
+                Usuario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.pagado)
+                Pago
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.cantPersonas)
+                Cantidad de personas
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.miVuelo.aerolinea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.miUsuario.apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.pagado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cantPersonas)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.miVuelo.origen.nombre) - @Html.DisplayFor(modelItem => item.miVuelo.destino.nombre)
+                </td>
+                <td>
+                    @item.miUsuario.nombre @item.miUsuario.apellido
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pagado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cantPersonas)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.id" class="text-decoration-none">Detalles</a> |
+                    <a asp-action="Edit" asp-route-id="@item.id" class="text-decoration-none">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id" class="text-decoration-none">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

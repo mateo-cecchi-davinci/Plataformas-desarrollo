@@ -31,8 +31,13 @@ namespace Agencia.Controllers
                 bool.TryParse(esAdminString, out isAdmin);
             }
 
-            var context = _context.reservasVuelo.Include(r => r.miUsuario).Include(r => r.miVuelo);
-            
+            var context = _context.reservasVuelo
+                .Include(r => r.miUsuario)
+                .Include(r => r.miVuelo)
+                    .ThenInclude(v => v.origen)
+                .Include(r => r.miVuelo)
+                    .ThenInclude(v => v.destino);
+
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
@@ -66,6 +71,9 @@ namespace Agencia.Controllers
             var reservaVuelo = await _context.reservasVuelo
                 .Include(r => r.miUsuario)
                 .Include(r => r.miVuelo)
+                    .ThenInclude(v => v.origen)
+                .Include(r => r.miVuelo)
+                    .ThenInclude(v => v.destino)
                 .FirstOrDefaultAsync(m => m.id == id);
 
             if (reservaVuelo == null)
@@ -81,7 +89,7 @@ namespace Agencia.Controllers
         }
 
         // GET: ReservaVuelo/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
             string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
             string esAdminString = HttpContext.Session.GetString("esAdmin");
@@ -98,8 +106,19 @@ namespace Agencia.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            ViewData["usuarioRV_fk"] = new SelectList(_context.usuarios, "id", "apellido");
-            ViewData["vuelo_fk"] = new SelectList(_context.vuelos, "id", "aerolinea");
+            var vuelos = await _context.vuelos
+                .Include(v => v.origen)
+                .Include(v => v.destino)
+                .ToListAsync();
+
+            var vuelos_con_origen_y_destino = vuelos.Select(v => new SelectListItem
+            {
+                Value = v.id.ToString(),
+                Text = $"{v.origen.nombre} - {v.destino.nombre}"
+            }).ToList();
+
+            ViewData["usuarioRV_fk"] = new SelectList(_context.usuarios.Select(u => new { u.id, nombre = u.nombre + " " + u.apellido }), "id", "nombre");
+            ViewData["vuelo_fk"] = new SelectList(vuelos_con_origen_y_destino, "Value", "Text");
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
@@ -135,8 +154,6 @@ namespace Agencia.Controllers
                     Console.WriteLine("Vuelo no encontrado");
                     return RedirectToAction("Index");
                 }
-
-                //El pago no deberia ser un campo en el ui, sino el costo del vuelo
 
                 if (_context.reservasVuelo.Any(r => r.miUsuario == usuario_seleccionado))
                 {
@@ -177,10 +194,10 @@ namespace Agencia.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
+
             ViewData["usuarioRV_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaVuelo.usuarioRV_fk);
             ViewData["vuelo_fk"] = new SelectList(_context.vuelos, "id", "aerolinea", reservaVuelo.vuelo_fk);
-            
+
             return View(reservaVuelo);
         }
 
@@ -201,21 +218,32 @@ namespace Agencia.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            
+
             if (id == null || _context.reservasVuelo == null)
             {
                 return NotFound();
             }
 
             var reservaVuelo = await _context.reservasVuelo.FindAsync(id);
-            
+
             if (reservaVuelo == null)
             {
                 return NotFound();
             }
-            
-            ViewData["usuarioRV_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaVuelo.usuarioRV_fk);
-            ViewData["vuelo_fk"] = new SelectList(_context.vuelos, "id", "aerolinea", reservaVuelo.vuelo_fk);
+
+            var vuelos = await _context.vuelos
+                .Include(v => v.origen)
+                .Include(v => v.destino)
+                .ToListAsync();
+
+            var vuelos_con_origen_y_destino = vuelos.Select(v => new SelectListItem
+            {
+                Value = v.id.ToString(),
+                Text = $"{v.origen.nombre} - {v.destino.nombre}"
+            }).ToList();
+
+            ViewData["usuarioRV_fk"] = new SelectList(_context.usuarios.Select(u => new { u.id, nombre = u.nombre + " " + u.apellido }), "id", "nombre");
+            ViewData["vuelo_fk"] = new SelectList(vuelos_con_origen_y_destino, "Value", "Text");
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
@@ -265,8 +293,6 @@ namespace Agencia.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    //El pago no deberia ser un campo en el ui, sino el costo del vuelo
-
                     double costo = reservaVuelo.cantPersonas * vuelo_seleccionado.costo;
 
                     if (usuario_seleccionado.credito < costo)
@@ -298,7 +324,7 @@ namespace Agencia.Controllers
 
                         _context.usuarios.Update(reserva_anterior.miUsuario);
                     }
-                    
+
                     if (reserva_anterior.vuelo_fk != reservaVuelo.vuelo_fk)
                     {
                         reserva_anterior.miVuelo.vendido -= reserva_anterior.cantPersonas;
@@ -309,13 +335,13 @@ namespace Agencia.Controllers
 
                     usuario_seleccionado.credito += reserva_anterior.pagado;
                     usuario_seleccionado.credito -= costo;
-                    
+
                     vuelo_seleccionado.vendido -= reserva_anterior.cantPersonas;
                     vuelo_seleccionado.vendido += reservaVuelo.cantPersonas;
 
                     usuario_seleccionado.misReservasVuelos.Remove(reserva_anterior);
                     usuario_seleccionado.misReservasVuelos.Add(reservaVuelo);
-                    
+
                     vuelo_seleccionado.misReservas.Remove(reserva_anterior);
                     vuelo_seleccionado.misReservas.Add(reservaVuelo);
 
@@ -337,10 +363,10 @@ namespace Agencia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            
+
             ViewData["usuarioRV_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaVuelo.usuarioRV_fk);
             ViewData["vuelo_fk"] = new SelectList(_context.vuelos, "id", "aerolinea", reservaVuelo.vuelo_fk);
-            
+
             return View(reservaVuelo);
         }
 
@@ -370,8 +396,11 @@ namespace Agencia.Controllers
             var reservaVuelo = await _context.reservasVuelo
                 .Include(r => r.miUsuario)
                 .Include(r => r.miVuelo)
+                    .ThenInclude(v => v.origen)
+                .Include(r => r.miVuelo)
+                    .ThenInclude(v => v.destino)
                 .FirstOrDefaultAsync(m => m.id == id);
-            
+
             if (reservaVuelo == null)
             {
                 return NotFound();
@@ -393,7 +422,7 @@ namespace Agencia.Controllers
             {
                 return Problem("Entity set 'Context.reservasVuelo'  is null.");
             }
-            
+
             var reservaVuelo = await _context.reservasVuelo
                 .Include(reserva_vuelo => reserva_vuelo.miVuelo)
                     .ThenInclude(vuelo => vuelo.misReservas)
@@ -424,14 +453,14 @@ namespace Agencia.Controllers
 
                 _context.reservasVuelo.Remove(reservaVuelo);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ReservaVueloExists(int id)
         {
-          return _context.reservasVuelo.Any(e => e.id == id);
+            return _context.reservasVuelo.Any(e => e.id == id);
         }
     }
 }

@@ -4,43 +4,39 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="my-3">Editar hotel</h1>
 
-<h4>Hotel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
-            <div class="form-group mb-3">
-                <label asp-for="nombre" class="control-label"></label>
+            <div class="form-group mb-3 mb-3">
+                <label asp-for="nombre" class="control-label">Nombre</label>
                 <input asp-for="nombre" class="form-control" />
                 <span asp-validation-for="nombre" class="text-danger"></span>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="ciudad_fk" class="control-label"></label>
+            <div class="form-group mb-3 mb-3">
+                <label asp-for="ciudad_fk" class="control-label">Ubicación</label>
                 <select asp-for="ciudad_fk" class="form-control" asp-items="ViewBag.ciudad_fk"></select>
                 <span asp-validation-for="ciudad_fk" class="text-danger"></span>
             </div>
-            <div class="form-group mb-3">
+            <div class="form-group mb-3 mb-3">
                 <label asp-for="archivoImagen" class="control-label" for="inputGroupFile">Imagen</label>
                 <input asp-for="archivoImagen" class="form-control" id="inputGroupFile">
                 <span asp-validation-for="archivoImagen" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="descripcion" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="descripcion" class="control-label">Descripción</label>
                 <input asp-for="descripcion" class="form-control" />
                 <span asp-validation-for="descripcion" class="text-danger"></span>
             </div>
-            <div class="form-group mb-3">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group d-flex align-items-center">
+                <input required type="submit" value="Guardar" class="btn btn-primary me-2" />
+                <a asp-action="Index" class="text-decoration-none">Volver</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

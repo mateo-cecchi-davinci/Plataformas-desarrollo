@@ -4,44 +4,49 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1 class="my-3">Detalles</h1>
 
 <div>
-    <h4>ReservaHabitacion</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.miHabitacion)
+            Hotel:
         </dt>
         <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.miHabitacion.hotel.nombre)
+        </dd>
+        <dt class="col-sm-2">
+            Habitación:
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.miHabitacion.id)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.miUsuario)
+            Usuario:
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.miUsuario.apellido)
+            @Model.miUsuario.nombre @Model.miUsuario.apellido
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.fechaDesde)
+            Desde:
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.fechaDesde)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.fechaHasta)
+            Hasta:
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.fechaHasta)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.pagado)
+            Pago:
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.pagado)
+            $ @Html.DisplayFor(model => model.pagado)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.cantPersonas)
+            Cantidad de personas:
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.cantPersonas)
@@ -49,6 +54,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.id" class="text-decoration-none">Editar</a> |
+    <a asp-action="Index" class="text-decoration-none">Volver</a>
 </div>

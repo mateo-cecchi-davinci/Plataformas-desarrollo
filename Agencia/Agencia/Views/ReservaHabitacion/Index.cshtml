@@ -4,62 +4,82 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="d-flex justify-content-between align-items-center my-5">
+    <h1>Reservas de habitaciones</h1>
+    <p>
+        <a asp-action="Create" type="button" class="btn btn-success">Crear</a>
+    </p>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.miHabitacion)
+                Hotel
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.miUsuario)
+                Habitación
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fechaDesde)
+                Usuario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fechaHasta)
+                Desde
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.pagado)
+                Hasta
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.cantPersonas)
+                Pago
+            </th>
+            <th>
+                Cantidad de personas
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.miHabitacion.id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.miUsuario.apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fechaDesde)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fechaHasta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.pagado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cantPersonas)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.miHabitacion.hotel.nombre)
+                </td>
+                <td>
+                    @if (item.miHabitacion.capacidad == 2)
+                    {
+                        <text>Para dos personas</text>
+                    }
+                    else if (item.miHabitacion.capacidad == 4)
+                    {
+                        <text>Para cuatro personas</text>
+                    }
+                    else
+                    {
+                        <text>Para ocho personas</text>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.miUsuario.nombre)
+                </td>
+                <td>
+                    @item.fechaDesde.ToString("dd/MM/yy")
+                </td>
+                <td>
+                    @item.fechaHasta.ToString("dd/MM/yy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pagado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cantPersonas)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.id" class="text-decoration-none">Detalles</a> |
+                    <a asp-action="Edit" asp-route-id="@item.id" class="text-decoration-none">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id" class="text-decoration-none">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

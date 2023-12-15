@@ -484,6 +484,19 @@ namespace Agencia.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public ActionResult<double> ObtenerCostoVuelo(int id)
+        {
+            var costoVuelo = _context.vuelos.FirstOrDefault(v => v.id == id)?.costo;
+
+            if (costoVuelo != null)
+            {
+                return costoVuelo;
+            }
+
+            return NotFound();
+        }
+
         private bool VueloExists(int id)
         {
             return _context.vuelos.Any(e => e.id == id);

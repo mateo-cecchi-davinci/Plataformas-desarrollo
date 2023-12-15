@@ -4,69 +4,76 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1 class="my-3">Detalles</h1>
 
 <div>
-    <h4>Usuario</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.dni)
+        <dt class="col-sm-2">
+            Dni:
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.dni)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.nombre)
+        <dt class="col-sm-2">
+            Nombre:
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.nombre)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.apellido)
+        <dt class="col-sm-2">
+            Apellido:
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.apellido)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.mail)
+        <dt class="col-sm-2">
+            Correo:
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.mail)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.clave)
+        <dt class="col-sm-2">
+            Intentos fallidos:
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.clave)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.intentosFallidos)
-        </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.intentosFallidos)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.bloqueado)
+        <dt class="col-sm-2">
+            Estado:
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.bloqueado)
+        <dd class="col-sm-10">
+            @if (Model.bloqueado)
+            {
+                <text>Bloqueado</text>
+            }
+            else
+            {
+                <text>Activo</text>
+            }
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.credito)
+        <dt class="col-sm-2">
+            Crédito:
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.credito)
+        <dd class="col-sm-10">
+            $ @Html.DisplayFor(model => model.credito)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.isAdmin)
+        <dt class="col-sm-2">
+            Administrador:
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.isAdmin)
+        <dd class="col-sm-10">
+            @if (Model.isAdmin)
+            {
+                <text>Administrador</text>
+            }
+            else
+            {
+                <text>Común</text>
+            }
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.id" class="text-decoration-none">Editar</a> |
+    <a asp-action="Index" class="text-decoration-none">Volver</a>
 </div>

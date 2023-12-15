@@ -4,50 +4,45 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>ReservaHabitacion</h4>
+<h1 class="my-3">Reservar habitaciones</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="fechaDesde" class="control-label"></label>
-                <input asp-for="fechaDesde" class="form-control" />
+            <div class="form-group mb-3">
+                <label asp-for="fechaDesde" class="control-label">Desde</label>
+                <input required asp-for="fechaDesde" class="form-control" />
                 <span asp-validation-for="fechaDesde" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="fechaHasta" class="control-label"></label>
-                <input asp-for="fechaHasta" class="form-control" />
+            <div class="form-group mb-3">
+                <label asp-for="fechaHasta" class="control-label">Hasta</label>
+                <input required asp-for="fechaHasta" class="form-control" />
                 <span asp-validation-for="fechaHasta" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="pagado" class="control-label"></label>
-                <input asp-for="pagado" class="form-control" />
+            <div class="form-group mb-3">
+                <label asp-for="pagado" class="control-label">Pago</label>
+                <input required asp-for="pagado" class="form-control" value="0"/>
                 <span asp-validation-for="pagado" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="cantPersonas" class="control-label"></label>
-                <input asp-for="cantPersonas" class="form-control" />
+            <div class="form-group mb-3">
+                <label asp-for="cantPersonas" class="control-label">Cantidad de personas</label>
+                <input required asp-for="cantPersonas" class="form-control" value="1"/>
                 <span asp-validation-for="cantPersonas" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="habitacion_fk" class="control-label"></label>
-                <select asp-for="habitacion_fk" class ="form-control" asp-items="ViewBag.habitacion_fk"></select>
+            <div class="form-group mb-3">
+                <label asp-for="habitacion_fk" class="control-label">Habitación</label>
+                <select required asp-for="habitacion_fk" class ="form-control" asp-items="ViewBag.habitacion_fk"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="usuarioRH_fk" class="control-label"></label>
-                <select asp-for="usuarioRH_fk" class ="form-control" asp-items="ViewBag.usuarioRH_fk"></select>
+            <div class="form-group mb-3">
+                <label asp-for="usuarioRH_fk" class="control-label">Usuario</label>
+                <select required asp-for="usuarioRH_fk" class ="form-control" asp-items="ViewBag.usuarioRH_fk"></select>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group d-flex align-items-center">
+                <input type="submit" value="Crear" class="btn btn-primary me-2" />
+                <a asp-action="Index" class="text-decoration-none">Volver</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

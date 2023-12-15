@@ -4,44 +4,58 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="d-flex justify-content-between align-items-center my-5">
+    <h1>Habitaciones</h1>
+    <p>
+        <a asp-action="Create" type="button" class="btn btn-success">Crear</a>
+    </p>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.capacidad)
+                Capacidad
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.costo)
+                Costo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.hotel)
+                Hotel
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.capacidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.costo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.hotel.nombre)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.capacidad == 2)
+                    {
+                        <text>Para dos personas</text>
+                    }
+                    else if (item.capacidad == 4)
+                    {
+                        <text>Para cuatro personas</text>
+                    }
+                    else
+                    {
+                        <text>Para ocho personas</text>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.costo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.hotel.nombre)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.id" class="text-decoration-none">Detalles</a> |
+                    <a asp-action="Edit" asp-route-id="@item.id" class="text-decoration-none">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id" class="text-decoration-none">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

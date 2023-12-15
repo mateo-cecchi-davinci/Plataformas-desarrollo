@@ -4,42 +4,38 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="my-3">Editar habitación</h1>
 
-<h4>Habitacion</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
-            <div class="form-group">
-                <label asp-for="capacidad" class="control-label"></label>
-                <select asp-for="capacidad" class="form-control">
-                    <option value="2">2</option>
-                    <option value="4">4</option>
-                    <option value="8">8</option>
-                </select>
-                <span asp-validation-for="capacidad" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="costo" class="control-label"></label>
-                <input asp-for="costo" class="form-control" />
-                <span asp-validation-for="costo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="hotel_fk" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="hotel_fk" class="control-label">Hotel</label>
                 <select asp-for="hotel_fk" class="form-control" asp-items="ViewBag.hotel_fk"></select>
                 <span asp-validation-for="hotel_fk" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group mb-3">
+                <label asp-for="capacidad" class="control-label">Capacidad</label>
+                <select required asp-for="capacidad" class="form-control">
+                    <option value="2">Dos personas</option>
+                    <option value="4">Cuatro personas</option>
+                    <option value="8">Ocho personas</option>
+                </select>
+                <span asp-validation-for="capacidad" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="costo" class="control-label">Costo</label>
+                <input required asp-for="costo" class="form-control" />
+                <span asp-validation-for="costo" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex align-items-center">
+                <input required type="submit" value="Guardar" class="btn btn-primary me-2" />
+                <a asp-action="Index" class="text-decoration-none">Volver</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

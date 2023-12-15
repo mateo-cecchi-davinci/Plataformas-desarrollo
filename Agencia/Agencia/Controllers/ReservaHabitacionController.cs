@@ -32,7 +32,10 @@ namespace Agencia.Controllers
                 bool.TryParse(esAdminString, out isAdmin);
             }
 
-            var context = _context.reservasHabitacion.Include(r => r.miHabitacion).Include(r => r.miUsuario);
+            var context = _context.reservasHabitacion
+                .Include(r => r.miHabitacion)
+                    .ThenInclude(habitacion => habitacion.hotel)
+                .Include(r => r.miUsuario);
             
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
@@ -66,6 +69,7 @@ namespace Agencia.Controllers
 
             var reservaHabitacion = await _context.reservasHabitacion
                 .Include(r => r.miHabitacion)
+                    .ThenInclude(habitacion => habitacion.hotel)
                 .Include(r => r.miUsuario)
                 .FirstOrDefaultAsync(m => m.id == id);
 
