@@ -27,8 +27,12 @@ namespace Agencia.Controllers
 
             if (!string.IsNullOrEmpty(esAdminString))
             {
-
                 bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
             }
 
             var vuelos = _context.vuelos.Include(v => v.origen).Include(v => v.destino).ToList();
@@ -50,8 +54,12 @@ namespace Agencia.Controllers
 
             if (!string.IsNullOrEmpty(esAdminString))
             {
-
                 bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
             }
 
             var vuelos = _context.vuelos.Include(v => v.origen).Include(v => v.destino).ToList();
@@ -135,11 +143,11 @@ namespace Agencia.Controllers
         }
 
 
-            //------------CRUD------------
+        //------------CRUD------------
 
 
-            // GET: Vuelo
-            public async Task<IActionResult> Index()
+        // GET: Vuelo
+        public async Task<IActionResult> Index()
         {
             string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
             string esAdminString = HttpContext.Session.GetString("esAdmin");
@@ -148,19 +156,41 @@ namespace Agencia.Controllers
 
             if (!string.IsNullOrEmpty(esAdminString))
             {
-
                 bool.TryParse(esAdminString, out isAdmin);
             }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var context = _context.vuelos.Include(v => v.destino).Include(v => v.origen);
+            
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
-            var context = _context.vuelos.Include(v => v.destino).Include(v => v.origen);
+
             return View(await context.ToListAsync());
         }
 
         // GET: Vuelo/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.vuelos == null)
             {
                 return NotFound();
@@ -170,10 +200,15 @@ namespace Agencia.Controllers
                 .Include(v => v.destino)
                 .Include(v => v.origen)
                 .FirstOrDefaultAsync(m => m.id == id);
+
             if (vuelo == null)
             {
                 return NotFound();
             }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
 
             return View(vuelo);
         }
@@ -181,8 +216,27 @@ namespace Agencia.Controllers
         // GET: Vuelo/Create
         public IActionResult Create()
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             ViewData["destino_fk"] = new SelectList(_context.ciudades, "id", "nombre");
             ViewData["origen_fk"] = new SelectList(_context.ciudades, "id", "nombre");
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+
             return View();
         }
 
@@ -195,30 +249,67 @@ namespace Agencia.Controllers
         {
             if (ModelState.IsValid)
             {
+                var origen = _context.ciudades.FirstOrDefault(c => c.id == vuelo.origen_fk);
+                var destino = _context.ciudades.FirstOrDefault(c => c.id == vuelo.destino_fk);
+
+                if (origen == null || destino == null)
+                {
+                    Console.WriteLine("La ciudad no se encuentra disponible");
+                    return RedirectToAction("Index");
+                }
+
+                origen.vuelos.Add(vuelo);
+                destino.vuelos.Add(vuelo);
+
+                _context.ciudades.Update(origen);
+                _context.ciudades.Update(destino);
                 _context.Add(vuelo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["destino_fk"] = new SelectList(_context.ciudades, "id", "nombre", vuelo.destino_fk);
             ViewData["origen_fk"] = new SelectList(_context.ciudades, "id", "nombre", vuelo.origen_fk);
+
             return View(vuelo);
         }
 
         // GET: Vuelo/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.vuelos == null)
             {
                 return NotFound();
             }
 
             var vuelo = await _context.vuelos.FindAsync(id);
+
             if (vuelo == null)
             {
                 return NotFound();
             }
+            
             ViewData["destino_fk"] = new SelectList(_context.ciudades, "id", "nombre", vuelo.destino_fk);
             ViewData["origen_fk"] = new SelectList(_context.ciudades, "id", "nombre", vuelo.origen_fk);
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+
             return View(vuelo);
         }
 
@@ -238,6 +329,36 @@ namespace Agencia.Controllers
             {
                 try
                 {
+                    int cantidadDePersonasRV = 0;
+
+                    vuelo.misReservas.ForEach(r =>
+                    {
+                        cantidadDePersonasRV += r.cantPersonas;
+                    });
+
+                    if (vuelo.capacidad < cantidadDePersonasRV)
+                    {
+                        Console.WriteLine("No se puede realizar la modificacion debido a que la capacidad ingresada no es suficiente para satisfacer la cantidad de pasajeros que reservaron");
+                        return RedirectToAction("Index");
+                    }
+
+                    var vuelo_con_origen_modificado = _context.vuelos.FirstOrDefault(v => v.id == vuelo.id && v.origen_fk != vuelo.origen_fk);
+                    var vuelo_con_destino_modificado = _context.vuelos.FirstOrDefault(v => v.id == vuelo.id && v.destino_fk != vuelo.destino_fk);
+
+                    if (vuelo_con_origen_modificado != null)
+                    {
+                        vuelo_con_origen_modificado.origen.vuelos.Remove(vuelo_con_origen_modificado);
+                        vuelo.origen.vuelos.Add(vuelo);
+                        _context.ciudades.Update(vuelo_con_origen_modificado.origen);
+                    }
+
+                    if (vuelo_con_destino_modificado != null)
+                    {
+                        vuelo_con_destino_modificado.destino.vuelos.Remove(vuelo_con_destino_modificado);
+                        vuelo.destino.vuelos.Add(vuelo);
+                        _context.ciudades.Update(vuelo_con_destino_modificado.destino);
+                    }
+
                     _context.Update(vuelo);
                     await _context.SaveChangesAsync();
                 }
@@ -252,16 +373,34 @@ namespace Agencia.Controllers
                         throw;
                     }
                 }
+                
                 return RedirectToAction(nameof(Index));
             }
+            
             ViewData["destino_fk"] = new SelectList(_context.ciudades, "id", "nombre", vuelo.destino_fk);
             ViewData["origen_fk"] = new SelectList(_context.ciudades, "id", "nombre", vuelo.origen_fk);
+            
             return View(vuelo);
         }
 
         // GET: Vuelo/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.vuelos == null)
             {
                 return NotFound();
@@ -271,10 +410,15 @@ namespace Agencia.Controllers
                 .Include(v => v.destino)
                 .Include(v => v.origen)
                 .FirstOrDefaultAsync(m => m.id == id);
+
             if (vuelo == null)
             {
                 return NotFound();
             }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
 
             return View(vuelo);
         }
@@ -288,19 +432,61 @@ namespace Agencia.Controllers
             {
                 return Problem("Entity set 'Context.vuelos'  is null.");
             }
-            var vuelo = await _context.vuelos.FindAsync(id);
+
+            var vuelo = await _context.vuelos
+                .Include(vuelo => vuelo.misReservas)
+                    .ThenInclude(reserva_vuelo => reserva_vuelo.miUsuario)
+                    .ThenInclude(usuario => usuario.misReservasVuelos)
+                .Include(vuelo => vuelo.misReservas)
+                    .ThenInclude(reserva_vuelo => reserva_vuelo.miVuelo)
+                .Include(vuelo => vuelo.misReservas)
+                    .ThenInclude(reserva_vuelo => reserva_vuelo.miUsuario)
+                    .ThenInclude(usuario => usuario.vuelosTomados)
+                .Include(vuelo => vuelo.origen)
+                    .ThenInclude(origen => origen.vuelos)
+                .Include(vuelo => vuelo.destino)
+                    .ThenInclude(destino => destino.vuelos)
+                .FirstOrDefaultAsync(vuelo => vuelo.id == id);
+            
             if (vuelo != null)
             {
+                vuelo.misReservas.ForEach(reserva_vuelo =>
+                {
+                    if (DateTime.Now < vuelo.fecha)
+                    {
+                        reserva_vuelo.miUsuario.credito += reserva_vuelo.pagado;
+                        reserva_vuelo.miUsuario.misReservasVuelos.Remove(reserva_vuelo);
+
+                        var usuario_vuelo = _context.usuarioVuelo
+                            .FirstOrDefault(usuario_vuelo => usuario_vuelo.usuario == reserva_vuelo.miUsuario && usuario_vuelo.vuelo == reserva_vuelo.miVuelo);
+
+                        if (usuario_vuelo != null)
+                        {
+                            _context.usuarioVuelo.Remove(usuario_vuelo);
+                        }
+
+                        reserva_vuelo.miUsuario.vuelosTomados.Remove(vuelo);
+
+                        _context.usuarios.Update(reserva_vuelo.miUsuario);
+                        _context.reservasVuelo.Remove(reserva_vuelo);
+                    }
+                });
+
+                vuelo.origen.vuelos.Remove(vuelo);
+                vuelo.destino.vuelos.Remove(vuelo);
+
+                _context.ciudades.Update(vuelo.origen);
+                _context.ciudades.Update(vuelo.destino);
                 _context.vuelos.Remove(vuelo);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool VueloExists(int id)
         {
-          return _context.vuelos.Any(e => e.id == id);
+            return _context.vuelos.Any(e => e.id == id);
         }
     }
 }

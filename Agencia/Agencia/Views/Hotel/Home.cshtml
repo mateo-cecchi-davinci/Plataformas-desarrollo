@@ -175,6 +175,7 @@
 </div>
 
 <script src="~/js/popoverHotel.js" asp-append-version="true"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     const startDateInput = document.getElementById('start_date');
     const endDateInput = document.getElementById('end_date');
@@ -192,4 +193,47 @@
         endDateInput.disabled = false;
         endDateInput.value = '';
     });
+
+    const hasShownError = localStorage.getItem('errorShown');
+
+    if (!hasShownError) {
+        const errorMessage = '@TempData["error"]';
+
+        if (errorMessage) {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: errorMessage,
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            localStorage.setItem('errorShown', true);
+        }
+    } 
+    else {
+        localStorage.removeItem('errorShown');
+    }
+
+    const mensajeDeCompraMostrado = localStorage.getItem('mensajeDeCompraMostrado');
+
+    if (!mensajeDeCompraMostrado) {
+        const mensajeDeCompraExitosa = '@TempData["compraExitosa"]';
+
+        if (mensajeDeCompraExitosa) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: mensajeDeCompraExitosa,
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            localStorage.setItem('mensajeDeCompraMostrado', true);
+        }
+    }
+    else {
+        localStorage.removeItem('mensajeDeCompraMostrado');
+    }
+    
 </script>

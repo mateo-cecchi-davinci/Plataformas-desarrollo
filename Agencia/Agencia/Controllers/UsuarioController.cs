@@ -27,13 +27,14 @@ namespace Agencia.Controllers
 
             if (!string.IsNullOrEmpty(esAdminString))
             {
-
                 bool.TryParse(esAdminString, out isAdmin);
             }
 
-            ViewBag.usuarioMail = usuarioMail;
-            ViewBag.usuarioLogeado = usuarioLogeado;
-            ViewBag.isAdmin = isAdmin;
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
 
             var usuario = await _context.usuarios
                 .Include(u => u.misReservasHabitaciones).ThenInclude(rh => rh.miHabitacion).ThenInclude(h => h.hotel)
@@ -42,6 +43,10 @@ namespace Agencia.Controllers
                 .Include(u => u.vuelosTomados).ThenInclude(v => v.destino)
                 .FirstOrDefaultAsync(u => u.mail == usuarioMail);
 
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+            
             if (usuario != null)
             {
                 return View(usuario);
@@ -64,8 +69,12 @@ namespace Agencia.Controllers
 
             if (!string.IsNullOrEmpty(esAdminString))
             {
-
                 bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
             }
 
             ViewBag.usuarioMail = usuarioMail;
@@ -78,6 +87,21 @@ namespace Agencia.Controllers
         // GET: Usuarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.usuarios == null)
             {
                 return NotFound();
@@ -85,10 +109,15 @@ namespace Agencia.Controllers
 
             var usuario = await _context.usuarios
                 .FirstOrDefaultAsync(m => m.id == id);
+
             if (usuario == null)
             {
                 return NotFound();
             }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
 
             return View(usuario);
         }
@@ -96,6 +125,25 @@ namespace Agencia.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+
             return View();
         }
 
@@ -108,26 +156,57 @@ namespace Agencia.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool esInvalido = _context.usuarios.Any(u => u.dni == usuario.dni);
+
+                if (esInvalido)
+                {
+                    Console.WriteLine("Ese dni ya esta en uso");
+
+                    return RedirectToAction("Index");
+                }
+
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(usuario);
         }
 
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.usuarios == null)
             {
                 return NotFound();
             }
 
             var usuario = await _context.usuarios.FindAsync(id);
+
             if (usuario == null)
             {
                 return NotFound();
             }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+
             return View(usuario);
         }
 
@@ -145,6 +224,15 @@ namespace Agencia.Controllers
 
             if (ModelState.IsValid)
             {
+                bool esInvalido = _context.usuarios.Any(u => u.dni == usuario.dni && u.id != usuario.id);
+
+                if (esInvalido)
+                {
+                    Console.WriteLine("Ese dni ya esta en uso");
+
+                    return RedirectToAction("Index");
+                }
+
                 try
                 {
                     _context.Update(usuario);
@@ -161,14 +249,31 @@ namespace Agencia.Controllers
                         throw;
                     }
                 }
+                
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(usuario);
         }
 
         // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.usuarios == null)
             {
                 return NotFound();
@@ -176,10 +281,15 @@ namespace Agencia.Controllers
 
             var usuario = await _context.usuarios
                 .FirstOrDefaultAsync(m => m.id == id);
+
             if (usuario == null)
             {
                 return NotFound();
             }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
 
             return View(usuario);
         }
@@ -193,7 +303,9 @@ namespace Agencia.Controllers
             {
                 return Problem("Entity set 'Context.usuarios'  is null.");
             }
+
             var usuario = await _context.usuarios.FindAsync(id);
+            
             if (usuario != null)
             {
                 _context.usuarios.Remove(usuario);

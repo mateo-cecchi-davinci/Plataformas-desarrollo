@@ -160,7 +160,7 @@
                     @Html.DisplayFor(modelItem => item.avion)
                 </td>
                 <td>
-                    <a href="#" class="reservar-vuelo" data-id="@item.id" data-people="@ViewBag.people">Reservar</a>
+                    <a href="#" class="reservar-vuelo text-decoration-none" data-id="@item.id" data-people="@ViewBag.people">Reservar</a>
                 </td>
             </tr>
         }
@@ -183,21 +183,39 @@
     $(document).ready(function () {
         $('.reservar-vuelo').on('click', function (e) {
             e.preventDefault();
-            var id = $(this).data('id');
-            var people = $(this).data('people');
+            Swal.fire({
+                title: "¿Estás seguro/a de realizar la compra?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Comprar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var id = $(this).data('id');
+                    var people = $(this).data('people');
 
-            $.ajax({
-                url: '/Vuelo/Reservar',
-                method: 'POST',
-                data: {
-                    id: id,
-                    people: people
-                },
-                success: function () {
-                    console.log("Se ha reservado con éxito");
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
+                    $.ajax({
+                        url: '/Vuelo/Reservar',
+                        method: 'POST',
+                        data: {
+                            id: id,
+                            people: people
+                        },
+                        success: function () {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "Se ha reservado con éxito",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
                 }
             });
         });

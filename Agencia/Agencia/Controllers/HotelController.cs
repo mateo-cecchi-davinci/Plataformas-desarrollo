@@ -30,8 +30,12 @@ namespace Agencia.Controllers
 
             if (!string.IsNullOrEmpty(esAdminString))
             {
-
                 bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
             }
 
             var hoteles = _context.hoteles.Include(h => h.ubicacion).ToList();
@@ -53,8 +57,12 @@ namespace Agencia.Controllers
 
             if (!string.IsNullOrEmpty(esAdminString))
             {
-
                 bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
             }
 
             TimeSpan diferencia = end_date.Subtract(start_date);
@@ -92,6 +100,13 @@ namespace Agencia.Controllers
                     hotel.habitaciones.Count(hab => hab.capacidad == 4) >= habitaciones_medianas &&
                     hotel.habitaciones.Count(hab => hab.capacidad == 8) >= habitaciones_grandes)
                 .ToList();
+
+            if (hoteles == null || hoteles.Count == 0)
+            {
+                string error_message = "No hubo resultados";
+                TempData["error"] = error_message;
+                return RedirectToAction(nameof(Home));
+            }
 
             var costo_habitaciones_chicas = _context.habitaciones
                 .ToList()
@@ -303,6 +318,9 @@ namespace Agencia.Controllers
                             _context.Update(usuario);
                             _context.SaveChanges();
 
+                            string mensaje = "La compra se ha realizado con éxito";
+                            TempData["compraExitosa"] = mensaje;
+
                             return Json(new { message = "Solicitud recibida con éxito" });
                         }
                     }
@@ -331,19 +349,41 @@ namespace Agencia.Controllers
 
             if (!string.IsNullOrEmpty(esAdminString))
             {
-
                 bool.TryParse(esAdminString, out isAdmin);
             }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var context = _context.hoteles.Include(h => h.ubicacion);
+            
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
-            var context = _context.hoteles.Include(h => h.ubicacion);
+            
             return View(await context.ToListAsync());
         }
 
         // GET: Hotels/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.hoteles == null)
             {
                 return NotFound();
@@ -352,10 +392,15 @@ namespace Agencia.Controllers
             var hotel = await _context.hoteles
                 .Include(h => h.ubicacion)
                 .FirstOrDefaultAsync(m => m.id == id);
+
             if (hotel == null)
             {
                 return NotFound();
             }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
 
             return View(hotel);
         }
@@ -363,7 +408,26 @@ namespace Agencia.Controllers
         // GET: Hotels/Create
         public IActionResult Create()
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             ViewData["ciudad_fk"] = new SelectList(_context.ciudades, "id", "nombre");
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+
             return View();
         }
 
@@ -376,6 +440,8 @@ namespace Agencia.Controllers
         {
             if (ModelState.IsValid)
             {
+                var ciudad_seleccionada = _context.ciudades.FirstOrDefault(c => c.id == hotel.ciudad_fk);
+
                 if (hotel.archivoImagen != null)
                 {
                     string directorio = "wwwroot/images/hotel/";
@@ -392,6 +458,8 @@ namespace Agencia.Controllers
                     hotel.imagen = rutaCompleta.Replace("wwwroot", "").TrimStart('\\', '/');
                 }
 
+                ciudad_seleccionada.hoteles.Add(hotel);
+                _context.Update(ciudad_seleccionada);
                 _context.Add(hotel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -403,6 +471,21 @@ namespace Agencia.Controllers
         // GET: Hotels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.hoteles == null)
             {
                 return NotFound();
@@ -413,7 +496,12 @@ namespace Agencia.Controllers
             {
                 return NotFound();
             }
+
             ViewData["ciudad_fk"] = new SelectList(_context.ciudades, "id", "nombre", hotel.ciudad_fk);
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+
             return View(hotel);
         }
 
@@ -449,6 +537,19 @@ namespace Agencia.Controllers
                         hotel.imagen = rutaCompleta.Replace("wwwroot", "").TrimStart('\\', '/');
                     }
 
+                    var hotel_con_ubicacion_diferente = _context.hoteles
+                        .Include(h => h.ubicacion)
+                        .FirstOrDefault(h => h.id == hotel.id && h.ubicacion.id != hotel.ciudad_fk);
+
+                    if (hotel_con_ubicacion_diferente != null)
+                    {
+                        hotel_con_ubicacion_diferente.ubicacion.hoteles.Remove(hotel_con_ubicacion_diferente);
+                        hotel.ubicacion.hoteles.Add(hotel);
+
+                        _context.ciudades.Update(hotel_con_ubicacion_diferente.ubicacion);
+                        _context.ciudades.Update(hotel.ubicacion);
+                    }
+
                     _context.Update(hotel);
                     await _context.SaveChangesAsync();
                 }
@@ -472,6 +573,21 @@ namespace Agencia.Controllers
         // GET: Hotels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.hoteles == null)
             {
                 return NotFound();
@@ -480,10 +596,15 @@ namespace Agencia.Controllers
             var hotel = await _context.hoteles
                 .Include(h => h.ubicacion)
                 .FirstOrDefaultAsync(m => m.id == id);
+
             if (hotel == null)
             {
                 return NotFound();
             }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
 
             return View(hotel);
         }
@@ -497,9 +618,66 @@ namespace Agencia.Controllers
             {
                 return Problem("Entity set 'Context.hoteles'  is null.");
             }
-            var hotel = await _context.hoteles.FindAsync(id);
+
+            var hotel = await _context.hoteles
+                .Include(h => h.habitaciones)
+                    .ThenInclude(habitacion => habitacion.misReservas)
+                    .ThenInclude(r => r.miUsuario)
+                    .ThenInclude(u => u.misReservasHabitaciones)
+                .Include(h => h.habitaciones)
+                    .ThenInclude(habitacion => habitacion.misReservas)
+                    .ThenInclude(r => r.miHabitacion)
+                .Include(h => h.habitaciones)
+                    .ThenInclude(habitacion => habitacion.misReservas)
+                    .ThenInclude(r => r.miUsuario)
+                    .ThenInclude(u => u.habitacionesUsadas)
+                .Include(h => h.ubicacion)
+                    .ThenInclude(c => c.hoteles)
+                .FirstOrDefaultAsync(h => h.id == id);
+
             if (hotel != null)
             {
+                hotel.habitaciones.ForEach(habitacion =>
+                {
+                    habitacion.misReservas.ForEach(reserva_habitacion =>
+                    {
+                        if (DateTime.Now < reserva_habitacion.fechaDesde)
+                        {
+                            reserva_habitacion.miUsuario.credito += reserva_habitacion.pagado;
+                            reserva_habitacion.miUsuario.misReservasHabitaciones.Remove(reserva_habitacion);
+
+                            var usuario_habitacion = _context.usuarioHabitacion
+                            .FirstOrDefault(uh => uh.usuario == reserva_habitacion.miUsuario && uh.habitacion == reserva_habitacion.miHabitacion);
+
+                            if (usuario_habitacion != null)
+                            {
+                                if (usuario_habitacion.cantidad > 1)
+                                {
+                                    usuario_habitacion.cantidad--;
+                                    _context.usuarioHabitacion.Update(usuario_habitacion);
+                                }
+                                else
+                                {
+                                    _context.usuarioHabitacion.Remove(usuario_habitacion);
+                                }
+                            }
+
+                            reserva_habitacion.miUsuario.habitacionesUsadas.Remove(habitacion);
+
+                            _context.usuarios.Update(reserva_habitacion.miUsuario);
+                            _context.reservasHabitacion.Remove(reserva_habitacion);
+                        }
+                    });
+
+                    habitacion.hotel.habitaciones.Remove(habitacion);
+
+                    _context.hoteles.Update(habitacion.hotel);
+                    _context.habitaciones.Remove(habitacion);
+                });
+
+                hotel.ubicacion.hoteles.Remove(hotel);
+
+                _context.ciudades.Update(hotel.ubicacion);
                 _context.hoteles.Remove(hotel);
             }
 

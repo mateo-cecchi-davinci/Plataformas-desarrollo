@@ -21,13 +21,48 @@ namespace Agencia.Controllers
         // GET: UsuarioHabitacions
         public async Task<IActionResult> Index()
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             var context = _context.usuarioHabitacion.Include(u => u.habitacion).Include(u => u.usuario);
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+
             return View(await context.ToListAsync());
         }
 
         // GET: UsuarioHabitacions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.usuarioHabitacion == null)
             {
                 return NotFound();
@@ -37,10 +72,15 @@ namespace Agencia.Controllers
                 .Include(u => u.habitacion)
                 .Include(u => u.usuario)
                 .FirstOrDefaultAsync(m => m.usuarios_fk == id);
+
             if (usuarioHabitacion == null)
             {
                 return NotFound();
             }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
 
             return View(usuarioHabitacion);
         }
@@ -48,8 +88,27 @@ namespace Agencia.Controllers
         // GET: UsuarioHabitacions/Create
         public IActionResult Create()
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             ViewData["habitaciones_fk"] = new SelectList(_context.habitaciones, "id", "id");
             ViewData["usuarios_fk"] = new SelectList(_context.usuarios, "id", "apellido");
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+
             return View();
         }
 
@@ -66,26 +125,49 @@ namespace Agencia.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["habitaciones_fk"] = new SelectList(_context.habitaciones, "id", "id", usuarioHabitacion.habitaciones_fk);
             ViewData["usuarios_fk"] = new SelectList(_context.usuarios, "id", "apellido", usuarioHabitacion.usuarios_fk);
+            
             return View(usuarioHabitacion);
         }
 
         // GET: UsuarioHabitacions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.usuarioHabitacion == null)
             {
                 return NotFound();
             }
 
             var usuarioHabitacion = await _context.usuarioHabitacion.FindAsync(id);
+            
             if (usuarioHabitacion == null)
             {
                 return NotFound();
             }
+
             ViewData["habitaciones_fk"] = new SelectList(_context.habitaciones, "id", "id", usuarioHabitacion.habitaciones_fk);
             ViewData["usuarios_fk"] = new SelectList(_context.usuarios, "id", "apellido", usuarioHabitacion.usuarios_fk);
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
+
             return View(usuarioHabitacion);
         }
 
@@ -119,16 +201,34 @@ namespace Agencia.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["habitaciones_fk"] = new SelectList(_context.habitaciones, "id", "id", usuarioHabitacion.habitaciones_fk);
             ViewData["usuarios_fk"] = new SelectList(_context.usuarios, "id", "apellido", usuarioHabitacion.usuarios_fk);
+            
             return View(usuarioHabitacion);
         }
 
         // GET: UsuarioHabitacions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
+            string esAdminString = HttpContext.Session.GetString("esAdmin");
+            string usuarioMail = HttpContext.Session.GetString("userMail");
+            bool isAdmin = false;
+
+            if (!string.IsNullOrEmpty(esAdminString))
+            {
+                bool.TryParse(esAdminString, out isAdmin);
+            }
+
+            if (usuarioLogeado == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             if (id == null || _context.usuarioHabitacion == null)
             {
                 return NotFound();
@@ -138,10 +238,15 @@ namespace Agencia.Controllers
                 .Include(u => u.habitacion)
                 .Include(u => u.usuario)
                 .FirstOrDefaultAsync(m => m.usuarios_fk == id);
+
             if (usuarioHabitacion == null)
             {
                 return NotFound();
             }
+
+            ViewBag.usuarioMail = usuarioMail;
+            ViewBag.usuarioLogeado = usuarioLogeado;
+            ViewBag.isAdmin = isAdmin;
 
             return View(usuarioHabitacion);
         }
@@ -155,7 +260,9 @@ namespace Agencia.Controllers
             {
                 return Problem("Entity set 'Context.usuarioHabitacion'  is null.");
             }
+
             var usuarioHabitacion = await _context.usuarioHabitacion.FindAsync(id);
+
             if (usuarioHabitacion != null)
             {
                 _context.usuarioHabitacion.Remove(usuarioHabitacion);
