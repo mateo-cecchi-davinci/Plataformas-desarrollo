@@ -537,17 +537,13 @@ namespace Agencia.Controllers
                         hotel.imagen = rutaCompleta.Replace("wwwroot", "").TrimStart('\\', '/');
                     }
 
-                    var hotel_con_ubicacion_diferente = _context.hoteles
-                        .Include(h => h.ubicacion)
-                        .FirstOrDefault(h => h.id == hotel.id && h.ubicacion.id != hotel.ciudad_fk);
+                    var ubicacion_vieja = _context.hoteles.Where(h => h.id == hotel.id).Select(h => h.ubicacion).FirstOrDefault();
 
-                    if (hotel_con_ubicacion_diferente != null)
+                    if (ubicacion_vieja.id != hotel.ciudad_fk)
                     {
-                        hotel_con_ubicacion_diferente.ubicacion.hoteles.Remove(hotel_con_ubicacion_diferente);
-                        hotel.ubicacion.hoteles.Add(hotel);
+                        ubicacion_vieja.hoteles.Remove(hotel);
 
-                        _context.ciudades.Update(hotel_con_ubicacion_diferente.ubicacion);
-                        _context.ciudades.Update(hotel.ubicacion);
+                        _context.ciudades.Update(ubicacion_vieja);
                     }
 
                     _context.Update(hotel);
