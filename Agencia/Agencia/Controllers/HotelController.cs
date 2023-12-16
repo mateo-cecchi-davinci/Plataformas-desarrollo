@@ -541,9 +541,13 @@ namespace Agencia.Controllers
 
                     if (ubicacion_vieja.id != hotel.ciudad_fk)
                     {
+                        var ubicacion_nueva = _context.ciudades.FirstOrDefault(c => c.id == hotel.ciudad_fk);
+
                         ubicacion_vieja.hoteles.Remove(hotel);
+                        ubicacion_nueva.hoteles.Add(hotel);
 
                         _context.ciudades.Update(ubicacion_vieja);
+                        _context.ciudades.Update(ubicacion_nueva);
                     }
 
                     _context.Update(hotel);
@@ -618,15 +622,12 @@ namespace Agencia.Controllers
             var hotel = await _context.hoteles
                 .Include(h => h.habitaciones)
                     .ThenInclude(habitacion => habitacion.misReservas)
-                    .ThenInclude(r => r.miUsuario)
-                    .ThenInclude(u => u.misReservasHabitaciones)
-                .Include(h => h.habitaciones)
-                    .ThenInclude(habitacion => habitacion.misReservas)
+                    .ThenInclude(reserva => reserva.miUsuario)
+                    .ThenInclude(usuario => usuario.misReservasHabitaciones)
                     .ThenInclude(r => r.miHabitacion)
-                .Include(h => h.habitaciones)
                     .ThenInclude(habitacion => habitacion.misReservas)
-                    .ThenInclude(r => r.miUsuario)
-                    .ThenInclude(u => u.habitacionesUsadas)
+                    .ThenInclude(reserva => reserva.miUsuario)
+                    .ThenInclude(usuario => usuario.habitacionesUsadas)
                 .Include(h => h.ubicacion)
                     .ThenInclude(c => c.hoteles)
                 .FirstOrDefaultAsync(h => h.id == id);

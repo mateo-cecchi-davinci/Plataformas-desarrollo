@@ -225,15 +225,17 @@ namespace Agencia.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    var habitacion_con_hotel_diferente = _context.habitaciones.FirstOrDefault(h => h.id == habitacion.id && h.hotel.id != habitacion.hotel_fk);
+                    var hotel_viejo = _context.habitaciones.Where(hab => hab.id == habitacion.id).Select(hab => hab.hotel).FirstOrDefault();
 
-                    if (habitacion_con_hotel_diferente != null)
+                    if (hotel_viejo.id != habitacion.hotel_fk)
                     {
-                        habitacion_con_hotel_diferente.hotel.habitaciones.Remove(habitacion_con_hotel_diferente);
-                        habitacion.hotel.habitaciones.Add(habitacion);
+                        var hotel_nuevo = _context.hoteles.FirstOrDefault(h => h.id == habitacion.hotel_fk);
 
-                        _context.hoteles.Update(habitacion_con_hotel_diferente.hotel);
-                        _context.hoteles.Update(habitacion.hotel);
+                        hotel_viejo.habitaciones.Remove(habitacion);
+                        hotel_nuevo.habitaciones.Add(habitacion);
+
+                        _context.hoteles.Update(hotel_viejo);
+                        _context.hoteles.Update(hotel_nuevo);
                     }
 
                     _context.Update(habitacion);
@@ -310,12 +312,11 @@ namespace Agencia.Controllers
 
             var habitacion = await _context.habitaciones
                 .Include(habitacion => habitacion.misReservas)
-                    .ThenInclude(reserva_habitacion => reserva_habitacion.miUsuario)
+                    .ThenInclude(reserva => reserva.miUsuario)
                     .ThenInclude(usuario => usuario.misReservasHabitaciones)
-                .Include(habitacion => habitacion.misReservas)
-                    .ThenInclude(reserva_habitacion => reserva_habitacion.miHabitacion)
-                .Include(habitacion => habitacion.misReservas)
-                    .ThenInclude(reserva_habitacion => reserva_habitacion.miUsuario)
+                    .ThenInclude(r => r.miHabitacion)
+                    .ThenInclude(habitacion => habitacion.misReservas)
+                    .ThenInclude(reserva => reserva.miUsuario)
                     .ThenInclude(usuario => usuario.habitacionesUsadas)
                 .FirstOrDefaultAsync(habitacion => habitacion.id == id);
 
@@ -326,7 +327,6 @@ namespace Agencia.Controllers
                     if (DateTime.Now < reserva_habitacion.fechaDesde)
                     {
                         reserva_habitacion.miUsuario.credito += reserva_habitacion.pagado;
-                        reserva_habitacion.miUsuario.misReservasHabitaciones.Remove(reserva_habitacion);
 
                         var usuario_habitacion = _context.usuarioHabitacion
                             .FirstOrDefault(usuario_habitacion => usuario_habitacion.usuario == reserva_habitacion.miUsuario && usuario_habitacion.habitacion == reserva_habitacion.miHabitacion);
@@ -344,6 +344,7 @@ namespace Agencia.Controllers
                             }
                         }
 
+                        reserva_habitacion.miUsuario.misReservasHabitaciones.Remove(reserva_habitacion);
                         reserva_habitacion.miUsuario.habitacionesUsadas.Remove(habitacion);
 
                         _context.usuarios.Update(reserva_habitacion.miUsuario);

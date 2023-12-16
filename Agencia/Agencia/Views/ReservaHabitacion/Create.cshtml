@@ -11,32 +11,90 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group mb-3">
+                <label asp-for="usuarioRH_fk" class="control-label">Usuario</label>
+                <select required asp-for="usuarioRH_fk" class="form-control" asp-items="ViewBag.usuarioRH_fk"></select>
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Hotel</label>
+                <select required id="hotel" name="hotel" class="form-control" asp-items="ViewBag.hoteles"></select>
+            </div>
+            <div class="form-group mb-3">
                 <label asp-for="fechaDesde" class="control-label">Desde</label>
-                <input required asp-for="fechaDesde" class="form-control" />
+                <input required id="fechaDesde" name="fechaDesde" type="date" class="form-control" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
                 <span asp-validation-for="fechaDesde" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="fechaHasta" class="control-label">Hasta</label>
-                <input required asp-for="fechaHasta" class="form-control" />
+                <input required id="fechaHasta" name="fechaHasta" type="date" class="form-control" disabled />
                 <span asp-validation-for="fechaHasta" class="text-danger"></span>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="pagado" class="control-label">Pago</label>
-                <input required asp-for="pagado" class="form-control" value="0"/>
+            @* <div class="form-group mb-3 d-flex align-items-center">
+            <div>
+            <label asp-for="cantPersonas" class="control-label">Cantidad de personas</label>
+            <input required readonly id="cantPersonas" class="form-control" value="1" />
+            <span asp-validation-for="cantPersonas" class="text-danger"></span>
+            </div>
+            <div>
+            <label class="control-label">Habitación</label>
+            <input required readonly id="habitacion" class="form-control" value="1" />
+            </div>
+            </div> *@
+            <div class="popover-btn popover-reserva-habitacion" id="popover-btn">
+                <div class="card me-2 p-2 package-rooms">
+                    <p class="font-small m-0 ps-2">HABITACIONES</p>
+                    <div class="d-flex justify-content-evenly align-items-center">
+                        <i class="bx bx-bed icon m-0 p-0 fs-5"></i>
+                        <input type="text" name="rooms" class="m-0 p-0 room-amount" value="1"
+                               readonly>
+                        <i class="bx bx-user icon m-0 p-0 fs-5"></i>
+                        <input type="text" name="people" class="m-0 p-0 total-people" value="1"
+                               readonly>
+                    </div>
+                </div>
+                <div class="popover" id="popover">
+                    <p class="fs-6 text-body text-opacity-75 p-2 ps-3 pb-1 m-0">
+                        Habitaciones: <span class="room-index">1</span>
+                    </p>
+                    <div class="d-flex justify-content-between px-3 pt-1 pb-2">
+                        <div class="d-block">
+                            <p class="fs-5 text-body m-0">Adultos</p>
+                            <p class="popover-sml-txt text-body text-opacity-50 m-0">Desde 18 años</p>
+                        </div>
+                        <div class="wrapper mt-2">
+                            <span class="minus text-body">-</span>
+                            <span class="num text-body">1</span>
+                            <span class="plus text-body">+</span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between px-3 py-2">
+                        <div class="d-block">
+                            <p class="fs-5 text-body m-0">Menores</p>
+                            <p class="popover-sml-txt text-body text-opacity-50 m-0">Hasta 17 años</p>
+                        </div>
+                        <div class="wrapper mt-2">
+                            <span class="minus-minors text-body">-</span>
+                            <span class="num-minors text-body">0</span>
+                            <span class="plus-minors text-body">+</span>
+                        </div>
+                    </div>
+                    <div id="rooms"></div>
+                    <div id="apply-four-rooms"
+                         class="d-flex justify-content-between align-items-center border-top py-2 px-3">
+                        <a id="addRoom" class="text-decoration-none popover-sml-txt">Añadir habitacion</a>
+                        <button type="button" id="btn-apply"
+                                class="btn btn-success rounded-pill">
+                            Aplicar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="total_adults" id="total_adults">
+            <input type="hidden" name="total_minors" id="total_minors">
+            <input type="hidden" name="total_people_rooms" id="total_people_rooms">
+            <div class="form-group my-3">
+                <label asp-for="pagado" class="control-label">Costo</label>
+                <input required readonly id="costo" asp-for="pagado" class="form-control" />
                 <span asp-validation-for="pagado" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="cantPersonas" class="control-label">Cantidad de personas</label>
-                <input required asp-for="cantPersonas" class="form-control" value="1"/>
-                <span asp-validation-for="cantPersonas" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="habitacion_fk" class="control-label">Habitación</label>
-                <select required asp-for="habitacion_fk" class ="form-control" asp-items="ViewBag.habitacion_fk"></select>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="usuarioRH_fk" class="control-label">Usuario</label>
-                <select required asp-for="usuarioRH_fk" class ="form-control" asp-items="ViewBag.usuarioRH_fk"></select>
             </div>
             <div class="form-group d-flex align-items-center">
                 <input type="submit" value="Crear" class="btn btn-primary me-2" />
@@ -46,3 +104,85 @@
     </div>
 </div>
 
+<script src="~/js/popoverReservarHabitacion.js" asp-append-version="true"></script>
+<script>
+    const selectHotel = document.getElementById('hotel');
+    const personas_por_habitacion = document.getElementById('total_people_rooms');
+    const fechaDesde = document.getElementById('fechaDesde');
+    const fechaHasta = document.getElementById('fechaHasta');
+    const costoHabitacion = document.getElementById('costo');
+
+    fechaDesde.addEventListener('input', function () {
+        const fechaDesde_seleccionada = new Date(fechaDesde.value);
+
+        const fechaHasta_minima = new Date(fechaDesde_seleccionada);
+        fechaHasta_minima.setDate(fechaDesde_seleccionada.getDate() + 1);
+
+        const fechaHasta_minima_formateada = fechaHasta_minima.toISOString().split('T')[0];
+
+        fechaHasta.min = fechaHasta_minima_formateada;
+
+        fechaHasta.disabled = false;
+        fechaHasta.value = '';
+    });
+
+    selectHotel.addEventListener('change', async function () {
+        if (fechaDesde.value != '' && fechaHasta.value != '' && personas_por_habitacion.value != '') {
+            const fechaInicio = new Date(fechaDesde.value);
+            const fechaFin = new Date(fechaHasta.value);
+            const totalPeopleRooms = JSON.parse(personas_por_habitacion.value);
+            const diferenciaEnTiempo = fechaFin.getTime() - fechaInicio.getTime();
+            const diferenciaEnDias = Math.ceil(diferenciaEnTiempo / (1000 * 3600 * 24));
+            await actualizarCostoSeleccionado(this.value, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin);
+        }
+    });
+
+    personas_por_habitacion.addEventListener('change', async function () {
+        if (fechaDesde.value != '' && fechaHasta.value != '' && personas_por_habitacion.value != '') {
+            const hotelId = selectHotel.value;
+            const fechaInicio = new Date(fechaDesde.value);
+            const fechaFin = new Date(fechaHasta.value);
+            const totalPeopleRooms = JSON.parse(personas_por_habitacion.value);
+            const diferenciaEnTiempo = fechaFin.getTime() - fechaInicio.getTime();
+            const diferenciaEnDias = Math.ceil(diferenciaEnTiempo / (1000 * 3600 * 24));
+            await actualizarCostoSeleccionado(hotelId, this.value, diferenciaEnDias, fechaInicio, fechaFin);
+        }
+    });
+
+    fechaHasta.addEventListener('change', async function () {
+        if (fechaDesde.value != '' && fechaHasta.value != '' && personas_por_habitacion.value != '') {
+            const hotelId = selectHotel.value;
+            const fechaInicio = new Date(fechaDesde.value);
+            const fechaFin = new Date(fechaHasta.value);
+            const totalPeopleRooms = JSON.parse(personas_por_habitacion.value);
+            const diferenciaEnTiempo = fechaFin.getTime() - fechaInicio.getTime();
+            const diferenciaEnDias = Math.ceil(diferenciaEnTiempo / (1000 * 3600 * 24));
+            await actualizarCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin);
+        }
+    });
+
+    async function actualizarCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin) {
+        try {
+            const selectedCost = await obtenerCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin);
+            costoHabitacion.value = selectedCost;
+        } catch (error) {
+            console.error('Error al obtener el costo:', error);
+        }
+    }
+
+    function obtenerCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin) {
+        const totalPeopleRoomsString = JSON.stringify(totalPeopleRooms);
+        const url = `/ReservaHabitacion/ObtenerCosto?id=${hotelId}&totalPeopleRoomsString=${totalPeopleRoomsString}&diferenciaEnDias=${diferenciaEnDias}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
+        return fetch(url)
+            .then(response => {
+                return response.text();
+            })
+            .then(data => {
+                return data;
+            })
+            .catch(error => {
+                console.error('Error al obtener el costo:', error);
+                throw error;
+            });
+    }
+</script>

@@ -155,7 +155,8 @@ namespace Agencia.Controllers
                     return RedirectToAction("Index");
                 }
 
-                if (_context.reservasVuelo.Any(r => r.miUsuario == usuario_seleccionado))
+                //ESTO ESTA MAL
+                if (_context.reservasVuelo.Any(r => r.miUsuario == usuario_seleccionado && r.id == reservaVuelo.id))
                 {
                     Console.WriteLine("Ya reservó ese vuelo");
                     return RedirectToAction("Index");
@@ -268,11 +269,11 @@ namespace Agencia.Controllers
                 try
                 {
                     var usuario_seleccionado = _context.usuarios
-                        .Include(usuario => usuario.misReservasVuelos)
+                        .Include(usuario => usuario.misReservasVuelos.Where(r => r.id != reservaVuelo.id))
                         .FirstOrDefault(u => u.id == reservaVuelo.usuarioRV_fk);
 
                     var vuelo_seleccionado = _context.vuelos
-                        .Include(vuelo => vuelo.misReservas)
+                        .Include(vuelo => vuelo.misReservas.Where(r => r.id != reservaVuelo.id))
                         .FirstOrDefault(v => v.id == reservaVuelo.vuelo_fk);
 
                     if (usuario_seleccionado == null)
@@ -284,6 +285,12 @@ namespace Agencia.Controllers
                     if (vuelo_seleccionado == null)
                     {
                         Console.WriteLine("Vuelo no encontrado");
+                        return RedirectToAction("Index");
+                    }
+
+                    if (_context.reservasVuelo.Any(r => r.miUsuario == usuario_seleccionado && r.miVuelo.id == reservaVuelo.vuelo_fk && r.id != reservaVuelo.id))
+                    {
+                        Console.WriteLine("Ya reservó ese vuelo");
                         return RedirectToAction("Index");
                     }
 
@@ -310,40 +317,79 @@ namespace Agencia.Controllers
                         _context.usuarioVuelo.Add(usuario_vuelo);
                     }
 
-                    var reserva_anterior = _context.reservasVuelo
-                        .Include(reserva_anterior => reserva_anterior.miVuelo)
-                            .ThenInclude(vuelo => vuelo.misReservas)
-                        .Include(reserva_anterior => reserva_anterior.miUsuario)
-                            .ThenInclude(usuario => usuario.misReservasVuelos)
-                        .FirstOrDefault(reserva_anterior => reserva_anterior.id == reservaVuelo.id);
+                    //var usuario_viejo_con_lista_de_reservas_vacia = _context.reservasVuelo
+                    //    .Where(r => r.id == reservaVuelo.id)
+                    //    .Select(r => r.miUsuario)
+                    //    .AsNoTrackingWithIdentityResolution()
+                    //    .FirstOrDefault();
 
-                    if (reserva_anterior.usuarioRV_fk != reservaVuelo.usuarioRV_fk)
+                    //var usuario_viejo = _context.usuarios
+                    //    .Include(u => u.misReservasVuelos.Where(r => r.id == reservaVuelo.id))
+                    //    .AsNoTrackingWithIdentityResolution()
+                    //    .FirstOrDefault(u => u.id == usuario_viejo_con_lista_de_reservas_vacia.id);
+
+                    //var vuelo_viejo_con_lista_de_reservas_vacia = _context.reservasVuelo
+                    //    .Where(r => r.id == reservaVuelo.id)
+                    //    .Select(r => r.miVuelo)
+                    //    .AsNoTrackingWithIdentityResolution()
+                    //    .FirstOrDefault();
+
+                    //var vuelo_viejo = _context.vuelos
+                    //    .Include(v => v.misReservas.Where(r => r.id == reservaVuelo.id))
+                    //    .AsNoTrackingWithIdentityResolution()
+                    //    .FirstOrDefault(v => v.id == vuelo_viejo_con_lista_de_reservas_vacia.id);
+
+                    var usuario_viejo = _context.reservasVuelo
+                        .Where(r => r.id == reservaVuelo.id)
+                        .Select(r => r.miUsuario)
+                        .FirstOrDefault();
+
+                    var vuelo_viejo = _context.reservasVuelo
+                        .Where(r => r.id == reservaVuelo.id)
+                        .Select(r => r.miVuelo)
+                        .FirstOrDefault();
+
+                    var pago_viejo = _context.reservasVuelo
+                        .Where(r => r.id == reservaVuelo.id)
+                        .Select(r => r.pagado)
+                        .FirstOrDefault();
+
+                    var cantidad_de_personas_anterior = _context.reservasVuelo
+                        .Where(r => r.id == reservaVuelo.id)
+                        .Select(r => r.cantPersonas)
+                        .FirstOrDefault();
+
+                    if (usuario_viejo.id != reservaVuelo.usuarioRV_fk)
                     {
-                        reserva_anterior.miUsuario.credito += reserva_anterior.pagado;
-                        reserva_anterior.miUsuario.misReservasVuelos.Remove(reserva_anterior);
+                        if (DateTime.Now < vuelo_viejo.fecha)
+                        {
+                            usuario_viejo.credito += pago_viejo;
+                        }
 
-                        _context.usuarios.Update(reserva_anterior.miUsuario);
+                        usuario_viejo.misReservasVuelos.Remove(reservaVuelo);
+                        usuario_seleccionado.misReservasVuelos.Add(reservaVuelo);
+
+                        _context.usuarios.Update(usuario_viejo);
                     }
 
-                    if (reserva_anterior.vuelo_fk != reservaVuelo.vuelo_fk)
+                    if (vuelo_viejo.id != reservaVuelo.vuelo_fk)
                     {
-                        reserva_anterior.miVuelo.vendido -= reserva_anterior.cantPersonas;
-                        reserva_anterior.miVuelo.misReservas.Remove(reserva_anterior);
+                        vuelo_viejo.vendido -= cantidad_de_personas_anterior;
 
-                        _context.vuelos.Update(reserva_anterior.miVuelo);
+                        vuelo_viejo.misReservas.Remove(reservaVuelo);
+                        vuelo_seleccionado.misReservas.Add(reservaVuelo);
+
+                        _context.vuelos.Update(vuelo_viejo);
                     }
 
-                    usuario_seleccionado.credito += reserva_anterior.pagado;
+                    usuario_seleccionado.credito += pago_viejo;
                     usuario_seleccionado.credito -= costo;
 
-                    vuelo_seleccionado.vendido -= reserva_anterior.cantPersonas;
-                    vuelo_seleccionado.vendido += reservaVuelo.cantPersonas;
-
-                    usuario_seleccionado.misReservasVuelos.Remove(reserva_anterior);
-                    usuario_seleccionado.misReservasVuelos.Add(reservaVuelo);
-
-                    vuelo_seleccionado.misReservas.Remove(reserva_anterior);
-                    vuelo_seleccionado.misReservas.Add(reservaVuelo);
+                    if (cantidad_de_personas_anterior != reservaVuelo.cantPersonas)
+                    {
+                        vuelo_seleccionado.vendido -= cantidad_de_personas_anterior;
+                        vuelo_seleccionado.vendido += reservaVuelo.cantPersonas;
+                    }
 
                     _context.usuarios.Update(usuario_seleccionado);
                     _context.vuelos.Update(vuelo_seleccionado);
@@ -426,8 +472,8 @@ namespace Agencia.Controllers
             var reservaVuelo = await _context.reservasVuelo
                 .Include(reserva_vuelo => reserva_vuelo.miVuelo)
                     .ThenInclude(vuelo => vuelo.misReservas)
-                .Include(reserva_vuelo => reserva_vuelo.miUsuario)
-                    .ThenInclude(usuario => usuario.misReservasVuelos)
+                    .ThenInclude(reserva_vuelo => reserva_vuelo.miUsuario)
+                    .ThenInclude(usuario => usuario.vuelosTomados)
                 .FirstOrDefaultAsync(reserva_vuelo => reserva_vuelo.id == id);
 
             if (reservaVuelo != null)

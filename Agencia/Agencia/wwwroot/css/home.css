@@ -248,7 +248,26 @@
     position: relative;
 }
 
+.popover-reserva-habitacion {
+    max-width: 160px;
+}
+
 .popover {
+    position: absolute;
+    top: 5rem;
+    left: 48%;
+    transform: translateX(-50%);
+    background: #fff;
+    border-radius: .5rem;
+    padding-top: 0.5rem;
+    width: 280px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s, visibility .5s, top .5s;
+    cursor: auto !important;
+}
+
+.popoverReservaHabitacion {
     position: absolute;
     top: 5rem;
     left: 48%;
@@ -272,6 +291,16 @@
     position: absolute;
     border: 1rem solid;
     border-color: transparent transparent #fff;
+    top: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.popoverReservaHabitacion::before {
+    content: '';
+    position: absolute;
+    border: 1rem solid;
+    border-color: transparent transparent #c1c1c1;
     top: -2rem;
     left: 50%;
     transform: translateX(-50%);

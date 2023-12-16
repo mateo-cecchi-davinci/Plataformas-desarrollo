@@ -252,17 +252,24 @@ namespace Agencia.Controllers
                 var origen = _context.ciudades.FirstOrDefault(c => c.id == vuelo.origen_fk);
                 var destino = _context.ciudades.FirstOrDefault(c => c.id == vuelo.destino_fk);
 
-                if (origen == null || destino == null)
+                if (origen == null)
                 {
-                    Console.WriteLine("La ciudad no se encuentra disponible");
+                    Console.WriteLine("El origen ingresado no se encuentra disponible");
                     return RedirectToAction("Index");
                 }
 
-                origen.vuelos.Add(vuelo);
-                destino.vuelos.Add(vuelo);
+                if (destino == null)
+                {
+                    Console.WriteLine("El destino ingresado no se encuentra disponible");
+                    return RedirectToAction("Index");
+                }
+
+                origen.vuelos_origen.Add(vuelo);
+                destino.vuelos_destino.Add(vuelo);
 
                 _context.ciudades.Update(origen);
                 _context.ciudades.Update(destino);
+
                 _context.Add(vuelo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -304,8 +311,8 @@ namespace Agencia.Controllers
                 return NotFound();
             }
             
-            ViewData["destino_fk"] = new SelectList(_context.ciudades, "id", "nombre", vuelo.destino_fk);
             ViewData["origen_fk"] = new SelectList(_context.ciudades, "id", "nombre", vuelo.origen_fk);
+            ViewData["destino_fk"] = new SelectList(_context.ciudades, "id", "nombre", vuelo.destino_fk);
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
@@ -342,21 +349,29 @@ namespace Agencia.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    var vuelo_con_origen_modificado = _context.vuelos.FirstOrDefault(v => v.id == vuelo.id && v.origen_fk != vuelo.origen_fk);
-                    var vuelo_con_destino_modificado = _context.vuelos.FirstOrDefault(v => v.id == vuelo.id && v.destino_fk != vuelo.destino_fk);
+                    var origen_viejo = _context.vuelos.Where(v => v.id == vuelo.id).Select(v => v.origen).FirstOrDefault();
+                    var destino_viejo = _context.vuelos.Where(v => v.id == vuelo.id).Select(v => v.destino).FirstOrDefault();
 
-                    if (vuelo_con_origen_modificado != null)
+                    if (origen_viejo.id != vuelo.origen_fk)
                     {
-                        vuelo_con_origen_modificado.origen.vuelos.Remove(vuelo_con_origen_modificado);
-                        vuelo.origen.vuelos.Add(vuelo);
-                        _context.ciudades.Update(vuelo_con_origen_modificado.origen);
+                        var origen_nuevo = _context.ciudades.FirstOrDefault(c => c.id == vuelo.origen_fk);
+
+                        origen_viejo.vuelos_origen.Remove(vuelo);
+                        origen_nuevo.vuelos_origen.Add(vuelo);
+
+                        _context.ciudades.Update(origen_viejo);
+                        _context.ciudades.Update(origen_nuevo);
                     }
 
-                    if (vuelo_con_destino_modificado != null)
+                    if (destino_viejo.id != vuelo.destino_fk)
                     {
-                        vuelo_con_destino_modificado.destino.vuelos.Remove(vuelo_con_destino_modificado);
-                        vuelo.destino.vuelos.Add(vuelo);
-                        _context.ciudades.Update(vuelo_con_destino_modificado.destino);
+                        var destino_nuevo = _context.ciudades.FirstOrDefault(c => c.id == vuelo.destino_fk);
+
+                        destino_viejo.vuelos_destino.Remove(vuelo);
+                        destino_nuevo.vuelos_destino.Add(vuelo);
+
+                        _context.ciudades.Update(destino_viejo);
+                        _context.ciudades.Update(destino_nuevo);
                     }
 
                     _context.Update(vuelo);
@@ -437,17 +452,16 @@ namespace Agencia.Controllers
                 .Include(vuelo => vuelo.misReservas)
                     .ThenInclude(reserva_vuelo => reserva_vuelo.miUsuario)
                     .ThenInclude(usuario => usuario.misReservasVuelos)
-                .Include(vuelo => vuelo.misReservas)
                     .ThenInclude(reserva_vuelo => reserva_vuelo.miVuelo)
-                .Include(vuelo => vuelo.misReservas)
+                    .ThenInclude(vuelo => vuelo.misReservas)
                     .ThenInclude(reserva_vuelo => reserva_vuelo.miUsuario)
                     .ThenInclude(usuario => usuario.vuelosTomados)
                 .Include(vuelo => vuelo.origen)
-                    .ThenInclude(origen => origen.vuelos)
+                    .ThenInclude(origen => origen.vuelos_origen)
                 .Include(vuelo => vuelo.destino)
-                    .ThenInclude(destino => destino.vuelos)
+                    .ThenInclude(destino => destino.vuelos_destino)
                 .FirstOrDefaultAsync(vuelo => vuelo.id == id);
-            
+
             if (vuelo != null)
             {
                 vuelo.misReservas.ForEach(reserva_vuelo =>
@@ -472,8 +486,8 @@ namespace Agencia.Controllers
                     }
                 });
 
-                vuelo.origen.vuelos.Remove(vuelo);
-                vuelo.destino.vuelos.Remove(vuelo);
+                vuelo.origen.vuelos_origen.Remove(vuelo);
+                vuelo.destino.vuelos_origen.Remove(vuelo);
 
                 _context.ciudades.Update(vuelo.origen);
                 _context.ciudades.Update(vuelo.destino);

@@ -6,7 +6,7 @@
 
 <h1 class="my-3">Eliminar reserva</h1>
 
-<h3>¿Está seguro de eliminar esta reserva?</h3>
+<h3 class="mb-3">¿Está seguro de eliminar esta reserva?</h3>
 <div>
     <hr />
     <dl class="row">
@@ -20,7 +20,18 @@
             Habitación:
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.miHabitacion.id)
+            @if (Model.miHabitacion.capacidad == 2)
+            {
+                <text>Para dos personas</text>
+            }
+            else if (Model.miHabitacion.capacidad == 4)
+            {
+                <text>Para cuatro personas</text>
+            }
+            else
+            {
+                <text>Para ocho personas</text>
+            }
         </dd>
         <dt class="col-sm-2">
             Usuario:
@@ -53,7 +64,7 @@
             @Html.DisplayFor(model => model.cantPersonas)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="id" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |

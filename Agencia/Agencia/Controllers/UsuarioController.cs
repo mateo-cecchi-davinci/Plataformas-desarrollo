@@ -35,18 +35,27 @@ namespace Agencia.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-
             var usuario = await _context.usuarios
-                .Include(u => u.misReservasHabitaciones).ThenInclude(rh => rh.miHabitacion).ThenInclude(h => h.hotel)
-                .Include(u => u.misReservasVuelos).ThenInclude(rv => rv.miVuelo).ThenInclude(v => v.origen)
+                .Include(u => u.misReservasHabitaciones)
+                    .ThenInclude(rh => rh.miHabitacion)
+                    .ThenInclude(h => h.hotel)
+                .Include(u => u.misReservasVuelos)
+                    .ThenInclude(rv => rv.miVuelo)
+                    .ThenInclude(v => v.origen)
                 .Include(u => u.habitacionesUsadas)
-                .Include(u => u.vuelosTomados).ThenInclude(v => v.destino)
+                .Include(u => u.vuelosTomados)
+                    .ThenInclude(v => v.origen)
+                    .ThenInclude(c => c.vuelos_destino)
+                    .ThenInclude(v => v.misReservas)
+                    .ThenInclude(r => r.miUsuario)
+                    .ThenInclude(u => u.vuelosTomados)
+                    .ThenInclude(v => v.destino)
                 .FirstOrDefaultAsync(u => u.mail == usuarioMail);
 
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
-            
+
             if (usuario != null)
             {
                 return View(usuario);
@@ -249,10 +258,10 @@ namespace Agencia.Controllers
                         throw;
                     }
                 }
-                
+
                 return RedirectToAction(nameof(Index));
             }
-            
+
             return View(usuario);
         }
 
@@ -305,7 +314,7 @@ namespace Agencia.Controllers
             }
 
             var usuario = await _context.usuarios.FindAsync(id);
-            
+
             if (usuario != null)
             {
                 _context.usuarios.Remove(usuario);

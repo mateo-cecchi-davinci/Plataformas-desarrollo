@@ -126,14 +126,14 @@ namespace Agencia.Models
 
             modelBuilder.Entity<Vuelo>()
                 .HasOne(v => v.origen)
-                .WithMany(c => c.vuelos)
+                .WithMany(c => c.vuelos_origen)
                 .HasForeignKey(v => v.origen_fk)
                 .HasConstraintName("origen_fk")
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Vuelo>()
                 .HasOne(v => v.destino)
-                .WithMany()
+                .WithMany(c => c.vuelos_destino)
                 .HasForeignKey(v => v.destino_fk)
                 .HasConstraintName("destino_fk")
                 .OnDelete(DeleteBehavior.NoAction);

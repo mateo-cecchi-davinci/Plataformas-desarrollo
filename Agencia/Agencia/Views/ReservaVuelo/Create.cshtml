@@ -47,6 +47,11 @@
     const selectVuelo = document.getElementById('vuelo');
     const costoVuelo = document.getElementById('costo');
 
+    selectVuelo.addEventListener('change', async function () {
+        const selectedCost = await obtenerCostoSeleccionado(this.value);
+        costoVuelo.value = selectedCost;
+    });
+
     function obtenerCostoSeleccionado(vueloId) {
         return fetch(`/Vuelo/ObtenerCostoVuelo?id=${vueloId}`)
             .then(response => {
@@ -60,11 +65,4 @@
                 throw error;
             });
     }
-
-    selectVuelo.addEventListener('change', async function () {
-        const selectedCost = await obtenerCostoSeleccionado(this.value);
-        costoVuelo.value = selectedCost;
-    });
-
-
 </script>

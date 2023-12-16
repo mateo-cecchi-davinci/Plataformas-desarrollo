@@ -1913,7 +1913,7 @@ namespace Agencia.Migrations
 
                     b.HasIndex("habitaciones_fk");
 
-                    b.ToTable("usuarioHabitacion");
+                    b.ToTable("usuarioHabitacion", (string)null);
 
                     b.HasData(
                         new
@@ -2038,7 +2038,7 @@ namespace Agencia.Migrations
 
                     b.HasIndex("vuelo_fk");
 
-                    b.ToTable("usuarioVuelo");
+                    b.ToTable("usuarioVuelo", (string)null);
 
                     b.HasData(
                         new
