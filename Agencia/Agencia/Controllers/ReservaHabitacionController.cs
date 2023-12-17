@@ -31,6 +31,10 @@ namespace Agencia.Controllers
                     .ThenInclude(h => h.hotel)
                     .ThenInclude(h => h.habitaciones)
                 .Load();
+
+            _context.habitaciones
+                .Include(h => h.hotel)
+                .Load();
         }
 
         // GET: ReservaHabitacions
@@ -300,6 +304,8 @@ namespace Agencia.Controllers
 
                     usuario_seleccionado.credito -= reservaHabitacion.pagado;
 
+                    _context.usuarios.Update(usuario_seleccionado);
+
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -341,12 +347,41 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
+            var habitaciones = await _context.habitaciones.ToListAsync();
+
+            var habitaciones_con_hotel = habitaciones.Select(h =>
+            {
+                string capacidadText;
+
+                switch (h.capacidad)
+                {
+                    case 2:
+                        capacidadText = "para dos personas";
+                        break;
+                    case 4:
+                        capacidadText = "para cuatro personas";
+                        break;
+                    case 8:
+                        capacidadText = "para ocho personas";
+                        break;
+                    default:
+                        capacidadText = "habitación inválida";
+                        break;
+                }
+
+                return new SelectListItem
+                {
+                    Value = h.id.ToString(),
+                    Text = $"{h.hotel.nombre} - {capacidadText}"
+                };
+            }).ToList();
+
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
 
-            ViewData["habitacion_fk"] = new SelectList(_context.habitaciones, "id", "id", reservaHabitacion.habitacion_fk);
-            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHabitacion.usuarioRH_fk);
+            ViewData["habitacion_fk"] = new SelectList(habitaciones_con_hotel, "Value", "Text");
+            ViewData["usuarioRV_fk"] = new SelectList(_context.usuarios.Select(u => new { u.id, nombre = u.nombre + " " + u.apellido }), "id", "nombre");
 
             return View(reservaHabitacion);
         }

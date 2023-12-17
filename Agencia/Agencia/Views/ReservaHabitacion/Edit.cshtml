@@ -13,6 +13,16 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
             <div class="form-group mb-3">
+                <label asp-for="usuarioRH_fk" class="control-label">Usuario</label>
+                <select required asp-for="usuarioRH_fk" class="form-control" asp-items="ViewBag.usuarioRH_fk"></select>
+                <span asp-validation-for="usuarioRH_fk" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="habitacion_fk" class="control-label">Hotel - Habitación</label>
+                <select required asp-for="habitacion_fk" class="form-control" asp-items="ViewBag.habitacion_fk"></select>
+                <span asp-validation-for="habitacion_fk" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
                 <label asp-for="fechaDesde" class="control-label">Desde</label>
                 <input required asp-for="fechaDesde" class="form-control" />
                 <span asp-validation-for="fechaDesde" class="text-danger"></span>
@@ -23,24 +33,14 @@
                 <span asp-validation-for="fechaHasta" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="pagado" class="control-label">Pago</label>
-                <input required asp-for="pagado" class="form-control" />
-                <span asp-validation-for="pagado" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
                 <label asp-for="cantPersonas" class="control-label">Cantidad de personas</label>
                 <input required asp-for="cantPersonas" class="form-control" />
                 <span asp-validation-for="cantPersonas" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="habitacion_fk" class="control-label">Habitación</label>
-                <select required asp-for="habitacion_fk" class="form-control" asp-items="ViewBag.habitacion_fk"></select>
-                <span asp-validation-for="habitacion_fk" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="usuarioRH_fk" class="control-label">Usuario</label>
-                <select required asp-for="usuarioRH_fk" class="form-control" asp-items="ViewBag.usuarioRH_fk"></select>
-                <span asp-validation-for="usuarioRH_fk" class="text-danger"></span>
+                <label asp-for="pagado" class="control-label">Pago</label>
+                <input required asp-for="pagado" class="form-control" />
+                <span asp-validation-for="pagado" class="text-danger"></span>
             </div>
             <div class="form-group d-flex align-items-center">
                 <input type="submit" value="Guardar" class="btn btn-primary me-2" />
