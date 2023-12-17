@@ -33,6 +33,7 @@ namespace Agencia.Models
 
             var connectionString = configuration.GetConnectionString("Context");
             optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

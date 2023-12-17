@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Agencia.Models;
 using System.Text.Json;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace Agencia.Controllers
 {
@@ -18,6 +19,16 @@ namespace Agencia.Controllers
         public ReservaHabitacionController(Context context)
         {
             _context = context;
+
+            _context.reservasHabitacion
+                .Include(reserva_habitacion => reserva_habitacion.miUsuario)
+                    .ThenInclude(usuario => usuario.misReservasHabitaciones)
+                    .ThenInclude(r => r.miHabitacion)
+                    .ThenInclude(habitacion => habitacion.misReservas)
+                    .ThenInclude(reserva => reserva.miUsuario)
+                    .ThenInclude(usuario => usuario.habitacionesUsadas)
+                    .ThenInclude(h => h.hotel)
+                .Load();
         }
 
         // GET: ReservaHabitacions
@@ -34,10 +45,7 @@ namespace Agencia.Controllers
                 bool.TryParse(esAdminString, out isAdmin);
             }
 
-            var context = _context.reservasHabitacion
-                .Include(r => r.miHabitacion)
-                    .ThenInclude(habitacion => habitacion.hotel)
-                .Include(r => r.miUsuario);
+            var context = _context.reservasHabitacion;
 
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
@@ -69,11 +77,7 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
-            var reservaHabitacion = await _context.reservasHabitacion
-                .Include(r => r.miHabitacion)
-                    .ThenInclude(habitacion => habitacion.hotel)
-                .Include(r => r.miUsuario)
-                .FirstOrDefaultAsync(m => m.id == id);
+            var reservaHabitacion = await _context.reservasHabitacion.FirstOrDefaultAsync(m => m.id == id);
 
             if (reservaHabitacion == null)
             {
@@ -105,12 +109,12 @@ namespace Agencia.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios.Select(u => new { u.id, nombre = u.nombre + " " + u.apellido }), "id", "nombre");
-            ViewData["hoteles"] = new SelectList(_context.hoteles, "id", "nombre");
-            //ViewData["habitacion_fk"] = new SelectList(_context.habitaciones, "id", "id");
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
+
+            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios.Select(u => new { u.id, nombre = u.nombre + " " + u.apellido }), "id", "nombre");
+            ViewData["hoteles"] = new SelectList(_context.hoteles, "id", "nombre");
 
             return View();
         }
@@ -120,19 +124,13 @@ namespace Agencia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,fechaDesde,fechaHasta,pagado,cantPersonas,habitacion_fk,usuarioRH_fk")] ReservaHabitacion reservaHabitacion)
+        public async Task<IActionResult> Create(int hotel, DateTime fechaDesde, DateTime fechaHasta, string rooms, string people, string total_people_rooms, int habitaciones_chicas, int habitaciones_medianas, int habitaciones_grandes, [Bind("id,fechaDesde,fechaHasta,pagado,cantPersonas,habitacion_fk,usuarioRH_fk")] ReservaHabitacion reservaHabitacion)
         {
             if (ModelState.IsValid)
             {
                 var usuario_seleccionado = _context.usuarios.FirstOrDefault(u => u.id == reservaHabitacion.usuarioRH_fk);
-                var habitacion_seleccionada = _context.habitaciones.FirstOrDefault(h => h.id == reservaHabitacion.habitacion_fk);
 
-                TimeSpan diferencia = reservaHabitacion.fechaHasta - reservaHabitacion.fechaDesde;
-                int cantidadDias = Math.Abs(diferencia.Days);
-
-                double costo = reservaHabitacion.cantPersonas * habitacion_seleccionada.costo * cantidadDias;
-
-                if (usuario_seleccionado.credito - costo < 0)
+                if (usuario_seleccionado.credito - reservaHabitacion.pagado < 0)
                 {
                     Console.WriteLine("Crédito insuficiente");
                     return RedirectToAction("Index");
@@ -150,7 +148,8 @@ namespace Agencia.Controllers
                     return RedirectToAction("Index");
                 }
 
-                var usuario_habitacion = _context.usuarioHabitacion.FirstOrDefault(uh => uh.usuarios_fk == usuario_seleccionado.id && uh.habitaciones_fk == habitacion_seleccionada.id);
+                var usuario_habitacion = _context.usuarioHabitacion
+                    .FirstOrDefault(uh => uh.usuarios_fk == usuario_seleccionado.id && uh.habitaciones_fk == habitacion_seleccionada.id);
 
                 if (usuario_habitacion == null)
                 {
@@ -165,7 +164,7 @@ namespace Agencia.Controllers
                     _context.usuarioHabitacion.Update(usuario_habitacion);
                 }
 
-                usuario_seleccionado.credito -= costo;
+                usuario_seleccionado.credito -= reservaHabitacion.pagado;
 
                 usuario_seleccionado.misReservasHabitaciones.Add(reservaHabitacion);
                 habitacion_seleccionada.misReservas.Add(reservaHabitacion);
@@ -173,6 +172,7 @@ namespace Agencia.Controllers
                 _context.usuarios.Update(usuario_seleccionado);
                 _context.habitaciones.Update(habitacion_seleccionada);
                 _context.Add(reservaHabitacion);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -213,11 +213,12 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
-            ViewData["habitacion_fk"] = new SelectList(_context.habitaciones, "id", "id", reservaHabitacion.habitacion_fk);
-            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHabitacion.usuarioRH_fk);
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
+
+            ViewData["habitacion_fk"] = new SelectList(_context.habitaciones, "id", "id", reservaHabitacion.habitacion_fk);
+            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios, "id", "apellido", reservaHabitacion.usuarioRH_fk);
 
             return View(reservaHabitacion);
         }
@@ -239,20 +240,24 @@ namespace Agencia.Controllers
                 try
                 {
                     var usuario_seleccionado = _context.usuarios.FirstOrDefault(u => u.id == reservaHabitacion.usuarioRH_fk);
-
-                    var habitacion_seleccionada = _context.habitaciones
-                        .Include(habitacion => habitacion.misReservas)
-                        .FirstOrDefault(h => h.id == reservaHabitacion.habitacion_fk);
+                    var habitacion_seleccionada = _context.habitaciones.FirstOrDefault(h => h.id == reservaHabitacion.habitacion_fk);
+                    var reserva_seleccionada = _context.reservasHabitacion.FirstOrDefault(r => r.id == reservaHabitacion.id);
 
                     if (usuario_seleccionado == null)
                     {
-                        Console.WriteLine("Usuario no encontrado");
+                        Console.WriteLine("Usuario invalidó");
                         return RedirectToAction("Index");
                     }
 
                     if (habitacion_seleccionada == null)
                     {
-                        Console.WriteLine("Habitacion no encontrada");
+                        Console.WriteLine("Habitación inválida");
+                        return RedirectToAction("Index");
+                    }
+
+                    if (reserva_seleccionada == null)
+                    {
+                        Console.WriteLine("Reserva inválida");
                         return RedirectToAction("Index");
                     }
 
@@ -294,37 +299,45 @@ namespace Agencia.Controllers
                         _context.usuarioHabitacion.Update(usuario_habitacion);
                     }
 
-                    var usuario_viejo = _context.reservasHabitacion.Where(r => r.id == reservaHabitacion.id).Select(r => r.miUsuario).FirstOrDefault();
-                    var habitacion_vieja = _context.reservasHabitacion.Where(r => r.id == reservaHabitacion.id).Select(r => r.miHabitacion).FirstOrDefault();
-                    var pago_viejo = _context.reservasHabitacion.Where(r => r.id == reservaHabitacion.id).Select(r => r.pagado).FirstOrDefault();
-
-                    if (usuario_viejo.id != reservaHabitacion.usuarioRH_fk)
+                    if (reserva_seleccionada.miUsuario.id != reservaHabitacion.usuarioRH_fk)
                     {
                         if (DateTime.Now < reservaHabitacion.fechaDesde)
                         {
-                            usuario_viejo.credito += pago_viejo;
+                            reserva_seleccionada.miUsuario.credito += reserva_seleccionada.pagado;
                         }
 
-                        usuario_viejo.misReservasHabitaciones.Remove(reservaHabitacion);
-                        usuario_seleccionado.misReservasHabitaciones.Add(reservaHabitacion);
+                        reserva_seleccionada.miUsuario.misReservasHabitaciones.Remove(reserva_seleccionada);
+                        usuario_seleccionado.misReservasHabitaciones.Add(reserva_seleccionada);
 
-                        _context.usuarios.Update(usuario_viejo);
+                        _context.usuarios.Update(reserva_seleccionada.miUsuario);
+
+                        reserva_seleccionada.usuarioRH_fk = reservaHabitacion.usuarioRH_fk;
+                        reserva_seleccionada.miUsuario = usuario_seleccionado;
                     }
 
-                    if (habitacion_vieja.id != reservaHabitacion.habitacion_fk)
+                    if (reserva_seleccionada.miHabitacion.id != reservaHabitacion.habitacion_fk)
                     {
-                        habitacion_vieja.misReservas.Remove(reservaHabitacion);
-                        habitacion_seleccionada.misReservas.Add(reservaHabitacion);
+                        reserva_seleccionada.miHabitacion.misReservas.Remove(reserva_seleccionada);
+                        habitacion_seleccionada.misReservas.Add(reserva_seleccionada);
 
-                        _context.habitaciones.Update(habitacion_vieja);
+                        _context.habitaciones.Update(reserva_seleccionada.miHabitacion);
+                        _context.habitaciones.Update(habitacion_seleccionada);
+
+                        reserva_seleccionada.habitacion_fk = reservaHabitacion.habitacion_fk;
+                        reserva_seleccionada.miHabitacion = habitacion_seleccionada;
                     }
 
-                    usuario_seleccionado.credito += pago_viejo;
+                    usuario_seleccionado.credito += reserva_seleccionada.pagado;
                     usuario_seleccionado.credito -= costo;
 
+                    reserva_seleccionada.fechaDesde = reservaHabitacion.fechaDesde;
+                    reserva_seleccionada.fechaHasta = reservaHabitacion.fechaHasta;
+                    reserva_seleccionada.pagado = reservaHabitacion.pagado;
+                    reserva_seleccionada.cantPersonas = reservaHabitacion.cantPersonas;
+
                     _context.usuarios.Update(usuario_seleccionado);
-                    _context.habitaciones.Update(habitacion_seleccionada);
-                    _context.Update(reservaHabitacion);
+
+                    //_context.Update(reservaHabitacion); <--- esto esta roto
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -370,11 +383,7 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
-            var reservaHabitacion = await _context.reservasHabitacion
-                .Include(r => r.miHabitacion)
-                    .ThenInclude(h => h.hotel)
-                .Include(r => r.miUsuario)
-                .FirstOrDefaultAsync(m => m.id == id);
+            var reservaHabitacion = await _context.reservasHabitacion.FirstOrDefaultAsync(m => m.id == id);
 
             if (reservaHabitacion == null)
             {
@@ -398,14 +407,7 @@ namespace Agencia.Controllers
                 return Problem("Entity set 'Context.reservasHotel'  is null.");
             }
 
-            var reservaHabitacion = await _context.reservasHabitacion
-                .Include(reserva_habitacion => reserva_habitacion.miUsuario)
-                    .ThenInclude(usuario => usuario.misReservasHabitaciones)
-                    .ThenInclude(r => r.miHabitacion)
-                    .ThenInclude(habitacion => habitacion.misReservas)
-                    .ThenInclude(reserva => reserva.miUsuario)
-                    .ThenInclude(usuario => usuario.habitacionesUsadas)
-                .FirstOrDefaultAsync(reserva_habitacion => reserva_habitacion.id == id);
+            var reservaHabitacion = await _context.reservasHabitacion.FirstOrDefaultAsync(reserva_habitacion => reserva_habitacion.id == id);
 
             if (reservaHabitacion != null)
             {
@@ -414,7 +416,9 @@ namespace Agencia.Controllers
                     reservaHabitacion.miUsuario.credito += reservaHabitacion.pagado;
 
                     var usuario_habitacion = _context.usuarioHabitacion
-                        .FirstOrDefault(usuario_habitacion => usuario_habitacion.usuario == reservaHabitacion.miUsuario && usuario_habitacion.habitacion == reservaHabitacion.miHabitacion);
+                        .FirstOrDefault(usuario_habitacion => 
+                            usuario_habitacion.usuario == reservaHabitacion.miUsuario && 
+                            usuario_habitacion.habitacion == reservaHabitacion.miHabitacion);
 
                     if (usuario_habitacion != null)
                     {
@@ -450,7 +454,7 @@ namespace Agencia.Controllers
         }
 
         [HttpGet]
-        public ActionResult<double> ObtenerCosto(int id, string totalPeopleRoomsString, int diferenciaEnDias, string fechaInicio, string fechaFin)
+        public IActionResult ObtenerCosto(int id, string totalPeopleRoomsString, int diferenciaEnDias, string fechaInicio, string fechaFin)
         {
             if (DateTime.TryParseExact(
                     fechaInicio,
@@ -466,7 +470,7 @@ namespace Agencia.Controllers
                     out DateTime fechaHasta))
             {
                 var hotel_seleccionado = _context.hoteles.Include(h => h.habitaciones).ThenInclude(h => h.misReservas).FirstOrDefault(h => h.id == id);
-                Dictionary<string, int> habitaciones = JsonSerializer.Deserialize<Dictionary<string, int>>(totalPeopleRoomsString);
+                Dictionary<string, int> habitaciones = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, int>>(totalPeopleRoomsString);
 
                 int habitaciones_chicas = 0;
                 int habitaciones_medianas = 0;
@@ -507,6 +511,9 @@ namespace Agencia.Controllers
                     habitaciones_medianas <= habitaciones_medianas_disponibles.Count() &&
                     habitaciones_grandes <= habitaciones_grandes_disponibles.Count())
                 {
+                    int habitaciones_chicas_seleccionadas = habitaciones_chicas;
+                    int habitaciones_medianas_seleccionadas = habitaciones_medianas;
+                    int habitaciones_grandes_seleccionadas = habitaciones_grandes;
                     double costo_hab_chicas = 0;
                     double costo_hab_medianas = 0;
                     double costo_hab_grandes = 0;
@@ -541,18 +548,30 @@ namespace Agencia.Controllers
 
                     total = costo_hab_chicas + costo_hab_medianas + costo_hab_grandes;
 
-                    return total;
+                    var costo_habitaciones = new CostoHabitacionesJson
+                    {
+                        costo = total,
+                        habitacionesChicasSeleccionadas = habitaciones_chicas_seleccionadas,
+                        habitacionesMedianasSeleccionadas = habitaciones_medianas_seleccionadas,
+                        habitacionesGrandesSeleccionadas = habitaciones_grandes_seleccionadas
+                    };
+
+                    var json = JsonConvert.SerializeObject(costo_habitaciones);
+                    return new ContentResult
+                    {
+                        Content = json,
+                        ContentType = "application/json",
+                        StatusCode = 200
+                    };
                 }
                 else
                 {
-                    // no hay disponibilidad
-                    return 0.2;
+                    return StatusCode(404, "No hay disponibilidad");
                 }
             }
             else
             {
-                // estan mal las fechas
-                return 0.1;
+                return StatusCode(400, "Fechas inválidas");
             }
         }
     }

@@ -19,6 +19,19 @@ namespace Agencia.Controllers
         public HotelController(Context context)
         {
             _context = context;
+
+            _context.hoteles
+                .Include(h => h.habitaciones)
+                    .ThenInclude(habitacion => habitacion.misReservas)
+                    .ThenInclude(reserva => reserva.miUsuario)
+                    .ThenInclude(usuario => usuario.misReservasHabitaciones)
+                    .ThenInclude(r => r.miHabitacion)
+                    .ThenInclude(habitacion => habitacion.misReservas)
+                    .ThenInclude(reserva => reserva.miUsuario)
+                    .ThenInclude(usuario => usuario.habitacionesUsadas)
+                .Include(h => h.ubicacion)
+                    .ThenInclude(c => c.hoteles)
+                .Load();
         }
 
         public IActionResult Home()
@@ -93,9 +106,8 @@ namespace Agencia.Controllers
             }
 
             var hoteles = _context.hoteles
-                .Include(h => h.ubicacion)
-                .Include(h => h.habitaciones)
-                .Where(hotel => hotel.ubicacion.nombre == destination &&
+                .Where(hotel => 
+                    hotel.ubicacion.nombre == destination &&
                     hotel.habitaciones.Count(hab => hab.capacidad == 2) >= habitaciones_chicas &&
                     hotel.habitaciones.Count(hab => hab.capacidad == 4) >= habitaciones_medianas &&
                     hotel.habitaciones.Count(hab => hab.capacidad == 8) >= habitaciones_grandes)
@@ -242,7 +254,8 @@ namespace Agencia.Controllers
                                 usuario.misReservasHabitaciones.Add(nuevaReserva);
                                 hab.misReservas.Add(nuevaReserva);
 
-                                var usuario_habitacion = _context.usuarioHabitacion.FirstOrDefault(uh => uh.usuarios_fk == usuario.id && uh.habitaciones_fk == hab.id);
+                                var usuario_habitacion = _context.usuarioHabitacion
+                                    .FirstOrDefault(uh => uh.usuarios_fk == usuario.id && uh.habitaciones_fk == hab.id);
 
                                 if (usuario_habitacion == null)
                                 {
@@ -268,7 +281,8 @@ namespace Agencia.Controllers
                                 usuario.misReservasHabitaciones.Add(nuevaReserva);
                                 hab.misReservas.Add(nuevaReserva);
 
-                                var usuario_habitacion = _context.usuarioHabitacion.FirstOrDefault(uh => uh.usuarios_fk == usuario.id && uh.habitaciones_fk == hab.id);
+                                var usuario_habitacion = _context.usuarioHabitacion
+                                    .FirstOrDefault(uh => uh.usuarios_fk == usuario.id && uh.habitaciones_fk == hab.id);
 
                                 if (usuario_habitacion == null)
                                 {
@@ -294,7 +308,8 @@ namespace Agencia.Controllers
                                 usuario.misReservasHabitaciones.Add(nuevaReserva);
                                 hab.misReservas.Add(nuevaReserva);
 
-                                var usuario_habitacion = _context.usuarioHabitacion.FirstOrDefault(uh => uh.usuarios_fk == usuario.id && uh.habitaciones_fk == hab.id);
+                                var usuario_habitacion = _context.usuarioHabitacion
+                                    .FirstOrDefault(uh => uh.usuarios_fk == usuario.id && uh.habitaciones_fk == hab.id);
 
                                 if (usuario_habitacion == null)
                                 {
@@ -389,9 +404,7 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
-            var hotel = await _context.hoteles
-                .Include(h => h.ubicacion)
-                .FirstOrDefaultAsync(m => m.id == id);
+            var hotel = await _context.hoteles.FirstOrDefaultAsync(m => m.id == id);
 
             if (hotel == null)
             {
@@ -459,8 +472,10 @@ namespace Agencia.Controllers
                 }
 
                 ciudad_seleccionada.hoteles.Add(hotel);
+
                 _context.Update(ciudad_seleccionada);
                 _context.Add(hotel);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -492,6 +507,7 @@ namespace Agencia.Controllers
             }
 
             var hotel = await _context.hoteles.FindAsync(id);
+
             if (hotel == null)
             {
                 return NotFound();
@@ -521,6 +537,14 @@ namespace Agencia.Controllers
             {
                 try
                 {
+                    var hotel_modificado = await _context.hoteles.FirstOrDefaultAsync(h => h.id == hotel.id);
+
+                    if (hotel_modificado == null)
+                    {
+                        Console.WriteLine("Hotel inválido");
+                        return NotFound();
+                    }
+
                     if (hotel.archivoImagen != null)
                     {
                         string directorio = "wwwroot/images/hotel/";
@@ -534,23 +558,27 @@ namespace Agencia.Controllers
                             await hotel.archivoImagen.CopyToAsync(stream);
                         }
 
-                        hotel.imagen = rutaCompleta.Replace("wwwroot", "").TrimStart('\\', '/');
+                        hotel_modificado.imagen = rutaCompleta.Replace("wwwroot", "").TrimStart('\\', '/');
                     }
 
-                    var ubicacion_vieja = _context.hoteles.Where(h => h.id == hotel.id).Select(h => h.ubicacion).FirstOrDefault();
-
-                    if (ubicacion_vieja.id != hotel.ciudad_fk)
+                    if (hotel_modificado.ubicacion.id != hotel.ciudad_fk)
                     {
-                        var ubicacion_nueva = _context.ciudades.FirstOrDefault(c => c.id == hotel.ciudad_fk);
+                        var ubicacion_nueva = await _context.ciudades.FirstOrDefaultAsync(c => c.id == hotel.ciudad_fk);
 
-                        ubicacion_vieja.hoteles.Remove(hotel);
-                        ubicacion_nueva.hoteles.Add(hotel);
+                        hotel_modificado.ubicacion.hoteles.Remove(hotel_modificado);
+                        ubicacion_nueva.hoteles.Add(hotel_modificado);
 
-                        _context.ciudades.Update(ubicacion_vieja);
+                        _context.ciudades.Update(hotel_modificado.ubicacion);
                         _context.ciudades.Update(ubicacion_nueva);
+
+                        hotel_modificado.ciudad_fk = hotel.ciudad_fk;
+                        hotel_modificado.ubicacion = ubicacion_nueva;
                     }
 
-                    _context.Update(hotel);
+                    hotel_modificado.nombre = hotel.nombre;
+                    hotel_modificado.descripcion = hotel.descripcion;
+
+                    //_context.Update(hotel_modificado); <--- Esto esta roto
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -564,9 +592,12 @@ namespace Agencia.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["ciudad_fk"] = new SelectList(_context.ciudades, "id", "nombre", hotel.ciudad_fk);
+            
             return View(hotel);
         }
 
@@ -619,18 +650,7 @@ namespace Agencia.Controllers
                 return Problem("Entity set 'Context.hoteles'  is null.");
             }
 
-            var hotel = await _context.hoteles
-                .Include(h => h.habitaciones)
-                    .ThenInclude(habitacion => habitacion.misReservas)
-                    .ThenInclude(reserva => reserva.miUsuario)
-                    .ThenInclude(usuario => usuario.misReservasHabitaciones)
-                    .ThenInclude(r => r.miHabitacion)
-                    .ThenInclude(habitacion => habitacion.misReservas)
-                    .ThenInclude(reserva => reserva.miUsuario)
-                    .ThenInclude(usuario => usuario.habitacionesUsadas)
-                .Include(h => h.ubicacion)
-                    .ThenInclude(c => c.hoteles)
-                .FirstOrDefaultAsync(h => h.id == id);
+            var hotel = await _context.hoteles.FirstOrDefaultAsync(h => h.id == id);
 
             if (hotel != null)
             {
@@ -640,11 +660,8 @@ namespace Agencia.Controllers
                     {
                         if (DateTime.Now < reserva_habitacion.fechaDesde)
                         {
-                            reserva_habitacion.miUsuario.credito += reserva_habitacion.pagado;
-                            reserva_habitacion.miUsuario.misReservasHabitaciones.Remove(reserva_habitacion);
-
                             var usuario_habitacion = _context.usuarioHabitacion
-                            .FirstOrDefault(uh => uh.usuario == reserva_habitacion.miUsuario && uh.habitacion == reserva_habitacion.miHabitacion);
+                                .FirstOrDefault(uh => uh.usuario == reserva_habitacion.miUsuario && uh.habitacion == reserva_habitacion.miHabitacion);
 
                             if (usuario_habitacion != null)
                             {
@@ -659,6 +676,8 @@ namespace Agencia.Controllers
                                 }
                             }
 
+                            reserva_habitacion.miUsuario.credito += reserva_habitacion.pagado;
+                            reserva_habitacion.miUsuario.misReservasHabitaciones.Remove(reserva_habitacion);
                             reserva_habitacion.miUsuario.habitacionesUsadas.Remove(habitacion);
 
                             _context.usuarios.Update(reserva_habitacion.miUsuario);
@@ -666,9 +685,6 @@ namespace Agencia.Controllers
                         }
                     });
 
-                    habitacion.hotel.habitaciones.Remove(habitacion);
-
-                    _context.hoteles.Update(habitacion.hotel);
                     _context.habitaciones.Remove(habitacion);
                 });
 

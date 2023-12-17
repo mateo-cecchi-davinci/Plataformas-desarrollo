@@ -16,6 +16,13 @@ namespace Agencia.Controllers
         public HabitacionController(Context context)
         {
             _context = context;
+
+            _context.habitaciones
+                .Include(h => h.hotel)
+                .Include(h => h.misReservas)
+                .Include(h => h.usuarios)
+                .Include(h => h.habitacion_usuario)
+                .Load();
         }
 
         // GET: Habitacion
@@ -36,7 +43,7 @@ namespace Agencia.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var context = _context.habitaciones.Include(h => h.hotel);
+            var context = _context.habitaciones;
 
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
@@ -68,9 +75,8 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
-            var habitacion = await _context.habitaciones
-                .Include(h => h.hotel)
-                .FirstOrDefaultAsync(m => m.id == id);
+            var habitacion = await _context.habitaciones.FirstOrDefaultAsync(m => m.id == id);
+
             if (habitacion == null)
             {
                 return NotFound();
@@ -208,9 +214,17 @@ namespace Agencia.Controllers
             {
                 try
                 {
-                    if (_context.habitaciones.Any(h => h.id == habitacion.id && h.capacidad < habitacion.capacidad))
+                    var habitacion_modificada = await _context.habitaciones.FirstOrDefaultAsync(h => h.id == habitacion.id);
+
+                    if (habitacion_modificada == null)
                     {
-                        var error = habitacion.misReservas.Any(r => DateTime.Now < r.fechaDesde);
+                        Console.WriteLine("Habitación inválida");
+                        return NotFound();
+                    }
+
+                    if (habitacion_modificada.capacidad < habitacion.capacidad)
+                    {
+                        var error = habitacion_modificada.misReservas.Any(r => DateTime.Now < r.fechaDesde);
 
                         if (error)
                         {
@@ -225,20 +239,24 @@ namespace Agencia.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    var hotel_viejo = _context.habitaciones.Where(hab => hab.id == habitacion.id).Select(hab => hab.hotel).FirstOrDefault();
-
-                    if (hotel_viejo.id != habitacion.hotel_fk)
+                    if (habitacion_modificada.hotel_fk != habitacion.hotel_fk)
                     {
-                        var hotel_nuevo = _context.hoteles.FirstOrDefault(h => h.id == habitacion.hotel_fk);
+                        var hotel_nuevo = await _context.hoteles.FirstOrDefaultAsync(h => h.id == habitacion.hotel_fk);
 
-                        hotel_viejo.habitaciones.Remove(habitacion);
-                        hotel_nuevo.habitaciones.Add(habitacion);
+                        habitacion_modificada.hotel.habitaciones.Remove(habitacion_modificada);
+                        hotel_nuevo.habitaciones.Add(habitacion_modificada);
 
-                        _context.hoteles.Update(hotel_viejo);
+                        _context.hoteles.Update(habitacion_modificada.hotel);
                         _context.hoteles.Update(hotel_nuevo);
+
+                        habitacion_modificada.hotel_fk = habitacion.hotel_fk;
+                        habitacion_modificada.hotel = hotel_nuevo;
                     }
 
-                    _context.Update(habitacion);
+                    habitacion_modificada.capacidad = habitacion.capacidad;
+                    habitacion_modificada.costo = habitacion.costo;
+
+                    //_context.Update(habitacion_modificada); <--- esto esta roto
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -260,6 +278,7 @@ namespace Agencia.Controllers
 
             return View(habitacion);
         }
+
 
         // GET: Habitacion/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -284,9 +303,7 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
-            var habitacion = await _context.habitaciones
-                .Include(h => h.hotel)
-                .FirstOrDefaultAsync(m => m.id == id);
+            var habitacion = await _context.habitaciones.FirstOrDefaultAsync(m => m.id == id);
 
             if (habitacion == null)
             {
@@ -310,15 +327,7 @@ namespace Agencia.Controllers
                 return Problem("Entity set 'Context.Habitacion'  is null.");
             }
 
-            var habitacion = await _context.habitaciones
-                .Include(habitacion => habitacion.misReservas)
-                    .ThenInclude(reserva => reserva.miUsuario)
-                    .ThenInclude(usuario => usuario.misReservasHabitaciones)
-                    .ThenInclude(r => r.miHabitacion)
-                    .ThenInclude(habitacion => habitacion.misReservas)
-                    .ThenInclude(reserva => reserva.miUsuario)
-                    .ThenInclude(usuario => usuario.habitacionesUsadas)
-                .FirstOrDefaultAsync(habitacion => habitacion.id == id);
+            var habitacion = await _context.habitaciones.FirstOrDefaultAsync(habitacion => habitacion.id == id);
 
             if (habitacion != null)
             {
@@ -329,7 +338,9 @@ namespace Agencia.Controllers
                         reserva_habitacion.miUsuario.credito += reserva_habitacion.pagado;
 
                         var usuario_habitacion = _context.usuarioHabitacion
-                            .FirstOrDefault(usuario_habitacion => usuario_habitacion.usuario == reserva_habitacion.miUsuario && usuario_habitacion.habitacion == reserva_habitacion.miHabitacion);
+                            .FirstOrDefault(usuario_habitacion => 
+                                usuario_habitacion.usuario == reserva_habitacion.miUsuario && 
+                                usuario_habitacion.habitacion == reserva_habitacion.miHabitacion);
 
                         if (usuario_habitacion != null)
                         {

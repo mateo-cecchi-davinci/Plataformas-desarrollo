@@ -26,9 +26,6 @@ namespace Agencia.Models
         public ICollection<Habitacion> habitacionesUsadas { get; set; } = new List<Habitacion>();
         public List<UsuarioHabitacion> usuario_habitacion { get; set; } = new List<UsuarioHabitacion>();
 
-        //public ICollection<Hotel> hotelesVisitados { get; set; } = new List<Hotel>();
-        //public List<UsuarioHotel> usuario_hotel { get; set; } = new List<UsuarioHotel>();
-
         public Usuario() { }
 
         public Usuario(int dni, string nombre, string apellido, string mail, string clave, int intentosFallidos, bool bloqueado, double credito, bool isAdmin)

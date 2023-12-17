@@ -16,6 +16,23 @@ namespace Agencia.Controllers
         public UsuarioController(Context context)
         {
             _context = context;
+
+            _context.usuarios
+                .Include(u => u.misReservasHabitaciones)
+                    .ThenInclude(rh => rh.miHabitacion)
+                    .ThenInclude(h => h.hotel)
+                .Include(u => u.misReservasVuelos)
+                    .ThenInclude(rv => rv.miVuelo)
+                    .ThenInclude(v => v.origen)
+                .Include(u => u.habitacionesUsadas)
+                .Include(u => u.vuelosTomados)
+                    .ThenInclude(v => v.origen)
+                    .ThenInclude(c => c.vuelos_destino)
+                    .ThenInclude(v => v.misReservas)
+                    .ThenInclude(r => r.miUsuario)
+                    .ThenInclude(u => u.vuelosTomados)
+                    .ThenInclude(v => v.destino)
+                .Load();
         }
 
         public async Task<IActionResult> Perfil()
@@ -35,22 +52,7 @@ namespace Agencia.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var usuario = await _context.usuarios
-                .Include(u => u.misReservasHabitaciones)
-                    .ThenInclude(rh => rh.miHabitacion)
-                    .ThenInclude(h => h.hotel)
-                .Include(u => u.misReservasVuelos)
-                    .ThenInclude(rv => rv.miVuelo)
-                    .ThenInclude(v => v.origen)
-                .Include(u => u.habitacionesUsadas)
-                .Include(u => u.vuelosTomados)
-                    .ThenInclude(v => v.origen)
-                    .ThenInclude(c => c.vuelos_destino)
-                    .ThenInclude(v => v.misReservas)
-                    .ThenInclude(r => r.miUsuario)
-                    .ThenInclude(u => u.vuelosTomados)
-                    .ThenInclude(v => v.destino)
-                .FirstOrDefaultAsync(u => u.mail == usuarioMail);
+            var usuario = await _context.usuarios.FirstOrDefaultAsync(u => u.mail == usuarioMail);
 
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
@@ -233,18 +235,39 @@ namespace Agencia.Controllers
 
             if (ModelState.IsValid)
             {
-                bool esInvalido = _context.usuarios.Any(u => u.dni == usuario.dni && u.id != usuario.id);
+                bool dniInvalido = await _context.usuarios.AnyAsync(u => u.dni == usuario.dni && u.id != usuario.id);
 
-                if (esInvalido)
+                if (dniInvalido)
                 {
                     Console.WriteLine("Ese dni ya esta en uso");
 
                     return RedirectToAction("Index");
                 }
 
+                bool mailInvalido = await _context.usuarios.AnyAsync(u => u.mail == usuario.mail && u.id != usuario.id);
+
+                if (mailInvalido)
+                {
+                    Console.WriteLine("Ese mail ya esta en uso");
+
+                    return RedirectToAction("Index");
+                }
+
                 try
                 {
-                    _context.Update(usuario);
+                    var usuario_modificado = await _context.usuarios.FirstOrDefaultAsync(u => u.id == usuario.id);
+
+                    usuario_modificado.dni = usuario.dni;
+                    usuario_modificado.nombre = usuario.nombre;
+                    usuario_modificado.apellido = usuario.apellido;
+                    usuario_modificado.mail = usuario.mail;
+                    usuario_modificado.clave = usuario.clave;
+                    usuario_modificado.credito = usuario.credito;
+                    usuario_modificado.intentosFallidos = usuario.intentosFallidos;
+                    usuario_modificado.bloqueado = usuario.bloqueado;
+                    usuario_modificado.isAdmin = usuario.isAdmin;
+
+                    //_context.Update(usuario); <--- Esto esta roto
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -317,6 +340,68 @@ namespace Agencia.Controllers
 
             if (usuario != null)
             {
+                usuario.misReservasHabitaciones.ForEach(r =>
+                {
+                    if (DateTime.Now < r.fechaDesde)
+                    {
+                        usuario.credito += r.pagado;
+
+                        var usuario_habitacion = _context.usuarioHabitacion
+                            .FirstOrDefault(usuario_habitacion =>
+                                usuario_habitacion.usuario == r.miUsuario &&
+                                usuario_habitacion.habitacion == r.miHabitacion);
+
+                        if (usuario_habitacion != null)
+                        {
+                            if (usuario_habitacion.cantidad > 1)
+                            {
+                                usuario_habitacion.cantidad--;
+                                _context.usuarioHabitacion.Update(usuario_habitacion);
+                            }
+                            else
+                            {
+                                _context.usuarioHabitacion.Remove(usuario_habitacion);
+                            }
+                        }
+
+                        usuario.misReservasHabitaciones.Remove(r);
+                        usuario.habitacionesUsadas.Remove(r.miHabitacion);
+
+                        r.miHabitacion.misReservas.Remove(r);
+                        r.miHabitacion.usuarios.Remove(r.miUsuario);
+
+                        _context.habitaciones.Update(r.miHabitacion);
+                        _context.reservasHabitacion.Remove(r);
+                    }
+                });
+
+                usuario.misReservasVuelos.ForEach(r =>
+                {
+                    if (DateTime.Now < r.miVuelo.fecha)
+                    {
+                        usuario.credito += r.pagado;
+
+                        var usuario_vuelo = _context.usuarioVuelo
+                            .FirstOrDefault(usuario_vuelo =>
+                                usuario_vuelo.usuario == r.miUsuario &&
+                                usuario_vuelo.vuelo == r.miVuelo);
+
+                        if (usuario_vuelo != null)
+                        {
+                            _context.usuarioVuelo.Remove(usuario_vuelo);
+                        }
+
+                        usuario.misReservasVuelos.Remove(r);
+                        usuario.vuelosTomados.Remove(r.miVuelo);
+
+                        r.miVuelo.misReservas.Remove(r);
+                        r.miVuelo.pasajeros.Remove(r.miUsuario);
+
+                        _context.vuelos.Update(r.miVuelo);
+                        _context.reservasVuelo.Remove(r);
+                    }
+                });
+
                 _context.usuarios.Remove(usuario);
             }
 

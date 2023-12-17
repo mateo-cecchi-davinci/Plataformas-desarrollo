@@ -28,17 +28,6 @@
                 <input required id="fechaHasta" name="fechaHasta" type="date" class="form-control" disabled />
                 <span asp-validation-for="fechaHasta" class="text-danger"></span>
             </div>
-            @* <div class="form-group mb-3 d-flex align-items-center">
-            <div>
-            <label asp-for="cantPersonas" class="control-label">Cantidad de personas</label>
-            <input required readonly id="cantPersonas" class="form-control" value="1" />
-            <span asp-validation-for="cantPersonas" class="text-danger"></span>
-            </div>
-            <div>
-            <label class="control-label">Habitación</label>
-            <input required readonly id="habitacion" class="form-control" value="1" />
-            </div>
-            </div> *@
             <div class="popover-btn popover-reserva-habitacion" id="popover-btn">
                 <div class="card me-2 p-2 package-rooms">
                     <p class="font-small m-0 ps-2">HABITACIONES</p>
@@ -88,16 +77,17 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="total_adults" id="total_adults">
-            <input type="hidden" name="total_minors" id="total_minors">
             <input type="hidden" name="total_people_rooms" id="total_people_rooms">
+            <input type="hidden" name="habitaciones_chicas" id="habitaciones_chicas">
+            <input type="hidden" name="habitaciones_medianas" id="habitaciones_medianas">
+            <input type="hidden" name="habitaciones_grandes" id="habitaciones_grandes">
             <div class="form-group my-3">
                 <label asp-for="pagado" class="control-label">Costo</label>
                 <input required readonly id="costo" asp-for="pagado" class="form-control" />
                 <span asp-validation-for="pagado" class="text-danger"></span>
             </div>
             <div class="form-group d-flex align-items-center">
-                <input type="submit" value="Crear" class="btn btn-primary me-2" />
+                <input type="submit" value="Reservar" class="btn btn-primary me-2" />
                 <a asp-action="Index" class="text-decoration-none">Volver</a>
             </div>
         </form>
@@ -105,84 +95,5 @@
 </div>
 
 <script src="~/js/popoverReservarHabitacion.js" asp-append-version="true"></script>
-<script>
-    const selectHotel = document.getElementById('hotel');
-    const personas_por_habitacion = document.getElementById('total_people_rooms');
-    const fechaDesde = document.getElementById('fechaDesde');
-    const fechaHasta = document.getElementById('fechaHasta');
-    const costoHabitacion = document.getElementById('costo');
-
-    fechaDesde.addEventListener('input', function () {
-        const fechaDesde_seleccionada = new Date(fechaDesde.value);
-
-        const fechaHasta_minima = new Date(fechaDesde_seleccionada);
-        fechaHasta_minima.setDate(fechaDesde_seleccionada.getDate() + 1);
-
-        const fechaHasta_minima_formateada = fechaHasta_minima.toISOString().split('T')[0];
-
-        fechaHasta.min = fechaHasta_minima_formateada;
-
-        fechaHasta.disabled = false;
-        fechaHasta.value = '';
-    });
-
-    selectHotel.addEventListener('change', async function () {
-        if (fechaDesde.value != '' && fechaHasta.value != '' && personas_por_habitacion.value != '') {
-            const fechaInicio = new Date(fechaDesde.value);
-            const fechaFin = new Date(fechaHasta.value);
-            const totalPeopleRooms = JSON.parse(personas_por_habitacion.value);
-            const diferenciaEnTiempo = fechaFin.getTime() - fechaInicio.getTime();
-            const diferenciaEnDias = Math.ceil(diferenciaEnTiempo / (1000 * 3600 * 24));
-            await actualizarCostoSeleccionado(this.value, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin);
-        }
-    });
-
-    personas_por_habitacion.addEventListener('change', async function () {
-        if (fechaDesde.value != '' && fechaHasta.value != '' && personas_por_habitacion.value != '') {
-            const hotelId = selectHotel.value;
-            const fechaInicio = new Date(fechaDesde.value);
-            const fechaFin = new Date(fechaHasta.value);
-            const totalPeopleRooms = JSON.parse(personas_por_habitacion.value);
-            const diferenciaEnTiempo = fechaFin.getTime() - fechaInicio.getTime();
-            const diferenciaEnDias = Math.ceil(diferenciaEnTiempo / (1000 * 3600 * 24));
-            await actualizarCostoSeleccionado(hotelId, this.value, diferenciaEnDias, fechaInicio, fechaFin);
-        }
-    });
-
-    fechaHasta.addEventListener('change', async function () {
-        if (fechaDesde.value != '' && fechaHasta.value != '' && personas_por_habitacion.value != '') {
-            const hotelId = selectHotel.value;
-            const fechaInicio = new Date(fechaDesde.value);
-            const fechaFin = new Date(fechaHasta.value);
-            const totalPeopleRooms = JSON.parse(personas_por_habitacion.value);
-            const diferenciaEnTiempo = fechaFin.getTime() - fechaInicio.getTime();
-            const diferenciaEnDias = Math.ceil(diferenciaEnTiempo / (1000 * 3600 * 24));
-            await actualizarCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin);
-        }
-    });
-
-    async function actualizarCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin) {
-        try {
-            const selectedCost = await obtenerCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin);
-            costoHabitacion.value = selectedCost;
-        } catch (error) {
-            console.error('Error al obtener el costo:', error);
-        }
-    }
-
-    function obtenerCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin) {
-        const totalPeopleRoomsString = JSON.stringify(totalPeopleRooms);
-        const url = `/ReservaHabitacion/ObtenerCosto?id=${hotelId}&totalPeopleRoomsString=${totalPeopleRoomsString}&diferenciaEnDias=${diferenciaEnDias}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
-        return fetch(url)
-            .then(response => {
-                return response.text();
-            })
-            .then(data => {
-                return data;
-            })
-            .catch(error => {
-                console.error('Error al obtener el costo:', error);
-                throw error;
-            });
-    }
-</script>
+<script src="~/js/costoHabitaciones.js" asp-append-version="true"></script>
+<script src="~/js/fechaMinima.js" asp-append-version="true"></script>

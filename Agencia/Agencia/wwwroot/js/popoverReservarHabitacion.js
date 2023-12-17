@@ -262,10 +262,10 @@ document.addEventListener("DOMContentLoaded", function () {
             people_amount.value = total_people;
             document.getElementById("total_people_rooms").value =
                 JSON.stringify(total_people_rooms);
-            document.getElementById("total_adults").value =
-                JSON.stringify(adultsCounts);
-            document.getElementById("total_minors").value =
-                JSON.stringify(minorsCounts);
+            //document.getElementById("total_adults").value =
+            //    JSON.stringify(adultsCounts);
+            //document.getElementById("total_minors").value =
+            //    JSON.stringify(minorsCounts);
         }
     });
 
@@ -275,9 +275,9 @@ document.addEventListener("DOMContentLoaded", function () {
         people_amount.value = total_people;
         document.getElementById("total_people_rooms").value =
             JSON.stringify(total_people_rooms);
-        document.getElementById("total_adults").value =
-            JSON.stringify(adultsCounts);
-        document.getElementById("total_minors").value =
-            JSON.stringify(minorsCounts);
+        //document.getElementById("total_adults").value =
+        //    JSON.stringify(adultsCounts);
+        //document.getElementById("total_minors").value =
+        //    JSON.stringify(minorsCounts);
     });
 });
