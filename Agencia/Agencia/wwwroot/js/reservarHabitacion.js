@@ -1,23 +1,44 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const selectHotel = document.getElementById('hotel');
+    const personas_por_habitacion = document.getElementById('total_people_rooms');
+    const fechaDesde = document.getElementById('fechaDesde');
+    const fechaHasta = document.getElementById('fechaHasta');
+    //const cantPersonas = document.getElementById('people');
+    //const cantHabitaciones = document.getElementById('rooms');
     const popover_btn = document.getElementById("popover-btn");
     const popover = document.getElementById("popover");
+    const addRoomButton = document.getElementById("addRoom");
+    const roomsContainer = document.getElementById("rooms");
+    const applyButton = document.getElementById("btn-apply");
+    const applyDiv = document.getElementById("apply-four-rooms");
+    const costoHabitacion = document.getElementById('costo');
+    const habitacionesChicas = document.getElementById('habitaciones_chicas');
+    const habitacionesMedianas = document.getElementById('habitaciones_medianas');
+    const habitacionesGrandes = document.getElementById('habitaciones_grandes');
 
     const number = document.querySelector(".room-index");
-
     const plus = document.querySelector(".plus");
     const minus = document.querySelector(".minus");
     const num = document.querySelector(".num");
     const plus_minors = document.querySelector(".plus-minors");
     const minus_minors = document.querySelector(".minus-minors");
     const num_minors = document.querySelector(".num-minors");
-
-    const addRoomButton = document.getElementById("addRoom");
-    const roomsContainer = document.getElementById("rooms");
-    const applyButton = document.getElementById("btn-apply");
-    const applyDiv = document.getElementById("apply-four-rooms");
-
     const room_amount = document.querySelector(".room-amount");
     const people_amount = document.querySelector(".total-people");
+
+    fechaDesde.addEventListener('input', function () {
+        const fechaDesde_seleccionada = new Date(fechaDesde.value);
+        const fechaHasta_minima = new Date(fechaDesde_seleccionada);
+
+        fechaHasta_minima.setDate(fechaDesde_seleccionada.getDate() + 1);
+
+        const fechaHasta_minima_formateada = fechaHasta_minima.toISOString().split('T')[0];
+
+        fechaHasta.min = fechaHasta_minima_formateada;
+
+        fechaHasta.disabled = false;
+        fechaHasta.value = '';
+    });
 
     let roomCount = 1;
 
@@ -262,10 +283,17 @@ document.addEventListener("DOMContentLoaded", function () {
             people_amount.value = total_people;
             document.getElementById("total_people_rooms").value =
                 JSON.stringify(total_people_rooms);
-            //document.getElementById("total_adults").value =
-            //    JSON.stringify(adultsCounts);
-            //document.getElementById("total_minors").value =
-            //    JSON.stringify(minorsCounts);
+
+            const fechaInicio = new Date(fechaDesde.value);
+            const fechaFin = new Date(fechaHasta.value);
+           
+            if (fechaInicio != 'Invalid Date' && fechaFin != 'Invalid Date') {
+                const hotelId = selectHotel.value;
+                const totalPeopleRooms = JSON.parse(personas_por_habitacion.value);
+                const diferenciaEnTiempo = fechaFin.getTime() - fechaInicio.getTime();
+                const diferenciaEnDias = Math.ceil(diferenciaEnTiempo / (1000 * 3600 * 24));
+                obtenerCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin);
+            }
         }
     });
 
@@ -275,9 +303,62 @@ document.addEventListener("DOMContentLoaded", function () {
         people_amount.value = total_people;
         document.getElementById("total_people_rooms").value =
             JSON.stringify(total_people_rooms);
-        //document.getElementById("total_adults").value =
-        //    JSON.stringify(adultsCounts);
-        //document.getElementById("total_minors").value =
-        //    JSON.stringify(minorsCounts);
+
+        const fechaInicio = new Date(fechaDesde.value);
+        const fechaFin = new Date(fechaHasta.value);
+
+        if (fechaInicio != 'Invalid Date' && fechaFin != 'Invalid Date') {
+            const hotelId = selectHotel.value;
+            const totalPeopleRooms = JSON.parse(personas_por_habitacion.value);
+            const diferenciaEnTiempo = fechaFin.getTime() - fechaInicio.getTime();
+            const diferenciaEnDias = Math.ceil(diferenciaEnTiempo / (1000 * 3600 * 24));
+            obtenerCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin);
+        }
     });
+
+    selectHotel.addEventListener('change', async function () {
+        const fechaInicio = new Date(fechaDesde.value);
+        const fechaFin = new Date(fechaHasta.value);
+
+        if (fechaInicio != 'Invalid Date' && fechaFin != 'Invalid Date') {
+            const totalPeopleRooms = JSON.parse(personas_por_habitacion.value);
+            const diferenciaEnTiempo = fechaFin.getTime() - fechaInicio.getTime();
+            const diferenciaEnDias = Math.ceil(diferenciaEnTiempo / (1000 * 3600 * 24));
+            await obtenerCostoSeleccionado(this.value, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin);
+        }
+    });
+
+    fechaHasta.addEventListener('change', async function () {
+        const fechaInicio = new Date(fechaDesde.value);
+        const fechaFin = new Date(fechaHasta.value);
+
+        if (fechaInicio != 'Invalid Date' && fechaFin != 'Invalid Date') {
+            const hotelId = selectHotel.value;
+            const totalPeopleRooms = JSON.parse(personas_por_habitacion.value);
+            const diferenciaEnTiempo = fechaFin.getTime() - fechaInicio.getTime();
+            const diferenciaEnDias = Math.ceil(diferenciaEnTiempo / (1000 * 3600 * 24));
+            await obtenerCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin);
+        }
+    });
+
+    function obtenerCostoSeleccionado(hotelId, totalPeopleRooms, diferenciaEnDias, fechaInicio, fechaFin) {
+        const totalPeopleRoomsString = JSON.stringify(totalPeopleRooms);
+        const url = `/ReservaHabitacion/ObtenerCosto?id=${hotelId}&totalPeopleRoomsString=${totalPeopleRoomsString}&diferenciaEnDias=${diferenciaEnDias}&fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
+        return fetch(url)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                const { costo, habitacionesChicasSeleccionadas, habitacionesMedianasSeleccionadas, habitacionesGrandesSeleccionadas } = data;
+                costoHabitacion.value = costo;
+                habitacionesChicas.value = habitacionesChicasSeleccionadas;
+                habitacionesMedianas.value = habitacionesMedianasSeleccionadas;
+                habitacionesGrandes.value = habitacionesGrandesSeleccionadas;
+                return data;
+            })
+            .catch(error => {
+                console.error('Error al obtener el costo:', error);
+                throw error;
+            });
+    }
 });

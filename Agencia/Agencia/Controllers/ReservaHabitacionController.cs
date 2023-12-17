@@ -381,7 +381,7 @@ namespace Agencia.Controllers
             ViewBag.isAdmin = isAdmin;
 
             ViewData["habitacion_fk"] = new SelectList(habitaciones_con_hotel, "Value", "Text");
-            ViewData["usuarioRV_fk"] = new SelectList(_context.usuarios.Select(u => new { u.id, nombre = u.nombre + " " + u.apellido }), "id", "nombre");
+            ViewData["usuarioRH_fk"] = new SelectList(_context.usuarios.Select(u => new { u.id, nombre = u.nombre + " " + u.apellido }), "id", "nombre");
 
             return View(reservaHabitacion);
         }
