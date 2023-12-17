@@ -30,6 +30,7 @@ namespace Agencia.Controllers
                     .ThenInclude(usuario => usuario.habitacionesUsadas)
                     .ThenInclude(h => h.hotel)
                     .ThenInclude(h => h.habitaciones)
+                    .ThenInclude(h => h.usuarios)
                 .Load();
 
             _context.habitaciones
@@ -38,7 +39,7 @@ namespace Agencia.Controllers
         }
 
         // GET: ReservaHabitacions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg = 1)
         {
             string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
             string esAdminString = HttpContext.Session.GetString("esAdmin");
@@ -53,11 +54,25 @@ namespace Agencia.Controllers
 
             var context = _context.reservasHabitacion;
 
+            const int pageSize = 10;
+
+            if (pg < 1)
+                pg = 1;
+
+            int recsCount = context.Count();
+
+            var pager = new Paginador(recsCount, pg, pageSize);
+
+            int recSkip = (pg - 1) * pageSize;
+
+            var data = await context.Skip(recSkip).Take(pageSize).ToListAsync();
+
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
+            ViewBag.pager = pager;
 
-            return View(await context.ToListAsync());
+            return View(data);
         }
 
         // GET: ReservaHabitacions/Details/5
@@ -208,7 +223,10 @@ namespace Agencia.Controllers
                         );
 
                         usuario_seleccionado.misReservasHabitaciones.Add(nuevaReserva);
+                        usuario_seleccionado.habitacionesUsadas.Add(hab);
+
                         hab.misReservas.Add(nuevaReserva);
+                        hab.usuarios.Add(usuario_seleccionado);
 
                         var usuario_habitacion = _context.usuarioHabitacion
                             .FirstOrDefault(uh => uh.usuarios_fk == usuario_seleccionado.id && uh.habitaciones_fk == hab.id);
@@ -244,7 +262,10 @@ namespace Agencia.Controllers
                         );
 
                         usuario_seleccionado.misReservasHabitaciones.Add(nuevaReserva);
+                        usuario_seleccionado.habitacionesUsadas.Add(hab);
+
                         hab.misReservas.Add(nuevaReserva);
+                        hab.usuarios.Add(usuario_seleccionado);
 
                         var usuario_habitacion = _context.usuarioHabitacion
                             .FirstOrDefault(uh => uh.usuarios_fk == usuario_seleccionado.id && uh.habitaciones_fk == hab.id);
@@ -280,7 +301,10 @@ namespace Agencia.Controllers
                         );
 
                         usuario_seleccionado.misReservasHabitaciones.Add(nuevaReserva);
+                        usuario_seleccionado.habitacionesUsadas.Add(hab);
+
                         hab.misReservas.Add(nuevaReserva);
+                        hab.usuarios.Add(usuario_seleccionado);
 
                         var usuario_habitacion = _context.usuarioHabitacion
                             .FirstOrDefault(uh => uh.usuarios_fk == usuario_seleccionado.id && uh.habitaciones_fk == hab.id);
@@ -470,7 +494,10 @@ namespace Agencia.Controllers
                         }
 
                         reserva_seleccionada.miUsuario.misReservasHabitaciones.Remove(reserva_seleccionada);
+                        reserva_seleccionada.miUsuario.habitacionesUsadas.Remove(reserva_seleccionada.miHabitacion);
+
                         usuario_seleccionado.misReservasHabitaciones.Add(reserva_seleccionada);
+                        usuario_seleccionado.habitacionesUsadas.Add(habitacion_seleccionada);
 
                         _context.usuarios.Update(reserva_seleccionada.miUsuario);
 
@@ -481,7 +508,10 @@ namespace Agencia.Controllers
                     if (reserva_seleccionada.miHabitacion.id != reservaHabitacion.habitacion_fk)
                     {
                         reserva_seleccionada.miHabitacion.misReservas.Remove(reserva_seleccionada);
+                        reserva_seleccionada.miHabitacion.usuarios.Remove(reserva_seleccionada.miUsuario);
+
                         habitacion_seleccionada.misReservas.Add(reserva_seleccionada);
+                        habitacion_seleccionada.usuarios.Add(usuario_seleccionado);
 
                         _context.habitaciones.Update(reserva_seleccionada.miHabitacion);
                         _context.habitaciones.Update(habitacion_seleccionada);
@@ -599,6 +629,7 @@ namespace Agencia.Controllers
                     reservaHabitacion.miUsuario.misReservasHabitaciones.Remove(reservaHabitacion);
                     reservaHabitacion.miUsuario.habitacionesUsadas.Remove(reservaHabitacion.miHabitacion);
                     reservaHabitacion.miHabitacion.misReservas.Remove(reservaHabitacion);
+                    reservaHabitacion.miHabitacion.usuarios.Remove(reservaHabitacion.miUsuario);
 
                     _context.usuarios.Update(reservaHabitacion.miUsuario);
                     _context.habitaciones.Update(reservaHabitacion.miHabitacion);

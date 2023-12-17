@@ -31,6 +31,8 @@ namespace Agencia.Controllers
                     .ThenInclude(usuario => usuario.habitacionesUsadas)
                 .Include(h => h.ubicacion)
                     .ThenInclude(c => c.hoteles)
+                    .ThenInclude(h => h.habitaciones)
+                    .ThenInclude(h => h.usuarios)
                 .Load();
         }
 
@@ -201,13 +203,13 @@ namespace Agencia.Controllers
             var habitacionesGrandes = reserva.xl_rooms;
             var totalPersonas = reserva.people;
 
-            var hotel = _context.hoteles.Include(h => h.habitaciones).FirstOrDefault(h => h.id == hotel_id);
+            var hotel = _context.hoteles.FirstOrDefault(h => h.id == hotel_id);
 
             if (hotel != null)
             {
                 var habitacionesDisponibles = hotel.habitaciones
-                .GroupBy(habitacion => habitacion.capacidad)
-                .ToDictionary(group => group.Key, group => group.Count());
+                    .GroupBy(habitacion => habitacion.capacidad)
+                    .ToDictionary(group => group.Key, group => group.Count());
 
                 bool hab_suficientes =
                     habitacionesDisponibles.TryGetValue(2, out int disponiblesCapacidad2) &&
@@ -251,10 +253,13 @@ namespace Agencia.Controllers
                     {
                         foreach (var hab in hab_Chicas)
                         {
-                            var nuevaReserva = new ReservaHabitacion(hab, usuario, fechaDesde, fechaHasta, total, totalPersonas, hab.id, usuario.id);
+                            var nuevaReserva = new ReservaHabitacion(hab, usuario, fechaDesde, fechaHasta, hab.costo, totalPersonas, hab.id, usuario.id);
 
                             usuario.misReservasHabitaciones.Add(nuevaReserva);
+                            usuario.habitacionesUsadas.Add(hab);
+                               
                             hab.misReservas.Add(nuevaReserva);
+                            hab.usuarios.Add(usuario);
 
                             var usuario_habitacion = _context.usuarioHabitacion
                                 .FirstOrDefault(uh => uh.usuarios_fk == usuario.id && uh.habitaciones_fk == hab.id);
@@ -278,10 +283,13 @@ namespace Agencia.Controllers
 
                         foreach (var hab in hab_Medianas)
                         {
-                            var nuevaReserva = new ReservaHabitacion(hab, usuario, fechaDesde, fechaHasta, total, totalPersonas, hab.id, usuario.id);
+                            var nuevaReserva = new ReservaHabitacion(hab, usuario, fechaDesde, fechaHasta, hab.costo, totalPersonas, hab.id, usuario.id);
 
                             usuario.misReservasHabitaciones.Add(nuevaReserva);
+                            usuario.habitacionesUsadas.Add(hab);
+
                             hab.misReservas.Add(nuevaReserva);
+                            hab.usuarios.Add(usuario);
 
                             var usuario_habitacion = _context.usuarioHabitacion
                                 .FirstOrDefault(uh => uh.usuarios_fk == usuario.id && uh.habitaciones_fk == hab.id);
@@ -305,10 +313,13 @@ namespace Agencia.Controllers
 
                         foreach (var hab in hab_Grandes)
                         {
-                            var nuevaReserva = new ReservaHabitacion(hab, usuario, fechaDesde, fechaHasta, total, totalPersonas, hab.id, usuario.id);
+                            var nuevaReserva = new ReservaHabitacion(hab, usuario, fechaDesde, fechaHasta, hab.costo, totalPersonas, hab.id, usuario.id);
 
                             usuario.misReservasHabitaciones.Add(nuevaReserva);
+                            usuario.habitacionesUsadas.Add(hab);
+
                             hab.misReservas.Add(nuevaReserva);
+                            hab.usuarios.Add(usuario);
 
                             var usuario_habitacion = _context.usuarioHabitacion
                                 .FirstOrDefault(uh => uh.usuarios_fk == usuario.id && uh.habitaciones_fk == hab.id);
@@ -356,7 +367,7 @@ namespace Agencia.Controllers
 
 
         // GET: Hotels
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg = 1)
         {
             string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
             string esAdminString = HttpContext.Session.GetString("esAdmin");
@@ -375,11 +386,25 @@ namespace Agencia.Controllers
 
             var context = _context.hoteles.Include(h => h.ubicacion);
 
+            const int pageSize = 10;
+
+            if (pg < 1)
+                pg = 1;
+
+            int recsCount = context.Count();
+
+            var pager = new Paginador(recsCount, pg, pageSize);
+
+            int recSkip = (pg - 1) * pageSize;
+
+            var data = await context.Skip(recSkip).Take(pageSize).ToListAsync();
+
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
+            ViewBag.pager = pager;
 
-            return View(await context.ToListAsync());
+            return View(data);
         }
 
         // GET: Hotels/Details/5

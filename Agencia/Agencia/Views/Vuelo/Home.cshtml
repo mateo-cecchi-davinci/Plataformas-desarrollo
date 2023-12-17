@@ -1,7 +1,16 @@
 ﻿@model Agencia.Models.Vuelo
 
+@* @model IEnumerable<Agencia.Models.Vuelo> *@
+
 @{
-    ViewData["Title"] = "Vuelo";
+    ViewData["Title"] = "Index";
+
+    int pageNo = 0;
+
+    if (ViewBag.pager != null)
+    {
+        pageNo = ViewBag.pager.pagina;
+    }
 }
 
 <div class="home-content row justify-content-center ps-4">
@@ -166,6 +175,8 @@
         }
     </tbody>
 </table>
+
+<partial name="PaginadorHomeVuelos" model="@ViewBag.pager" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/js/popoverVuelo.js" asp-append-version="true"></script>

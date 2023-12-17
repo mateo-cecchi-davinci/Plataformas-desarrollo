@@ -32,7 +32,7 @@ namespace Agencia.Controllers
                 .Load();
         }
 
-        public IActionResult Home()
+        public IActionResult Home(int pg = 1)
         {
             string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
             string esAdminString = HttpContext.Session.GetString("esAdmin");
@@ -49,12 +49,26 @@ namespace Agencia.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var vuelos = _context.vuelos.ToList();
+            var vuelos = _context.vuelos;
+
+            const int pageSize = 10;
+
+            if (pg < 1)
+                pg = 1;
+
+            int recsCount = vuelos.Count();
+
+            var pager = new Paginador(recsCount, pg, pageSize);
+
+            int recSkip = (pg - 1) * pageSize;
+
+            var data = vuelos.Skip(recSkip).Take(pageSize).ToList();
 
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
-            ViewData["vuelos"] = vuelos;
+            ViewBag.pager = pager;
+            ViewData["vuelos"] = data;
 
             return View();
         }
@@ -76,7 +90,7 @@ namespace Agencia.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            var vuelos = _context.vuelos.Include(v => v.origen).Include(v => v.destino).ToList();
+            var vuelos = _context.vuelos.ToList();
 
             if (!string.IsNullOrEmpty(origin))
             {
@@ -95,11 +109,27 @@ namespace Agencia.Controllers
 
             vuelos = vuelos.Where(v => v.capacidad - v.vendido >= people).ToList();
 
+            int pg = 1;
+
+            const int pageSize = 10;
+
+            if (pg < 1)
+                pg = 1;
+
+            int recsCount = vuelos.Count();
+
+            var pager = new Paginador(recsCount, pg, pageSize);
+
+            int recSkip = (pg - 1) * pageSize;
+
+            var data = vuelos.Skip(recSkip).Take(pageSize).ToList();
+
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
             ViewBag.people = people;
-            ViewData["vuelos"] = vuelos;
+            ViewBag.pager = pager;
+            ViewData["vuelos"] = data;
 
             return View("Home");
         }
@@ -161,7 +191,7 @@ namespace Agencia.Controllers
 
 
         // GET: Vuelo
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg = 1)
         {
             string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
             string esAdminString = HttpContext.Session.GetString("esAdmin");
@@ -180,11 +210,26 @@ namespace Agencia.Controllers
 
             var context = _context.vuelos;
 
+            const int pageSize = 10;
+
+            if (pg < 1)
+                pg = 1;
+
+            int recsCount = context.Count();
+
+            var pager = new Paginador(recsCount, pg, pageSize);
+
+            int recSkip = (pg - 1) * pageSize;
+
+            var data = await context.Skip(recSkip).Take(pageSize).ToListAsync();
+
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
+            ViewBag.pager = pager;
+            ViewBag.data = data;
 
-            return View(await context.ToListAsync());
+            return View(data);
         }
 
         // GET: Vuelo/Details/5
@@ -437,10 +482,7 @@ namespace Agencia.Controllers
                 return NotFound();
             }
 
-            var vuelo = await _context.vuelos
-                .Include(v => v.destino)
-                .Include(v => v.origen)
-                .FirstOrDefaultAsync(m => m.id == id);
+            var vuelo = await _context.vuelos.FirstOrDefaultAsync(m => m.id == id);
 
             if (vuelo == null)
             {

@@ -33,6 +33,8 @@ namespace Agencia.Controllers
                     .ThenInclude(u => u.vuelosTomados)
                     .ThenInclude(v => v.destino)
                 .Load();
+
+            _context.vuelos.Include(v => v.pasajeros);
         }
 
         public async Task<IActionResult> Perfil()
@@ -71,7 +73,7 @@ namespace Agencia.Controllers
 
 
         // GET: Usuarios
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg = 1)
         {
             string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
             string esAdminString = HttpContext.Session.GetString("esAdmin");
@@ -88,11 +90,27 @@ namespace Agencia.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
+            var context = _context.usuarios;
+
+            const int pageSize = 10;
+
+            if (pg < 1)
+                pg = 1;
+
+            int recsCount = context.Count();
+
+            var pager = new Paginador(recsCount, pg, pageSize);
+
+            int recSkip = (pg - 1) * pageSize;
+
+            var data = await context.Skip(recSkip).Take(pageSize).ToListAsync();
+
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
+            ViewBag.pager = pager;
 
-            return View(await _context.usuarios.ToListAsync());
+            return View(data);
         }
 
         // GET: Usuarios/Details/5

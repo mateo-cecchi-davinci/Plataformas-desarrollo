@@ -21,12 +21,13 @@ namespace Agencia.Controllers
                 .Include(h => h.hotel)
                 .Include(h => h.misReservas)
                 .Include(h => h.usuarios)
+                    .ThenInclude(u => u.habitacionesUsadas)
                 .Include(h => h.habitacion_usuario)
                 .Load();
         }
 
         // GET: Habitacion
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg = 1)
         {
             string usuarioLogeado = HttpContext.Session.GetString("UsuarioLogeado");
             string esAdminString = HttpContext.Session.GetString("esAdmin");
@@ -45,11 +46,25 @@ namespace Agencia.Controllers
 
             var context = _context.habitaciones;
 
+            const int pageSize = 10;
+
+            if (pg < 1)
+                pg = 1;
+
+            int recsCount = context.Count();
+
+            var pager = new Paginador(recsCount, pg, pageSize);
+
+            int recSkip = (pg - 1) * pageSize;
+
+            var data = await context.Skip(recSkip).Take(pageSize).ToListAsync();
+
             ViewBag.usuarioMail = usuarioMail;
             ViewBag.usuarioLogeado = usuarioLogeado;
             ViewBag.isAdmin = isAdmin;
+            ViewBag.pager = pager;
 
-            return View(await context.ToListAsync());
+            return View(data);
         }
 
         // GET: Habitacion/Details/5
