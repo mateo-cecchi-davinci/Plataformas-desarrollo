@@ -515,7 +515,6 @@ namespace Agencia.Controllers
                     if (DateTime.Now < vuelo.fecha)
                     {
                         reserva_vuelo.miUsuario.credito += reserva_vuelo.pagado;
-                        reserva_vuelo.miUsuario.misReservasVuelos.Remove(reserva_vuelo);
 
                         var usuario_vuelo = _context.usuarioVuelo
                             .FirstOrDefault(usuario_vuelo => usuario_vuelo.usuario == reserva_vuelo.miUsuario && usuario_vuelo.vuelo == reserva_vuelo.miVuelo);
@@ -525,6 +524,7 @@ namespace Agencia.Controllers
                             _context.usuarioVuelo.Remove(usuario_vuelo);
                         }
 
+                        reserva_vuelo.miUsuario.misReservasVuelos.Remove(reserva_vuelo);
                         reserva_vuelo.miUsuario.vuelosTomados.Remove(vuelo);
 
                         _context.usuarios.Update(reserva_vuelo.miUsuario);

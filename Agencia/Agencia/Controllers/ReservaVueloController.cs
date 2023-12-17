@@ -199,8 +199,11 @@ namespace Agencia.Controllers
 
                 usuario_seleccionado.credito -= pago;
                 usuario_seleccionado.misReservasVuelos.Add(reservaVuelo);
+                usuario_seleccionado.vuelosTomados.Add(vuelo_seleccionado);
+
                 vuelo_seleccionado.vendido += reservaVuelo.cantPersonas;
                 vuelo_seleccionado.misReservas.Add(reservaVuelo);
+                vuelo_seleccionado.pasajeros.Add(usuario_seleccionado);
 
                 reservaVuelo.pagado = pago;
 
@@ -341,7 +344,9 @@ namespace Agencia.Controllers
                         }
 
                         reserva_seleccionada.miUsuario.misReservasVuelos.Remove(reserva_seleccionada);
+                        reserva_seleccionada.miUsuario.vuelosTomados.Remove(reserva_seleccionada.miVuelo);
                         usuario_seleccionado.misReservasVuelos.Add(reserva_seleccionada);
+                        usuario_seleccionado.vuelosTomados.Add(vuelo_seleccionado);
 
                         _context.usuarios.Update(reserva_seleccionada.miUsuario);
                         
@@ -354,7 +359,9 @@ namespace Agencia.Controllers
                         reserva_seleccionada.miVuelo.vendido -= reserva_seleccionada.cantPersonas;
 
                         reserva_seleccionada.miVuelo.misReservas.Remove(reserva_seleccionada);
+                        reserva_seleccionada.miVuelo.pasajeros.Remove(reserva_seleccionada.miUsuario);
                         vuelo_seleccionado.misReservas.Add(reserva_seleccionada);
+                        vuelo_seleccionado.pasajeros.Add(usuario_seleccionado);
 
                         _context.vuelos.Update(reserva_seleccionada.miVuelo);
 
@@ -464,7 +471,9 @@ namespace Agencia.Controllers
                     }
 
                     reservaVuelo.miUsuario.misReservasVuelos.Remove(reservaVuelo);
+                    reservaVuelo.miUsuario.vuelosTomados.Remove(reservaVuelo.miVuelo);
                     reservaVuelo.miVuelo.misReservas.Remove(reservaVuelo);
+                    reservaVuelo.miVuelo.pasajeros.Remove(reservaVuelo.miUsuario);
 
                     _context.usuarios.Update(reservaVuelo.miUsuario);
                     _context.vuelos.Update(reservaVuelo.miVuelo);
