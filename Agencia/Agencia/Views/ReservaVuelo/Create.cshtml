@@ -4,43 +4,65 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>ReservaVuelo</h4>
+<h1 class="my-3">Reservar vuelo</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="pagado" class="control-label"></label>
-                <input asp-for="pagado" class="form-control" />
+            <div class="form-group mb-3">
+                <label asp-for="vuelo_fk" class="control-label">Vuelo</label>
+                <select required asp-for="vuelo_fk" id="vuelo" class="form-control" asp-items="ViewBag.vuelo_fk">
+                    <option value="">Seleccione el vuelo</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="pagado" class="control-label">Costo</label>
+                <input required asp-for="pagado" id="costo" class="form-control" readonly />
                 <span asp-validation-for="pagado" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="cantPersonas" class="control-label"></label>
-                <input asp-for="cantPersonas" class="form-control" />
+            <div class="form-group mb-3">
+                <label asp-for="cantPersonas" class="control-label">Cantidad de personas</label>
+                <input required asp-for="cantPersonas" class="form-control" value="1" />
                 <span asp-validation-for="cantPersonas" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="vuelo_fk" class="control-label"></label>
-                <select asp-for="vuelo_fk" class ="form-control" asp-items="ViewBag.vuelo_fk"></select>
+            <div class="form-group mb-3">
+                <label asp-for="usuarioRV_fk" class="control-label">Usuario</label>
+                <select required asp-for="usuarioRV_fk" class="form-control" asp-items="ViewBag.usuarioRV_fk"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="usuarioRV_fk" class="control-label"></label>
-                <select asp-for="usuarioRV_fk" class ="form-control" asp-items="ViewBag.usuarioRV_fk"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group d-flex align-items-center">
+                <input type="submit" value="Crear" class="btn btn-primary me-2" />
+                <a asp-action="Index" class="text-decoration-none">Volver</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+<script>
+    const selectVuelo = document.getElementById('vuelo');
+    const costoVuelo = document.getElementById('costo');
+
+    selectVuelo.addEventListener('change', async function () {
+        const selectedCost = await obtenerCostoSeleccionado(this.value);
+        costoVuelo.value = selectedCost;
+    });
+
+    function obtenerCostoSeleccionado(vueloId) {
+        return fetch(`/Vuelo/ObtenerCostoVuelo?id=${vueloId}`)
+            .then(response => {
+                return response.text();
+            })
+            .then(data => {
+                return data;
+            })
+            .catch(error => {
+                console.error('Error al obtener el costo del vuelo:', error);
+                throw error;
+            });
+    }
+</script>

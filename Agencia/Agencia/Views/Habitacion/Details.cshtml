@@ -1,0 +1,35 @@
+﻿@model Agencia.Models.Habitacion
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="my-3">Detalles</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Capacidad:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.capacidad)
+        </dd>
+        <dt class = "col-sm-2">
+            Costo:
+        </dt>
+        <dd class = "col-sm-10">
+            $ @Html.DisplayFor(model => model.costo)
+        </dd>
+        <dt class = "col-sm-2">
+            Hotel:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.hotel.nombre)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.id" class="text-decoration-none">Editar</a> |
+    <a asp-action="Index" class="text-decoration-none">Volver</a>
+</div>

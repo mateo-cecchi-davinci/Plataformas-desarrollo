@@ -17,14 +17,14 @@ namespace Agencia.Models
         public string clave { get; set; }
         public int intentosFallidos { get; set; }
         public bool bloqueado { get; set; }
-        public List<ReservaHotel> misReservasHoteles { get; set; } = new List<ReservaHotel>();
+        public List<ReservaHabitacion> misReservasHabitaciones { get; set; } = new List<ReservaHabitacion>();
         public List<ReservaVuelo> misReservasVuelos { get; set; } = new List<ReservaVuelo>();
         public double credito { get; set; }
         public bool isAdmin { get; set; }
-        public ICollection<Hotel> hotelesVisitados { get; set; } = new List<Hotel>();
         public ICollection<Vuelo> vuelosTomados { get; set; } = new List<Vuelo>();
-        public List<UsuarioHotel> usuario_hotel { get; set; } = new List<UsuarioHotel>();
         public List<UsuarioVuelo> usuario_vuelo { get; set; } = new List<UsuarioVuelo>();
+        public ICollection<Habitacion> habitacionesUsadas { get; set; } = new List<Habitacion>();
+        public List<UsuarioHabitacion> usuario_habitacion { get; set; } = new List<UsuarioHabitacion>();
 
         public Usuario() { }
 

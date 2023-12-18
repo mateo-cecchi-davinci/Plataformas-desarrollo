@@ -1,0 +1,234 @@
+﻿@model Agencia.Models.Vuelo
+
+@* @model IEnumerable<Agencia.Models.Vuelo> *@
+
+@{
+    ViewData["Title"] = "Index";
+
+    int pageNo = 0;
+
+    if (ViewBag.pager != null)
+    {
+        pageNo = ViewBag.pager.pagina;
+    }
+}
+
+<div class="home-content row justify-content-center ps-4">
+    <div class="card card-bg search-form col-xl-12">
+        <div class="m-0 pb-4">
+            <div class="d-flex text-nowrap form-title">
+                <h4 class="m-0 pe-4 fw-bold text-white form-title-text">Vuelos</h4>
+                <button class="btn btn-sm bg-light rounded-pill me-2 form-title-btn">
+                    <i class="bx bxs-plane-alt icon pe-1"></i>Vuelo
+                </button>
+            </div>
+        </div>
+        <form method="GET" asp-action="ResultadosDeLaBusqueda">
+            <div class="search-form-content">
+                <div class="d-flex search-inputs">
+                    <div class="m-0 p-2 card package-origin overflow-hidden flex-fill">
+                        <div class="d-flex align-items-center">
+                            <i class="bx bx-circle icon m-0 pt-3 ps-2 fs-5"></i>
+                            <div class="flex-fill">
+                                <p class="font-small m-0 ps-2">ORIGEN</p>
+                                <input type="text" name="origin" class="input-places ps-2 m-0"
+                                       placeholder="Ingresa desde dónde viajas">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-0 p-2 card package-destination overflow-hidden flex-fill me-2">
+                        <div class="d-flex align-items-center">
+                            <i class="bx bx-map icon m-0 pt-3 ps-2 fs-5"></i>
+                            <div class="flex-fill">
+                                <p class="font-small m-0 ps-2">DESTINO</p>
+                                <input type="text" name="destination" class="input-places ps-2 m-0"
+                                       placeholder="Ingresa hacia dónde viajas">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex search-inputs">
+                        <div class="m-0 p-2 card package-date flex-fill me-2">
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-calendar icon m-0 pt-3 ps-2 fs-5"></i>
+                                <div>
+                                    <p class="font-small m-0 ps-2">FECHA</p>
+                                    <input type="date" name="start_date" id="start_date" class="input-date ps-2 m-0"
+                                           min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex m-0">
+                    <div class="popover-btn" id="popoverVuelo-btn">
+                        <div class="card me-2 p-2 package-rooms">
+                            <p class="font-small m-0 ps-2">PASAJEROS</p>
+                            <div class="d-flex justify-content-evenly align-items-center">
+                                <i class="bx bx-user icon m-0 p-0 fs-5"></i>
+                                <input type="text" name="people" class="m-0 p-0 total-people" value="1"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="popover" id="popoverVuelo">
+                            <div class="d-flex justify-content-between px-3 pt-1 pb-2">
+                                <div class="d-block">
+                                    <p class="fs-5 text-body m-0">Adultos</p>
+                                    <p class="popover-sml-txt text-body text-opacity-50 m-0">Desde 18 años</p>
+                                </div>
+                                <div class="wrapper mt-2">
+                                    <span class="minus text-body">-</span>
+                                    <span class="num text-body">1</span>
+                                    <span class="plus text-body">+</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between px-3 py-2">
+                                <div class="d-block">
+                                    <p class="fs-5 text-body m-0">Menores</p>
+                                    <p class="popover-sml-txt text-body text-opacity-50 m-0">Hasta 17 años</p>
+                                </div>
+                                <div class="wrapper mt-2">
+                                    <span class="minus-minors text-body">-</span>
+                                    <span class="num-minors text-body">0</span>
+                                    <span class="plus-minors text-body">+</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end align-items-center border-top py-2 px-3">
+                                <button type="button" id="btn-apply" class="btn btn-success rounded-pill">
+                                    Aplicar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="total_adults" id="total_adults">
+                    <input type="hidden" name="total_minors" id="total_minors">
+                    <button type="submit" class="btn btn-lg btn-danger rounded-pill btn-search fs-5">
+                        <i class="bx bx-search icon"></i>
+                        Buscar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table mt-5">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.origen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.destino)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.costo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.aerolinea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.avion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewData["vuelos"] as List<Vuelo>)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.origen.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.destino.nombre)
+                </td>
+                <td>
+                    @if (ViewBag.people != null)
+                    {
+                        int people = ViewBag.people;
+                        double costo = item.costo * people;
+                        @costo
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.costo)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.aerolinea)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.avion)
+                </td>
+                <td>
+                    <a href="#" class="reservar-vuelo text-decoration-none" data-id="@item.id" data-people="@ViewBag.people">Reservar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="PaginadorHomeVuelos" model="@ViewBag.pager" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/js/popoverVuelo.js" asp-append-version="true"></script>
+<script>
+    const startDateInput = document.getElementById('start_date');
+
+    startDateInput.addEventListener('input', function () {
+        const selectedStartDate = new Date(startDateInput.value);
+
+        const minEndDate = new Date(selectedStartDate);
+        minEndDate.setDate(selectedStartDate.getDate() + 1);
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.reservar-vuelo').on('click', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: "¿Estás seguro/a de realizar la compra?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Comprar",
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var id = $(this).data('id');
+                    var people = $(this).data('people');
+
+                    $.ajax({
+                        url: '/Vuelo/Reservar',
+                        method: 'POST',
+                        data: {
+                            id: id,
+                            people: people
+                        },
+                        success: function () {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "Se ha reservado con éxito",
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

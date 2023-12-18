@@ -1,4 +1,15 @@
-﻿.home-content {
+﻿:root {
+    --color-backgound: #003906;
+    --color-default: #008a0e;
+    --color-second: #54c45e;
+    --color-white: #fff;
+    --color-body: #f2f3f5;
+    --color-light: #e0e0e0;
+    --color-text: #333333;
+    --color-dark: #3333338e;
+}
+
+.home-content {
     width: 100%;
     height: 100%;
     padding-top: 50px;
@@ -36,6 +47,10 @@
     }
 
     .package-endDate {
+        margin-top: 10px !important;
+    }
+
+    .package-date {
         margin-top: 10px !important;
     }
 
@@ -78,6 +93,14 @@
     height: 60px !important;
 }
 
+.hotel-destination {
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+    height: 60px !important;
+}
+
 .package-destination {
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
@@ -112,6 +135,14 @@
     max-height: 60px;
 }
 
+.package-date {
+    border-start-start-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+    border-end-end-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    max-height: 60px;
+}
+
 @media (min-width:1105px) {
     .package-srtDate {
         max-width: 162px;
@@ -120,11 +151,14 @@
     .package-endDate {
         max-width: 162px;
     }
+
+    .package-date {
+        max-width: 162px;
+    }
 }
 
 .input-places::placeholder {
     font-weight: bold;
-    background-color: #f8fafc;
 }
 
 .input-places, .input-places:focus {
@@ -132,7 +166,6 @@
     outline: none;
     font-weight: normal;
     width: 100%;
-    background-color: #f8fafc;
 }
 
 .input-date {
@@ -215,7 +248,26 @@
     position: relative;
 }
 
+.popover-reserva-habitacion {
+    max-width: 160px;
+}
+
 .popover {
+    position: absolute;
+    top: 5rem;
+    left: 48%;
+    transform: translateX(-50%);
+    background: #fff;
+    border-radius: .5rem;
+    padding-top: 0.5rem;
+    width: 280px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .5s, visibility .5s, top .5s;
+    cursor: auto !important;
+}
+
+.popoverReservaHabitacion {
     position: absolute;
     top: 5rem;
     left: 48%;
@@ -239,6 +291,16 @@
     position: absolute;
     border: 1rem solid;
     border-color: transparent transparent #fff;
+    top: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.popoverReservaHabitacion::before {
+    content: '';
+    position: absolute;
+    border: 1rem solid;
+    border-color: transparent transparent #c1c1c1;
     top: -2rem;
     left: 50%;
     transform: translateX(-50%);
@@ -276,3 +338,6 @@
     user-select: none;
 }
 
+.reservar-vuelo {
+    cursor: pointer;
+}

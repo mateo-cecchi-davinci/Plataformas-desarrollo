@@ -1,0 +1,96 @@
+﻿@model Agencia.Models.ReservaHabitacion
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="my-3">Reservar habitaciones</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="usuarioRH_fk" class="control-label">Usuario</label>
+                <select required asp-for="usuarioRH_fk" class="form-control" asp-items="ViewBag.usuarioRH_fk"></select>
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Hotel</label>
+                <select required id="hotel" name="hotel" class="form-control" asp-items="ViewBag.hoteles"></select>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="fechaDesde" class="control-label">Desde</label>
+                <input required id="fechaDesde" name="fechaDesde" type="date" class="form-control" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="fechaDesde" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="fechaHasta" class="control-label">Hasta</label>
+                <input required id="fechaHasta" name="fechaHasta" type="date" class="form-control" disabled />
+                <span asp-validation-for="fechaHasta" class="text-danger"></span>
+            </div>
+            <div class="popover-btn popover-reserva-habitacion" id="popover-btn">
+                <div class="card me-2 p-2 package-rooms">
+                    <p class="font-small m-0 ps-2">HABITACIONES</p>
+                    <div class="d-flex justify-content-evenly align-items-center">
+                        <i class="bx bx-bed icon m-0 p-0 fs-5"></i>
+                        <input type="text" name="rooms" class="m-0 p-0 room-amount" value="1"
+                               readonly>
+                        <i class="bx bx-user icon m-0 p-0 fs-5"></i>
+                        <input type="text" name="people" class="m-0 p-0 total-people" value="1"
+                               readonly>
+                    </div>
+                </div>
+                <div class="popover" id="popover">
+                    <p class="fs-6 text-body text-opacity-75 p-2 ps-3 pb-1 m-0">
+                        Habitaciones: <span class="room-index">1</span>
+                    </p>
+                    <div class="d-flex justify-content-between px-3 pt-1 pb-2">
+                        <div class="d-block">
+                            <p class="fs-5 text-body m-0">Adultos</p>
+                            <p class="popover-sml-txt text-body text-opacity-50 m-0">Desde 18 años</p>
+                        </div>
+                        <div class="wrapper mt-2">
+                            <span class="minus text-body">-</span>
+                            <span class="num text-body">1</span>
+                            <span class="plus text-body">+</span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between px-3 py-2">
+                        <div class="d-block">
+                            <p class="fs-5 text-body m-0">Menores</p>
+                            <p class="popover-sml-txt text-body text-opacity-50 m-0">Hasta 17 años</p>
+                        </div>
+                        <div class="wrapper mt-2">
+                            <span class="minus-minors text-body">-</span>
+                            <span class="num-minors text-body">0</span>
+                            <span class="plus-minors text-body">+</span>
+                        </div>
+                    </div>
+                    <div id="rooms"></div>
+                    <div id="apply-four-rooms"
+                         class="d-flex justify-content-between align-items-center border-top py-2 px-3">
+                        <a id="addRoom" class="text-decoration-none popover-sml-txt">Añadir habitacion</a>
+                        <button type="button" id="btn-apply" class="btn btn-success rounded-pill">
+                            Aplicar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="total_people_rooms" id="total_people_rooms">
+            <input type="hidden" name="habitaciones_chicas" id="habitaciones_chicas">
+            <input type="hidden" name="habitaciones_medianas" id="habitaciones_medianas">
+            <input type="hidden" name="habitaciones_grandes" id="habitaciones_grandes">
+            <div class="form-group my-3">
+                <label asp-for="pagado" class="control-label">Costo</label>
+                <input required readonly id="costo" asp-for="pagado" class="form-control" />
+                <span asp-validation-for="pagado" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex align-items-center">
+                <input type="submit" value="Reservar" class="btn btn-primary me-2" />
+                <a asp-action="Index" class="text-decoration-none">Volver</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="~/js/reservarHabitacion.js" asp-append-version="true"></script>

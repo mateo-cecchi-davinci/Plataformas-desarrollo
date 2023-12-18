@@ -2,82 +2,102 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    int pageNo = 0;
+
+    if (ViewBag.pager != null)
+    {
+        pageNo = ViewBag.pager.pagina;
+    }
 }
 
-<h1>Index</h1>
+<div class="d-flex justify-content-between align-items-center my-5">
+    <h1>Usuarios</h1>
+    <p>
+        <a asp-action="Create" type="button" class="btn btn-success">Crear</a>
+    </p>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.dni)
+                Dni
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nombre)
+                Nombre
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.apellido)
+                Apellido
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.mail)
+                Mail
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.clave)
+                Intentos fallidos
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.intentosFallidos)
+                Estado
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.bloqueado)
+                Credito
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.credito)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.isAdmin)
+                Rol
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.dni)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.mail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.clave)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.intentosFallidos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.bloqueado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.credito)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.isAdmin)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dni)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.mail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.intentosFallidos)
+                </td>
+                <td>
+                    @if (item.bloqueado)
+                    {
+                        <text>Bloqueado</text>
+                    }
+                    else
+                    {
+                        <text>Activo</text>
+                    }
+                </td>
+                <td class="text-nowrap">
+                    $ @item.credito
+                </td>
+                <td>
+                    @if (item.isAdmin)
+                    {
+                        <text>Administrador</text>
+                    }
+                    else
+                    {
+                        <text>Común</text>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.id" class="text-decoration-none">Detalles</a> |
+                    <a asp-action="Edit" asp-route-id="@item.id" class="text-decoration-none">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id" class="text-decoration-none">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<partial name="Paginador" model="@ViewBag.pager" />

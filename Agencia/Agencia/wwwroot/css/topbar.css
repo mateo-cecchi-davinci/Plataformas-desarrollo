@@ -1,4 +1,15 @@
-﻿.topBar {
+﻿:root {
+    --color-backgound: #003906;
+    --color-default: #008a0e;
+    --color-second: #54c45e;
+    --color-white: #fff;
+    --color-body: #f2f3f5;
+    --color-light: #e0e0e0;
+    --color-text: #333333;
+    --color-dark: #3333338e;
+}
+
+.topBar {
     background-color: var(--color-default);
     height: 70px;
 }

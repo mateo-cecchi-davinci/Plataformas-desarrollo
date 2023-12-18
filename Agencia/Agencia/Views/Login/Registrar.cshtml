@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Registrar";
+}
+
+<body class="register-bg">
+    <div class="register-content">
+        <div class="grid-register justify-content-center">
+            <div class="card register-card flex-fill">
+                <i class="bx bx-planet icon text-center fs-2 mt-5 mb-2"></i>
+                <div class="text-center my-3 fs-3">Registrarse</div>
+                <div class="card-body d-flex justify-content-center align-items-center">
+
+                    @if (ViewData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewData["ErrorMessage"]
+                        </div>
+                    }
+
+                    <div class="col-md-8">
+                        <form method="POST" action="@Url.Action("RegUser", "Login")">
+                            <div class="mb-4">
+                                <input type="text" class="form-control" name="nombre" required autofocus placeholder="Nombre*">
+                            </div>
+
+                            <div class="mb-4">
+                                <input type="text" class="form-control" name="apellido" required autofocus placeholder="Apellido*">
+                            </div>
+
+                            <div class="mb-4">
+                                <input type="text" class="form-control" name="dni" required autofocus placeholder="Dni*">
+                            </div>
+
+                            <div class="mb-4">
+                                <input type="email" class="form-control" name="mail" required placeholder="Correo*">
+                            </div>
+
+                            <div class="mb-4">
+                                <input type="password" class="form-control" name="clave" required placeholder="Contraseña*">
+                            </div>
+
+                            <div class="mb-5">
+                                <input type="password" class="form-control" name="repetirClave" required placeholder="Confirmar Contraseña*">
+                            </div>
+
+                            <div class="d-flex justify-content-evenly mb-5">
+
+                                <a class="btn btn-lg" href="@Url.Action("Index", "Login")">
+                                    Volver
+                                </a>
+
+                                <button type="submit" class="btn btn-lg btn-success">
+                                    Registrarse
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            <div class="bg-register d-none d-lg-flex justify-content-center align-items-center">
+                <h1>Bienvenido!</h1>
+            </div>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,73 @@
+﻿@model Agencia.Models.ReservaHabitacion
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1 class="my-3">Eliminar reserva</h1>
+
+<h3 class="mb-3">¿Está seguro de eliminar esta reserva?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Hotel:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.miHabitacion.hotel.nombre)
+        </dd>
+        <dt class="col-sm-2">
+            Habitación:
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.miHabitacion.capacidad == 2)
+            {
+                <text>Para dos personas</text>
+            }
+            else if (Model.miHabitacion.capacidad == 4)
+            {
+                <text>Para cuatro personas</text>
+            }
+            else
+            {
+                <text>Para ocho personas</text>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Usuario:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.miUsuario.nombre @Model.miUsuario.apellido
+        </dd>
+        <dt class="col-sm-2">
+            Desde:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.fechaDesde)
+        </dd>
+        <dt class="col-sm-2">
+            Hasta:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.fechaHasta)
+        </dd>
+        <dt class="col-sm-2">
+            Pago:
+        </dt>
+        <dd class="col-sm-10">
+            $ @Html.DisplayFor(model => model.pagado)
+        </dd>
+        <dt class="col-sm-2">
+            Cantidad de personas:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.cantPersonas)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="id" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index" class="text-decoration-none">Volver</a>
+    </form>
+</div>

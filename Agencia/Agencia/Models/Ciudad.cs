@@ -12,7 +12,8 @@ namespace Agencia.Models
         public int id { get; set; }
         public string nombre { get; set; }
         public List<Hotel> hoteles { get; set; } = new List<Hotel>();
-        public List<Vuelo> vuelos { get; set; } = new List<Vuelo>();
+        public List<Vuelo> vuelos_origen { get; set; } = new List<Vuelo>();
+        public List<Vuelo> vuelos_destino { get; set; } = new List<Vuelo>();
 
         public Ciudad() { }
 

@@ -141,7 +141,7 @@ namespace Agencia.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Agencia.Models.Hotel", b =>
+            modelBuilder.Entity("Agencia.Models.Habitacion", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -152,11 +152,919 @@ namespace Agencia.Migrations
                     b.Property<int>("capacidad")
                         .HasColumnType("int");
 
+                    b.Property<double>("costo")
+                        .HasColumnType("float");
+
+                    b.Property<int>("hotel_fk")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("hotel_fk");
+
+                    b.ToTable("habitacion", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 1
+                        },
+                        new
+                        {
+                            id = 2,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 1
+                        },
+                        new
+                        {
+                            id = 3,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 1
+                        },
+                        new
+                        {
+                            id = 4,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 1
+                        },
+                        new
+                        {
+                            id = 5,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 1
+                        },
+                        new
+                        {
+                            id = 6,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 1
+                        },
+                        new
+                        {
+                            id = 7,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 2
+                        },
+                        new
+                        {
+                            id = 8,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 2
+                        },
+                        new
+                        {
+                            id = 9,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 2
+                        },
+                        new
+                        {
+                            id = 10,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 2
+                        },
+                        new
+                        {
+                            id = 11,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 2
+                        },
+                        new
+                        {
+                            id = 12,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 2
+                        },
+                        new
+                        {
+                            id = 13,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 3
+                        },
+                        new
+                        {
+                            id = 14,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 3
+                        },
+                        new
+                        {
+                            id = 15,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 3
+                        },
+                        new
+                        {
+                            id = 16,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 3
+                        },
+                        new
+                        {
+                            id = 17,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 3
+                        },
+                        new
+                        {
+                            id = 18,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 3
+                        },
+                        new
+                        {
+                            id = 19,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 4
+                        },
+                        new
+                        {
+                            id = 20,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 4
+                        },
+                        new
+                        {
+                            id = 21,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 4
+                        },
+                        new
+                        {
+                            id = 22,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 4
+                        },
+                        new
+                        {
+                            id = 23,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 4
+                        },
+                        new
+                        {
+                            id = 24,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 4
+                        },
+                        new
+                        {
+                            id = 25,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 5
+                        },
+                        new
+                        {
+                            id = 26,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 5
+                        },
+                        new
+                        {
+                            id = 27,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 5
+                        },
+                        new
+                        {
+                            id = 28,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 5
+                        },
+                        new
+                        {
+                            id = 29,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 5
+                        },
+                        new
+                        {
+                            id = 30,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 5
+                        },
+                        new
+                        {
+                            id = 31,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 6
+                        },
+                        new
+                        {
+                            id = 32,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 6
+                        },
+                        new
+                        {
+                            id = 33,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 6
+                        },
+                        new
+                        {
+                            id = 34,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 6
+                        },
+                        new
+                        {
+                            id = 35,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 6
+                        },
+                        new
+                        {
+                            id = 36,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 6
+                        },
+                        new
+                        {
+                            id = 37,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 7
+                        },
+                        new
+                        {
+                            id = 38,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 7
+                        },
+                        new
+                        {
+                            id = 39,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 7
+                        },
+                        new
+                        {
+                            id = 40,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 7
+                        },
+                        new
+                        {
+                            id = 41,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 7
+                        },
+                        new
+                        {
+                            id = 42,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 7
+                        },
+                        new
+                        {
+                            id = 43,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 8
+                        },
+                        new
+                        {
+                            id = 44,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 8
+                        },
+                        new
+                        {
+                            id = 45,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 8
+                        },
+                        new
+                        {
+                            id = 46,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 8
+                        },
+                        new
+                        {
+                            id = 47,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 8
+                        },
+                        new
+                        {
+                            id = 48,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 8
+                        },
+                        new
+                        {
+                            id = 49,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 9
+                        },
+                        new
+                        {
+                            id = 50,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 9
+                        },
+                        new
+                        {
+                            id = 51,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 9
+                        },
+                        new
+                        {
+                            id = 52,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 9
+                        },
+                        new
+                        {
+                            id = 53,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 9
+                        },
+                        new
+                        {
+                            id = 54,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 9
+                        },
+                        new
+                        {
+                            id = 55,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 10
+                        },
+                        new
+                        {
+                            id = 56,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 10
+                        },
+                        new
+                        {
+                            id = 57,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 10
+                        },
+                        new
+                        {
+                            id = 58,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 10
+                        },
+                        new
+                        {
+                            id = 59,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 10
+                        },
+                        new
+                        {
+                            id = 60,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 10
+                        },
+                        new
+                        {
+                            id = 61,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 11
+                        },
+                        new
+                        {
+                            id = 62,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 11
+                        },
+                        new
+                        {
+                            id = 63,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 11
+                        },
+                        new
+                        {
+                            id = 64,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 11
+                        },
+                        new
+                        {
+                            id = 65,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 11
+                        },
+                        new
+                        {
+                            id = 66,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 11
+                        },
+                        new
+                        {
+                            id = 67,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 12
+                        },
+                        new
+                        {
+                            id = 68,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 12
+                        },
+                        new
+                        {
+                            id = 69,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 12
+                        },
+                        new
+                        {
+                            id = 70,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 12
+                        },
+                        new
+                        {
+                            id = 71,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 12
+                        },
+                        new
+                        {
+                            id = 72,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 12
+                        },
+                        new
+                        {
+                            id = 73,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 13
+                        },
+                        new
+                        {
+                            id = 74,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 13
+                        },
+                        new
+                        {
+                            id = 75,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 13
+                        },
+                        new
+                        {
+                            id = 76,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 13
+                        },
+                        new
+                        {
+                            id = 77,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 13
+                        },
+                        new
+                        {
+                            id = 78,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 13
+                        },
+                        new
+                        {
+                            id = 79,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 14
+                        },
+                        new
+                        {
+                            id = 80,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 14
+                        },
+                        new
+                        {
+                            id = 81,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 14
+                        },
+                        new
+                        {
+                            id = 82,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 14
+                        },
+                        new
+                        {
+                            id = 83,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 14
+                        },
+                        new
+                        {
+                            id = 84,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 14
+                        },
+                        new
+                        {
+                            id = 85,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 15
+                        },
+                        new
+                        {
+                            id = 86,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 15
+                        },
+                        new
+                        {
+                            id = 87,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 15
+                        },
+                        new
+                        {
+                            id = 88,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 15
+                        },
+                        new
+                        {
+                            id = 89,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 15
+                        },
+                        new
+                        {
+                            id = 90,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 15
+                        },
+                        new
+                        {
+                            id = 91,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 16
+                        },
+                        new
+                        {
+                            id = 92,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 16
+                        },
+                        new
+                        {
+                            id = 93,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 16
+                        },
+                        new
+                        {
+                            id = 94,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 16
+                        },
+                        new
+                        {
+                            id = 95,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 16
+                        },
+                        new
+                        {
+                            id = 96,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 16
+                        },
+                        new
+                        {
+                            id = 97,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 17
+                        },
+                        new
+                        {
+                            id = 98,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 17
+                        },
+                        new
+                        {
+                            id = 99,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 17
+                        },
+                        new
+                        {
+                            id = 100,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 17
+                        },
+                        new
+                        {
+                            id = 101,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 17
+                        },
+                        new
+                        {
+                            id = 102,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 17
+                        },
+                        new
+                        {
+                            id = 103,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 18
+                        },
+                        new
+                        {
+                            id = 104,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 18
+                        },
+                        new
+                        {
+                            id = 105,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 18
+                        },
+                        new
+                        {
+                            id = 106,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 18
+                        },
+                        new
+                        {
+                            id = 107,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 18
+                        },
+                        new
+                        {
+                            id = 108,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 18
+                        },
+                        new
+                        {
+                            id = 109,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 19
+                        },
+                        new
+                        {
+                            id = 110,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 19
+                        },
+                        new
+                        {
+                            id = 111,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 19
+                        },
+                        new
+                        {
+                            id = 112,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 19
+                        },
+                        new
+                        {
+                            id = 113,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 19
+                        },
+                        new
+                        {
+                            id = 114,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 19
+                        },
+                        new
+                        {
+                            id = 115,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 20
+                        },
+                        new
+                        {
+                            id = 116,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 20
+                        },
+                        new
+                        {
+                            id = 117,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 20
+                        },
+                        new
+                        {
+                            id = 118,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 20
+                        },
+                        new
+                        {
+                            id = 119,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 20
+                        },
+                        new
+                        {
+                            id = 120,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 20
+                        },
+                        new
+                        {
+                            id = 121,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 2021
+                        },
+                        new
+                        {
+                            id = 122,
+                            capacidad = 2,
+                            costo = 20000.0,
+                            hotel_fk = 2021
+                        },
+                        new
+                        {
+                            id = 123,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 2021
+                        },
+                        new
+                        {
+                            id = 124,
+                            capacidad = 4,
+                            costo = 35000.0,
+                            hotel_fk = 2021
+                        },
+                        new
+                        {
+                            id = 125,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 2021
+                        },
+                        new
+                        {
+                            id = 126,
+                            capacidad = 8,
+                            costo = 70000.0,
+                            hotel_fk = 2021
+                        });
+                });
+
+            modelBuilder.Entity("Agencia.Models.Hotel", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+
                     b.Property<int>("ciudad_fk")
                         .HasColumnType("int");
 
-                    b.Property<double>("costo")
-                        .HasColumnType("float");
+                    b.Property<string>("descripcion")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("imagen")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("nombre")
                         .IsRequired()
@@ -172,174 +1080,174 @@ namespace Agencia.Migrations
                         new
                         {
                             id = 1,
-                            capacidad = 101,
                             ciudad_fk = 7,
-                            costo = 21000.0,
-                            nombre = "Hotel Buenos Aires"
+                            descripcion = "San Miguel de Tucumán, Centro histórico. A 287 m del centro",
+                            imagen = "images/hotel/04a270ea-1772-4970-84ea-8511a77d344b_hotelGardenPlaza-Tucuman.png",
+                            nombre = "Garden Plaza"
                         },
                         new
                         {
                             id = 2,
-                            capacidad = 80,
                             ciudad_fk = 2,
-                            costo = 22000.0,
-                            nombre = "Hotel Rosario"
+                            descripcion = "Córdoba, Barrio ItuzaingóA 445 m del centro",
+                            imagen = "images/hotel/04314e9f-5c9a-4f8a-8672-94781301b98f_selinaNuevaCordoba-Cordoba.png",
+                            nombre = "Selina Nueva Cordoba"
                         },
                         new
                         {
                             id = 3,
-                            capacidad = 120,
                             ciudad_fk = 3,
-                            costo = 27000.0,
-                            nombre = "Hotel Córdoba"
+                            descripcion = "Rosario, Centro. A 966 m del centro",
+                            imagen = "images/hotel/79fdae4f-dfee-4262-9803-b1094618f216_americanPuertoRosarioHotel-Rosario.png",
+                            nombre = "American Puerto Rosario Hotel"
                         },
                         new
                         {
                             id = 4,
-                            capacidad = 90,
                             ciudad_fk = 4,
-                            costo = 24000.0,
-                            nombre = "Hotel Mendoza"
+                            descripcion = "Mendoza, Centro. A 390 m del centro",
+                            imagen = "images/hotel/c9252ae1-4112-4f7e-9ca2-7b87cb681dda_raicesAconcaguaHotel-Mendoza.png",
+                            nombre = "Raices Aconcagua Hotel"
                         },
                         new
                         {
                             id = 5,
-                            capacidad = 70,
                             ciudad_fk = 5,
-                            costo = 21000.0,
-                            nombre = "Hotel San Juan"
+                            descripcion = "Buenos Aires, La Plata. A 2,5 km del Museo de la Plata",
+                            imagen = "images/hotel/0bf11e5f-3554-42a0-b0e0-6087fd485599_dazzlerByWyndhamLaPlata-La Plata.png",
+                            nombre = "Dazzler by Wyndham La Plata"
                         },
                         new
                         {
                             id = 6,
-                            capacidad = 110,
                             ciudad_fk = 6,
-                            costo = 26000.0,
-                            nombre = "Hotel Mar del Plata"
+                            descripcion = "Mar del Plata. A 9,13 km del centro",
+                            imagen = "images/hotel/5b90c67e-11a4-45f7-aa5f-36101400d3ac_hotelAatracMarDelPlata-Mar del Plata.png",
+                            nombre = "Hotel Aatrac Mar del Plata"
                         },
                         new
                         {
                             id = 7,
-                            capacidad = 95,
                             ciudad_fk = 7,
-                            costo = 23500.0,
-                            nombre = "Hotel Tucumán"
+                            descripcion = " San Miguel de Tucumán, Argentina. A 3,39 km del centro",
+                            imagen = "images/hotel/bdbb374f-432c-4147-a5ce-499bbc0a292f_hotelPortalDelNorte-Tucuman.png",
+                            nombre = "Hotel Portal del Norte"
                         },
                         new
                         {
                             id = 8,
-                            capacidad = 75,
                             ciudad_fk = 8,
-                            costo = 22500.0,
-                            nombre = "Hotel Salta"
+                            descripcion = "Salta, Centro. A 226 m del centro",
+                            imagen = "images/hotel/a917a5f2-964c-4bb7-94d1-ec4ba0c2baae_hotelPosadaDelSolSalta-Salta.png",
+                            nombre = "Hotel Posada del Sol Salta"
                         },
                         new
                         {
                             id = 9,
-                            capacidad = 85,
                             ciudad_fk = 9,
-                            costo = 24500.0,
-                            nombre = "Hotel Jujuy"
+                            descripcion = "Santa Fe, Argentina. A 1,93 km del centro",
+                            imagen = "images/hotel/3bd2a198-62ac-47cd-8158-fd910db6fb15_hotelCastelar-Santa Fe.png",
+                            nombre = "Hotel Castelar"
                         },
                         new
                         {
                             id = 10,
-                            capacidad = 105,
                             ciudad_fk = 10,
-                            costo = 25500.0,
-                            nombre = "Hotel Neuquén"
+                            descripcion = "San Juan. A 205 m del centro",
+                            imagen = "images/hotel/779f2715-5640-4c7e-af86-dbfc2f2b05a4_alhambraInnHotel-San Juan.png",
+                            nombre = "Alhambra Inn Hotel"
                         },
                         new
                         {
                             id = 11,
-                            capacidad = 80,
                             ciudad_fk = 1,
-                            costo = 22000.0,
-                            nombre = "Hotel La Plata"
+                            descripcion = "Buenos Aires, Recoleta. A 1,10 km del centro",
+                            imagen = "images/hotel/97148535-98f8-41a2-8584-678d3874d480_granHotelBuenosAires-Buenos Aires.png",
+                            nombre = "Gran Hotel Buenos Aires"
                         },
                         new
                         {
                             id = 12,
-                            capacidad = 110,
                             ciudad_fk = 2,
-                            costo = 26500.0,
-                            nombre = "Hotel Santa Fe"
+                            descripcion = "Córdoba, Argentina. A 31,70 km del centro",
+                            imagen = "images/hotel/00475231-6fa4-4b8b-9ee6-5837912b6f28_howardJohnsonByWyndhamCordoba-Cordoba.png",
+                            nombre = "Howard Johnson by Wyndham Cordoba"
                         },
                         new
                         {
                             id = 13,
-                            capacidad = 90,
                             ciudad_fk = 3,
-                            costo = 23000.0,
-                            nombre = "Hotel San Luis"
+                            descripcion = "Rosario, Argentina. A 2,38 km del centro",
+                            imagen = "images/hotel/27806441-6c89-466a-9766-3264bb46cdaf_aristonHotel-Rosario.png",
+                            nombre = "Ariston Hotel"
                         },
                         new
                         {
                             id = 14,
-                            capacidad = 70,
                             ciudad_fk = 4,
-                            costo = 21000.0,
-                            nombre = "Hotel Formosa"
+                            descripcion = "Mendoza, Argentina. A 346 m del centro",
+                            imagen = "images/hotel/8477278d-e8cc-49fe-8afb-1182f09f77e0_hotelPrincessGold-Mendoza.png",
+                            nombre = "Hotel Princess Gold"
                         },
                         new
                         {
                             id = 15,
-                            capacidad = 100,
                             ciudad_fk = 5,
-                            costo = 25000.0,
-                            nombre = "Hotel Entre Ríos"
+                            descripcion = "Buenos Aires, La Plata. A 5,35 km del centro",
+                            imagen = "images/hotel/6c8fbd02-09ed-49c2-b4cc-3e2bbb0c17f9_hotelDelSol-La Plata.png",
+                            nombre = "Hotel del Sol"
                         },
                         new
                         {
                             id = 16,
-                            capacidad = 120,
                             ciudad_fk = 6,
-                            costo = 22000.0,
-                            nombre = "Hotel Catamarca"
+                            descripcion = "Buenos Aires, Argentina. A 297 m del centro",
+                            imagen = "images/hotel/d76a8e6a-4453-4e94-9cf5-2f09fe59a298_hotelArgentino-Mar del Plata.png",
+                            nombre = "Hotel Argentino"
                         },
                         new
                         {
                             id = 17,
-                            capacidad = 120,
                             ciudad_fk = 7,
-                            costo = 27500.0,
-                            nombre = "Hotel La Rioja"
+                            descripcion = "San Miguel de Tucumán, Argentina. A 1,81 km del centro",
+                            imagen = "images/hotel/dd74e84b-2fa4-455f-9064-a20e5cbb8230_hotelLePark-tucuman.png",
+                            nombre = "Hotel Le Park"
                         },
                         new
                         {
                             id = 18,
-                            capacidad = 95,
                             ciudad_fk = 8,
-                            costo = 24000.0,
-                            nombre = "Hotel Chaco"
+                            descripcion = "Salta, Centro. A 704 m del centro",
+                            imagen = "images/hotel/6e456053-c5b0-462e-a510-2722dbe875b6_hotelSamka-Salta.png",
+                            nombre = "Hotel Samka"
                         },
                         new
                         {
                             id = 19,
-                            capacidad = 75,
                             ciudad_fk = 9,
-                            costo = 22500.0,
-                            nombre = "Hotel Tierra del Fuego"
+                            descripcion = "Santa Fe. A 2,37 km del centro",
+                            imagen = "images/hotel/15c46820-eb41-468f-833e-8a1aae28eade_puertoAmarrasHotel&Suites-Santa Fe.png",
+                            nombre = "Puerto Amarras Hotel & Suites"
                         },
                         new
                         {
                             id = 20,
-                            capacidad = 105,
                             ciudad_fk = 10,
-                            costo = 25500.0,
-                            nombre = "Hotel Santa Cruz"
+                            descripcion = "San Juan, Argentina. A 43 m del centro",
+                            imagen = "images/hotel/7ccd44f5-2b8d-4217-b152-10508cd991e0_hotelAlbertina-San Juan.png",
+                            nombre = "Hotel Albertina"
                         },
                         new
                         {
                             id = 2021,
-                            capacidad = 101,
                             ciudad_fk = 7,
-                            costo = 21000.0,
-                            nombre = "PRUEBA"
+                            descripcion = "San Miguel de Tucumán, Barrio Norte. A 1,34 km del centro",
+                            imagen = "images/hotel/9d04ad05-788c-4f24-b594-f7944b62eb62_sheratonTucumanHotel-Tucuman.png",
+                            nombre = "Sheraton Tucuman Hotel"
                         });
                 });
 
-            modelBuilder.Entity("Agencia.Models.ReservaHotel", b =>
+            modelBuilder.Entity("Agencia.Models.ReservaHabitacion", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -356,7 +1264,7 @@ namespace Agencia.Migrations
                     b.Property<DateTime>("fechaHasta")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("hotel_fk")
+                    b.Property<int>("habitacion_fk")
                         .HasColumnType("int");
 
                     b.Property<double>("pagado")
@@ -367,7 +1275,7 @@ namespace Agencia.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("hotel_fk");
+                    b.HasIndex("habitacion_fk");
 
                     b.HasIndex("usuarioRH_fk");
 
@@ -377,30 +1285,30 @@ namespace Agencia.Migrations
                         new
                         {
                             id = 1,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 10, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 1,
+                            habitacion_fk = 1,
                             pagado = 150000.0,
                             usuarioRH_fk = 1
                         },
                         new
                         {
                             id = 2,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 11, 15, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 11, 20, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 2,
+                            habitacion_fk = 7,
                             pagado = 120000.0,
                             usuarioRH_fk = 2
                         },
                         new
                         {
                             id = 3,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 10, 3, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 11, 3, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 3,
+                            habitacion_fk = 13,
                             pagado = 170000.0,
                             usuarioRH_fk = 3
                         },
@@ -410,7 +1318,7 @@ namespace Agencia.Migrations
                             cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 9, 20, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 9, 25, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 4,
+                            habitacion_fk = 19,
                             pagado = 140000.0,
                             usuarioRH_fk = 4
                         },
@@ -420,7 +1328,7 @@ namespace Agencia.Migrations
                             cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 11, 1, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 11, 10, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 5,
+                            habitacion_fk = 25,
                             pagado = 110000.0,
                             usuarioRH_fk = 5
                         },
@@ -430,27 +1338,27 @@ namespace Agencia.Migrations
                             cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 10, 8, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 10, 12, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 1,
+                            habitacion_fk = 1,
                             pagado = 150000.0,
                             usuarioRH_fk = 6
                         },
                         new
                         {
                             id = 7,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 12, 5, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 12, 10, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 2,
+                            habitacion_fk = 7,
                             pagado = 120000.0,
                             usuarioRH_fk = 7
                         },
                         new
                         {
                             id = 8,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 9, 25, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 9, 30, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 3,
+                            habitacion_fk = 13,
                             pagado = 170000.0,
                             usuarioRH_fk = 8
                         },
@@ -460,7 +1368,7 @@ namespace Agencia.Migrations
                             cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 11, 12, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 11, 17, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 4,
+                            habitacion_fk = 19,
                             pagado = 140000.0,
                             usuarioRH_fk = 9
                         },
@@ -470,67 +1378,67 @@ namespace Agencia.Migrations
                             cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 12, 20, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 12, 25, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 5,
+                            habitacion_fk = 25,
                             pagado = 110000.0,
                             usuarioRH_fk = 10
                         },
                         new
                         {
                             id = 1002,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 10, 20, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 10, 24, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 1,
+                            habitacion_fk = 1,
                             pagado = 150000.0,
                             usuarioRH_fk = 3
                         },
                         new
                         {
                             id = 2007,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 10, 31, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 2,
+                            habitacion_fk = 7,
                             pagado = 120000.0,
                             usuarioRH_fk = 1024
                         },
                         new
                         {
                             id = 2008,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 10, 11, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 10, 18, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 5,
+                            habitacion_fk = 25,
                             pagado = 110000.0,
                             usuarioRH_fk = 1024
                         },
                         new
                         {
                             id = 2009,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 10, 25, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 6,
+                            habitacion_fk = 31,
                             pagado = 160000.0,
                             usuarioRH_fk = 1024
                         },
                         new
                         {
                             id = 2010,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 10, 23, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 10, 23, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 7,
+                            habitacion_fk = 37,
                             pagado = 135000.0,
                             usuarioRH_fk = 1024
                         },
                         new
                         {
                             id = 2011,
-                            cantPersonas = 1,
+                            cantPersonas = 2,
                             fechaDesde = new DateTime(2023, 10, 2, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             fechaHasta = new DateTime(2023, 10, 5, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            hotel_fk = 5,
+                            habitacion_fk = 25,
                             pagado = 110000.0,
                             usuarioRH_fk = 1024
                         });
@@ -990,130 +1898,130 @@ namespace Agencia.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Agencia.Models.UsuarioHotel", b =>
+            modelBuilder.Entity("Agencia.Models.UsuarioHabitacion", b =>
                 {
-                    b.Property<int>("usuario_fk")
+                    b.Property<int>("usuarios_fk")
                         .HasColumnType("int");
 
-                    b.Property<int>("hotel_fk")
+                    b.Property<int>("habitaciones_fk")
                         .HasColumnType("int");
 
                     b.Property<int>("cantidad")
                         .HasColumnType("int");
 
-                    b.HasKey("usuario_fk", "hotel_fk");
+                    b.HasKey("usuarios_fk", "habitaciones_fk");
 
-                    b.HasIndex("hotel_fk");
+                    b.HasIndex("habitaciones_fk");
 
-                    b.ToTable("usuarioHotel");
+                    b.ToTable("usuarioHabitacion", (string)null);
 
                     b.HasData(
                         new
                         {
-                            usuario_fk = 1,
-                            hotel_fk = 1,
+                            usuarios_fk = 1,
+                            habitaciones_fk = 1,
                             cantidad = 2
                         },
                         new
                         {
-                            usuario_fk = 2,
-                            hotel_fk = 2,
+                            usuarios_fk = 2,
+                            habitaciones_fk = 7,
                             cantidad = 0
                         },
                         new
                         {
-                            usuario_fk = 3,
-                            hotel_fk = 1,
+                            usuarios_fk = 3,
+                            habitaciones_fk = 1,
                             cantidad = 1
                         },
                         new
                         {
-                            usuario_fk = 3,
-                            hotel_fk = 3,
+                            usuarios_fk = 3,
+                            habitaciones_fk = 13,
                             cantidad = 1
                         },
                         new
                         {
-                            usuario_fk = 4,
-                            hotel_fk = 4,
+                            usuarios_fk = 4,
+                            habitaciones_fk = 19,
                             cantidad = 1
                         },
                         new
                         {
-                            usuario_fk = 5,
-                            hotel_fk = 5,
+                            usuarios_fk = 5,
+                            habitaciones_fk = 25,
                             cantidad = 0
                         },
                         new
                         {
-                            usuario_fk = 6,
-                            hotel_fk = 1,
+                            usuarios_fk = 6,
+                            habitaciones_fk = 1,
                             cantidad = 1
                         },
                         new
                         {
-                            usuario_fk = 7,
-                            hotel_fk = 2,
+                            usuarios_fk = 7,
+                            habitaciones_fk = 7,
                             cantidad = 0
                         },
                         new
                         {
-                            usuario_fk = 8,
-                            hotel_fk = 3,
+                            usuarios_fk = 8,
+                            habitaciones_fk = 13,
                             cantidad = 1
                         },
                         new
                         {
-                            usuario_fk = 9,
-                            hotel_fk = 4,
+                            usuarios_fk = 9,
+                            habitaciones_fk = 19,
                             cantidad = 0
                         },
                         new
                         {
-                            usuario_fk = 10,
-                            hotel_fk = 5,
+                            usuarios_fk = 10,
+                            habitaciones_fk = 25,
                             cantidad = 0
                         },
                         new
                         {
-                            usuario_fk = 18,
-                            hotel_fk = 1,
+                            usuarios_fk = 18,
+                            habitaciones_fk = 1,
                             cantidad = 2
                         },
                         new
                         {
-                            usuario_fk = 1024,
-                            hotel_fk = 1,
+                            usuarios_fk = 1024,
+                            habitaciones_fk = 1,
                             cantidad = 1
                         },
                         new
                         {
-                            usuario_fk = 1024,
-                            hotel_fk = 2,
+                            usuarios_fk = 1024,
+                            habitaciones_fk = 7,
                             cantidad = 0
                         },
                         new
                         {
-                            usuario_fk = 1024,
-                            hotel_fk = 5,
+                            usuarios_fk = 1024,
+                            habitaciones_fk = 25,
                             cantidad = 2
                         },
                         new
                         {
-                            usuario_fk = 1024,
-                            hotel_fk = 6,
+                            usuarios_fk = 1024,
+                            habitaciones_fk = 31,
                             cantidad = 0
                         },
                         new
                         {
-                            usuario_fk = 1024,
-                            hotel_fk = 7,
+                            usuarios_fk = 1024,
+                            habitaciones_fk = 37,
                             cantidad = 1
                         },
                         new
                         {
-                            usuario_fk = 1024,
-                            hotel_fk = 2021,
+                            usuarios_fk = 1024,
+                            habitaciones_fk = 121,
                             cantidad = 9
                         });
                 });
@@ -1130,7 +2038,7 @@ namespace Agencia.Migrations
 
                     b.HasIndex("vuelo_fk");
 
-                    b.ToTable("usuarioVuelo");
+                    b.ToTable("usuarioVuelo", (string)null);
 
                     b.HasData(
                         new
@@ -1507,6 +2415,18 @@ namespace Agencia.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Agencia.Models.Habitacion", b =>
+                {
+                    b.HasOne("Agencia.Models.Hotel", "hotel")
+                        .WithMany("habitaciones")
+                        .HasForeignKey("hotel_fk")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("hotel_fk");
+
+                    b.Navigation("hotel");
+                });
+
             modelBuilder.Entity("Agencia.Models.Hotel", b =>
                 {
                     b.HasOne("Agencia.Models.Ciudad", "ubicacion")
@@ -1519,23 +2439,23 @@ namespace Agencia.Migrations
                     b.Navigation("ubicacion");
                 });
 
-            modelBuilder.Entity("Agencia.Models.ReservaHotel", b =>
+            modelBuilder.Entity("Agencia.Models.ReservaHabitacion", b =>
                 {
-                    b.HasOne("Agencia.Models.Hotel", "miHotel")
+                    b.HasOne("Agencia.Models.Habitacion", "miHabitacion")
                         .WithMany("misReservas")
-                        .HasForeignKey("hotel_fk")
+                        .HasForeignKey("habitacion_fk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("hotel_fk");
+                        .HasConstraintName("habitacion_fk");
 
                     b.HasOne("Agencia.Models.Usuario", "miUsuario")
-                        .WithMany("misReservasHoteles")
+                        .WithMany("misReservasHabitaciones")
                         .HasForeignKey("usuarioRH_fk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("usuarioRH_fk");
 
-                    b.Navigation("miHotel");
+                    b.Navigation("miHabitacion");
 
                     b.Navigation("miUsuario");
                 });
@@ -1561,21 +2481,21 @@ namespace Agencia.Migrations
                     b.Navigation("miVuelo");
                 });
 
-            modelBuilder.Entity("Agencia.Models.UsuarioHotel", b =>
+            modelBuilder.Entity("Agencia.Models.UsuarioHabitacion", b =>
                 {
-                    b.HasOne("Agencia.Models.Hotel", "hotel")
-                        .WithMany("hotel_usuario")
-                        .HasForeignKey("hotel_fk")
+                    b.HasOne("Agencia.Models.Habitacion", "habitacion")
+                        .WithMany("habitacion_usuario")
+                        .HasForeignKey("habitaciones_fk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Agencia.Models.Usuario", "usuario")
-                        .WithMany("usuario_hotel")
-                        .HasForeignKey("usuario_fk")
+                        .WithMany("usuario_habitacion")
+                        .HasForeignKey("usuarios_fk")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("hotel");
+                    b.Navigation("habitacion");
 
                     b.Navigation("usuario");
                 });
@@ -1627,20 +2547,25 @@ namespace Agencia.Migrations
                     b.Navigation("vuelos");
                 });
 
-            modelBuilder.Entity("Agencia.Models.Hotel", b =>
+            modelBuilder.Entity("Agencia.Models.Habitacion", b =>
                 {
-                    b.Navigation("hotel_usuario");
+                    b.Navigation("habitacion_usuario");
 
                     b.Navigation("misReservas");
                 });
 
+            modelBuilder.Entity("Agencia.Models.Hotel", b =>
+                {
+                    b.Navigation("habitaciones");
+                });
+
             modelBuilder.Entity("Agencia.Models.Usuario", b =>
                 {
-                    b.Navigation("misReservasHoteles");
+                    b.Navigation("misReservasHabitaciones");
 
                     b.Navigation("misReservasVuelos");
 
-                    b.Navigation("usuario_hotel");
+                    b.Navigation("usuario_habitacion");
 
                     b.Navigation("usuario_vuelo");
                 });

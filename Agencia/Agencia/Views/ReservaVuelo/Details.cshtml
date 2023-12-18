@@ -4,39 +4,38 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1 class="my-3">Detalles</h1>
 
 <div>
-    <h4>ReservaVuelo</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.miVuelo)
+        <dt class="col-sm-2">
+            Vuelo:
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.miVuelo.aerolinea)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.miVuelo.origen.nombre) - @Html.DisplayFor(model => model.miVuelo.destino.nombre)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.miUsuario)
+        <dt class="col-sm-2">
+            Usuario:
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.miUsuario.apellido)
+        <dd class="col-sm-10">
+            @Model.miUsuario.nombre @Model.miUsuario.apellido
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.pagado)
+        <dt class="col-sm-2">
+            Pago:
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.pagado)
+        <dd class="col-sm-10">
+            $ @Html.DisplayFor(model => model.pagado)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.cantPersonas)
+        <dt class="col-sm-2">
+            Cantidad de personas:
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.cantPersonas)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.id" class="text-decoration-none">Editar</a> |
+    <a asp-action="Index" class="text-decoration-none">Volver</a>
 </div>
